@@ -29,10 +29,10 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
-            this.Sign_in_Submit = new System.Windows.Forms.PictureBox();
             this.PasswordTextbox = new System.Windows.Forms.TextBox();
             this.UsernameTextbox = new System.Windows.Forms.TextBox();
             this.Sign_in_label = new System.Windows.Forms.Label();
+            this.Sign_in_Submit = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Sign_in_Submit)).BeginInit();
             this.SuspendLayout();
@@ -49,16 +49,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(291, 482);
             this.panel1.TabIndex = 0;
-            // 
-            // Sign_in_Submit
-            // 
-            this.Sign_in_Submit.Image = global::CSCoursework_Smiley.Properties.Resources.SigninSubmit;
-            this.Sign_in_Submit.Location = new System.Drawing.Point(154, 152);
-            this.Sign_in_Submit.Name = "Sign_in_Submit";
-            this.Sign_in_Submit.Size = new System.Drawing.Size(115, 116);
-            this.Sign_in_Submit.TabIndex = 3;
-            this.Sign_in_Submit.TabStop = false;
-            this.Sign_in_Submit.Click += new System.EventHandler(this.Sign_in_Submit_Click);
             // 
             // PasswordTextbox
             // 
@@ -83,6 +73,15 @@
             this.Sign_in_label.Size = new System.Drawing.Size(158, 53);
             this.Sign_in_label.TabIndex = 0;
             this.Sign_in_label.Text = "SIGN IN";
+            // 
+            // Sign_in_Submit
+            // 
+            this.Sign_in_Submit.InitialImage = null;
+            this.Sign_in_Submit.Location = new System.Drawing.Point(172, 149);
+            this.Sign_in_Submit.Name = "Sign_in_Submit";
+            this.Sign_in_Submit.Size = new System.Drawing.Size(100, 98);
+            this.Sign_in_Submit.TabIndex = 3;
+            this.Sign_in_Submit.TabStop = false;
             // 
             // LoginForm
             // 

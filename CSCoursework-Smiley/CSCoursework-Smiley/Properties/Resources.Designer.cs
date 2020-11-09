@@ -69,15 +69,5 @@ namespace CSCoursework_Smiley.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap SigninSubmit0000 {
-            get {
-                object obj = ResourceManager.GetObject("SigninSubmit0000", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
     }
 }

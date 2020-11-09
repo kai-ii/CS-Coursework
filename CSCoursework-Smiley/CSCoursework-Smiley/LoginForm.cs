@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using System.Data.OleDb;
+
 namespace CSCoursework_Smiley
 {
     public partial class LoginForm : Form
@@ -17,6 +19,10 @@ namespace CSCoursework_Smiley
             InitializeComponent();
             InitializeUsernameTextbox();
             InitializePasswordTextbox();
+            OleDbConnection public_con = InitializeDatabaseConnection();
+            Sign_in_Submit.Image = Properties.Resources.SigninSubmit;
+            MessageBox.Show("GUI Hello");
+            Console.WriteLine("CI Hello");
         }
 
         void InitializeUsernameTextbox()
@@ -67,9 +73,49 @@ namespace CSCoursework_Smiley
             }
         }
 
+        private OleDbConnection InitializeDatabaseConnection()
+        {
+            //Initialize variables
+            string dbProvider;
+            string DatabasePath;
+            string MyDocumentsFolder;
+            string FullDatabasePath;
+            string dbSource;
+            OleDbConnection con = new OleDbConnection();
+
+            try
+            {
+                //Establish Connection with Database
+                dbProvider = "PROVIDER=Microsoft.ACE.OLEDB.12.0;";
+                DatabasePath = "/GitHub/CS-Coursework/TestDatabase.accdb";
+                MyDocumentsFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                FullDatabasePath = MyDocumentsFolder + DatabasePath;
+                dbSource = "Data Source =" + FullDatabasePath;
+                con.ConnectionString = dbProvider + dbSource;
+                con.Open();
+                MessageBox.Show("Connection established");
+            }
+            catch
+            {
+                MessageBox.Show("Error establishing database connection.");
+            }
+            return con;
+        }
+
         private void Sign_in_Submit_Click(object sender, EventArgs e)
         {
-            //Look at previous work to figure out database connection etc.
+            MessageBox.Show("clicked");
+            //Initliaze variables
+            var ds = new DataSet();
+            var da = new OleDbDataAdapter();
+            string sql;
+
+            //Check Login Details
+            sql = $"SELECT * FROM TestLogin WHERE Username='{UsernameTextbox.Text}' AND Password='{PasswordTextbox.Text}'";
+            da = new OleDbDataAdapter(sql, public_con);
+            da.Fill(ds, "Login");
+            Console.WriteLine(da);
+
         }
     }
 }
