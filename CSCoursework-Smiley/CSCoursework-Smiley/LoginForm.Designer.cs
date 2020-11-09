@@ -28,27 +28,29 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.panel1 = new System.Windows.Forms.Panel();
+            this.LeftPanelAnchor = new System.Windows.Forms.Panel();
             this.btnSubmit = new System.Windows.Forms.PictureBox();
             this.PasswordTextbox = new System.Windows.Forms.TextBox();
             this.UsernameTextbox = new System.Windows.Forms.TextBox();
             this.Sign_in_label = new System.Windows.Forms.Label();
-            this.panel1.SuspendLayout();
+            this.btnExit = new System.Windows.Forms.PictureBox();
+            this.LeftPanelAnchor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnSubmit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnExit)).BeginInit();
             this.SuspendLayout();
             // 
-            // panel1
+            // LeftPanelAnchor
             // 
-            this.panel1.BackColor = System.Drawing.Color.White;
-            this.panel1.Controls.Add(this.btnSubmit);
-            this.panel1.Controls.Add(this.PasswordTextbox);
-            this.panel1.Controls.Add(this.UsernameTextbox);
-            this.panel1.Controls.Add(this.Sign_in_label);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(291, 482);
-            this.panel1.TabIndex = 0;
+            this.LeftPanelAnchor.BackColor = System.Drawing.Color.White;
+            this.LeftPanelAnchor.Controls.Add(this.btnSubmit);
+            this.LeftPanelAnchor.Controls.Add(this.PasswordTextbox);
+            this.LeftPanelAnchor.Controls.Add(this.UsernameTextbox);
+            this.LeftPanelAnchor.Controls.Add(this.Sign_in_label);
+            this.LeftPanelAnchor.Dock = System.Windows.Forms.DockStyle.Left;
+            this.LeftPanelAnchor.Location = new System.Drawing.Point(0, 0);
+            this.LeftPanelAnchor.Name = "LeftPanelAnchor";
+            this.LeftPanelAnchor.Size = new System.Drawing.Size(292, 482);
+            this.LeftPanelAnchor.TabIndex = 0;
             // 
             // btnSubmit
             // 
@@ -85,29 +87,42 @@
             this.Sign_in_label.TabIndex = 0;
             this.Sign_in_label.Text = "SIGN IN";
             // 
+            // btnExit
+            // 
+            this.btnExit.Location = new System.Drawing.Point(829, 0);
+            this.btnExit.Name = "btnExit";
+            this.btnExit.Size = new System.Drawing.Size(37, 35);
+            this.btnExit.TabIndex = 1;
+            this.btnExit.TabStop = false;
+            this.btnExit.Click += new System.EventHandler(this.ExitButton_Click);
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(865, 482);
-            this.Controls.Add(this.panel1);
+            this.Controls.Add(this.btnExit);
+            this.Controls.Add(this.LeftPanelAnchor);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LoginForm";
             this.Load += new System.EventHandler(this.LoginForm_Load);
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
+            this.LeftPanelAnchor.ResumeLayout(false);
+            this.LeftPanelAnchor.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnSubmit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnExit)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel LeftPanelAnchor;
         private System.Windows.Forms.Label Sign_in_label;
         private System.Windows.Forms.TextBox UsernameTextbox;
         private System.Windows.Forms.TextBox PasswordTextbox;
         private System.Windows.Forms.PictureBox btnSubmit;
+        private System.Windows.Forms.PictureBox btnExit;
     }
 }

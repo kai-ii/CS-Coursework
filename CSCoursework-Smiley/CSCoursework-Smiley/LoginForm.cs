@@ -16,6 +16,15 @@ namespace CSCoursework_Smiley
     {
         //Initialise variables
         OleDbConnection con = new OleDbConnection();
+
+        //Form Moving
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+
         public LoginForm()
         {
             InitializeComponent();
@@ -27,11 +36,22 @@ namespace CSCoursework_Smiley
             InitializeUsernameTextbox();
             InitializePasswordTextbox();
             btnSubmit.Image = Properties.Resources.SigninSubmit;
+            btnExit.Image = Properties.Resources.Close_Button;
+            this.MouseDown += LoginForm_MouseDown;
 
             //Initialize Database
             InitializeDatabaseConnection();
         }
 
+        private void LoginForm_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
+        {
+            //Allows the user to move the form around without the titlebar
+            if (e.Button == MouseButtons.Left)
+            {
+                ReleaseCapture();
+                SendMessage(Handle, WM_NCLBUTTONDOWN, HT_CAPTION, 0);
+            }
+        }
         void InitializeUsernameTextbox()
         {
             UsernameTextbox.ForeColor = SystemColors.GrayText;
@@ -124,6 +144,11 @@ namespace CSCoursework_Smiley
             {
                 MessageBox.Show("Logged in.");
             }
+        }
+
+        private void ExitButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }
