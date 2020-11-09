@@ -29,18 +29,18 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnSubmit = new System.Windows.Forms.PictureBox();
             this.PasswordTextbox = new System.Windows.Forms.TextBox();
             this.UsernameTextbox = new System.Windows.Forms.TextBox();
             this.Sign_in_label = new System.Windows.Forms.Label();
-            this.Sign_in_Submit = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Sign_in_Submit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnSubmit)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.White;
-            this.panel1.Controls.Add(this.Sign_in_Submit);
+            this.panel1.Controls.Add(this.btnSubmit);
             this.panel1.Controls.Add(this.PasswordTextbox);
             this.panel1.Controls.Add(this.UsernameTextbox);
             this.panel1.Controls.Add(this.Sign_in_label);
@@ -49,6 +49,17 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(291, 482);
             this.panel1.TabIndex = 0;
+            // 
+            // btnSubmit
+            // 
+            this.btnSubmit.InitialImage = null;
+            this.btnSubmit.Location = new System.Drawing.Point(166, 146);
+            this.btnSubmit.Name = "btnSubmit";
+            this.btnSubmit.Size = new System.Drawing.Size(105, 99);
+            this.btnSubmit.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.btnSubmit.TabIndex = 3;
+            this.btnSubmit.TabStop = false;
+            this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
             // 
             // PasswordTextbox
             // 
@@ -74,15 +85,6 @@
             this.Sign_in_label.TabIndex = 0;
             this.Sign_in_label.Text = "SIGN IN";
             // 
-            // Sign_in_Submit
-            // 
-            this.Sign_in_Submit.InitialImage = null;
-            this.Sign_in_Submit.Location = new System.Drawing.Point(172, 149);
-            this.Sign_in_Submit.Name = "Sign_in_Submit";
-            this.Sign_in_Submit.Size = new System.Drawing.Size(100, 98);
-            this.Sign_in_Submit.TabIndex = 3;
-            this.Sign_in_Submit.TabStop = false;
-            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -92,9 +94,10 @@
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "LoginForm";
+            this.Load += new System.EventHandler(this.LoginForm_Load);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.Sign_in_Submit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnSubmit)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -105,6 +108,6 @@
         private System.Windows.Forms.Label Sign_in_label;
         private System.Windows.Forms.TextBox UsernameTextbox;
         private System.Windows.Forms.TextBox PasswordTextbox;
-        private System.Windows.Forms.PictureBox Sign_in_Submit;
+        private System.Windows.Forms.PictureBox btnSubmit;
     }
 }

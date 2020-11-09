@@ -14,15 +14,22 @@ namespace CSCoursework_Smiley
 {
     public partial class LoginForm : Form
     {
+        //Initialise variables
+        OleDbConnection con = new OleDbConnection();
         public LoginForm()
         {
             InitializeComponent();
+        }
+
+        private void LoginForm_Load(object sender, EventArgs e)
+        {
+            //Initialize Form
             InitializeUsernameTextbox();
             InitializePasswordTextbox();
-            OleDbConnection public_con = InitializeDatabaseConnection();
-            Sign_in_Submit.Image = Properties.Resources.SigninSubmit;
-            MessageBox.Show("GUI Hello");
-            Console.WriteLine("CI Hello");
+            btnSubmit.Image = Properties.Resources.SigninSubmit;
+
+            //Initialize Database
+            InitializeDatabaseConnection();
         }
 
         void InitializeUsernameTextbox()
@@ -73,7 +80,7 @@ namespace CSCoursework_Smiley
             }
         }
 
-        private OleDbConnection InitializeDatabaseConnection()
+        private void InitializeDatabaseConnection()
         {
             //Initialize variables
             string dbProvider;
@@ -81,7 +88,6 @@ namespace CSCoursework_Smiley
             string MyDocumentsFolder;
             string FullDatabasePath;
             string dbSource;
-            OleDbConnection con = new OleDbConnection();
 
             try
             {
@@ -93,29 +99,31 @@ namespace CSCoursework_Smiley
                 dbSource = "Data Source =" + FullDatabasePath;
                 con.ConnectionString = dbProvider + dbSource;
                 con.Open();
-                MessageBox.Show("Connection established");
+                Console.WriteLine("Connection established");
             }
             catch
             {
                 MessageBox.Show("Error establishing database connection.");
             }
-            return con;
         }
 
-        private void Sign_in_Submit_Click(object sender, EventArgs e)
+        private void btnSubmit_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("clicked");
-            //Initliaze variables
-            var ds = new DataSet();
-            var da = new OleDbDataAdapter();
+            //Initialize variables
+            DataSet LoginInfoDS;
+            OleDbDataAdapter da;
             string sql;
 
             //Check Login Details
             sql = $"SELECT * FROM TestLogin WHERE Username='{UsernameTextbox.Text}' AND Password='{PasswordTextbox.Text}'";
-            da = new OleDbDataAdapter(sql, public_con);
-            da.Fill(ds, "Login");
-            Console.WriteLine(da);
+            da = new OleDbDataAdapter(sql, con);
+            LoginInfoDS = new DataSet();
+            da.Fill(LoginInfoDS, "LoginInfo");
 
+            if (LoginInfoDS.Tables["LoginInfo"].Rows.Count > 0)
+            {
+                MessageBox.Show("Logged in.");
+            }
         }
     }
 }
