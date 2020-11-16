@@ -154,10 +154,9 @@ namespace CSCoursework_Smiley
 
             if (LoginInfoDS.Tables["LoginInfo"].Rows.Count > 0)
             {
-                MessageBox.Show("Logged in.");
                 Dashboard dashboard = new Dashboard();
                 dashboard.Show();
-                this.Close();
+                this.Hide();
             }
         }
 

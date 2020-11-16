@@ -12,6 +12,13 @@ namespace CSCoursework_Smiley
 {
     public partial class Dashboard : Form
     {
+        //Form Moving
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HT_CAPTION = 0x2;
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        [System.Runtime.InteropServices.DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
         public Dashboard()
         {
             InitializeComponent();
@@ -19,7 +26,7 @@ namespace CSCoursework_Smiley
 
         private void Dashboard_Load(object sender, EventArgs e)
         {
-            SmileyLogo.Image = Properties.Resources.SmileyImage;
+            SmileyLogo.Image = Properties.Resources.SmileyLogo;
             btnExitDashboard.Image = Properties.Resources.Close_Button;
         }
 

@@ -170,7 +170,7 @@
         1qmU/wQRZm4EjqXZ5vMAixJp7aeU+gOKnYbcm+GvFgAAAABJRU5ErkJggg==
 </value>
   </data>
-  <data name="SmileyImage" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\SmileyImage.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="SmileyLogo" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\SmileyLogo.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             this.LeftPanelAnchor = new System.Windows.Forms.Panel();
-            this.btnSubmit = new System.Windows.Forms.PictureBox();
             this.PasswordTextbox = new System.Windows.Forms.TextBox();
             this.UsernameTextbox = new System.Windows.Forms.TextBox();
             this.Sign_in_label = new System.Windows.Forms.Label();
             this.btnExit = new System.Windows.Forms.PictureBox();
+            this.btnSubmit = new System.Windows.Forms.PictureBox();
             this.LeftPanelAnchor.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.btnSubmit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnExit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnSubmit)).BeginInit();
             this.SuspendLayout();
             // 
             // LeftPanelAnchor
@@ -51,17 +51,6 @@
             this.LeftPanelAnchor.Name = "LeftPanelAnchor";
             this.LeftPanelAnchor.Size = new System.Drawing.Size(300, 710);
             this.LeftPanelAnchor.TabIndex = 0;
-            // 
-            // btnSubmit
-            // 
-            this.btnSubmit.InitialImage = null;
-            this.btnSubmit.Location = new System.Drawing.Point(163, 177);
-            this.btnSubmit.Name = "btnSubmit";
-            this.btnSubmit.Size = new System.Drawing.Size(105, 99);
-            this.btnSubmit.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.btnSubmit.TabIndex = 3;
-            this.btnSubmit.TabStop = false;
-            this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
             // 
             // PasswordTextbox
             // 
@@ -82,10 +71,10 @@
             // Sign_in_label
             // 
             this.Sign_in_label.AutoSize = true;
-            this.Sign_in_label.Font = new System.Drawing.Font("Calibri", 32F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Sign_in_label.Font = new System.Drawing.Font("Century Gothic", 32.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Sign_in_label.Location = new System.Drawing.Point(12, 38);
             this.Sign_in_label.Name = "Sign_in_label";
-            this.Sign_in_label.Size = new System.Drawing.Size(158, 53);
+            this.Sign_in_label.Size = new System.Drawing.Size(180, 49);
             this.Sign_in_label.TabIndex = 0;
             this.Sign_in_label.Text = "SIGN IN";
             // 
@@ -97,6 +86,17 @@
             this.btnExit.TabIndex = 1;
             this.btnExit.TabStop = false;
             this.btnExit.Click += new System.EventHandler(this.ExitButton_Click);
+            // 
+            // btnSubmit
+            // 
+            this.btnSubmit.InitialImage = null;
+            this.btnSubmit.Location = new System.Drawing.Point(163, 177);
+            this.btnSubmit.Name = "btnSubmit";
+            this.btnSubmit.Size = new System.Drawing.Size(105, 99);
+            this.btnSubmit.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.btnSubmit.TabIndex = 3;
+            this.btnSubmit.TabStop = false;
+            this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
             // 
             // LoginForm
             // 
@@ -112,8 +112,8 @@
             this.Load += new System.EventHandler(this.LoginForm_Load);
             this.LeftPanelAnchor.ResumeLayout(false);
             this.LeftPanelAnchor.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.btnSubmit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnExit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnSubmit)).EndInit();
             this.ResumeLayout(false);
 
         }

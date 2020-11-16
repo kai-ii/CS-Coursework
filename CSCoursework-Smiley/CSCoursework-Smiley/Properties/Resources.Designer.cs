@@ -83,9 +83,9 @@ namespace CSCoursework_Smiley.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap SmileyImage {
+        internal static System.Drawing.Bitmap SmileyLogo {
             get {
-                object obj = ResourceManager.GetObject("SmileyImage", resourceCulture);
+                object obj = ResourceManager.GetObject("SmileyLogo", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
