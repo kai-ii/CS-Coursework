@@ -131,6 +131,16 @@ namespace CSCoursework_Smiley
 
         private void btnSubmit_Click(object sender, EventArgs e)
         {
+            SubmitUsernamePassword();
+        }
+
+        private void ExitButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void SubmitUsernamePassword()
+        {
             //Initialize variables
             DataSet LoginInfoDS;
             OleDbDataAdapter da;
@@ -145,12 +155,28 @@ namespace CSCoursework_Smiley
             if (LoginInfoDS.Tables["LoginInfo"].Rows.Count > 0)
             {
                 MessageBox.Show("Logged in.");
+                Dashboard dashboard = new Dashboard();
+                dashboard.Show();
+                this.Close();
             }
         }
 
-        private void ExitButton_Click(object sender, EventArgs e)
+        private void PasswordTextbox_KeyDown(object sender, KeyEventArgs e)
         {
-            this.Close();
+            CheckEnter(e);
+        }
+
+        private void UsernameTextbox_KeyDown(object sender, KeyEventArgs e)
+        {
+            CheckEnter(e);
+        }
+
+        private void CheckEnter(KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                SubmitUsernamePassword();
+            }
         }
     }
 }
