@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             this.LeftPanelAnchor = new System.Windows.Forms.Panel();
+            this.btnSubmit = new System.Windows.Forms.PictureBox();
             this.PasswordTextbox = new System.Windows.Forms.TextBox();
             this.UsernameTextbox = new System.Windows.Forms.TextBox();
             this.Sign_in_label = new System.Windows.Forms.Label();
             this.btnExit = new System.Windows.Forms.PictureBox();
-            this.btnSubmit = new System.Windows.Forms.PictureBox();
             this.LeftPanelAnchor.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.btnExit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnSubmit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnExit)).BeginInit();
             this.SuspendLayout();
             // 
             // LeftPanelAnchor
@@ -51,6 +51,18 @@
             this.LeftPanelAnchor.Name = "LeftPanelAnchor";
             this.LeftPanelAnchor.Size = new System.Drawing.Size(300, 710);
             this.LeftPanelAnchor.TabIndex = 0;
+            // 
+            // btnSubmit
+            // 
+            this.btnSubmit.Image = global::CSCoursework_Smiley.Properties.Resources.SigninSubmit;
+            this.btnSubmit.InitialImage = null;
+            this.btnSubmit.Location = new System.Drawing.Point(163, 177);
+            this.btnSubmit.Name = "btnSubmit";
+            this.btnSubmit.Size = new System.Drawing.Size(113, 114);
+            this.btnSubmit.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.btnSubmit.TabIndex = 3;
+            this.btnSubmit.TabStop = false;
+            this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
             // 
             // PasswordTextbox
             // 
@@ -80,23 +92,13 @@
             // 
             // btnExit
             // 
+            this.btnExit.Image = global::CSCoursework_Smiley.Properties.Resources.Close_Button;
             this.btnExit.Location = new System.Drawing.Point(1144, 0);
             this.btnExit.Name = "btnExit";
             this.btnExit.Size = new System.Drawing.Size(37, 35);
             this.btnExit.TabIndex = 1;
             this.btnExit.TabStop = false;
             this.btnExit.Click += new System.EventHandler(this.ExitButton_Click);
-            // 
-            // btnSubmit
-            // 
-            this.btnSubmit.InitialImage = null;
-            this.btnSubmit.Location = new System.Drawing.Point(163, 177);
-            this.btnSubmit.Name = "btnSubmit";
-            this.btnSubmit.Size = new System.Drawing.Size(105, 99);
-            this.btnSubmit.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.btnSubmit.TabIndex = 3;
-            this.btnSubmit.TabStop = false;
-            this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
             // 
             // LoginForm
             // 
@@ -112,8 +114,8 @@
             this.Load += new System.EventHandler(this.LoginForm_Load);
             this.LeftPanelAnchor.ResumeLayout(false);
             this.LeftPanelAnchor.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.btnExit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnSubmit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnExit)).EndInit();
             this.ResumeLayout(false);
 
         }

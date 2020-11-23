@@ -78,17 +78,89 @@
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
+    <Compile Include="AdminControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AdminControl.Designer.cs">
+      <DependentUpon>AdminControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DashboardControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DashboardControl.Designer.cs">
+      <DependentUpon>DashboardControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ExportControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ExportControl.Designer.cs">
+      <DependentUpon>ExportControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="PayslipControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="PayslipControl.Designer.cs">
+      <DependentUpon>PayslipControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SettingsControl.Designer.cs">
+      <DependentUpon>SettingsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RotaControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="RotaControl.Designer.cs">
+      <DependentUpon>RotaControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StaffControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StaffControl.Designer.cs">
+      <DependentUpon>StaffControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TimesheetControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TimesheetControl.Designer.cs">
+      <DependentUpon>TimesheetControl.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Dashboard.resx">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AdminControl.resx">
+      <DependentUpon>AdminControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DashboardControl.resx">
+      <DependentUpon>DashboardControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ExportControl.resx">
+      <DependentUpon>ExportControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="PayslipControl.resx">
+      <DependentUpon>PayslipControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SettingsControl.resx">
+      <DependentUpon>SettingsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RotaControl.resx">
+      <DependentUpon>RotaControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StaffControl.resx">
+      <DependentUpon>StaffControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimesheetControl.resx">
+      <DependentUpon>TimesheetControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

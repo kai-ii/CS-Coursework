@@ -19,6 +19,11 @@ namespace CSCoursework_Smiley
         public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
+
+        //Defines background and highlight colours
+        System.Drawing.Color backgroundColour = System.Drawing.Color.FromArgb(245, 208, 226);
+        System.Drawing.Color highlightColour = System.Drawing.Color.FromArgb(221, 165, 182);
+
         public Dashboard()
         {
             InitializeComponent();
@@ -28,11 +33,91 @@ namespace CSCoursework_Smiley
         {
             SmileyLogo.Image = Properties.Resources.SmileyLogo;
             btnExitDashboard.Image = Properties.Resources.Close_Button;
+            ResetButtonColours();
+            btnDashboard.BackColor = highlightColour;
+            dashboardControl1.BringToFront();
+        }
+        private void ResetButtonColours()
+        {
+            btnDashboard.BackColor = backgroundColour;
+            btnStaff.BackColor = backgroundColour;
+            btnRota.BackColor = backgroundColour;
+            btnTimesheet.BackColor = backgroundColour;
+            btnPayslip.BackColor = backgroundColour;
+            btnExport.BackColor = backgroundColour;
+            btnSettings.BackColor = backgroundColour;
+            btnAdmin.BackColor = backgroundColour;
+            btnLogout.BackColor = backgroundColour;
         }
 
-        private void panel2_Paint(object sender, PaintEventArgs e)
+        private void ExitButton_Click(object sender, EventArgs e)
         {
+            this.Close();
+        }
 
+        private void btnDashboard_Click(object sender, EventArgs e)
+        {
+            ResetButtonColours();
+            btnDashboard.BackColor = highlightColour;
+            dashboardControl1.BringToFront();
+
+        }
+
+        private void btnStaff_Click(object sender, EventArgs e)
+        {
+            ResetButtonColours();
+            btnStaff.BackColor = highlightColour;
+            staffControl1.BringToFront();
+        }
+
+        private void btnRota_Click(object sender, EventArgs e)
+        {
+            ResetButtonColours();
+            btnRota.BackColor = highlightColour;
+            rotaControl1.BringToFront();
+        }
+
+        private void btnTimesheet_Click(object sender, EventArgs e)
+        {
+            ResetButtonColours();
+            btnTimesheet.BackColor = highlightColour;
+            timesheetControl1.BringToFront();
+        }
+
+        private void btnPayslip_Click(object sender, EventArgs e)
+        {
+            ResetButtonColours();
+            btnPayslip.BackColor = highlightColour;
+            payslipControl1.BringToFront();
+        }
+
+        private void btnExport_Click(object sender, EventArgs e)
+        {
+            ResetButtonColours();
+            btnExport.BackColor = highlightColour;
+            exportControl1.BringToFront();
+        }
+
+        private void btnSettings_Click(object sender, EventArgs e)
+        {
+            ResetButtonColours();
+            btnSettings.BackColor = highlightColour;
+            settingsControl1.BringToFront();
+        }
+
+        private void btnAdmin_Click(object sender, EventArgs e)
+        {
+            ResetButtonColours();
+            btnAdmin.BackColor = highlightColour;
+            adminControl1.BringToFront();
+        }
+
+        private void btnLogout_Click(object sender, EventArgs e)
+        {
+            // Show Login-Form again
+            LoginForm loginForm = new LoginForm();
+            loginForm.Show();
+            this.Hide();
         }
     }
 }

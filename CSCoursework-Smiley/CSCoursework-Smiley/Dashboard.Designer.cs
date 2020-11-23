@@ -30,38 +30,48 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dashboard));
             this.LeftPanel = new System.Windows.Forms.Panel();
+            this.btnLogout = new System.Windows.Forms.Button();
+            this.btnAdmin = new System.Windows.Forms.Button();
+            this.btnSettings = new System.Windows.Forms.Button();
+            this.btnExport = new System.Windows.Forms.Button();
+            this.btnPayslip = new System.Windows.Forms.Button();
+            this.btnTimesheet = new System.Windows.Forms.Button();
+            this.btnRota = new System.Windows.Forms.Button();
+            this.btnStaff = new System.Windows.Forms.Button();
+            this.panel3 = new System.Windows.Forms.Panel();
+            this.btnDashboard = new System.Windows.Forms.Button();
+            this.SmileyLogo = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.ExitButton = new System.Windows.Forms.PictureBox();
             this.btnExitDashboard = new System.Windows.Forms.PictureBox();
             this.btnExit = new System.Windows.Forms.PictureBox();
-            this.SmileyLogo = new System.Windows.Forms.PictureBox();
-            this.btnDashboard = new System.Windows.Forms.Button();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
-            this.button7 = new System.Windows.Forms.Button();
-            this.button8 = new System.Windows.Forms.Button();
+            this.dashboardControl1 = new CSCoursework_Smiley.Properties.DashboardControl();
+            this.staffControl1 = new CSCoursework_Smiley.StaffControl();
+            this.rotaControl1 = new CSCoursework_Smiley.RotaControl();
+            this.timesheetControl1 = new CSCoursework_Smiley.TimesheetControl();
+            this.payslipControl1 = new CSCoursework_Smiley.Properties.PayslipControl();
+            this.exportControl1 = new CSCoursework_Smiley.Properties.ExportControl();
+            this.settingsControl1 = new CSCoursework_Smiley.Properties.SettingsControl();
+            this.adminControl1 = new CSCoursework_Smiley.Properties.AdminControl();
             this.LeftPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.SmileyLogo)).BeginInit();
             this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.ExitButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnExitDashboard)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnExit)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.SmileyLogo)).BeginInit();
             this.SuspendLayout();
             // 
             // LeftPanel
             // 
             this.LeftPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(208)))), ((int)(((byte)(226)))));
-            this.LeftPanel.Controls.Add(this.button8);
-            this.LeftPanel.Controls.Add(this.button7);
-            this.LeftPanel.Controls.Add(this.button6);
-            this.LeftPanel.Controls.Add(this.button5);
-            this.LeftPanel.Controls.Add(this.button4);
-            this.LeftPanel.Controls.Add(this.button3);
-            this.LeftPanel.Controls.Add(this.button2);
-            this.LeftPanel.Controls.Add(this.button1);
+            this.LeftPanel.Controls.Add(this.btnLogout);
+            this.LeftPanel.Controls.Add(this.btnAdmin);
+            this.LeftPanel.Controls.Add(this.btnSettings);
+            this.LeftPanel.Controls.Add(this.btnExport);
+            this.LeftPanel.Controls.Add(this.btnPayslip);
+            this.LeftPanel.Controls.Add(this.btnTimesheet);
+            this.LeftPanel.Controls.Add(this.btnRota);
+            this.LeftPanel.Controls.Add(this.btnStaff);
             this.LeftPanel.Controls.Add(this.panel3);
             this.LeftPanel.Controls.Add(this.btnDashboard);
             this.LeftPanel.Controls.Add(this.SmileyLogo);
@@ -71,9 +81,172 @@
             this.LeftPanel.Size = new System.Drawing.Size(366, 710);
             this.LeftPanel.TabIndex = 0;
             // 
+            // btnLogout
+            // 
+            this.btnLogout.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(208)))), ((int)(((byte)(226)))));
+            this.btnLogout.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnLogout.FlatAppearance.BorderSize = 0;
+            this.btnLogout.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLogout.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLogout.Location = new System.Drawing.Point(0, 493);
+            this.btnLogout.Name = "btnLogout";
+            this.btnLogout.Size = new System.Drawing.Size(366, 53);
+            this.btnLogout.TabIndex = 10;
+            this.btnLogout.Text = "   Log-Out";
+            this.btnLogout.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnLogout.UseVisualStyleBackColor = false;
+            this.btnLogout.Click += new System.EventHandler(this.btnLogout_Click);
+            // 
+            // btnAdmin
+            // 
+            this.btnAdmin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(208)))), ((int)(((byte)(226)))));
+            this.btnAdmin.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnAdmin.FlatAppearance.BorderSize = 0;
+            this.btnAdmin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnAdmin.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAdmin.Location = new System.Drawing.Point(0, 441);
+            this.btnAdmin.Name = "btnAdmin";
+            this.btnAdmin.Size = new System.Drawing.Size(366, 53);
+            this.btnAdmin.TabIndex = 9;
+            this.btnAdmin.Text = "   Admin";
+            this.btnAdmin.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnAdmin.UseVisualStyleBackColor = false;
+            this.btnAdmin.Click += new System.EventHandler(this.btnAdmin_Click);
+            // 
+            // btnSettings
+            // 
+            this.btnSettings.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(208)))), ((int)(((byte)(226)))));
+            this.btnSettings.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnSettings.FlatAppearance.BorderSize = 0;
+            this.btnSettings.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnSettings.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSettings.Location = new System.Drawing.Point(0, 389);
+            this.btnSettings.Name = "btnSettings";
+            this.btnSettings.Size = new System.Drawing.Size(366, 53);
+            this.btnSettings.TabIndex = 8;
+            this.btnSettings.Text = "   Settings";
+            this.btnSettings.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnSettings.UseVisualStyleBackColor = false;
+            this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
+            // 
+            // btnExport
+            // 
+            this.btnExport.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(208)))), ((int)(((byte)(226)))));
+            this.btnExport.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnExport.FlatAppearance.BorderSize = 0;
+            this.btnExport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExport.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnExport.Location = new System.Drawing.Point(0, 336);
+            this.btnExport.Name = "btnExport";
+            this.btnExport.Size = new System.Drawing.Size(366, 53);
+            this.btnExport.TabIndex = 7;
+            this.btnExport.Text = "   Export";
+            this.btnExport.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnExport.UseVisualStyleBackColor = false;
+            this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
+            // 
+            // btnPayslip
+            // 
+            this.btnPayslip.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(208)))), ((int)(((byte)(226)))));
+            this.btnPayslip.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnPayslip.FlatAppearance.BorderSize = 0;
+            this.btnPayslip.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPayslip.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPayslip.Location = new System.Drawing.Point(0, 285);
+            this.btnPayslip.Name = "btnPayslip";
+            this.btnPayslip.Size = new System.Drawing.Size(366, 53);
+            this.btnPayslip.TabIndex = 6;
+            this.btnPayslip.Text = "   Payslip";
+            this.btnPayslip.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnPayslip.UseVisualStyleBackColor = false;
+            this.btnPayslip.Click += new System.EventHandler(this.btnPayslip_Click);
+            // 
+            // btnTimesheet
+            // 
+            this.btnTimesheet.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(208)))), ((int)(((byte)(226)))));
+            this.btnTimesheet.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnTimesheet.FlatAppearance.BorderSize = 0;
+            this.btnTimesheet.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnTimesheet.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnTimesheet.Location = new System.Drawing.Point(0, 233);
+            this.btnTimesheet.Name = "btnTimesheet";
+            this.btnTimesheet.Size = new System.Drawing.Size(366, 53);
+            this.btnTimesheet.TabIndex = 5;
+            this.btnTimesheet.Text = "   Timesheet";
+            this.btnTimesheet.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnTimesheet.UseVisualStyleBackColor = false;
+            this.btnTimesheet.Click += new System.EventHandler(this.btnTimesheet_Click);
+            // 
+            // btnRota
+            // 
+            this.btnRota.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(208)))), ((int)(((byte)(226)))));
+            this.btnRota.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnRota.FlatAppearance.BorderSize = 0;
+            this.btnRota.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnRota.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnRota.Location = new System.Drawing.Point(0, 180);
+            this.btnRota.Name = "btnRota";
+            this.btnRota.Size = new System.Drawing.Size(366, 53);
+            this.btnRota.TabIndex = 4;
+            this.btnRota.Text = "   Rota";
+            this.btnRota.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnRota.UseVisualStyleBackColor = false;
+            this.btnRota.Click += new System.EventHandler(this.btnRota_Click);
+            // 
+            // btnStaff
+            // 
+            this.btnStaff.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(208)))), ((int)(((byte)(226)))));
+            this.btnStaff.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnStaff.FlatAppearance.BorderSize = 0;
+            this.btnStaff.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnStaff.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnStaff.Location = new System.Drawing.Point(0, 127);
+            this.btnStaff.Name = "btnStaff";
+            this.btnStaff.Size = new System.Drawing.Size(366, 53);
+            this.btnStaff.TabIndex = 3;
+            this.btnStaff.Text = "   Staff";
+            this.btnStaff.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnStaff.UseVisualStyleBackColor = false;
+            this.btnStaff.Click += new System.EventHandler(this.btnStaff_Click);
+            // 
+            // panel3
+            // 
+            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(165)))), ((int)(((byte)(182)))));
+            this.panel3.Location = new System.Drawing.Point(0, 582);
+            this.panel3.Name = "panel3";
+            this.panel3.Size = new System.Drawing.Size(366, 128);
+            this.panel3.TabIndex = 2;
+            // 
+            // btnDashboard
+            // 
+            this.btnDashboard.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(165)))), ((int)(((byte)(182)))));
+            this.btnDashboard.Cursor = System.Windows.Forms.Cursors.Default;
+            this.btnDashboard.FlatAppearance.BorderSize = 0;
+            this.btnDashboard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnDashboard.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnDashboard.Location = new System.Drawing.Point(0, 74);
+            this.btnDashboard.Name = "btnDashboard";
+            this.btnDashboard.Size = new System.Drawing.Size(366, 53);
+            this.btnDashboard.TabIndex = 1;
+            this.btnDashboard.Text = "   Dashboard";
+            this.btnDashboard.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnDashboard.UseVisualStyleBackColor = false;
+            this.btnDashboard.Click += new System.EventHandler(this.btnDashboard_Click);
+            // 
+            // SmileyLogo
+            // 
+            this.SmileyLogo.Image = ((System.Drawing.Image)(resources.GetObject("SmileyLogo.Image")));
+            this.SmileyLogo.Location = new System.Drawing.Point(0, 0);
+            this.SmileyLogo.Name = "SmileyLogo";
+            this.SmileyLogo.Size = new System.Drawing.Size(366, 75);
+            this.SmileyLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.SmileyLogo.TabIndex = 0;
+            this.SmileyLogo.TabStop = false;
+            // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panel2.Controls.Add(this.ExitButton);
             this.panel2.Controls.Add(this.btnExitDashboard);
             this.panel2.Controls.Add(this.btnExit);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
@@ -81,7 +254,16 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(814, 75);
             this.panel2.TabIndex = 1;
-            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
+            // 
+            // ExitButton
+            // 
+            this.ExitButton.Image = global::CSCoursework_Smiley.Properties.Resources.Close_Button;
+            this.ExitButton.Location = new System.Drawing.Point(777, 0);
+            this.ExitButton.Name = "ExitButton";
+            this.ExitButton.Size = new System.Drawing.Size(37, 35);
+            this.ExitButton.TabIndex = 4;
+            this.ExitButton.TabStop = false;
+            this.ExitButton.Click += new System.EventHandler(this.ExitButton_Click);
             // 
             // btnExitDashboard
             // 
@@ -99,164 +281,75 @@
             this.btnExit.TabIndex = 2;
             this.btnExit.TabStop = false;
             // 
-            // SmileyLogo
+            // dashboardControl1
             // 
-            this.SmileyLogo.Image = ((System.Drawing.Image)(resources.GetObject("SmileyLogo.Image")));
-            this.SmileyLogo.Location = new System.Drawing.Point(0, 0);
-            this.SmileyLogo.Name = "SmileyLogo";
-            this.SmileyLogo.Size = new System.Drawing.Size(366, 75);
-            this.SmileyLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.SmileyLogo.TabIndex = 0;
-            this.SmileyLogo.TabStop = false;
+            this.dashboardControl1.Location = new System.Drawing.Point(366, 74);
+            this.dashboardControl1.Name = "dashboardControl1";
+            this.dashboardControl1.Size = new System.Drawing.Size(814, 636);
+            this.dashboardControl1.TabIndex = 2;
             // 
-            // btnDashboard
+            // staffControl1
             // 
-            this.btnDashboard.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(165)))), ((int)(((byte)(182)))));
-            this.btnDashboard.Cursor = System.Windows.Forms.Cursors.Default;
-            this.btnDashboard.FlatAppearance.BorderSize = 0;
-            this.btnDashboard.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnDashboard.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnDashboard.Location = new System.Drawing.Point(0, 74);
-            this.btnDashboard.Name = "btnDashboard";
-            this.btnDashboard.Size = new System.Drawing.Size(366, 53);
-            this.btnDashboard.TabIndex = 1;
-            this.btnDashboard.Text = "   Dashboard";
-            this.btnDashboard.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnDashboard.UseVisualStyleBackColor = false;
+            this.staffControl1.Location = new System.Drawing.Point(366, 74);
+            this.staffControl1.Name = "staffControl1";
+            this.staffControl1.Size = new System.Drawing.Size(814, 636);
+            this.staffControl1.TabIndex = 3;
             // 
-            // panel3
+            // rotaControl1
             // 
-            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(165)))), ((int)(((byte)(182)))));
-            this.panel3.Location = new System.Drawing.Point(0, 582);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(366, 128);
-            this.panel3.TabIndex = 2;
+            this.rotaControl1.Location = new System.Drawing.Point(366, 74);
+            this.rotaControl1.Name = "rotaControl1";
+            this.rotaControl1.Size = new System.Drawing.Size(814, 636);
+            this.rotaControl1.TabIndex = 4;
             // 
-            // button1
+            // timesheetControl1
             // 
-            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(208)))), ((int)(((byte)(226)))));
-            this.button1.Cursor = System.Windows.Forms.Cursors.Default;
-            this.button1.FlatAppearance.BorderSize = 0;
-            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button1.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(0, 127);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(366, 53);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "   Staff";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button1.UseVisualStyleBackColor = false;
+            this.timesheetControl1.Location = new System.Drawing.Point(366, 74);
+            this.timesheetControl1.Name = "timesheetControl1";
+            this.timesheetControl1.Size = new System.Drawing.Size(814, 636);
+            this.timesheetControl1.TabIndex = 5;
             // 
-            // button2
+            // payslipControl1
             // 
-            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(208)))), ((int)(((byte)(226)))));
-            this.button2.Cursor = System.Windows.Forms.Cursors.Default;
-            this.button2.FlatAppearance.BorderSize = 0;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(0, 180);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(366, 53);
-            this.button2.TabIndex = 4;
-            this.button2.Text = "   Rota";
-            this.button2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button2.UseVisualStyleBackColor = false;
+            this.payslipControl1.Location = new System.Drawing.Point(366, 74);
+            this.payslipControl1.Name = "payslipControl1";
+            this.payslipControl1.Size = new System.Drawing.Size(814, 636);
+            this.payslipControl1.TabIndex = 6;
             // 
-            // button3
+            // exportControl1
             // 
-            this.button3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(208)))), ((int)(((byte)(226)))));
-            this.button3.Cursor = System.Windows.Forms.Cursors.Default;
-            this.button3.FlatAppearance.BorderSize = 0;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(0, 233);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(366, 53);
-            this.button3.TabIndex = 5;
-            this.button3.Text = "   Timesheet";
-            this.button3.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button3.UseVisualStyleBackColor = false;
+            this.exportControl1.Location = new System.Drawing.Point(366, 74);
+            this.exportControl1.Name = "exportControl1";
+            this.exportControl1.Size = new System.Drawing.Size(814, 636);
+            this.exportControl1.TabIndex = 7;
             // 
-            // button4
+            // settingsControl1
             // 
-            this.button4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(208)))), ((int)(((byte)(226)))));
-            this.button4.Cursor = System.Windows.Forms.Cursors.Default;
-            this.button4.FlatAppearance.BorderSize = 0;
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Location = new System.Drawing.Point(0, 285);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(366, 53);
-            this.button4.TabIndex = 6;
-            this.button4.Text = "   Payslip";
-            this.button4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button4.UseVisualStyleBackColor = false;
+            this.settingsControl1.Location = new System.Drawing.Point(366, 74);
+            this.settingsControl1.Name = "settingsControl1";
+            this.settingsControl1.Size = new System.Drawing.Size(814, 636);
+            this.settingsControl1.TabIndex = 8;
             // 
-            // button5
+            // adminControl1
             // 
-            this.button5.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(208)))), ((int)(((byte)(226)))));
-            this.button5.Cursor = System.Windows.Forms.Cursors.Default;
-            this.button5.FlatAppearance.BorderSize = 0;
-            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button5.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button5.Location = new System.Drawing.Point(0, 336);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(366, 53);
-            this.button5.TabIndex = 7;
-            this.button5.Text = "   Export";
-            this.button5.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button5.UseVisualStyleBackColor = false;
-            // 
-            // button6
-            // 
-            this.button6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(208)))), ((int)(((byte)(226)))));
-            this.button6.Cursor = System.Windows.Forms.Cursors.Default;
-            this.button6.FlatAppearance.BorderSize = 0;
-            this.button6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button6.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.Location = new System.Drawing.Point(0, 389);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(366, 53);
-            this.button6.TabIndex = 8;
-            this.button6.Text = "   Settings";
-            this.button6.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button6.UseVisualStyleBackColor = false;
-            // 
-            // button7
-            // 
-            this.button7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(208)))), ((int)(((byte)(226)))));
-            this.button7.Cursor = System.Windows.Forms.Cursors.Default;
-            this.button7.FlatAppearance.BorderSize = 0;
-            this.button7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button7.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button7.Location = new System.Drawing.Point(0, 441);
-            this.button7.Name = "button7";
-            this.button7.Size = new System.Drawing.Size(366, 53);
-            this.button7.TabIndex = 9;
-            this.button7.Text = "   Admin";
-            this.button7.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button7.UseVisualStyleBackColor = false;
-            // 
-            // button8
-            // 
-            this.button8.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(208)))), ((int)(((byte)(226)))));
-            this.button8.Cursor = System.Windows.Forms.Cursors.Default;
-            this.button8.FlatAppearance.BorderSize = 0;
-            this.button8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button8.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button8.Location = new System.Drawing.Point(0, 493);
-            this.button8.Name = "button8";
-            this.button8.Size = new System.Drawing.Size(366, 53);
-            this.button8.TabIndex = 10;
-            this.button8.Text = "   Log-Out";
-            this.button8.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.button8.UseVisualStyleBackColor = false;
+            this.adminControl1.Location = new System.Drawing.Point(366, 74);
+            this.adminControl1.Name = "adminControl1";
+            this.adminControl1.Size = new System.Drawing.Size(814, 636);
+            this.adminControl1.TabIndex = 9;
             // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1180, 710);
+            this.Controls.Add(this.adminControl1);
+            this.Controls.Add(this.settingsControl1);
+            this.Controls.Add(this.exportControl1);
+            this.Controls.Add(this.payslipControl1);
+            this.Controls.Add(this.timesheetControl1);
+            this.Controls.Add(this.rotaControl1);
+            this.Controls.Add(this.staffControl1);
+            this.Controls.Add(this.dashboardControl1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.LeftPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -265,10 +358,11 @@
             this.Text = "Dashboard";
             this.Load += new System.EventHandler(this.Dashboard_Load);
             this.LeftPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.SmileyLogo)).EndInit();
             this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.ExitButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnExitDashboard)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnExit)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.SmileyLogo)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -282,13 +376,22 @@
         private System.Windows.Forms.PictureBox btnExitDashboard;
         private System.Windows.Forms.Button btnDashboard;
         private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Button button6;
-        private System.Windows.Forms.Button button5;
-        private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button8;
-        private System.Windows.Forms.Button button7;
+        private System.Windows.Forms.Button btnSettings;
+        private System.Windows.Forms.Button btnExport;
+        private System.Windows.Forms.Button btnPayslip;
+        private System.Windows.Forms.Button btnTimesheet;
+        private System.Windows.Forms.Button btnRota;
+        private System.Windows.Forms.Button btnStaff;
+        private System.Windows.Forms.Button btnLogout;
+        private System.Windows.Forms.Button btnAdmin;
+        private System.Windows.Forms.PictureBox ExitButton;
+        private Properties.DashboardControl dashboardControl1;
+        private StaffControl staffControl1;
+        private RotaControl rotaControl1;
+        private TimesheetControl timesheetControl1;
+        private Properties.PayslipControl payslipControl1;
+        private Properties.ExportControl exportControl1;
+        private Properties.SettingsControl settingsControl1;
+        private Properties.AdminControl adminControl1;
     }
 }
