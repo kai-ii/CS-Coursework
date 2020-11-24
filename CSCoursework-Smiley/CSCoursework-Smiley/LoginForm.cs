@@ -147,7 +147,7 @@ namespace CSCoursework_Smiley
             string sql;
 
             //Check Login Details
-            sql = $"SELECT * FROM tblUsers WHERE Username='{UsernameTextbox.Text}' AND Password='{PasswordTextbox.Text}'";
+            sql = $"SELECT * FROM tblUsers WHERE username='{UsernameTextbox.Text}' AND password='{PasswordTextbox.Text}'";
             da = new OleDbDataAdapter(sql, con);
             LoginInfoDS = new DataSet();
             da.Fill(LoginInfoDS, "LoginInfo");
