@@ -25,6 +25,9 @@ namespace CSCoursework_Smiley
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
 
+        //Pass data to control
+        public string user_logged_in = "";
+
         public LoginForm()
         {
             InitializeComponent();

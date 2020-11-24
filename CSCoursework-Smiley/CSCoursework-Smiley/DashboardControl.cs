@@ -16,5 +16,10 @@ namespace CSCoursework_Smiley.Properties
         {
             InitializeComponent();
         }
+
+        private void DashboardControl_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
