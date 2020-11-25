@@ -121,6 +121,24 @@
     <Compile Include="StaffControl.Designer.cs">
       <DependentUpon>StaffControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="StaffControlDetails.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StaffControlDetails.Designer.cs">
+      <DependentUpon>StaffControlDetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StaffControlGraphs.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StaffControlGraphs.Designer.cs">
+      <DependentUpon>StaffControlGraphs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="StaffControlNotes.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="StaffControlNotes.Designer.cs">
+      <DependentUpon>StaffControlNotes.cs</DependentUpon>
+    </Compile>
     <Compile Include="TimesheetControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -158,6 +176,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="StaffControl.resx">
       <DependentUpon>StaffControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StaffControlDetails.resx">
+      <DependentUpon>StaffControlDetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StaffControlGraphs.resx">
+      <DependentUpon>StaffControlGraphs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="StaffControlNotes.resx">
+      <DependentUpon>StaffControlNotes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TimesheetControl.resx">
       <DependentUpon>TimesheetControl.cs</DependentUpon>

@@ -14,13 +14,26 @@ namespace CSCoursework_Smiley
 {
     public partial class StaffControl : UserControl
     {
+        // Variables
         OleDbConnection con = new OleDbConnection();
+        List<string> staffButtonOrderList = new List<string>();
+        List<Button> buttonList = new List<Button>();
+
         public StaffControl()
         {
+            //Add buttons to buttonList
+            buttonList.Add(btnEmployee1);
+            buttonList.Add(btnEmployee2);
+            foreach (Button button in buttonList)
+            {
+                Console.WriteLine(button);
+            }
+            //Initalize things
             InitializeComponent();
             InitializeSearchTextbox();
             InitializeDatabaseConnection();
             GetStaffMembers();
+            
         }
 
         private void StaffControl_Load(object sender, EventArgs e)
@@ -86,7 +99,7 @@ namespace CSCoursework_Smiley
             OleDbDataAdapter da;
             string sql;
 
-            //Check Login Details
+            //Get staff members
             sql = $"SELECT * FROM tblStaff";
             da = new OleDbDataAdapter(sql, con);
             StaffInfoDS = new DataSet();
@@ -96,11 +109,59 @@ namespace CSCoursework_Smiley
             {
                 string staff_firstname = StaffInfoDS.Tables["StaffInfo"].Rows[employee].Field<string>("staff_firstname");
                 string staff_surname = StaffInfoDS.Tables["StaffInfo"].Rows[employee].Field<string>("staff_surname");
-                string upper_staff_surname = staff_surname.ToUpper();
-                btnEmployee1.Text = $"{staff_firstname}. {upper_staff_surname[0]}";
+                staffButtonOrderList.Add($"{staff_firstname},{staff_surname}");
+            }
+
+            InitalizeButtonNames();
+        }
+
+        private void InitalizeButtonNames()
+        {
+            //Fix auto button names
+
+
+            //string staff_firstname;
+            //string staff_surname;
+            //for (int employee = 0; employee < buttonList.Count; employee += 1)
+            //{
+            //    staff_firstname = staffButtonOrderList[employee].Split(',')[0];
+            //    staff_surname = staffButtonOrderList[employee].Split(',')[1];
+
+            //    buttonList[employee].Text = $"{staff_firstname}. {staff_surname[0]}";
+            //    MessageBox.Show($"{staff_firstname}. {staff_surname[0]}");
+            //    MessageBox.Show(buttonList[employee].Text);
+            //}
+
+            string staff_firstname;
+            string staff_surname;
+            for (int employee = 0; employee < staffButtonOrderList.Count; employee += 1)
+            {
+                staff_firstname = staffButtonOrderList[employee].Split(',')[0];
+                staff_surname = staffButtonOrderList[employee].Split(',')[1];
+                btnEmployee1.Text = $"{staff_firstname}. {staff_surname[0]}";
             }
         }
 
-        
+        private void UpdateButton(ref Button button, string message)
+        {
+            button.Text = message;
+        }
+
+        private void btnEmployee1_Click(object sender, EventArgs e)
+        {
+            //Initialize variables
+            DataSet StaffInfoDS;
+            OleDbDataAdapter da;
+            string sql;
+
+            //Get staff members
+            sql = $"SELECT * FROM tblStaff";
+            da = new OleDbDataAdapter(sql, con);
+            StaffInfoDS = new DataSet();
+            da.Fill(StaffInfoDS, "StaffInfo");
+
+            DataRow row = StaffInfoDS.Tables["StaffInfo"].Rows.Find(1);
+            staffControlDetails1.staff_details = row;
+        }
     }
 }
