@@ -38,7 +38,7 @@ namespace CSCoursework_Smiley
             btnExitDashboard.Image = Properties.Resources.Close_Button;
             ResetButtonColours();
             btnDashboard.BackColor = highlightColour;
-            dashboardControl1.username = username;
+            dashboardControl1.Username = username;
             dashboardControl1.BringToFront();
         }
         private void ResetButtonColours()

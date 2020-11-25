@@ -12,13 +12,15 @@ namespace CSCoursework_Smiley.Properties
 {
     public partial class DashboardControl : UserControl
     {
-        public string username {
-            get { return username; } 
+        public string username;
+        public string Username
+        {
+            get { return username; }
             set
             {
                 username = value;
                 lblLoggedInAs.Text = $"Logged in as: {username}";
-            } 
+            }
         }
         public DashboardControl()
         {
