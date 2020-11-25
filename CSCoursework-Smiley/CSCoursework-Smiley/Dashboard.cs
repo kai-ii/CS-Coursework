@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using System.Data.OleDb;
+
 namespace CSCoursework_Smiley
 {
     public partial class Dashboard : Form
@@ -24,11 +26,13 @@ namespace CSCoursework_Smiley
         System.Drawing.Color backgroundColour = System.Drawing.Color.FromArgb(245, 208, 226);
         System.Drawing.Color highlightColour = System.Drawing.Color.FromArgb(221, 165, 182);
 
-        //variables
+        //Initialise variables
+        OleDbConnection con = new OleDbConnection();
         string username;
         public Dashboard(string username1)
         {
             InitializeComponent();
+            InitializeDatabaseConnection();
             username = username1;
         }
 
@@ -64,7 +68,6 @@ namespace CSCoursework_Smiley
             ResetButtonColours();
             btnDashboard.BackColor = highlightColour;
             dashboardControl1.BringToFront();
-
         }
 
         private void btnStaff_Click(object sender, EventArgs e)
@@ -122,6 +125,34 @@ namespace CSCoursework_Smiley
             LoginForm loginForm = new LoginForm();
             loginForm.Show();
             this.Hide();
+        }
+        private void InitializeDatabaseConnection()
+        {
+            //Initialize variables
+            string dbProvider;
+            string DatabasePath;
+            string CurrentProjectPath;
+            string FormattedDatabasePath;
+            string FullDatabasePath;
+            string dbSource;
+
+            try
+            {
+                //Establish Connection with Database
+                dbProvider = "PROVIDER=Microsoft.ACE.OLEDB.12.0;";
+                DatabasePath = "/TestDatabase.accdb";
+                CurrentProjectPath = System.AppDomain.CurrentDomain.BaseDirectory;
+                FormattedDatabasePath = CurrentProjectPath.Remove(CurrentProjectPath.Length - 31, 31); //Cuts off the last 31 chars which gives the directory which the database is located
+                FullDatabasePath = FormattedDatabasePath + DatabasePath;
+                dbSource = "Data Source =" + FullDatabasePath;
+                con.ConnectionString = dbProvider + dbSource;
+                con.Open();
+                Console.WriteLine("Connection established");
+            }
+            catch
+            {
+                MessageBox.Show("Error establishing database connection.");
+            }
         }
     }
 }
