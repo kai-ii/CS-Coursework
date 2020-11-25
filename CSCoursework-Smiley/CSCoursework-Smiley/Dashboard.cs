@@ -24,9 +24,12 @@ namespace CSCoursework_Smiley
         System.Drawing.Color backgroundColour = System.Drawing.Color.FromArgb(245, 208, 226);
         System.Drawing.Color highlightColour = System.Drawing.Color.FromArgb(221, 165, 182);
 
-        public Dashboard()
+        //variables
+        string username;
+        public Dashboard(string username1)
         {
             InitializeComponent();
+            username = username1;
         }
 
         private void Dashboard_Load(object sender, EventArgs e)
@@ -35,6 +38,7 @@ namespace CSCoursework_Smiley
             btnExitDashboard.Image = Properties.Resources.Close_Button;
             ResetButtonColours();
             btnDashboard.BackColor = highlightColour;
+            dashboardControl1.username = username;
             dashboardControl1.BringToFront();
         }
         private void ResetButtonColours()

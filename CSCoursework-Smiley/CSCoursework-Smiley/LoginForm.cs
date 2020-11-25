@@ -25,9 +25,6 @@ namespace CSCoursework_Smiley
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
 
-        //Pass data to control
-        public string user_logged_in = "";
-
         public LoginForm()
         {
             InitializeComponent();
@@ -157,7 +154,7 @@ namespace CSCoursework_Smiley
 
             if (LoginInfoDS.Tables["LoginInfo"].Rows.Count > 0)
             {
-                Dashboard dashboard = new Dashboard();
+                Dashboard dashboard = new Dashboard(UsernameTextbox.Text);
                 dashboard.Show();
                 this.Hide();
             }

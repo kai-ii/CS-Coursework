@@ -29,28 +29,28 @@
         private void InitializeComponent()
         {
             this.LoggedInGroupBox = new System.Windows.Forms.GroupBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblLoggedInAs = new System.Windows.Forms.Label();
             this.LoggedInGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
             // LoggedInGroupBox
             // 
-            this.LoggedInGroupBox.Controls.Add(this.label1);
+            this.LoggedInGroupBox.Controls.Add(this.lblLoggedInAs);
             this.LoggedInGroupBox.Location = new System.Drawing.Point(20, 19);
             this.LoggedInGroupBox.Name = "LoggedInGroupBox";
             this.LoggedInGroupBox.Size = new System.Drawing.Size(338, 99);
             this.LoggedInGroupBox.TabIndex = 0;
             this.LoggedInGroupBox.TabStop = false;
             // 
-            // label1
+            // lblLoggedInAs
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(16, 27);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(266, 24);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Logged in as: {username}";
+            this.lblLoggedInAs.AutoSize = true;
+            this.lblLoggedInAs.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblLoggedInAs.Location = new System.Drawing.Point(16, 27);
+            this.lblLoggedInAs.Name = "lblLoggedInAs";
+            this.lblLoggedInAs.Size = new System.Drawing.Size(266, 24);
+            this.lblLoggedInAs.TabIndex = 0;
+            this.lblLoggedInAs.Text = "Logged in as: {username}";
             // 
             // DashboardControl
             // 
@@ -69,6 +69,6 @@
         #endregion
 
         private System.Windows.Forms.GroupBox LoggedInGroupBox;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblLoggedInAs;
     }
 }

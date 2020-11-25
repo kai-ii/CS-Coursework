@@ -12,6 +12,14 @@ namespace CSCoursework_Smiley.Properties
 {
     public partial class DashboardControl : UserControl
     {
+        public string username {
+            get { return username; } 
+            set
+            {
+                username = value;
+                lblLoggedInAs.Text = $"Logged in as: {username}";
+            } 
+        }
         public DashboardControl()
         {
             InitializeComponent();
@@ -19,7 +27,6 @@ namespace CSCoursework_Smiley.Properties
 
         private void DashboardControl_Load(object sender, EventArgs e)
         {
-
         }
     }
 }
