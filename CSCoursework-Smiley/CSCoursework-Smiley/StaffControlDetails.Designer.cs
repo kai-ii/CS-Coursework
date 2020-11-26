@@ -34,22 +34,21 @@
             this.lblAddressCity = new System.Windows.Forms.Label();
             this.lblAddressStreet = new System.Windows.Forms.Label();
             this.grpEmployment = new System.Windows.Forms.GroupBox();
-            this.lblEmploymentBranch = new System.Windows.Forms.Label();
             this.lblEmploymentContractType = new System.Windows.Forms.Label();
             this.lblEmploymentJobTitle = new System.Windows.Forms.Label();
             this.lblEmploymentStaffID = new System.Windows.Forms.Label();
             this.grpContactInfo = new System.Windows.Forms.GroupBox();
-            this.grpEmploymentInfo = new System.Windows.Forms.GroupBox();
-            this.grpPaymentDetails = new System.Windows.Forms.GroupBox();
-            this.lblContactInfoEmailAddress = new System.Windows.Forms.Label();
-            this.lblContactInfoMobileNumber = new System.Windows.Forms.Label();
             this.lblContactInfoHomeNumber = new System.Windows.Forms.Label();
-            this.lblEmploymentInfoDoB = new System.Windows.Forms.Label();
-            this.lblEmploymentInfoGender = new System.Windows.Forms.Label();
+            this.lblContactInfoMobileNumber = new System.Windows.Forms.Label();
+            this.lblContactInfoEmailAddress = new System.Windows.Forms.Label();
+            this.grpEmploymentInfo = new System.Windows.Forms.GroupBox();
             this.lblEmploymentInfoCurrentlyEmployed = new System.Windows.Forms.Label();
-            this.lblPaymentDetailsNILetter = new System.Windows.Forms.Label();
-            this.lblPaymentDetailsTaxCode = new System.Windows.Forms.Label();
+            this.lblEmploymentInfoGender = new System.Windows.Forms.Label();
+            this.lblEmploymentInfoDoB = new System.Windows.Forms.Label();
+            this.grpPaymentDetails = new System.Windows.Forms.GroupBox();
             this.lblPaymentDetailsWorksNumber = new System.Windows.Forms.Label();
+            this.lblPaymentDetailsTaxCode = new System.Windows.Forms.Label();
+            this.lblPaymentDetailsNILetter = new System.Windows.Forms.Label();
             this.grpAddress.SuspendLayout();
             this.grpEmployment.SuspendLayout();
             this.grpContactInfo.SuspendLayout();
@@ -109,7 +108,6 @@
             // 
             // grpEmployment
             // 
-            this.grpEmployment.Controls.Add(this.lblEmploymentBranch);
             this.grpEmployment.Controls.Add(this.lblEmploymentContractType);
             this.grpEmployment.Controls.Add(this.lblEmploymentJobTitle);
             this.grpEmployment.Controls.Add(this.lblEmploymentStaffID);
@@ -120,15 +118,6 @@
             this.grpEmployment.TabIndex = 1;
             this.grpEmployment.TabStop = false;
             this.grpEmployment.Text = "Employment";
-            // 
-            // lblEmploymentBranch
-            // 
-            this.lblEmploymentBranch.AutoSize = true;
-            this.lblEmploymentBranch.Location = new System.Drawing.Point(6, 82);
-            this.lblEmploymentBranch.Name = "lblEmploymentBranch";
-            this.lblEmploymentBranch.Size = new System.Drawing.Size(62, 20);
-            this.lblEmploymentBranch.TabIndex = 7;
-            this.lblEmploymentBranch.Text = "branch";
             // 
             // lblEmploymentContractType
             // 
@@ -170,6 +159,33 @@
             this.grpContactInfo.TabStop = false;
             this.grpContactInfo.Text = "Contact Info";
             // 
+            // lblContactInfoHomeNumber
+            // 
+            this.lblContactInfoHomeNumber.AutoSize = true;
+            this.lblContactInfoHomeNumber.Location = new System.Drawing.Point(6, 62);
+            this.lblContactInfoHomeNumber.Name = "lblContactInfoHomeNumber";
+            this.lblContactInfoHomeNumber.Size = new System.Drawing.Size(111, 20);
+            this.lblContactInfoHomeNumber.TabIndex = 10;
+            this.lblContactInfoHomeNumber.Text = "home number";
+            // 
+            // lblContactInfoMobileNumber
+            // 
+            this.lblContactInfoMobileNumber.AutoSize = true;
+            this.lblContactInfoMobileNumber.Location = new System.Drawing.Point(6, 42);
+            this.lblContactInfoMobileNumber.Name = "lblContactInfoMobileNumber";
+            this.lblContactInfoMobileNumber.Size = new System.Drawing.Size(118, 20);
+            this.lblContactInfoMobileNumber.TabIndex = 9;
+            this.lblContactInfoMobileNumber.Text = "mobile number";
+            // 
+            // lblContactInfoEmailAddress
+            // 
+            this.lblContactInfoEmailAddress.AutoSize = true;
+            this.lblContactInfoEmailAddress.Location = new System.Drawing.Point(6, 22);
+            this.lblContactInfoEmailAddress.Name = "lblContactInfoEmailAddress";
+            this.lblContactInfoEmailAddress.Size = new System.Drawing.Size(109, 20);
+            this.lblContactInfoEmailAddress.TabIndex = 8;
+            this.lblContactInfoEmailAddress.Text = "email address";
+            // 
             // grpEmploymentInfo
             // 
             this.grpEmploymentInfo.Controls.Add(this.lblEmploymentInfoCurrentlyEmployed);
@@ -182,6 +198,33 @@
             this.grpEmploymentInfo.TabIndex = 1;
             this.grpEmploymentInfo.TabStop = false;
             this.grpEmploymentInfo.Text = "Employment Info";
+            // 
+            // lblEmploymentInfoCurrentlyEmployed
+            // 
+            this.lblEmploymentInfoCurrentlyEmployed.AutoSize = true;
+            this.lblEmploymentInfoCurrentlyEmployed.Location = new System.Drawing.Point(7, 62);
+            this.lblEmploymentInfoCurrentlyEmployed.Name = "lblEmploymentInfoCurrentlyEmployed";
+            this.lblEmploymentInfoCurrentlyEmployed.Size = new System.Drawing.Size(151, 20);
+            this.lblEmploymentInfoCurrentlyEmployed.TabIndex = 13;
+            this.lblEmploymentInfoCurrentlyEmployed.Text = "currently employed";
+            // 
+            // lblEmploymentInfoGender
+            // 
+            this.lblEmploymentInfoGender.AutoSize = true;
+            this.lblEmploymentInfoGender.Location = new System.Drawing.Point(7, 42);
+            this.lblEmploymentInfoGender.Name = "lblEmploymentInfoGender";
+            this.lblEmploymentInfoGender.Size = new System.Drawing.Size(63, 20);
+            this.lblEmploymentInfoGender.TabIndex = 12;
+            this.lblEmploymentInfoGender.Text = "gender";
+            // 
+            // lblEmploymentInfoDoB
+            // 
+            this.lblEmploymentInfoDoB.AutoSize = true;
+            this.lblEmploymentInfoDoB.Location = new System.Drawing.Point(7, 22);
+            this.lblEmploymentInfoDoB.Name = "lblEmploymentInfoDoB";
+            this.lblEmploymentInfoDoB.Size = new System.Drawing.Size(99, 20);
+            this.lblEmploymentInfoDoB.TabIndex = 11;
+            this.lblEmploymentInfoDoB.Text = "date of birth";
             // 
             // grpPaymentDetails
             // 
@@ -196,68 +239,14 @@
             this.grpPaymentDetails.TabStop = false;
             this.grpPaymentDetails.Text = "Payment Details";
             // 
-            // lblContactInfoEmailAddress
+            // lblPaymentDetailsWorksNumber
             // 
-            this.lblContactInfoEmailAddress.AutoSize = true;
-            this.lblContactInfoEmailAddress.Location = new System.Drawing.Point(6, 22);
-            this.lblContactInfoEmailAddress.Name = "lblContactInfoEmailAddress";
-            this.lblContactInfoEmailAddress.Size = new System.Drawing.Size(109, 20);
-            this.lblContactInfoEmailAddress.TabIndex = 8;
-            this.lblContactInfoEmailAddress.Text = "email address";
-            // 
-            // lblContactInfoMobileNumber
-            // 
-            this.lblContactInfoMobileNumber.AutoSize = true;
-            this.lblContactInfoMobileNumber.Location = new System.Drawing.Point(6, 42);
-            this.lblContactInfoMobileNumber.Name = "lblContactInfoMobileNumber";
-            this.lblContactInfoMobileNumber.Size = new System.Drawing.Size(118, 20);
-            this.lblContactInfoMobileNumber.TabIndex = 9;
-            this.lblContactInfoMobileNumber.Text = "mobile number";
-            // 
-            // lblContactInfoHomeNumber
-            // 
-            this.lblContactInfoHomeNumber.AutoSize = true;
-            this.lblContactInfoHomeNumber.Location = new System.Drawing.Point(6, 62);
-            this.lblContactInfoHomeNumber.Name = "lblContactInfoHomeNumber";
-            this.lblContactInfoHomeNumber.Size = new System.Drawing.Size(111, 20);
-            this.lblContactInfoHomeNumber.TabIndex = 10;
-            this.lblContactInfoHomeNumber.Text = "home number";
-            // 
-            // lblEmploymentInfoDoB
-            // 
-            this.lblEmploymentInfoDoB.AutoSize = true;
-            this.lblEmploymentInfoDoB.Location = new System.Drawing.Point(7, 22);
-            this.lblEmploymentInfoDoB.Name = "lblEmploymentInfoDoB";
-            this.lblEmploymentInfoDoB.Size = new System.Drawing.Size(99, 20);
-            this.lblEmploymentInfoDoB.TabIndex = 11;
-            this.lblEmploymentInfoDoB.Text = "date of birth";
-            // 
-            // lblEmploymentInfoGender
-            // 
-            this.lblEmploymentInfoGender.AutoSize = true;
-            this.lblEmploymentInfoGender.Location = new System.Drawing.Point(7, 42);
-            this.lblEmploymentInfoGender.Name = "lblEmploymentInfoGender";
-            this.lblEmploymentInfoGender.Size = new System.Drawing.Size(63, 20);
-            this.lblEmploymentInfoGender.TabIndex = 12;
-            this.lblEmploymentInfoGender.Text = "gender";
-            // 
-            // lblEmploymentInfoCurrentlyEmployed
-            // 
-            this.lblEmploymentInfoCurrentlyEmployed.AutoSize = true;
-            this.lblEmploymentInfoCurrentlyEmployed.Location = new System.Drawing.Point(7, 62);
-            this.lblEmploymentInfoCurrentlyEmployed.Name = "lblEmploymentInfoCurrentlyEmployed";
-            this.lblEmploymentInfoCurrentlyEmployed.Size = new System.Drawing.Size(151, 20);
-            this.lblEmploymentInfoCurrentlyEmployed.TabIndex = 13;
-            this.lblEmploymentInfoCurrentlyEmployed.Text = "currently employed";
-            // 
-            // lblPaymentDetailsNILetter
-            // 
-            this.lblPaymentDetailsNILetter.AutoSize = true;
-            this.lblPaymentDetailsNILetter.Location = new System.Drawing.Point(6, 22);
-            this.lblPaymentDetailsNILetter.Name = "lblPaymentDetailsNILetter";
-            this.lblPaymentDetailsNILetter.Size = new System.Drawing.Size(67, 20);
-            this.lblPaymentDetailsNILetter.TabIndex = 14;
-            this.lblPaymentDetailsNILetter.Text = "NI letter";
+            this.lblPaymentDetailsWorksNumber.AutoSize = true;
+            this.lblPaymentDetailsWorksNumber.Location = new System.Drawing.Point(6, 62);
+            this.lblPaymentDetailsWorksNumber.Name = "lblPaymentDetailsWorksNumber";
+            this.lblPaymentDetailsWorksNumber.Size = new System.Drawing.Size(112, 20);
+            this.lblPaymentDetailsWorksNumber.TabIndex = 16;
+            this.lblPaymentDetailsWorksNumber.Text = "works number";
             // 
             // lblPaymentDetailsTaxCode
             // 
@@ -268,14 +257,14 @@
             this.lblPaymentDetailsTaxCode.TabIndex = 15;
             this.lblPaymentDetailsTaxCode.Text = "tax code";
             // 
-            // lblPaymentDetailsWorksNumber
+            // lblPaymentDetailsNILetter
             // 
-            this.lblPaymentDetailsWorksNumber.AutoSize = true;
-            this.lblPaymentDetailsWorksNumber.Location = new System.Drawing.Point(6, 62);
-            this.lblPaymentDetailsWorksNumber.Name = "lblPaymentDetailsWorksNumber";
-            this.lblPaymentDetailsWorksNumber.Size = new System.Drawing.Size(112, 20);
-            this.lblPaymentDetailsWorksNumber.TabIndex = 16;
-            this.lblPaymentDetailsWorksNumber.Text = "works number";
+            this.lblPaymentDetailsNILetter.AutoSize = true;
+            this.lblPaymentDetailsNILetter.Location = new System.Drawing.Point(6, 22);
+            this.lblPaymentDetailsNILetter.Name = "lblPaymentDetailsNILetter";
+            this.lblPaymentDetailsNILetter.Size = new System.Drawing.Size(67, 20);
+            this.lblPaymentDetailsNILetter.TabIndex = 14;
+            this.lblPaymentDetailsNILetter.Text = "NI letter";
             // 
             // StaffControlDetails
             // 
@@ -317,7 +306,6 @@
         private System.Windows.Forms.Label lblEmploymentStaffID;
         private System.Windows.Forms.Label lblEmploymentJobTitle;
         private System.Windows.Forms.Label lblEmploymentContractType;
-        private System.Windows.Forms.Label lblEmploymentBranch;
         private System.Windows.Forms.Label lblContactInfoHomeNumber;
         private System.Windows.Forms.Label lblContactInfoMobileNumber;
         private System.Windows.Forms.Label lblContactInfoEmailAddress;

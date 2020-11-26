@@ -112,22 +112,21 @@ namespace CSCoursework_Smiley
             lblAddressCounty.Text = staffInfoDict["staff_county"];
             lblAddressPostcode.Text = staffInfoDict["staff_postcode"];
             //Employment
-            lblEmploymentStaffID.Text = staffInfoDict["staff_id"];
-            lblEmploymentJobTitle.Text = staffInfoDict["jobposition_name"];
-            lblEmploymentContractType.Text = staffInfoDict["staff_contract_type"];
-            lblEmploymentBranch.Text = staffInfoDict["staff_branch"];
+            lblEmploymentStaffID.Text = $"Staff ID: {staffInfoDict["staff_id"]}";
+            lblEmploymentJobTitle.Text = $"Job Title: {staffInfoDict["jobposition_name"]}";
+            lblEmploymentContractType.Text = $"Branch: {staffInfoDict["staff_contract_type"]}";
             //Contact Info
-            lblContactInfoEmailAddress.Text = staffInfoDict["staff_email"];
-            lblContactInfoMobileNumber.Text = staffInfoDict["staff_mobile_number"];
-            lblContactInfoHomeNumber.Text = staffInfoDict["staff_home_number"];
+            lblContactInfoEmailAddress.Text = $"Email Address: {staffInfoDict["staff_email_address"]}";
+            lblContactInfoMobileNumber.Text = $"Mobile Number: {staffInfoDict["staff_mobile_number"]}";
+            lblContactInfoHomeNumber.Text = $"Home Number: {staffInfoDict["staff_home_number"]}";
             //Employment Info
-            lblEmploymentInfoDoB.Text = staffInfoDict["staff_DoB"];
-            lblEmploymentInfoGender.Text = staffInfoDict["staff_gender"];
-            lblEmploymentInfoCurrentlyEmployed.Text = staffInfoDict["staff_employed"];
+            lblEmploymentInfoDoB.Text = $"Date of Birth: {staffInfoDict["staff_DoB"]}";
+            lblEmploymentInfoGender.Text = $"Gender: {staffInfoDict["staff_gender"]}";
+            lblEmploymentInfoCurrentlyEmployed.Text = $"Currently Employed: {staffInfoDict["staff_employed"]}";
             //Payment Details
-            lblPaymentDetailsNILetter.Text = staffInfoDict["staff_NI_letter"];
-            lblPaymentDetailsTaxCode.Text = staffInfoDict["staff_tax_code"];
-            lblPaymentDetailsWorksNumber.Text = staffInfoDict["staff_works_number"];
+            lblPaymentDetailsNILetter.Text = $"NI Letter: {staffInfoDict["staff_NI_letter"]}";
+            lblPaymentDetailsTaxCode.Text = $"Tax Code: {staffInfoDict["staff_tax_code"]}";
+            lblPaymentDetailsWorksNumber.Text = $"Works Number: {staffInfoDict["staff_works_number"]}";
         }
     }
 }

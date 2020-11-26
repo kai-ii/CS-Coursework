@@ -287,6 +287,7 @@
             this.dashboardControl1.Name = "dashboardControl1";
             this.dashboardControl1.Size = new System.Drawing.Size(814, 636);
             this.dashboardControl1.TabIndex = 2;
+            this.dashboardControl1.Username = null;
             // 
             // staffControl1
             // 
@@ -348,7 +349,6 @@
             this.Controls.Add(this.payslipControl1);
             this.Controls.Add(this.timesheetControl1);
             this.Controls.Add(this.rotaControl1);
-            this.Controls.Add(this.staffControl1);
             this.Controls.Add(this.dashboardControl1);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.LeftPanel);

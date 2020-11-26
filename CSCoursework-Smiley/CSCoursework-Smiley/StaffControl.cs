@@ -18,22 +18,25 @@ namespace CSCoursework_Smiley
         OleDbConnection con = new OleDbConnection();
         List<string> staffButtonOrderList = new List<string>();
         List<Button> buttonList = new List<Button>();
+        string buttonSelected = "";
 
         public StaffControl()
         {
             //Add buttons to buttonList
-            buttonList.Add(btnEmployee1);
-            buttonList.Add(btnEmployee2);
-            foreach (Button button in buttonList)
-            {
-                Console.WriteLine(button);
-            }
+            Button employeePointer1 = btnEmployee1;
+            Button employeePointer2 = btnEmployee2;
+            buttonList.Add(employeePointer1);
+            buttonList.Add(employeePointer2);
+            //foreach (Button button in buttonList)
+            //{
+            //MessageBox.Show(button.Name);
+            //}
             //Initalize things
-            InitializeComponent();
-            InitializeSearchTextbox();
-            InitializeDatabaseConnection();
-            GetStaffMembers();
-            
+            //InitializeComponent();
+            //InitializeSearchTextbox();
+            //InitializeDatabaseConnection();
+            //GetStaffMembers();
+            //InitalizeButtonNames();
         }
 
         private void StaffControl_Load(object sender, EventArgs e)
@@ -112,34 +115,32 @@ namespace CSCoursework_Smiley
                 staffButtonOrderList.Add($"{staff_firstname},{staff_surname}");
             }
 
-            InitalizeButtonNames();
+            
         }
 
         private void InitalizeButtonNames()
         {
             //Fix auto button names
-
-
-            //string staff_firstname;
-            //string staff_surname;
-            //for (int employee = 0; employee < buttonList.Count; employee += 1)
-            //{
-            //    staff_firstname = staffButtonOrderList[employee].Split(',')[0];
-            //    staff_surname = staffButtonOrderList[employee].Split(',')[1];
-
-            //    buttonList[employee].Text = $"{staff_firstname}. {staff_surname[0]}";
-            //    MessageBox.Show($"{staff_firstname}. {staff_surname[0]}");
-            //    MessageBox.Show(buttonList[employee].Text);
-            //}
-
             string staff_firstname;
             string staff_surname;
-            for (int employee = 0; employee < staffButtonOrderList.Count; employee += 1)
+            for (int employee = 0; employee < buttonList.Count; employee += 1)
             {
                 staff_firstname = staffButtonOrderList[employee].Split(',')[0];
                 staff_surname = staffButtonOrderList[employee].Split(',')[1];
-                btnEmployee1.Text = $"{staff_firstname}. {staff_surname[0]}";
+
+                buttonList[employee].Text = $"{staff_firstname}. {staff_surname[0]}";
+                MessageBox.Show($"{staff_firstname}. {staff_surname[0]}");
+                MessageBox.Show(buttonList[employee].Text);
             }
+
+            //string staff_firstname;
+            //string staff_surname;
+            //for (int employee = 0; employee < staffButtonOrderList.Count; employee += 1)
+            //{
+            //    staff_firstname = staffButtonOrderList[employee].Split(',')[0];
+            //    staff_surname = staffButtonOrderList[employee].Split(',')[1];
+            //    btnEmployee1.Text = $"{staff_firstname}. {staff_surname[0]}";
+            //}
         }
 
         private void UpdateButton(ref Button button, string message)
@@ -149,6 +150,15 @@ namespace CSCoursework_Smiley
 
         private void btnEmployee1_Click(object sender, EventArgs e)
         {
+            if (buttonSelected == "btnEmployee1")
+            {
+                return;
+            }
+            else
+            {
+                buttonSelected = "btnEmployee1";
+            }
+
             //Initialize variables
             DataSet StaffInfoDS;
             OleDbDataAdapter da;
