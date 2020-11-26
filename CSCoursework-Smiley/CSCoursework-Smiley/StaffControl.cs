@@ -160,6 +160,12 @@ namespace CSCoursework_Smiley
             StaffInfoDS = new DataSet();
             da.Fill(StaffInfoDS, "StaffInfo");
 
+            DataTable StaffInfoTable = StaffInfoDS.Tables["StaffInfo"];
+
+            DataColumn[] keyColumns = new DataColumn[1];
+            keyColumns[0] = StaffInfoTable.Columns["staff_id"];
+            StaffInfoTable.PrimaryKey = keyColumns;
+
             DataRow row = StaffInfoDS.Tables["StaffInfo"].Rows.Find(1);
             staffControlDetails1.staff_details = row;
         }

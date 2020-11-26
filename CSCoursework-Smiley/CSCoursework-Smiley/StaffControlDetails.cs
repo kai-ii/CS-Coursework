@@ -26,7 +26,7 @@ namespace CSCoursework_Smiley
                 staffInfoDict.Add("staff_DoB", value.Field<string>("staff_DoB"));
                 staffInfoDict.Add("staff_gender", value.Field<string>("staff_gender"));
                 staffInfoDict.Add("staff_contract_type", value.Field<string>("staff_contract_type"));
-                staffInfoDict.Add("staff_salaried_hours", value.Field<string>("staff_salaried_hours"));
+                staffInfoDict.Add("staff_salaried_hours", Convert.ToString(value.Field<int>("staff_salaried_hours")));
                 staffInfoDict.Add("staff_works_number", value.Field<string>("staff_works_number"));
                 staffInfoDict.Add("staff_NI_letter", value.Field<string>("staff_NI_letter"));
                 staffInfoDict.Add("staff_tax_code", value.Field<string>("staff_tax_code"));
@@ -54,6 +54,9 @@ namespace CSCoursework_Smiley
         private void UpdateUserDetails()
         {
             lblAddressStreet.Text = staffInfoDict["staff_street"];
+            lblAddressCity.Text = staffInfoDict["staff_city"];
+            lblAddressCounty.Text = staffInfoDict["staff_county"];
+            lblAddressPostcode.Text = staffInfoDict["staff_postcode"];
         }
     }
 }
