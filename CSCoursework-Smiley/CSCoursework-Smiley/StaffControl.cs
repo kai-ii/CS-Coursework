@@ -18,25 +18,29 @@ namespace CSCoursework_Smiley
         OleDbConnection con = new OleDbConnection();
         List<string> staffButtonOrderList = new List<string>();
         List<Button> buttonList = new List<Button>();
+
         string buttonSelected = "";
 
         public StaffControl()
         {
             //Add buttons to buttonList
-            Button employeePointer1 = btnEmployee1;
-            Button employeePointer2 = btnEmployee2;
-            buttonList.Add(employeePointer1);
-            buttonList.Add(employeePointer2);
-            //foreach (Button button in buttonList)
-            //{
-            //MessageBox.Show(button.Name);
-            //}
+            //Button employeePointer1 = btnEmployee1;
+            //Button employeePointer2 = btnEmployee2;
+            //buttonList.Add(btnEmployee1);
+            //buttonList.Add(btnEmployee2);
+
+            buttonList = Enumerable.Range(1, 2).Select(i => (Button)this.Controls["btnEmployee" + i.ToString()]).ToList();
+
+            foreach (Button button in buttonList)
+            {
+                MessageBox.Show(button.Name);
+            }
             //Initalize things
-            //InitializeComponent();
-            //InitializeSearchTextbox();
-            //InitializeDatabaseConnection();
-            //GetStaffMembers();
-            //InitalizeButtonNames();
+            InitializeComponent();
+            InitializeSearchTextbox();
+            InitializeDatabaseConnection();
+            GetStaffMembers();
+            InitalizeButtonNames();
         }
 
         private void StaffControl_Load(object sender, EventArgs e)
@@ -82,8 +86,15 @@ namespace CSCoursework_Smiley
                 //Establish Connection with Database
                 dbProvider = "PROVIDER=Microsoft.ACE.OLEDB.12.0;";
                 DatabasePath = "/TestDatabase.accdb";
-                CurrentProjectPath = System.AppDomain.CurrentDomain.BaseDirectory;
-                FormattedDatabasePath = CurrentProjectPath.Remove(CurrentProjectPath.Length - 31, 31); //Cuts off the last 31 chars which gives the directory which the database is located
+                //CurrentProjectPath = System.AppDomain.CurrentDomain.BaseDirectory;
+                //FormattedDatabasePath = CurrentProjectPath.Remove(CurrentProjectPath.Length - 31, 31); //Cuts off the last 31 chars which gives the directory which the database is located
+
+
+
+                FormattedDatabasePath = "N:\\Documents\\Visual Studio 2019\\Projects\\CS-Coursework\\CSCoursework-Smiley";  //THIS IS TEMP FOR DEBUGGING
+
+
+
                 FullDatabasePath = FormattedDatabasePath + DatabasePath;
                 dbSource = "Data Source =" + FullDatabasePath;
                 con.ConnectionString = dbProvider + dbSource;
@@ -92,7 +103,7 @@ namespace CSCoursework_Smiley
             }
             catch
             {
-                MessageBox.Show("Error establishing database connection.");
+                MessageBox.Show("Error establishing database connection StaffControl.");
             }
         }
         private void GetStaffMembers()
@@ -114,8 +125,6 @@ namespace CSCoursework_Smiley
                 string staff_surname = StaffInfoDS.Tables["StaffInfo"].Rows[employee].Field<string>("staff_surname");
                 staffButtonOrderList.Add($"{staff_firstname},{staff_surname}");
             }
-
-            
         }
 
         private void InitalizeButtonNames()
@@ -123,12 +132,14 @@ namespace CSCoursework_Smiley
             //Fix auto button names
             string staff_firstname;
             string staff_surname;
+            Button tempButton;
             for (int employee = 0; employee < buttonList.Count; employee += 1)
             {
                 staff_firstname = staffButtonOrderList[employee].Split(',')[0];
                 staff_surname = staffButtonOrderList[employee].Split(',')[1];
 
-                buttonList[employee].Text = $"{staff_firstname}. {staff_surname[0]}";
+                tempButton = buttonList[employee];
+                tempButton.Text = $"{staff_firstname}. {staff_surname[0]}";
                 MessageBox.Show($"{staff_firstname}. {staff_surname[0]}");
                 MessageBox.Show(buttonList[employee].Text);
             }
@@ -177,7 +188,7 @@ namespace CSCoursework_Smiley
             StaffInfoTable.PrimaryKey = keyColumns;
 
             DataRow row = StaffInfoDS.Tables["StaffInfo"].Rows.Find(1);
-            staffControlDetails1.staff_details = row;
+            staffControlDetails1.Staff_details = row;
         }
     }
 }

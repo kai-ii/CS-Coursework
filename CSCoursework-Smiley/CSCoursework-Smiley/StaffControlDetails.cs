@@ -19,9 +19,9 @@ namespace CSCoursework_Smiley
 
         //Initialise dict
         Dictionary<string, string> staffInfoDict = new Dictionary<string, string>();
-        public DataRow staff_details 
+        public DataRow Staff_details 
         {
-            get { return staff_details; }
+            get { return null; }
             set
             {
                 staffInfoDict.Add("staff_id", Convert.ToString(value.Field<int>("staff_id")));
@@ -72,7 +72,9 @@ namespace CSCoursework_Smiley
             JobPositionDS = new DataSet();
             da.Fill(JobPositionDS, "JobPosition");
 
-            return Convert.ToString(JobPositionDS.Tables["JobPosition"].Rows[0].Field<string>("jobposition_name"));
+            string jobposition_name = Convert.ToString(JobPositionDS.Tables["JobPosition"].Rows[0].Field<string>("jobposition_name"));
+            con.Close();
+            return jobposition_name;
         }
 
         private void InitializeDatabaseConnection()
@@ -100,7 +102,7 @@ namespace CSCoursework_Smiley
             }
             catch
             {
-                MessageBox.Show("Error establishing database connection.");
+                MessageBox.Show("Error establishing database connection StaffControlDetails.");
             }
         }
 

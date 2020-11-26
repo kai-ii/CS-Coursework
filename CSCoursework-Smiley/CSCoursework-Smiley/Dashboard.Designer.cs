@@ -46,13 +46,13 @@
             this.btnExitDashboard = new System.Windows.Forms.PictureBox();
             this.btnExit = new System.Windows.Forms.PictureBox();
             this.dashboardControl1 = new CSCoursework_Smiley.Properties.DashboardControl();
-            this.staffControl1 = new CSCoursework_Smiley.StaffControl();
             this.rotaControl1 = new CSCoursework_Smiley.RotaControl();
             this.timesheetControl1 = new CSCoursework_Smiley.TimesheetControl();
             this.payslipControl1 = new CSCoursework_Smiley.Properties.PayslipControl();
             this.exportControl1 = new CSCoursework_Smiley.Properties.ExportControl();
             this.settingsControl1 = new CSCoursework_Smiley.Properties.SettingsControl();
             this.adminControl1 = new CSCoursework_Smiley.Properties.AdminControl();
+            this.staffControl1 = new CSCoursework_Smiley.StaffControl();
             this.LeftPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SmileyLogo)).BeginInit();
             this.panel2.SuspendLayout();
@@ -289,13 +289,6 @@
             this.dashboardControl1.TabIndex = 2;
             this.dashboardControl1.Username = null;
             // 
-            // staffControl1
-            // 
-            this.staffControl1.Location = new System.Drawing.Point(366, 74);
-            this.staffControl1.Name = "staffControl1";
-            this.staffControl1.Size = new System.Drawing.Size(814, 636);
-            this.staffControl1.TabIndex = 3;
-            // 
             // rotaControl1
             // 
             this.rotaControl1.Location = new System.Drawing.Point(366, 74);
@@ -338,11 +331,19 @@
             this.adminControl1.Size = new System.Drawing.Size(814, 636);
             this.adminControl1.TabIndex = 9;
             // 
+            // staffControl1
+            // 
+            this.staffControl1.Location = new System.Drawing.Point(366, 74);
+            this.staffControl1.Name = "staffControl1";
+            this.staffControl1.Size = new System.Drawing.Size(814, 636);
+            this.staffControl1.TabIndex = 10;
+            // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1180, 710);
+            this.Controls.Add(this.staffControl1);
             this.Controls.Add(this.adminControl1);
             this.Controls.Add(this.settingsControl1);
             this.Controls.Add(this.exportControl1);
@@ -386,12 +387,12 @@
         private System.Windows.Forms.Button btnAdmin;
         private System.Windows.Forms.PictureBox ExitButton;
         private Properties.DashboardControl dashboardControl1;
-        private StaffControl staffControl1;
         private RotaControl rotaControl1;
         private TimesheetControl timesheetControl1;
         private Properties.PayslipControl payslipControl1;
         private Properties.ExportControl exportControl1;
         private Properties.SettingsControl settingsControl1;
         private Properties.AdminControl adminControl1;
+        private StaffControl staffControl1;
     }
 }

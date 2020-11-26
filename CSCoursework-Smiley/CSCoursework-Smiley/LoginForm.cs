@@ -125,7 +125,7 @@ namespace CSCoursework_Smiley
             }
             catch
             {
-                MessageBox.Show("Error establishing database connection.");
+                MessageBox.Show("Error establishing database connection LoginForm.");
             }
         }
 
@@ -154,6 +154,7 @@ namespace CSCoursework_Smiley
 
             if (LoginInfoDS.Tables["LoginInfo"].Rows.Count > 0)
             {
+                con.Close();
                 Dashboard dashboard = new Dashboard(UsernameTextbox.Text);
                 dashboard.Show();
                 this.Hide();
