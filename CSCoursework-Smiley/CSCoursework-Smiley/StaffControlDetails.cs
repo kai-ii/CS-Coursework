@@ -16,6 +16,7 @@ namespace CSCoursework_Smiley
     {
         //Initialise variables
         OleDbConnection con = new OleDbConnection();
+        bool salaried;
 
         //Initialise dict
         Dictionary<string, string> staffInfoDict = new Dictionary<string, string>();
@@ -24,29 +25,37 @@ namespace CSCoursework_Smiley
             get { return null; }
             set
             {
-                staffInfoDict.Add("staff_id", Convert.ToString(value.Field<int>("staff_id")));
-                staffInfoDict.Add("jobposition_id", Convert.ToString(value.Field<int>("jobposition_id")));
-                staffInfoDict.Add("staff_firstname", value.Field<string>("staff_firstname"));
-                staffInfoDict.Add("staff_surname", value.Field<string>("staff_surname"));
-                staffInfoDict.Add("staff_NI_number", value.Field<string>("staff_NI_number"));
-                staffInfoDict.Add("staff_DoB", value.Field<string>("staff_DoB"));
-                staffInfoDict.Add("staff_gender", value.Field<string>("staff_gender"));
-                staffInfoDict.Add("staff_contract_type", value.Field<string>("staff_contract_type"));
-                staffInfoDict.Add("staff_salaried_hours", Convert.ToString(value.Field<int>("staff_salaried_hours")));
-                staffInfoDict.Add("staff_works_number", value.Field<string>("staff_works_number"));
-                staffInfoDict.Add("staff_NI_letter", value.Field<string>("staff_NI_letter"));
-                staffInfoDict.Add("staff_tax_code", value.Field<string>("staff_tax_code"));
-                staffInfoDict.Add("staff_street", value.Field<string>("staff_street"));
-                staffInfoDict.Add("staff_city", value.Field<string>("staff_city"));
-                staffInfoDict.Add("staff_county", value.Field<string>("staff_county"));
-                staffInfoDict.Add("staff_postcode", value.Field<string>("staff_postcode"));
-                staffInfoDict.Add("staff_mobile_number", value.Field<string>("staff_mobile_number"));
-                staffInfoDict.Add("staff_home_number", value.Field<string>("staff_home_number"));
-                staffInfoDict.Add("staff_email_address", value.Field<string>("staff_email_address"));
-                staffInfoDict.Add("staff_employed", Convert.ToString(value.Field<bool>("staff_employed")));
-                InitializeDatabaseConnection();
-                staffInfoDict.Add("jobposition_name", GetJobPositionName(Convert.ToInt32(staffInfoDict["jobposition_id"])));
-                UpdateUserDetails();
+                if (value == null)
+                {
+                    //MessageBox.Show($"value = {value}");
+                }
+                else
+                {
+                    staffInfoDict = new Dictionary<string, string>();
+                    staffInfoDict.Add("staff_id", Convert.ToString(value.Field<int>("staff_id")));
+                    staffInfoDict.Add("jobposition_id", Convert.ToString(value.Field<int>("jobposition_id")));
+                    staffInfoDict.Add("staff_firstname", value.Field<string>("staff_firstname"));
+                    staffInfoDict.Add("staff_surname", value.Field<string>("staff_surname"));
+                    staffInfoDict.Add("staff_NI_number", value.Field<string>("staff_NI_number"));
+                    staffInfoDict.Add("staff_DoB", value.Field<string>("staff_DoB"));
+                    staffInfoDict.Add("staff_gender", value.Field<string>("staff_gender"));
+                    staffInfoDict.Add("staff_contract_type", value.Field<string>("staff_contract_type"));
+                    staffInfoDict.Add("staff_salaried_hours", Convert.ToString(value.Field<int>("staff_salaried_hours")));
+                    staffInfoDict.Add("staff_works_number", value.Field<string>("staff_works_number"));
+                    staffInfoDict.Add("staff_NI_letter", value.Field<string>("staff_NI_letter"));
+                    staffInfoDict.Add("staff_tax_code", value.Field<string>("staff_tax_code"));
+                    staffInfoDict.Add("staff_street", value.Field<string>("staff_street"));
+                    staffInfoDict.Add("staff_city", value.Field<string>("staff_city"));
+                    staffInfoDict.Add("staff_county", value.Field<string>("staff_county"));
+                    staffInfoDict.Add("staff_postcode", value.Field<string>("staff_postcode"));
+                    staffInfoDict.Add("staff_mobile_number", value.Field<string>("staff_mobile_number"));
+                    staffInfoDict.Add("staff_home_number", value.Field<string>("staff_home_number"));
+                    staffInfoDict.Add("staff_email_address", value.Field<string>("staff_email_address"));
+                    staffInfoDict.Add("staff_employed", Convert.ToString(value.Field<bool>("staff_employed")));
+                    InitializeDatabaseConnection();
+                    staffInfoDict.Add("jobposition_name", GetJobPositionName(Convert.ToInt32(staffInfoDict["jobposition_id"])));
+                    UpdateUserDetails();
+                }
             }
         }
         public StaffControlDetails()
@@ -83,7 +92,6 @@ namespace CSCoursework_Smiley
             string dbProvider;
             string DatabasePath;
             string CurrentProjectPath;
-            string FormattedDatabasePath;
             string FullDatabasePath;
             string dbSource;
 
@@ -93,8 +101,7 @@ namespace CSCoursework_Smiley
                 dbProvider = "PROVIDER=Microsoft.ACE.OLEDB.12.0;";
                 DatabasePath = "/TestDatabase.accdb";
                 CurrentProjectPath = System.AppDomain.CurrentDomain.BaseDirectory;
-                FormattedDatabasePath = CurrentProjectPath.Remove(CurrentProjectPath.Length - 31, 31); //Cuts off the last 31 chars which gives the directory which the database is located
-                FullDatabasePath = FormattedDatabasePath + DatabasePath;
+                FullDatabasePath = CurrentProjectPath + DatabasePath;
                 dbSource = "Data Source =" + FullDatabasePath;
                 con.ConnectionString = dbProvider + dbSource;
                 con.Open();
@@ -102,7 +109,7 @@ namespace CSCoursework_Smiley
             }
             catch
             {
-                MessageBox.Show("Error establishing database connection StaffControlDetails.");
+                MessageBox.Show("Error establishing database connection LoginForm.");
             }
         }
 
@@ -114,6 +121,7 @@ namespace CSCoursework_Smiley
             lblAddressCounty.Text = staffInfoDict["staff_county"];
             lblAddressPostcode.Text = staffInfoDict["staff_postcode"];
             //Employment
+            lblEmploymentSalariedHours.Text = $"Salaried Hours: {staffInfoDict["staff_salaried_hours"]}";
             lblEmploymentStaffID.Text = $"Staff ID: {staffInfoDict["staff_id"]}";
             lblEmploymentJobTitle.Text = $"Job Title: {staffInfoDict["jobposition_name"]}";
             lblEmploymentContractType.Text = $"Branch: {staffInfoDict["staff_contract_type"]}";

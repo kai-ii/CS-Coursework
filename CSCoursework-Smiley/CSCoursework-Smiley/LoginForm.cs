@@ -106,7 +106,6 @@ namespace CSCoursework_Smiley
             string dbProvider;
             string DatabasePath;
             string CurrentProjectPath;
-            string FormattedDatabasePath;
             string FullDatabasePath;
             string dbSource;
 
@@ -115,9 +114,8 @@ namespace CSCoursework_Smiley
                 //Establish Connection with Database
                 dbProvider = "PROVIDER=Microsoft.ACE.OLEDB.12.0;";
                 DatabasePath = "/TestDatabase.accdb";
-                CurrentProjectPath = System.AppDomain.CurrentDomain.BaseDirectory;
-                FormattedDatabasePath = CurrentProjectPath.Remove(CurrentProjectPath.Length - 31, 31); //Cuts off the last 31 chars which gives the directory which the database is located
-                FullDatabasePath = FormattedDatabasePath + DatabasePath;
+                CurrentProjectPath = System.AppDomain.CurrentDomain.BaseDirectory; 
+                FullDatabasePath = CurrentProjectPath + DatabasePath;
                 dbSource = "Data Source =" + FullDatabasePath;
                 con.ConnectionString = dbProvider + dbSource;
                 con.Open();
@@ -154,10 +152,10 @@ namespace CSCoursework_Smiley
 
             if (LoginInfoDS.Tables["LoginInfo"].Rows.Count > 0)
             {
-                con.Close();
                 Dashboard dashboard = new Dashboard(UsernameTextbox.Text);
                 dashboard.Show();
                 this.Hide();
+                con.Close();
             }
         }
 

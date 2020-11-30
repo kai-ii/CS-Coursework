@@ -49,6 +49,7 @@
             this.lblPaymentDetailsWorksNumber = new System.Windows.Forms.Label();
             this.lblPaymentDetailsTaxCode = new System.Windows.Forms.Label();
             this.lblPaymentDetailsNILetter = new System.Windows.Forms.Label();
+            this.lblEmploymentSalariedHours = new System.Windows.Forms.Label();
             this.grpAddress.SuspendLayout();
             this.grpEmployment.SuspendLayout();
             this.grpContactInfo.SuspendLayout();
@@ -108,6 +109,7 @@
             // 
             // grpEmployment
             // 
+            this.grpEmployment.Controls.Add(this.lblEmploymentSalariedHours);
             this.grpEmployment.Controls.Add(this.lblEmploymentContractType);
             this.grpEmployment.Controls.Add(this.lblEmploymentJobTitle);
             this.grpEmployment.Controls.Add(this.lblEmploymentStaffID);
@@ -266,6 +268,15 @@
             this.lblPaymentDetailsNILetter.TabIndex = 14;
             this.lblPaymentDetailsNILetter.Text = "NI letter";
             // 
+            // lblEmploymentSalariedHours
+            // 
+            this.lblEmploymentSalariedHours.AutoSize = true;
+            this.lblEmploymentSalariedHours.Location = new System.Drawing.Point(6, 82);
+            this.lblEmploymentSalariedHours.Name = "lblEmploymentSalariedHours";
+            this.lblEmploymentSalariedHours.Size = new System.Drawing.Size(109, 20);
+            this.lblEmploymentSalariedHours.TabIndex = 7;
+            this.lblEmploymentSalariedHours.Text = "salaried hours";
+            // 
             // StaffControlDetails
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -315,5 +326,6 @@
         private System.Windows.Forms.Label lblPaymentDetailsWorksNumber;
         private System.Windows.Forms.Label lblPaymentDetailsTaxCode;
         private System.Windows.Forms.Label lblPaymentDetailsNILetter;
+        private System.Windows.Forms.Label lblEmploymentSalariedHours;
     }
 }

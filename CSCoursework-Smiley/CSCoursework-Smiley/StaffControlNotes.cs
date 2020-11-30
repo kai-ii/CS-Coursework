@@ -12,9 +12,16 @@ namespace CSCoursework_Smiley
 {
     public partial class StaffControlNotes : UserControl
     {
+
+        public string generalNotes {get; set;}
         public StaffControlNotes()
         {
             InitializeComponent();
+        }
+
+        private void StaffControlNotes_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
