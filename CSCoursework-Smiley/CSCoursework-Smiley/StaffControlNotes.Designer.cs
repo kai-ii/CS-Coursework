@@ -29,16 +29,18 @@
         private void InitializeComponent()
         {
             this.grpGeneralNotes = new System.Windows.Forms.GroupBox();
+            this.btnSaveGeneralNotes = new System.Windows.Forms.Button();
             this.rTxtGeneralNotes = new System.Windows.Forms.RichTextBox();
             this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
             this.grpAbsentNotes = new System.Windows.Forms.GroupBox();
-            this.rTextBoxAbsentNotes = new System.Windows.Forms.RichTextBox();
+            this.rTxtAbsentNotes = new System.Windows.Forms.RichTextBox();
             this.grpGeneralNotes.SuspendLayout();
             this.grpAbsentNotes.SuspendLayout();
             this.SuspendLayout();
             // 
             // grpGeneralNotes
             // 
+            this.grpGeneralNotes.Controls.Add(this.btnSaveGeneralNotes);
             this.grpGeneralNotes.Controls.Add(this.rTxtGeneralNotes);
             this.grpGeneralNotes.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpGeneralNotes.Location = new System.Drawing.Point(3, 0);
@@ -47,6 +49,15 @@
             this.grpGeneralNotes.TabIndex = 0;
             this.grpGeneralNotes.TabStop = false;
             this.grpGeneralNotes.Text = "General Notes";
+            // 
+            // btnSaveGeneralNotes
+            // 
+            this.btnSaveGeneralNotes.Location = new System.Drawing.Point(485, 356);
+            this.btnSaveGeneralNotes.Name = "btnSaveGeneralNotes";
+            this.btnSaveGeneralNotes.Size = new System.Drawing.Size(62, 23);
+            this.btnSaveGeneralNotes.TabIndex = 1;
+            this.btnSaveGeneralNotes.Text = "Save";
+            this.btnSaveGeneralNotes.UseVisualStyleBackColor = true;
             // 
             // rTxtGeneralNotes
             // 
@@ -62,10 +73,11 @@
             this.monthCalendar1.Location = new System.Drawing.Point(314, 19);
             this.monthCalendar1.Name = "monthCalendar1";
             this.monthCalendar1.TabIndex = 1;
+            this.monthCalendar1.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.monthCalendar1_DateChanged);
             // 
             // grpAbsentNotes
             // 
-            this.grpAbsentNotes.Controls.Add(this.rTextBoxAbsentNotes);
+            this.grpAbsentNotes.Controls.Add(this.rTxtAbsentNotes);
             this.grpAbsentNotes.Controls.Add(this.monthCalendar1);
             this.grpAbsentNotes.Location = new System.Drawing.Point(3, 391);
             this.grpAbsentNotes.Name = "grpAbsentNotes";
@@ -74,13 +86,13 @@
             this.grpAbsentNotes.TabStop = false;
             this.grpAbsentNotes.Text = "Absent Notes";
             // 
-            // rTextBoxAbsentNotes
+            // rTxtAbsentNotes
             // 
-            this.rTextBoxAbsentNotes.Location = new System.Drawing.Point(7, 19);
-            this.rTextBoxAbsentNotes.Name = "rTextBoxAbsentNotes";
-            this.rTextBoxAbsentNotes.Size = new System.Drawing.Size(295, 163);
-            this.rTextBoxAbsentNotes.TabIndex = 2;
-            this.rTextBoxAbsentNotes.Text = "";
+            this.rTxtAbsentNotes.Location = new System.Drawing.Point(7, 19);
+            this.rTxtAbsentNotes.Name = "rTxtAbsentNotes";
+            this.rTxtAbsentNotes.Size = new System.Drawing.Size(295, 163);
+            this.rTxtAbsentNotes.TabIndex = 2;
+            this.rTxtAbsentNotes.Text = "";
             // 
             // StaffControlNotes
             // 
@@ -103,6 +115,7 @@
         private System.Windows.Forms.MonthCalendar monthCalendar1;
         private System.Windows.Forms.GroupBox grpAbsentNotes;
         private System.Windows.Forms.RichTextBox rTxtGeneralNotes;
-        private System.Windows.Forms.RichTextBox rTextBoxAbsentNotes;
+        private System.Windows.Forms.RichTextBox rTxtAbsentNotes;
+        private System.Windows.Forms.Button btnSaveGeneralNotes;
     }
 }

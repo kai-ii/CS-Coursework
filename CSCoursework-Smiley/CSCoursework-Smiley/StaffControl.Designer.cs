@@ -32,12 +32,12 @@
             this.pnlStaffScroll = new System.Windows.Forms.Panel();
             this.lstBoxEmployees = new System.Windows.Forms.ListBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.staffControlNotes1 = new CSCoursework_Smiley.StaffControlNotes();
+            this.staffControlGraphs1 = new CSCoursework_Smiley.StaffControlGraphs();
+            this.staffControlDetails1 = new CSCoursework_Smiley.StaffControlDetails();
             this.rBtnDetails = new System.Windows.Forms.RadioButton();
             this.rBtnGraphs = new System.Windows.Forms.RadioButton();
-            this.rBrnGraphs = new System.Windows.Forms.RadioButton();
-            this.staffControlDetails1 = new CSCoursework_Smiley.StaffControlDetails();
-            this.staffControlGraphs1 = new CSCoursework_Smiley.StaffControlGraphs();
-            this.staffControlNotes1 = new CSCoursework_Smiley.StaffControlNotes();
+            this.rBtnNotes = new System.Windows.Forms.RadioButton();
             this.pnlStaffScroll.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -81,6 +81,33 @@
             this.panel1.Size = new System.Drawing.Size(556, 585);
             this.panel1.TabIndex = 3;
             // 
+            // staffControlNotes1
+            // 
+            this.staffControlNotes1.GeneralNotes = "temp";
+            this.staffControlNotes1.Location = new System.Drawing.Point(0, 0);
+            this.staffControlNotes1.Name = "staffControlNotes1";
+            this.staffControlNotes1.Size = new System.Drawing.Size(556, 585);
+            this.staffControlNotes1.TabIndex = 2;
+            this.staffControlNotes1.Load += new System.EventHandler(this.staffControlNotes1_Load);
+            // 
+            // staffControlGraphs1
+            // 
+            this.staffControlGraphs1.LineChartValues = new int[] {
+        0};
+            this.staffControlGraphs1.Location = new System.Drawing.Point(0, 0);
+            this.staffControlGraphs1.Name = "staffControlGraphs1";
+            this.staffControlGraphs1.PieChartData = null;
+            this.staffControlGraphs1.Size = new System.Drawing.Size(556, 585);
+            this.staffControlGraphs1.TabIndex = 1;
+            // 
+            // staffControlDetails1
+            // 
+            this.staffControlDetails1.Location = new System.Drawing.Point(0, 0);
+            this.staffControlDetails1.Name = "staffControlDetails1";
+            this.staffControlDetails1.Size = new System.Drawing.Size(556, 585);
+            this.staffControlDetails1.Staff_details = null;
+            this.staffControlDetails1.TabIndex = 0;
+            // 
             // rBtnDetails
             // 
             this.rBtnDetails.AutoSize = true;
@@ -105,45 +132,23 @@
             this.rBtnGraphs.UseVisualStyleBackColor = true;
             this.rBtnGraphs.CheckedChanged += new System.EventHandler(this.rBtnGraphs_CheckedChanged);
             // 
-            // rBrnGraphs
+            // rBtnNotes
             // 
-            this.rBrnGraphs.AutoSize = true;
-            this.rBrnGraphs.Location = new System.Drawing.Point(751, 29);
-            this.rBrnGraphs.Name = "rBrnGraphs";
-            this.rBrnGraphs.Size = new System.Drawing.Size(53, 17);
-            this.rBrnGraphs.TabIndex = 6;
-            this.rBrnGraphs.TabStop = true;
-            this.rBrnGraphs.Text = "Notes";
-            this.rBrnGraphs.UseVisualStyleBackColor = true;
-            this.rBrnGraphs.CheckedChanged += new System.EventHandler(this.rBrnGraphs_CheckedChanged);
-            // 
-            // staffControlDetails1
-            // 
-            this.staffControlDetails1.Location = new System.Drawing.Point(0, 0);
-            this.staffControlDetails1.Name = "staffControlDetails1";
-            this.staffControlDetails1.Size = new System.Drawing.Size(556, 585);
-            this.staffControlDetails1.Staff_details = null;
-            this.staffControlDetails1.TabIndex = 0;
-            // 
-            // staffControlGraphs1
-            // 
-            this.staffControlGraphs1.Location = new System.Drawing.Point(0, 0);
-            this.staffControlGraphs1.Name = "staffControlGraphs1";
-            this.staffControlGraphs1.Size = new System.Drawing.Size(556, 585);
-            this.staffControlGraphs1.TabIndex = 1;
-            // 
-            // staffControlNotes1
-            // 
-            this.staffControlNotes1.Location = new System.Drawing.Point(0, 0);
-            this.staffControlNotes1.Name = "staffControlNotes1";
-            this.staffControlNotes1.Size = new System.Drawing.Size(556, 585);
-            this.staffControlNotes1.TabIndex = 2;
+            this.rBtnNotes.AutoSize = true;
+            this.rBtnNotes.Location = new System.Drawing.Point(751, 29);
+            this.rBtnNotes.Name = "rBtnNotes";
+            this.rBtnNotes.Size = new System.Drawing.Size(53, 17);
+            this.rBtnNotes.TabIndex = 6;
+            this.rBtnNotes.TabStop = true;
+            this.rBtnNotes.Text = "Notes";
+            this.rBtnNotes.UseVisualStyleBackColor = true;
+            this.rBtnNotes.CheckedChanged += new System.EventHandler(this.rBtnNotes_CheckedChanged);
             // 
             // StaffControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.rBrnGraphs);
+            this.Controls.Add(this.rBtnNotes);
             this.Controls.Add(this.rBtnGraphs);
             this.Controls.Add(this.rBtnDetails);
             this.Controls.Add(this.panel1);
@@ -167,7 +172,7 @@
         private System.Windows.Forms.ListBox lstBoxEmployees;
         private System.Windows.Forms.RadioButton rBtnDetails;
         private System.Windows.Forms.RadioButton rBtnGraphs;
-        private System.Windows.Forms.RadioButton rBrnGraphs;
+        private System.Windows.Forms.RadioButton rBtnNotes;
         private StaffControlNotes staffControlNotes1;
         private StaffControlGraphs staffControlGraphs1;
     }

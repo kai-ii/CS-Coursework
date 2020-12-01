@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using System.Data.OleDb;
+using LiveCharts;
+using LiveCharts.Wpf;
 
 namespace CSCoursework_Smiley
 {
@@ -16,17 +18,15 @@ namespace CSCoursework_Smiley
     {
         // Variables
         OleDbConnection con = new OleDbConnection();
-        List<string> staffButtonOrderList = new List<string>();
-
         int primaryKeySelected;
 
         public StaffControl()
         {
             InitializeComponent();
-            rBtnDetails.Checked = true;
             InitializeSearchTextbox();
             InitializeDatabaseConnection();
             InitializeStaffMembers();
+            rBtnDetails.Checked = true;
         }
 
         private void StaffControl_Load(object sender, EventArgs e)
@@ -76,6 +76,7 @@ namespace CSCoursework_Smiley
                 con.ConnectionString = dbProvider + dbSource;
                 con.Open();
                 Console.WriteLine("Connection established");
+                con.Close();
             }
             catch
             {
@@ -84,6 +85,9 @@ namespace CSCoursework_Smiley
         }
         private void InitializeStaffMembers()
         {
+            //Open database connection
+            con.Open();
+
             //Initialize variables
             DataSet StaffInfoDS;
             OleDbDataAdapter da;
@@ -94,6 +98,7 @@ namespace CSCoursework_Smiley
             da = new OleDbDataAdapter(sql, con);
             StaffInfoDS = new DataSet();
             da.Fill(StaffInfoDS, "StaffInfo");
+
 
             for (int employee = 0; employee<StaffInfoDS.Tables["StaffInfo"].Rows.Count; employee++)
             {
@@ -102,12 +107,19 @@ namespace CSCoursework_Smiley
                 lstBoxEmployees.Items.Add($"{staff_firstname}. {staff_surname[0]}");
             }
 
+            //Close database connection
+            con.Close();
+
+            //Initialize Details View
             lstBoxEmployees.SelectedIndex = 0;
-            UpdateRow(1);
+            UpdateRowStaffDetails(1);
         }
 
-        private void UpdateRow(int primaryKey)
+        private void UpdateRowStaffDetails(int primaryKey)
         {
+            //Open database connection
+            con.Open();
+
             //Initialize variables
             DataSet StaffInfoDS;
             OleDbDataAdapter da;
@@ -118,6 +130,9 @@ namespace CSCoursework_Smiley
             da = new OleDbDataAdapter(sql, con);
             StaffInfoDS = new DataSet();
             da.Fill(StaffInfoDS, "StaffInfo");
+
+            //Close database connection
+            con.Close();
 
             DataTable StaffInfoTable = StaffInfoDS.Tables["StaffInfo"];
 
@@ -129,6 +144,97 @@ namespace CSCoursework_Smiley
             staffControlDetails1.Staff_details = row;
         }
 
+        private void UpdateNoteDetails(int primaryKey)
+        {
+            UpdateGeneralNotesDetails(primaryKey);
+            UpdateAbsenceTupleList(primaryKey);
+        }
+
+        private void UpdateAbsenceTupleList(int primaryKey)
+        {
+            //Open database connection
+            con.Open();
+
+            //Initialize variables
+            DataSet AbsenceInfoDS;
+            DataSet RotaInfoDS;
+            OleDbDataAdapter da;
+            string sql;
+
+            //Get staff members
+            sql = $"SELECT * FROM tblRota WHERE staff_id={primaryKey}";
+            da = new OleDbDataAdapter(sql, con);
+            RotaInfoDS = new DataSet();
+            da.Fill(RotaInfoDS, "RotaInfo");
+
+            //Close database connection
+            con.Close();
+
+            DataTable StaffInfoTable = AbsenceInfoDS.Tables["StaffInfo"];
+
+            DataColumn[] keyColumns = new DataColumn[1];
+            keyColumns[0] = StaffInfoTable.Columns["staff_id"];
+            StaffInfoTable.PrimaryKey = keyColumns;
+
+            DataRow row = AbsenceInfoDS.Tables["StaffInfo"].Rows.Find(primaryKey);
+            staffControlDetails1.Staff_details = row;
+
+
+            staffControlNotes1.AbsenceTupleList =
+        }
+
+        private void UpdateGeneralNotesDetails(int primaryKey)
+        {
+            staffControlNotes1.GeneralNotes = GetStaffGeneralNotes(primaryKey);
+        }
+
+        private void UpdateGraphDetails(int primaryKey)
+        {
+            UpdatePieChartDetails(primaryKey);
+            UpdateLineChartDetails(primaryKey);
+        }
+
+        private void UpdateLineChartDetails(int primaryKey)
+        {
+            Random rnd = new Random();
+
+            int[] hoursWorkedByMonth = new int[12];
+            for (int month = 0; month < 12; month++)
+            {
+                hoursWorkedByMonth[month] = rnd.Next(140, 180);
+            }
+
+            staffControlGraphs1.LineChartValues = hoursWorkedByMonth;
+        }
+
+        private void UpdatePieChartDetails(int primaryKey)
+        {
+            Random rnd = new Random();
+            int hoursWorked = rnd.Next(730, 810);
+            int paidTimeOff = rnd.Next(35, 70);
+
+            Func<ChartPoint, string> labelPoint = chartPoint => string.Format("{0} ({1:P})", chartPoint.Y, chartPoint.Participation);
+            SeriesCollection pieChartValues = new SeriesCollection
+            {
+                new PieSeries
+                {
+                    Title = "Hours Worked",
+                    Values = new ChartValues<int> {hoursWorked},
+                    DataLabels = true,
+                    LabelPoint = labelPoint
+                },
+                new PieSeries
+                {
+                    Title = "Paid Time Off",
+                    Values = new ChartValues<int> {paidTimeOff},
+                    DataLabels = true,
+                    LabelPoint = labelPoint
+                }
+            };
+
+            staffControlGraphs1.PieChartData = pieChartValues;
+        }
+
         private void lstBoxEmployees_SelectedIndexChanged(object sender, EventArgs e)
         {
             int index = lstBoxEmployees.SelectedIndex + 1;
@@ -136,7 +242,18 @@ namespace CSCoursework_Smiley
             if (primaryKeySelected != index)
             {
                 primaryKeySelected = index;
-                UpdateRow(primaryKeySelected);
+                if (rBtnDetails.Checked)
+                {
+                    UpdateRowStaffDetails(primaryKeySelected);
+                }
+                else if (rBtnGraphs.Checked)
+                {
+                    UpdateGraphDetails(primaryKeySelected);
+                }
+                else if (rBtnNotes.Checked)
+                {
+                    UpdateNoteDetails(primaryKeySelected);
+                }                                
             }
         }
         private void txtSearch_TextChanged(object sender, EventArgs e)
@@ -147,41 +264,53 @@ namespace CSCoursework_Smiley
         private void rBtnGraphs_CheckedChanged(object sender, EventArgs e)
         {
             staffControlGraphs1.BringToFront();
+            UpdateGraphDetails(primaryKeySelected);
         }
 
         private void rBtnNotes_CheckedChanged(object sender, EventArgs e)
         {
             staffControlNotes1.BringToFront();
-            staffControlNotes1.generalNotes = GetStaffGeneralNotes(primaryKeySelected);
+            UpdateNoteDetails(primaryKeySelected);
         }
 
         private void rBtnDetails_CheckedChanged(object sender, EventArgs e)
         {
             staffControlDetails1.BringToFront();
+            UpdateRowStaffDetails(primaryKeySelected);
         }
 
-        private string GetStaffGeneralNotes(int primary_key)
+        private string GetStaffGeneralNotes(int primaryKey)
         {
+            //Open database connection
             con.Open();
+
             //Initialize variables
             DataSet NoteInfoDS;
             OleDbDataAdapter da;
             string sql;
 
             //Get staff members
-            sql = $"SELECT * FROM tblStaff";
+            sql = $"SELECT * FROM tblNotes where staff_id={primaryKey}";
             da = new OleDbDataAdapter(sql, con);
             NoteInfoDS = new DataSet();
-            da.Fill(NoteInfoDS, "StaffInfo");
+            da.Fill(NoteInfoDS, "NoteInfo");
 
-            DataTable StaffInfoTable = NoteInfoDS.Tables["StaffInfo"];
+            //Close database connection
+            con.Close();
+
+            DataTable NoteInfoTable = NoteInfoDS.Tables["NoteInfo"];
 
             DataColumn[] keyColumns = new DataColumn[1];
-            keyColumns[0] = StaffInfoTable.Columns["staff_id"];
-            StaffInfoTable.PrimaryKey = keyColumns;
+            keyColumns[0] = NoteInfoTable.Columns["staff_id"];
+            NoteInfoTable.PrimaryKey = keyColumns;
 
-            DataRow row = NoteInfoDS.Tables["StaffInfo"].Rows.Find(primaryKey);
-            staffControlDetails1.Staff_details = row;
+            DataRow row = NoteInfoTable.Rows.Find(primaryKey);
+            return Convert.ToString(row.Field<string>("note_contents"));
+        }
+
+        private void staffControlNotes1_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

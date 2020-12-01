@@ -16,7 +16,6 @@ namespace CSCoursework_Smiley
     {
         //Initialise variables
         OleDbConnection con = new OleDbConnection();
-        bool salaried;
 
         //Initialise dict
         Dictionary<string, string> staffInfoDict = new Dictionary<string, string>();
