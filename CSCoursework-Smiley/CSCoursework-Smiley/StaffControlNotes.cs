@@ -8,11 +8,17 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
+using System.Data.OleDb;
+
 namespace CSCoursework_Smiley
 {
     public partial class StaffControlNotes : UserControl
     {
+        // Variables
+        OleDbConnection con = new OleDbConnection();
         string generalNotes = "temp";
+
+        public StaffControl parentForm { get; set; }
 
         public void RefreshMonthCalendar()
         {
@@ -77,7 +83,10 @@ namespace CSCoursework_Smiley
 
         private void btnSaveGeneralNotes_Click(object sender, EventArgs e)
         {
-
+            // Use parentForm reference given by StaffControl each time this form is brought to front
+            parentForm.UpdateGeneralNotes(rTxtGeneralNotes.Text);
         }
+
     }
 }
+
