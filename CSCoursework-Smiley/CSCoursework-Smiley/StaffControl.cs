@@ -148,6 +148,7 @@ namespace CSCoursework_Smiley
         {
             UpdateGeneralNotesDetails(primaryKey);
             UpdateAbsenceTupleList(primaryKey);
+            staffControlNotes1.RefreshMonthCalendar();
         }
 
         private void UpdateAbsenceTupleList(int primaryKey)
@@ -157,30 +158,35 @@ namespace CSCoursework_Smiley
 
             //Initialize variables
             DataSet AbsenceInfoDS;
-            DataSet RotaInfoDS;
             OleDbDataAdapter da;
             string sql;
 
-            //Get staff members
-            sql = $"SELECT * FROM tblRota WHERE staff_id={primaryKey}";
+            //Join tblRota and tblAbsence on rota_id where staff_id is the selected user
+            sql = $"SELECT tblAbsence.absence_date, tblAbsence.absence_notes FROM tblAbsence INNER JOIN tblRota ON tblAbsence.rota_id=tblRota.rota_id WHERE tblRota.staff_id={primaryKey}";
             da = new OleDbDataAdapter(sql, con);
-            RotaInfoDS = new DataSet();
-            da.Fill(RotaInfoDS, "RotaInfo");
+            AbsenceInfoDS = new DataSet();
+            da.Fill(AbsenceInfoDS, "AbsenceInfo");
 
             //Close database connection
             con.Close();
 
-            DataTable StaffInfoTable = AbsenceInfoDS.Tables["StaffInfo"];
+            DataTable AbsenceInfoTable = AbsenceInfoDS.Tables["AbsenceInfo"];
 
             DataColumn[] keyColumns = new DataColumn[1];
-            keyColumns[0] = StaffInfoTable.Columns["staff_id"];
-            StaffInfoTable.PrimaryKey = keyColumns;
+            keyColumns[0] = AbsenceInfoTable.Columns["rota_id"];
+            AbsenceInfoTable.PrimaryKey = keyColumns;
 
-            DataRow row = AbsenceInfoDS.Tables["StaffInfo"].Rows.Find(primaryKey);
-            staffControlDetails1.Staff_details = row;
+            List<Tuple<DateTime, string>> absenceTupleList = new List<Tuple<DateTime, string>>();
 
+            for (int row = 0; row < AbsenceInfoTable.Rows.Count; row++)
+            {
+                DateTime rowDate = AbsenceInfoTable.Rows[row].Field<DateTime>("absence_date");
+                string rowString = AbsenceInfoTable.Rows[row].Field<string>("absence_notes");
+                Tuple<DateTime, string> rowTuple = new Tuple<DateTime, string>(rowDate, rowString);
+                absenceTupleList.Add(rowTuple);
+            }
 
-            staffControlNotes1.AbsenceTupleList =
+            staffControlNotes1.AbsenceTupleList = absenceTupleList;
         }
 
         private void UpdateGeneralNotesDetails(int primaryKey)

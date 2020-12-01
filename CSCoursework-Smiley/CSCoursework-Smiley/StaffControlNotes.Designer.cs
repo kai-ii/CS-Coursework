@@ -58,6 +58,7 @@
             this.btnSaveGeneralNotes.TabIndex = 1;
             this.btnSaveGeneralNotes.Text = "Save";
             this.btnSaveGeneralNotes.UseVisualStyleBackColor = true;
+            this.btnSaveGeneralNotes.Click += new System.EventHandler(this.btnSaveGeneralNotes_Click);
             // 
             // rTxtGeneralNotes
             // 

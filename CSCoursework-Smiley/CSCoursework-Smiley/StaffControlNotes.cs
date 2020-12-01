@@ -13,6 +13,12 @@ namespace CSCoursework_Smiley
     public partial class StaffControlNotes : UserControl
     {
         string generalNotes = "temp";
+
+        public void RefreshMonthCalendar()
+        {
+            monthCalendar1.SelectionStart = DateTime.Today;
+            monthCalendar1.SelectionEnd = DateTime.Today;
+        }
         public string GeneralNotes 
         {
             get { return generalNotes; }
@@ -39,6 +45,7 @@ namespace CSCoursework_Smiley
             {
                 monthCalendar1.AddBoldedDate(absencePair.Item1);
             }
+            monthCalendar1.UpdateBoldedDates();
         }
         public StaffControlNotes()
         {
@@ -53,13 +60,24 @@ namespace CSCoursework_Smiley
         private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
         {
             DateTime currentlySelecetedDate = monthCalendar1.SelectionStart;
+
             foreach (Tuple<DateTime, string>absencePair in absenceTupleList)
             {
                 if (absencePair.Item1 == currentlySelecetedDate)
                 {
                     rTxtAbsentNotes.Text = absencePair.Item2;
+                    break;
+                }
+                else
+                {
+                    rTxtAbsentNotes.Text = "";
                 }
             }
+        }
+
+        private void btnSaveGeneralNotes_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
