@@ -26,6 +26,7 @@ namespace CSCoursework_Smiley
             InitializeSearchTextbox();
             InitializeDatabaseConnection();
             InitializeStaffMembers();
+            lstBoxDummy.Visible = false;
             rBtnDetails.Checked = true;
         }
 
@@ -54,6 +55,7 @@ namespace CSCoursework_Smiley
             {
                 txtSearch.Text = "search";
                 txtSearch.ForeColor = SystemColors.GrayText;
+                lstBoxDummy.Visible = false;
             }
         }
         private void InitializeDatabaseConnection()
@@ -243,6 +245,11 @@ namespace CSCoursework_Smiley
 
         private void lstBoxEmployees_SelectedIndexChanged(object sender, EventArgs e)
         {
+            lstBoxEmployeeUpdate();
+        }
+
+        private void lstBoxEmployeeUpdate()
+        {
             int index = lstBoxEmployees.SelectedIndex + 1;
 
             if (primaryKeySelected != index)
@@ -259,12 +266,31 @@ namespace CSCoursework_Smiley
                 else if (rBtnNotes.Checked)
                 {
                     UpdateNoteDetails(primaryKeySelected);
-                }                                
+                }
             }
         }
         private void txtSearch_TextChanged(object sender, EventArgs e)
         {
-            //searching
+            if (txtSearch.Text.Length == 0)
+            {
+                lstBoxDummy.Visible = false;
+            }
+            else
+            {
+                string searchString = txtSearch.Text;
+                lstBoxDummy.Items.Clear();
+                foreach (string employee in lstBoxEmployees.Items)
+                {
+                    lstBoxDummy.Visible = true;
+                    if (employee.ToLower().Contains(searchString))
+                    {
+                        if (!lstBoxDummy.Items.Contains(employee))
+                        {
+                            lstBoxDummy.Items.Add(employee);
+                        }
+                    }
+                }
+            }
         }
 
         private void rBtnGraphs_CheckedChanged(object sender, EventArgs e)
@@ -356,6 +382,18 @@ namespace CSCoursework_Smiley
         public void ShowMessage(string message)
         {
             MessageBox.Show(message);
+        }
+
+        private void lstBoxDummy_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            for (int employee = 0; employee<lstBoxEmployees.Items.Count; employee++)
+            {
+                if (lstBoxDummy.SelectedItem.ToString() == lstBoxEmployees.Items[employee].ToString())
+                {
+                    lstBoxEmployees.SelectedIndex = employee;
+                    lstBoxEmployeeUpdate();
+                }
+            }
         }
     }
 }

@@ -41,7 +41,8 @@ namespace CSCoursework_Smiley
             set
             {
                 absenceTupleList = value;
-                UpdateMonthCalendar();            }
+                UpdateMonthCalendar();
+            }
         }
 
         private void UpdateMonthCalendar()

@@ -30,6 +30,7 @@
         {
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.pnlStaffScroll = new System.Windows.Forms.Panel();
+            this.lstBoxDummy = new System.Windows.Forms.ListBox();
             this.lstBoxEmployees = new System.Windows.Forms.ListBox();
             this.panel1 = new System.Windows.Forms.Panel();
             this.staffControlNotes1 = new CSCoursework_Smiley.StaffControlNotes();
@@ -54,11 +55,24 @@
             // pnlStaffScroll
             // 
             this.pnlStaffScroll.AutoScroll = true;
+            this.pnlStaffScroll.Controls.Add(this.lstBoxDummy);
             this.pnlStaffScroll.Controls.Add(this.lstBoxEmployees);
             this.pnlStaffScroll.Location = new System.Drawing.Point(3, 45);
             this.pnlStaffScroll.Name = "pnlStaffScroll";
             this.pnlStaffScroll.Size = new System.Drawing.Size(245, 591);
             this.pnlStaffScroll.TabIndex = 2;
+            // 
+            // lstBoxDummy
+            // 
+            this.lstBoxDummy.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lstBoxDummy.FormattingEnabled = true;
+            this.lstBoxDummy.ItemHeight = 17;
+            this.lstBoxDummy.Location = new System.Drawing.Point(0, 0);
+            this.lstBoxDummy.Name = "lstBoxDummy";
+            this.lstBoxDummy.Size = new System.Drawing.Size(227, 599);
+            this.lstBoxDummy.TabIndex = 5;
+            this.lstBoxDummy.Visible = false;
+            this.lstBoxDummy.SelectedIndexChanged += new System.EventHandler(this.lstBoxDummy_SelectedIndexChanged);
             // 
             // lstBoxEmployees
             // 
@@ -83,9 +97,11 @@
             // 
             // staffControlNotes1
             // 
+            this.staffControlNotes1.AbsenceTupleList = null;
             this.staffControlNotes1.GeneralNotes = "temp";
             this.staffControlNotes1.Location = new System.Drawing.Point(0, 0);
             this.staffControlNotes1.Name = "staffControlNotes1";
+            this.staffControlNotes1.parentForm = null;
             this.staffControlNotes1.Size = new System.Drawing.Size(556, 585);
             this.staffControlNotes1.TabIndex = 2;
             this.staffControlNotes1.Load += new System.EventHandler(this.staffControlNotes1_Load);
@@ -175,5 +191,6 @@
         private System.Windows.Forms.RadioButton rBtnNotes;
         private StaffControlNotes staffControlNotes1;
         private StaffControlGraphs staffControlGraphs1;
+        private System.Windows.Forms.ListBox lstBoxDummy;
     }
 }
