@@ -154,6 +154,11 @@
     <Compile Include="StaffControlNotes.Designer.cs">
       <DependentUpon>StaffControlNotes.cs</DependentUpon>
     </Compile>
+    <Compile Include="TestDatabaseDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TestDatabaseDataSet.xsd</DependentUpon>
+    </Compile>
     <Compile Include="TimesheetControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -219,6 +224,17 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="TestDatabaseDataSet.xsc">
+      <DependentUpon>TestDatabaseDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="TestDatabaseDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>TestDatabaseDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="TestDatabaseDataSet.xss">
+      <DependentUpon>TestDatabaseDataSet.xsd</DependentUpon>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -246,6 +262,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SmileyLogo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="TestDatabase.accdb">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

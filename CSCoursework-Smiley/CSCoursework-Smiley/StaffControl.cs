@@ -198,8 +198,8 @@ namespace CSCoursework_Smiley
 
         private void UpdateGraphDetails(int primaryKey)
         {
-            UpdatePieChartDetails(primaryKey);
             UpdateLineChartDetails(primaryKey);
+            UpdatePieChartDetails(primaryKey);
         }
 
         private void UpdateLineChartDetails(int primaryKey)

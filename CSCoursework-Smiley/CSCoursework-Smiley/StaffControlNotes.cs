@@ -40,8 +40,11 @@ namespace CSCoursework_Smiley
             get { return absenceTupleList; }
             set
             {
-                absenceTupleList = value;
-                UpdateMonthCalendar();
+                if (value != null)
+                {
+                    absenceTupleList = value;
+                    UpdateMonthCalendar();
+                }
             }
         }
 

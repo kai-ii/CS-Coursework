@@ -34,6 +34,7 @@
             this.lblAddressCity = new System.Windows.Forms.Label();
             this.lblAddressStreet = new System.Windows.Forms.Label();
             this.grpEmployment = new System.Windows.Forms.GroupBox();
+            this.lblEmploymentSalariedHours = new System.Windows.Forms.Label();
             this.lblEmploymentContractType = new System.Windows.Forms.Label();
             this.lblEmploymentJobTitle = new System.Windows.Forms.Label();
             this.lblEmploymentStaffID = new System.Windows.Forms.Label();
@@ -49,7 +50,6 @@
             this.lblPaymentDetailsWorksNumber = new System.Windows.Forms.Label();
             this.lblPaymentDetailsTaxCode = new System.Windows.Forms.Label();
             this.lblPaymentDetailsNILetter = new System.Windows.Forms.Label();
-            this.lblEmploymentSalariedHours = new System.Windows.Forms.Label();
             this.grpAddress.SuspendLayout();
             this.grpEmployment.SuspendLayout();
             this.grpContactInfo.SuspendLayout();
@@ -120,6 +120,15 @@
             this.grpEmployment.TabIndex = 1;
             this.grpEmployment.TabStop = false;
             this.grpEmployment.Text = "Employment";
+            // 
+            // lblEmploymentSalariedHours
+            // 
+            this.lblEmploymentSalariedHours.AutoSize = true;
+            this.lblEmploymentSalariedHours.Location = new System.Drawing.Point(6, 82);
+            this.lblEmploymentSalariedHours.Name = "lblEmploymentSalariedHours";
+            this.lblEmploymentSalariedHours.Size = new System.Drawing.Size(109, 20);
+            this.lblEmploymentSalariedHours.TabIndex = 7;
+            this.lblEmploymentSalariedHours.Text = "salaried hours";
             // 
             // lblEmploymentContractType
             // 
@@ -267,15 +276,6 @@
             this.lblPaymentDetailsNILetter.Size = new System.Drawing.Size(67, 20);
             this.lblPaymentDetailsNILetter.TabIndex = 14;
             this.lblPaymentDetailsNILetter.Text = "NI letter";
-            // 
-            // lblEmploymentSalariedHours
-            // 
-            this.lblEmploymentSalariedHours.AutoSize = true;
-            this.lblEmploymentSalariedHours.Location = new System.Drawing.Point(6, 82);
-            this.lblEmploymentSalariedHours.Name = "lblEmploymentSalariedHours";
-            this.lblEmploymentSalariedHours.Size = new System.Drawing.Size(109, 20);
-            this.lblEmploymentSalariedHours.TabIndex = 7;
-            this.lblEmploymentSalariedHours.Text = "salaried hours";
             // 
             // StaffControlDetails
             // 
