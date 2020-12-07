@@ -10,13 +10,15 @@ using System.Windows.Forms;
 
 using System.Data.OleDb;
 
+
+
 namespace CSCoursework_Smiley
 {
     public partial class RotaControl : UserControl
     {
         //Initialise variables
         OleDbConnection con = new OleDbConnection();
-        DayOfWeek currentWeek = DateTime.Now.DayOfWeek;
+        DateTime currentWeek = DateTime.Now.StartOfWeek(DayOfWeek.Monday);
         public RotaControl()
         {
             InitializeComponent();
@@ -34,7 +36,6 @@ namespace CSCoursework_Smiley
 
         private void RotaControl_Load(object sender, EventArgs e)
         {
-            MessageBox.Show(Convert.ToString(currentWeek));
             InitializeDatabaseConnection();
             InitializeDataGridHeaderDate();
             GetRotaData();
@@ -42,7 +43,7 @@ namespace CSCoursework_Smiley
 
         private void InitializeDataGridHeaderDate()
         {
-            rotaHeaderDataGrid.Columns[0].HeaderText = Convert.ToString(currentWeek);
+            rotaHeaderDataGrid.Columns[0].HeaderText = currentWeek.ToString("d");
         }
         private void InitializeDatabaseConnection()
         {
@@ -99,8 +100,10 @@ namespace CSCoursework_Smiley
 
             foreach (DataRow row in RotaInfoTable.Rows)
             {
-                if (row.Field<DayOfWeek>("rota_week") == currentWeek)
+                MessageBox.Show($"{row.Field<DateTime>("rota_week").ToString("d")} == {currentWeek.ToString("d")}");
+                if (row.Field<DateTime>("rota_week").ToString("d") == currentWeek.ToString("d"))
                 {
+                    MessageBox.Show("Kai");
                     int day = row.Field<int>("day_id");
                     string staffMember = $"{row.Field<string>("staff_firstname")}. {row.Field<string>("staff_surname")[0]}";
                     DateTime rotaStartTime = row.Field<DateTime>("rota_start_time");
@@ -115,6 +118,15 @@ namespace CSCoursework_Smiley
                     
                 }
             }
+        }
+    }
+
+    public static class DateTimeExtension
+    {
+        public static DateTime StartOfWeek(this DateTime dt, DayOfWeek startOfWeek)
+        {
+            int diff = (7 + (dt.DayOfWeek - startOfWeek)) % 7;
+            return dt.AddDays(-1 * diff).Date;
         }
     }
 }
