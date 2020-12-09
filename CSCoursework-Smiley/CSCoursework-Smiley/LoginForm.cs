@@ -113,13 +113,14 @@ namespace CSCoursework_Smiley
             {
                 //Establish Connection with Database
                 dbProvider = "PROVIDER=Microsoft.ACE.OLEDB.12.0;";
-                DatabasePath = "/TestDatabase.accdb";
+                DatabasePath = "TestDatabase.accdb";
                 CurrentProjectPath = System.AppDomain.CurrentDomain.BaseDirectory; 
                 FullDatabasePath = CurrentProjectPath + DatabasePath;
                 dbSource = "Data Source =" + FullDatabasePath;
                 con.ConnectionString = dbProvider + dbSource;
                 con.Open();
                 Console.WriteLine("Connection established");
+                con.Close();
             }
             catch
             {

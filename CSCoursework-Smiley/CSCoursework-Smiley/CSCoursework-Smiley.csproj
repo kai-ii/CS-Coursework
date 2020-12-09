@@ -80,6 +80,12 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ClockSelectControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClockSelectControl.Designer.cs">
+      <DependentUpon>ClockSelectControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dashboard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -154,17 +160,15 @@
     <Compile Include="StaffControlNotes.Designer.cs">
       <DependentUpon>StaffControlNotes.cs</DependentUpon>
     </Compile>
-    <Compile Include="TestDatabaseDataSet.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TestDatabaseDataSet.xsd</DependentUpon>
-    </Compile>
     <Compile Include="TimesheetControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="TimesheetControl.Designer.cs">
       <DependentUpon>TimesheetControl.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="ClockSelectControl.resx">
+      <DependentUpon>ClockSelectControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Dashboard.resx">
       <DependentUpon>Dashboard.cs</DependentUpon>
     </EmbeddedResource>
@@ -224,17 +228,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <None Include="TestDatabaseDataSet.xsc">
-      <DependentUpon>TestDatabaseDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="TestDatabaseDataSet.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>TestDatabaseDataSet.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="TestDatabaseDataSet.xss">
-      <DependentUpon>TestDatabaseDataSet.xsd</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -262,11 +255,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\SmileyLogo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="TestDatabase.accdb">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

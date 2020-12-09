@@ -30,10 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.rotaHeaderDataGrid = new System.Windows.Forms.DataGridView();
-            this.testDatabaseDataSet = new CSCoursework_Smiley.TestDatabaseDataSet();
             this.testDatabaseDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tblRotaBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.tblRotaTableAdapter = new CSCoursework_Smiley.TestDatabaseDataSetTableAdapters.tblRotaTableAdapter();
             this.rotaDataGrid = new System.Windows.Forms.DataGridView();
             this.columnStaffMember = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MondayRotaIn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -63,7 +61,6 @@
             this.weekDayThrusday = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.weekdayFriday = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.rotaHeaderDataGrid)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.testDatabaseDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.testDatabaseDataSetBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.tblRotaBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rotaDataGrid)).BeginInit();
@@ -71,6 +68,8 @@
             // 
             // rotaHeaderDataGrid
             // 
+            this.rotaHeaderDataGrid.AllowUserToAddRows = false;
+            this.rotaHeaderDataGrid.AllowUserToDeleteRows = false;
             this.rotaHeaderDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.rotaHeaderDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Date,
@@ -81,27 +80,9 @@
             this.weekdayFriday});
             this.rotaHeaderDataGrid.Location = new System.Drawing.Point(3, 77);
             this.rotaHeaderDataGrid.Name = "rotaHeaderDataGrid";
+            this.rotaHeaderDataGrid.ReadOnly = true;
             this.rotaHeaderDataGrid.Size = new System.Drawing.Size(808, 23);
             this.rotaHeaderDataGrid.TabIndex = 0;
-            // 
-            // testDatabaseDataSet
-            // 
-            this.testDatabaseDataSet.DataSetName = "TestDatabaseDataSet";
-            this.testDatabaseDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // testDatabaseDataSetBindingSource
-            // 
-            this.testDatabaseDataSetBindingSource.DataSource = this.testDatabaseDataSet;
-            this.testDatabaseDataSetBindingSource.Position = 0;
-            // 
-            // tblRotaBindingSource
-            // 
-            this.tblRotaBindingSource.DataMember = "tblRota";
-            this.tblRotaBindingSource.DataSource = this.testDatabaseDataSetBindingSource;
-            // 
-            // tblRotaTableAdapter
-            // 
-            this.tblRotaTableAdapter.ClearBeforeFill = true;
             // 
             // rotaDataGrid
             // 
@@ -140,7 +121,7 @@
             this.columnStaffMember.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.columnStaffMember.HeaderText = "Staff Member";
             this.columnStaffMember.Name = "columnStaffMember";
-            this.columnStaffMember.Width = 128;
+            this.columnStaffMember.Width = 70;
             // 
             // MondayRotaIn
             // 
@@ -264,39 +245,52 @@
             // 
             // Date
             // 
-            this.Date.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.Date.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Date.FillWeight = 304.5685F;
             this.Date.HeaderText = "Date";
             this.Date.Name = "Date";
+            this.Date.ReadOnly = true;
+            this.Date.Width = 70;
             // 
             // weekdayMonday
             // 
             this.weekdayMonday.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.weekdayMonday.FillWeight = 59.08629F;
             this.weekdayMonday.HeaderText = "Monday";
             this.weekdayMonday.Name = "weekdayMonday";
+            this.weekdayMonday.ReadOnly = true;
             // 
             // weekdayTuesday
             // 
             this.weekdayTuesday.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.weekdayTuesday.FillWeight = 59.08629F;
             this.weekdayTuesday.HeaderText = "Tuesday";
             this.weekdayTuesday.Name = "weekdayTuesday";
+            this.weekdayTuesday.ReadOnly = true;
             // 
             // weekdayWednesday
             // 
             this.weekdayWednesday.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.weekdayWednesday.FillWeight = 59.08629F;
             this.weekdayWednesday.HeaderText = "Wednesday";
             this.weekdayWednesday.Name = "weekdayWednesday";
+            this.weekdayWednesday.ReadOnly = true;
             // 
             // weekDayThrusday
             // 
             this.weekDayThrusday.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.weekDayThrusday.FillWeight = 59.08629F;
             this.weekDayThrusday.HeaderText = "Thursday";
             this.weekDayThrusday.Name = "weekDayThrusday";
+            this.weekDayThrusday.ReadOnly = true;
             // 
             // weekdayFriday
             // 
             this.weekdayFriday.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.weekdayFriday.FillWeight = 59.08629F;
             this.weekdayFriday.HeaderText = "Friday";
             this.weekdayFriday.Name = "weekdayFriday";
+            this.weekdayFriday.ReadOnly = true;
             // 
             // RotaControl
             // 
@@ -308,7 +302,6 @@
             this.Size = new System.Drawing.Size(814, 636);
             this.Load += new System.EventHandler(this.RotaControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.rotaHeaderDataGrid)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.testDatabaseDataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.testDatabaseDataSetBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.tblRotaBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rotaDataGrid)).EndInit();
@@ -319,11 +312,15 @@
         #endregion
 
         private System.Windows.Forms.DataGridView rotaHeaderDataGrid;
-        private TestDatabaseDataSet testDatabaseDataSet;
         private System.Windows.Forms.BindingSource testDatabaseDataSetBindingSource;
         private System.Windows.Forms.BindingSource tblRotaBindingSource;
-        private TestDatabaseDataSetTableAdapters.tblRotaTableAdapter tblRotaTableAdapter;
         private System.Windows.Forms.DataGridView rotaDataGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Date;
+        private System.Windows.Forms.DataGridViewTextBoxColumn weekdayMonday;
+        private System.Windows.Forms.DataGridViewTextBoxColumn weekdayTuesday;
+        private System.Windows.Forms.DataGridViewTextBoxColumn weekdayWednesday;
+        private System.Windows.Forms.DataGridViewTextBoxColumn weekDayThrusday;
+        private System.Windows.Forms.DataGridViewTextBoxColumn weekdayFriday;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnStaffMember;
         private System.Windows.Forms.DataGridViewTextBoxColumn MondayRotaIn;
         private System.Windows.Forms.DataGridViewTextBoxColumn MondayRotaOut;
@@ -345,11 +342,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn FridayRotaOut;
         private System.Windows.Forms.DataGridViewTextBoxColumn FridayTimesheetIn;
         private System.Windows.Forms.DataGridViewTextBoxColumn FridayTimesheetOut;
-        private System.Windows.Forms.DataGridViewTextBoxColumn Date;
-        private System.Windows.Forms.DataGridViewTextBoxColumn weekdayMonday;
-        private System.Windows.Forms.DataGridViewTextBoxColumn weekdayTuesday;
-        private System.Windows.Forms.DataGridViewTextBoxColumn weekdayWednesday;
-        private System.Windows.Forms.DataGridViewTextBoxColumn weekDayThrusday;
-        private System.Windows.Forms.DataGridViewTextBoxColumn weekdayFriday;
     }
 }

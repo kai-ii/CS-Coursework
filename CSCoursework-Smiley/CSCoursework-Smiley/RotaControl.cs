@@ -19,6 +19,16 @@ namespace CSCoursework_Smiley
         //Initialise variables
         OleDbConnection con = new OleDbConnection();
         DateTime currentWeek = DateTime.Now.StartOfWeek(DayOfWeek.Monday);
+
+        private Color backgroundColour;
+        private Color highlightColour;
+
+        public void setBackgroundHighlightColours(Color receivedBackgroundColour, Color receivedHighlightColour)
+        {
+            backgroundColour = receivedBackgroundColour;
+            highlightColour = receivedHighlightColour;
+            UpdateDataGridViewColumnColours();
+        }
         public RotaControl()
         {
             InitializeComponent();
@@ -39,6 +49,17 @@ namespace CSCoursework_Smiley
             InitializeDatabaseConnection();
             InitializeDataGridHeaderDate();
             GetRotaData();
+        }
+        private void UpdateDataGridViewColumnColours()
+        {
+            int[] backgroundColumnsToFill = { 1, 2, 5, 6, 9, 10, 13, 14, 17, 18 };
+
+            foreach (int column in backgroundColumnsToFill)
+            {
+                rotaDataGrid.Columns[column].DefaultCellStyle.BackColor = backgroundColour;
+            }
+
+            rotaDataGrid.Columns[0].DefaultCellStyle.BackColor = highlightColour;
         }
 
         private void InitializeDataGridHeaderDate()
@@ -84,7 +105,7 @@ namespace CSCoursework_Smiley
             string sql;
 
             //Join tblRota and tblAbsence on rota_id where staff_id is the selected user
-            sql = $"SELECT tblRota.day_id, tblRota.rota_week, tblRota.rota_start_time, tblRota.rota_end_time, tblRota.branch_id FROM tblRota INNER JOIN tblStaff ON tblRota.staff_id=tblStaff.staff_id";
+            sql = $"SELECT tblRota.day_id, tblRota.rota_week, tblRota.rota_start_time, tblRota.rota_end_time, tblRota.branch_id, tblStaff.staff_firstname, tblStaff.staff_surname, tblStaff.staff_id FROM tblRota INNER JOIN tblStaff ON tblRota.staff_id=tblStaff.staff_id";
             da = new OleDbDataAdapter(sql, con);
             RotaInfoDS = new DataSet();
             da.Fill(RotaInfoDS, "RotaInfo");
@@ -98,35 +119,81 @@ namespace CSCoursework_Smiley
             keyColumns[0] = RotaInfoTable.Columns["rota_id"];
             RotaInfoTable.PrimaryKey = keyColumns;
 
-            foreach (DataRow row in RotaInfoTable.Rows)
+            foreach (DataColumn column in RotaInfoTable.Columns)
             {
-                MessageBox.Show($"{row.Field<DateTime>("rota_week").ToString("d")} == {currentWeek.ToString("d")}");
-                if (row.Field<DateTime>("rota_week").ToString("d") == currentWeek.ToString("d"))
-                {
-                    MessageBox.Show("Kai");
-                    int day = row.Field<int>("day_id");
-                    string staffMember = $"{row.Field<string>("staff_firstname")}. {row.Field<string>("staff_surname")[0]}";
-                    DateTime rotaStartTime = row.Field<DateTime>("rota_start_time");
-                    DateTime rotaEndTime = row.Field<DateTime>("rota_end_time");
-                    switch(day)
-                    {
-                        case 1:
-                            this.rotaDataGrid.Rows.Add(staffMember, rotaStartTime, rotaEndTime);
-                            break;
-                    }
-                    
-                    
-                }
+                //MessageBox.Show(column.ColumnName);
             }
+
+            for (int staffMemberCount = 1; staffMemberCount <= 2; staffMemberCount++)
+            {
+                string[] staffRotaRow = new string[11];
+                foreach (DataRow row in RotaInfoTable.Rows)
+                {
+                    if (row.Field<int>("staff_id") == staffMemberCount)
+                    {
+                        if (row.Field<DateTime>("rota_week").ToString("d") == currentWeek.ToString("d"))
+                        {
+                            int day = row.Field<int>("day_id");
+                            string staffMember = $"{row.Field<string>("staff_firstname")}. {row.Field<string>("staff_surname")[0]}";
+                            staffRotaRow[0] = staffMember;
+                            string rotaStartTime = row.Field<string>("rota_start_time");
+                            string rotaEndTime = row.Field<string>("rota_end_time");
+                            switch (day)
+                            {
+                                case 1:
+                                    staffRotaRow[1] = rotaStartTime;
+                                    staffRotaRow[2] = rotaEndTime;
+                                    break;
+                                case 2:
+                                    staffRotaRow[3] = rotaStartTime;
+                                    staffRotaRow[4] = rotaEndTime;
+                                    break;
+                                case 3:
+                                    staffRotaRow[5] = rotaStartTime;
+                                    staffRotaRow[6] = rotaEndTime;
+                                    break;
+                                case 4:
+                                    staffRotaRow[7] = rotaStartTime;
+                                    staffRotaRow[8] = rotaEndTime;
+                                    break;
+                                case 5:
+                                    staffRotaRow[9] = rotaStartTime;
+                                    staffRotaRow[10] = rotaEndTime;
+                                    break;
+                            }
+                        }
+                    }
+                }
+                this.rotaDataGrid.Rows.Add(staffRotaRow[0], staffRotaRow[1], staffRotaRow[2], "", "", staffRotaRow[3], staffRotaRow[4], "", "", staffRotaRow[5], staffRotaRow[6], "", "", staffRotaRow[7], staffRotaRow[8], "", "", staffRotaRow[9], staffRotaRow[10], "", "");
+            }
+
+            //foreach (DataRow row in RotaInfoTable.Rows)
+            //{
+            //    //MessageBox.Show($"{row.Field<DateTime>("rota_week").ToString("d")} == {currentWeek.ToString("d")}");
+            //    if (row.Field<DateTime>("rota_week").ToString("d") == currentWeek.ToString("d"))
+            //    {
+            //        int day = row.Field<int>("day_id");
+            //        string staffMember = $"{row.Field<string>("staff_firstname")}. {row.Field<string>("staff_surname")[0]}";
+            //        string rotaStartTime = row.Field<string>("rota_start_time");
+            //        string rotaEndTime = row.Field<string>("rota_end_time");
+            //        switch(day)
+            //        {
+            //            case 1:
+            //                this.rotaDataGrid.Rows.Add(staffMember, rotaStartTime, rotaEndTime);
+            //                break;
+
+            //        }
+            //    }
+            //}
         }
     }
 
-    public static class DateTimeExtension
-    {
-        public static DateTime StartOfWeek(this DateTime dt, DayOfWeek startOfWeek)
-        {
-            int diff = (7 + (dt.DayOfWeek - startOfWeek)) % 7;
-            return dt.AddDays(-1 * diff).Date;
-        }
-    }
+    //public static class DateTimeExtension
+    //{
+    //    public static DateTime StartOfWeek(this DateTime dt, DayOfWeek startOfWeek)
+    //    {
+    //        int diff = (7 + (dt.DayOfWeek - startOfWeek)) % 7;
+    //        return dt.AddDays(-1 * diff).Date;
+    //    }
+    //}
 }

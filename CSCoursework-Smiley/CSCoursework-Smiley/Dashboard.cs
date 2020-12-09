@@ -23,8 +23,8 @@ namespace CSCoursework_Smiley
         public static extern bool ReleaseCapture();
 
         //Defines background and highlight colours
-        System.Drawing.Color backgroundColour = System.Drawing.Color.FromArgb(245, 208, 226);
-        System.Drawing.Color highlightColour = System.Drawing.Color.FromArgb(221, 165, 182);
+        Color backgroundColour = Color.FromArgb(245, 208, 226);
+        Color highlightColour = Color.FromArgb(221, 165, 182);
 
         //Initialise variables
         string username;
@@ -42,6 +42,13 @@ namespace CSCoursework_Smiley
             btnDashboard.BackColor = highlightColour;
             dashboardControl1.Username = username;
             dashboardControl1.BringToFront();
+            PassBackgroundHighlightColours();
+        }
+
+        private void PassBackgroundHighlightColours()
+        {
+            timesheetControl1.setBackgroundHighlightColours(backgroundColour, highlightColour);
+            rotaControl1.setBackgroundHighlightColours(backgroundColour, highlightColour);
         }
         private void ResetButtonColours()
         {
