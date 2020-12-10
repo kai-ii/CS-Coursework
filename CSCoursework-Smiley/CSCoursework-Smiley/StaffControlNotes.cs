@@ -69,11 +69,11 @@ namespace CSCoursework_Smiley
 
         private void monthCalendar1_DateChanged(object sender, DateRangeEventArgs e)
         {
-            DateTime currentlySelecetedDate = monthCalendar1.SelectionStart;
+            DateTime currentlySelectedDate = monthCalendar1.SelectionStart;
 
             foreach (Tuple<DateTime, string>absencePair in absenceTupleList)
             {
-                if (absencePair.Item1 == currentlySelecetedDate)
+                if (absencePair.Item1 == currentlySelectedDate)
                 {
                     rTxtAbsentNotes.Text = absencePair.Item2;
                     break;

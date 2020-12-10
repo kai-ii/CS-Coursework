@@ -48,7 +48,14 @@ namespace CSCoursework_Smiley
         {
             InitializeDatabaseConnection();
             InitializeDataGridHeaderDate();
+            rotaDataGrid.AutoGenerateColumns = false;
             GetRotaData();
+            SetUpEventHandlers();
+        }
+
+        private void SetUpEventHandlers()
+        {
+            this.rotaDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.rotaDataGrid_CellContentClick);
         }
         private void UpdateDataGridViewColumnColours()
         {
@@ -124,6 +131,9 @@ namespace CSCoursework_Smiley
                 //MessageBox.Show(column.ColumnName);
             }
 
+            //Clear the rows
+            this.rotaDataGrid.Rows.Clear();
+
             for (int staffMemberCount = 1; staffMemberCount <= 2; staffMemberCount++)
             {
                 string[] staffRotaRow = new string[11];
@@ -166,34 +176,73 @@ namespace CSCoursework_Smiley
                 }
                 this.rotaDataGrid.Rows.Add(staffRotaRow[0], staffRotaRow[1], staffRotaRow[2], "", "", staffRotaRow[3], staffRotaRow[4], "", "", staffRotaRow[5], staffRotaRow[6], "", "", staffRotaRow[7], staffRotaRow[8], "", "", staffRotaRow[9], staffRotaRow[10], "", "");
             }
+        }
 
-            //foreach (DataRow row in RotaInfoTable.Rows)
-            //{
-            //    //MessageBox.Show($"{row.Field<DateTime>("rota_week").ToString("d")} == {currentWeek.ToString("d")}");
-            //    if (row.Field<DateTime>("rota_week").ToString("d") == currentWeek.ToString("d"))
-            //    {
-            //        int day = row.Field<int>("day_id");
-            //        string staffMember = $"{row.Field<string>("staff_firstname")}. {row.Field<string>("staff_surname")[0]}";
-            //        string rotaStartTime = row.Field<string>("rota_start_time");
-            //        string rotaEndTime = row.Field<string>("rota_end_time");
-            //        switch(day)
-            //        {
-            //            case 1:
-            //                this.rotaDataGrid.Rows.Add(staffMember, rotaStartTime, rotaEndTime);
-            //                break;
+        private void checkBoxClockInput_CheckedChanged(object sender, EventArgs e)
+        {
+            int[] columnsToChange = { 1, 2, 5, 6, 9, 10, 13, 14, 17, 18 };
+            if (checkBoxClockInput.Checked)
+            {
+                foreach (int column in columnsToChange)
+                {
+                    this.rotaDataGrid.Columns.RemoveAt(column);
+                    this.rotaDataGrid.Columns.Insert(column, new DataGridViewButtonColumn());
+                    this.rotaDataGrid.Columns[column].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                }
+                GetRotaData();
+            }
+            else
+            {
+                foreach (int column in columnsToChange)
+                {
+                    this.rotaDataGrid.Columns.RemoveAt(column);
+                    this.rotaDataGrid.Columns.Insert(column, new DataGridViewTextBoxColumn());
+                    this.rotaDataGrid.Columns[column].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                }
+                GetRotaData();
+            }
+            NameColumnHeaders();
+        }
 
-            //        }
-            //    }
-            //}
+        private void NameColumnHeaders()
+        {
+            rotaDataGrid.Columns[0].HeaderText = "Staff Name";
+            for (int column = 1; column<=20; column++)
+            {
+                if (column % 2 == 0)
+                {
+                    rotaDataGrid.Columns[column].HeaderText = "Out";
+                }
+                else
+                {
+                    rotaDataGrid.Columns[column].HeaderText = "In";
+                }
+            }
+        }
+        private void rotaDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            var senderGrid = (DataGridView)sender;
+
+            if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn &&
+                e.RowIndex >= 0)
+            {
+                Rectangle cellRectangle = rotaDataGrid.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
+                Point clockLocation = new Point(cellRectangle.Right, cellRectangle.Bottom);
+                Point btnLocation = new Point(cellRectangle.Right, cellRectangle.Bottom + 148);
+
+                if (clockHourSelectControl1.Location == clockLocation && clockHourSelectControl1.Visible == true)
+                {
+                    clockHourSelectControl1.Visible = false;
+                    btnSaveClockSelection.Visible = false;
+                }
+                else
+                {
+                    btnSaveClockSelection.Location = btnLocation;
+                    clockHourSelectControl1.Location = clockLocation;
+                    clockHourSelectControl1.Visible = true;
+                    btnSaveClockSelection.Visible = true;
+                }
+            }
         }
     }
-
-    //public static class DateTimeExtension
-    //{
-    //    public static DateTime StartOfWeek(this DateTime dt, DayOfWeek startOfWeek)
-    //    {
-    //        int diff = (7 + (dt.DayOfWeek - startOfWeek)) % 7;
-    //        return dt.AddDays(-1 * diff).Date;
-    //    }
-    //}
 }

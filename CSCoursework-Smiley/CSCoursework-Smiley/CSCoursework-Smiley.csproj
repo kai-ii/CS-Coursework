@@ -80,11 +80,17 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClockSelectControl.cs">
+    <Compile Include="ClockHourSelectControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="ClockSelectControl.Designer.cs">
-      <DependentUpon>ClockSelectControl.cs</DependentUpon>
+    <Compile Include="ClockHourSelectControl.Designer.cs">
+      <DependentUpon>ClockHourSelectControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ClockMinuteSelectControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="ClockMinuteSelectControl.Designer.cs">
+      <DependentUpon>ClockMinuteSelectControl.cs</DependentUpon>
     </Compile>
     <Compile Include="Dashboard.cs">
       <SubType>Form</SubType>
@@ -166,8 +172,11 @@
     <Compile Include="TimesheetControl.Designer.cs">
       <DependentUpon>TimesheetControl.cs</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="ClockSelectControl.resx">
-      <DependentUpon>ClockSelectControl.cs</DependentUpon>
+    <EmbeddedResource Include="ClockHourSelectControl.resx">
+      <DependentUpon>ClockHourSelectControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ClockMinuteSelectControl.resx">
+      <DependentUpon>ClockMinuteSelectControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dashboard.resx">
       <DependentUpon>Dashboard.cs</DependentUpon>

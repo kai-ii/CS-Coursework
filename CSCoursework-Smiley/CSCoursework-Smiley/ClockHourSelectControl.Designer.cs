@@ -1,6 +1,6 @@
 ﻿namespace CSCoursework_Smiley
 {
-    partial class ClockSelectControl
+    partial class ClockHourSelectControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -54,6 +54,7 @@
             this.lbl11 = new System.Windows.Forms.Label();
             this.checkBoxPM = new System.Windows.Forms.CheckBox();
             this.lblPM = new System.Windows.Forms.Label();
+            this.lblHour = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // rBtn12
@@ -65,6 +66,7 @@
             this.rBtn12.TabIndex = 0;
             this.rBtn12.TabStop = true;
             this.rBtn12.UseVisualStyleBackColor = true;
+            this.rBtn12.CheckedChanged += new System.EventHandler(this.rBtn12_CheckedChanged);
             // 
             // rBtn01
             // 
@@ -302,10 +304,21 @@
             this.lblPM.TabIndex = 25;
             this.lblPM.Text = "pm";
             // 
-            // ClockSelectControl
+            // lblHour
+            // 
+            this.lblHour.AutoSize = true;
+            this.lblHour.Location = new System.Drawing.Point(61, 68);
+            this.lblHour.Name = "lblHour";
+            this.lblHour.Size = new System.Drawing.Size(30, 13);
+            this.lblHour.TabIndex = 26;
+            this.lblHour.Text = "Hour";
+            // 
+            // ClockHourSelectControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.lblHour);
             this.Controls.Add(this.lblPM);
             this.Controls.Add(this.checkBoxPM);
             this.Controls.Add(this.lbl11);
@@ -332,7 +345,8 @@
             this.Controls.Add(this.rBtn03);
             this.Controls.Add(this.rBtn01);
             this.Controls.Add(this.rBtn12);
-            this.Name = "ClockSelectControl";
+            this.Name = "ClockHourSelectControl";
+            this.Size = new System.Drawing.Size(150, 147);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -366,5 +380,6 @@
         private System.Windows.Forms.Label lbl11;
         private System.Windows.Forms.CheckBox checkBoxPM;
         private System.Windows.Forms.Label lblPM;
+        private System.Windows.Forms.Label lblHour;
     }
 }
