@@ -33,6 +33,11 @@ namespace CSCoursework_Smiley
             highlightColour = receivedHighlightColour;
             UpdateDataGridViewColumnColours();
         }
+
+        private void UpdateWeekLabel()
+        {
+            lblCurrentWeek.Text = $"Current Week - {currentWeek.ToString("D")}";
+        }
         public RotaControl()
         {
             InitializeComponent();
@@ -55,6 +60,7 @@ namespace CSCoursework_Smiley
             rotaDataGrid.AutoGenerateColumns = false;
             GetRotaData();
             SetUpEventHandlers();
+            UpdateWeekLabel();
         }
 
         private void SetUpEventHandlers()
@@ -187,8 +193,6 @@ namespace CSCoursework_Smiley
             int[] columnsToChange = { 1, 2, 5, 6, 9, 10, 13, 14, 17, 18 };
             if (checkBoxClockInput.Checked)
             {
-                this.rotaDataGrid.DefaultCellStyle.Font = new Font("CenturyGothic", 6.75);
-                this.rotaDataGrid.DefaultCellStyle.Font = new Font("Tahoma", 15);
                 foreach (int column in columnsToChange)
                 {
                     this.rotaDataGrid.Columns.RemoveAt(column);
@@ -208,6 +212,7 @@ namespace CSCoursework_Smiley
                 GetRotaData();
             }
             NameColumnHeaders();
+            UpdateDataGridViewColumnColours();
         }
 
         private void NameColumnHeaders()
@@ -280,6 +285,25 @@ namespace CSCoursework_Smiley
         private void UpdateClockCell()
         {
             rotaDataGrid.Rows[cellLocation.Item1].Cells[cellLocation.Item2].Value = $"{clockHourChoice}:{clockMinuteChoice}";
+        }
+
+        private void btnPrevWeek_Click(object sender, EventArgs e)
+        {
+            currentWeek = currentWeek.AddDays(-7);
+            GetRotaData();
+            UpdateWeekLabel();
+        }
+
+        private void btnNextWeek_Click(object sender, EventArgs e)
+        {
+            currentWeek = currentWeek.AddDays(7);
+            GetRotaData();
+            UpdateWeekLabel();
+        }
+
+        private void btnSaveRota_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
