@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.rotaHeaderDataGrid = new System.Windows.Forms.DataGridView();
             this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.weekdayMonday = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -39,7 +41,6 @@
             this.testDatabaseDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.tblRotaBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.rotaDataGrid = new System.Windows.Forms.DataGridView();
-            this.checkBoxClockInput = new System.Windows.Forms.CheckBox();
             this.columnStaffMember = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MondayRotaIn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MondayRotaOut = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -61,7 +62,9 @@
             this.FridayRotaOut = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FridayTimesheetIn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FridayTimesheetOut = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.checkBoxClockInput = new System.Windows.Forms.CheckBox();
             this.btnSaveClockSelection = new System.Windows.Forms.Button();
+            this.clockMinuteSelectControl1 = new CSCoursework_Smiley.ClockMinuteSelectControl();
             this.clockHourSelectControl1 = new CSCoursework_Smiley.ClockHourSelectControl();
             ((System.ComponentModel.ISupportInitialize)(this.rotaHeaderDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.testDatabaseDataSetBindingSource)).BeginInit();
@@ -81,6 +84,14 @@
             this.weekdayWednesday,
             this.weekDayThrusday,
             this.weekdayFriday});
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.rotaHeaderDataGrid.DefaultCellStyle = dataGridViewCellStyle1;
             this.rotaHeaderDataGrid.Location = new System.Drawing.Point(3, 77);
             this.rotaHeaderDataGrid.Name = "rotaHeaderDataGrid";
             this.rotaHeaderDataGrid.ReadOnly = true;
@@ -163,21 +174,18 @@
             this.FridayRotaOut,
             this.FridayTimesheetIn,
             this.FridayTimesheetOut});
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Century Gothic", 7F);
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.rotaDataGrid.DefaultCellStyle = dataGridViewCellStyle2;
             this.rotaDataGrid.Location = new System.Drawing.Point(3, 98);
             this.rotaDataGrid.Name = "rotaDataGrid";
             this.rotaDataGrid.Size = new System.Drawing.Size(808, 378);
             this.rotaDataGrid.TabIndex = 1;
-            // 
-            // checkBoxClockInput
-            // 
-            this.checkBoxClockInput.AutoSize = true;
-            this.checkBoxClockInput.Location = new System.Drawing.Point(4, 54);
-            this.checkBoxClockInput.Name = "checkBoxClockInput";
-            this.checkBoxClockInput.Size = new System.Drawing.Size(80, 17);
-            this.checkBoxClockInput.TabIndex = 2;
-            this.checkBoxClockInput.Text = "Clock Input";
-            this.checkBoxClockInput.UseVisualStyleBackColor = true;
-            this.checkBoxClockInput.CheckedChanged += new System.EventHandler(this.checkBoxClockInput_CheckedChanged);
             // 
             // columnStaffMember
             // 
@@ -308,6 +316,17 @@
             this.FridayTimesheetOut.HeaderText = "Out";
             this.FridayTimesheetOut.Name = "FridayTimesheetOut";
             // 
+            // checkBoxClockInput
+            // 
+            this.checkBoxClockInput.AutoSize = true;
+            this.checkBoxClockInput.Location = new System.Drawing.Point(4, 54);
+            this.checkBoxClockInput.Name = "checkBoxClockInput";
+            this.checkBoxClockInput.Size = new System.Drawing.Size(80, 17);
+            this.checkBoxClockInput.TabIndex = 2;
+            this.checkBoxClockInput.Text = "Clock Input";
+            this.checkBoxClockInput.UseVisualStyleBackColor = true;
+            this.checkBoxClockInput.CheckedChanged += new System.EventHandler(this.checkBoxClockInput_CheckedChanged);
+            // 
             // btnSaveClockSelection
             // 
             this.btnSaveClockSelection.BackColor = System.Drawing.SystemColors.Control;
@@ -318,6 +337,16 @@
             this.btnSaveClockSelection.Text = "Save";
             this.btnSaveClockSelection.UseVisualStyleBackColor = false;
             this.btnSaveClockSelection.Visible = false;
+            this.btnSaveClockSelection.Click += new System.EventHandler(this.btnSaveClockSelection_Click);
+            // 
+            // clockMinuteSelectControl1
+            // 
+            this.clockMinuteSelectControl1.BackColor = System.Drawing.Color.White;
+            this.clockMinuteSelectControl1.Location = new System.Drawing.Point(330, 220);
+            this.clockMinuteSelectControl1.Name = "clockMinuteSelectControl1";
+            this.clockMinuteSelectControl1.Size = new System.Drawing.Size(150, 148);
+            this.clockMinuteSelectControl1.TabIndex = 5;
+            this.clockMinuteSelectControl1.Visible = false;
             // 
             // clockHourSelectControl1
             // 
@@ -332,6 +361,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.clockMinuteSelectControl1);
             this.Controls.Add(this.btnSaveClockSelection);
             this.Controls.Add(this.clockHourSelectControl1);
             this.Controls.Add(this.checkBoxClockInput);
@@ -385,5 +415,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn FridayTimesheetIn;
         private System.Windows.Forms.DataGridViewTextBoxColumn FridayTimesheetOut;
         private System.Windows.Forms.Button btnSaveClockSelection;
+        private ClockMinuteSelectControl clockMinuteSelectControl1;
     }
 }

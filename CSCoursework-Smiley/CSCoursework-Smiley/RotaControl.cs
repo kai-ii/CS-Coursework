@@ -19,6 +19,10 @@ namespace CSCoursework_Smiley
         //Initialise variables
         OleDbConnection con = new OleDbConnection();
         DateTime currentWeek = DateTime.Now.StartOfWeek(DayOfWeek.Monday);
+        int timeSaveSection = 0;
+        string clockHourChoice;
+        string clockMinuteChoice;
+        Tuple<int, int> cellLocation;
 
         private Color backgroundColour;
         private Color highlightColour;
@@ -183,6 +187,8 @@ namespace CSCoursework_Smiley
             int[] columnsToChange = { 1, 2, 5, 6, 9, 10, 13, 14, 17, 18 };
             if (checkBoxClockInput.Checked)
             {
+                this.rotaDataGrid.DefaultCellStyle.Font = new Font("CenturyGothic", 6.75);
+                this.rotaDataGrid.DefaultCellStyle.Font = new Font("Tahoma", 15);
                 foreach (int column in columnsToChange)
                 {
                     this.rotaDataGrid.Columns.RemoveAt(column);
@@ -222,10 +228,12 @@ namespace CSCoursework_Smiley
         private void rotaDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             var senderGrid = (DataGridView)sender;
+            timeSaveSection = 0;
 
             if (senderGrid.Columns[e.ColumnIndex] is DataGridViewButtonColumn &&
                 e.RowIndex >= 0)
             {
+                cellLocation = new Tuple<int, int>(e.RowIndex, e.ColumnIndex);
                 Rectangle cellRectangle = rotaDataGrid.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
                 Point clockLocation = new Point(cellRectangle.Right, cellRectangle.Bottom);
                 Point btnLocation = new Point(cellRectangle.Right, cellRectangle.Bottom + 148);
@@ -233,16 +241,45 @@ namespace CSCoursework_Smiley
                 if (clockHourSelectControl1.Location == clockLocation && clockHourSelectControl1.Visible == true)
                 {
                     clockHourSelectControl1.Visible = false;
+                    clockMinuteSelectControl1.Visible = false;
                     btnSaveClockSelection.Visible = false;
                 }
                 else
                 {
                     btnSaveClockSelection.Location = btnLocation;
                     clockHourSelectControl1.Location = clockLocation;
-                    clockHourSelectControl1.Visible = true;
+                    clockMinuteSelectControl1.Location = clockLocation;
                     btnSaveClockSelection.Visible = true;
+                    clockHourSelectControl1.Visible = true;
+                    clockMinuteSelectControl1.Location = clockLocation;
                 }
             }
+        }
+
+        private void btnSaveClockSelection_Click(object sender, EventArgs e)
+        {
+            if (timeSaveSection == 0)
+            {
+                clockHourSelectControl1.checkButtons();
+                clockHourChoice = clockHourSelectControl1.clockHoursSelected;
+                clockHourSelectControl1.Visible = false;
+                clockMinuteSelectControl1.Visible = true;
+                timeSaveSection = 1;
+            }
+            else if (timeSaveSection == 1)
+            {
+                clockMinuteChoice = clockMinuteSelectControl1.clockMinuteSelected;
+                clockHourSelectControl1.Visible = false;
+                clockMinuteSelectControl1.Visible = false;
+                btnSaveClockSelection.Visible = false;
+                timeSaveSection = 0;
+                UpdateClockCell();
+            }
+        }
+
+        private void UpdateClockCell()
+        {
+            rotaDataGrid.Rows[cellLocation.Item1].Cells[cellLocation.Item2].Value = $"{clockHourChoice}:{clockMinuteChoice}";
         }
     }
 }

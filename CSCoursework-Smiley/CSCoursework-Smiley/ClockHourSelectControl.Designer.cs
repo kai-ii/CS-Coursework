@@ -66,7 +66,6 @@
             this.rBtn12.TabIndex = 0;
             this.rBtn12.TabStop = true;
             this.rBtn12.UseVisualStyleBackColor = true;
-            this.rBtn12.CheckedChanged += new System.EventHandler(this.rBtn12_CheckedChanged);
             // 
             // rBtn01
             // 
@@ -294,6 +293,7 @@
             this.checkBoxPM.Size = new System.Drawing.Size(15, 14);
             this.checkBoxPM.TabIndex = 24;
             this.checkBoxPM.UseVisualStyleBackColor = true;
+            this.checkBoxPM.CheckedChanged += new System.EventHandler(this.checkBoxPM_CheckedChanged);
             // 
             // lblPM
             // 
@@ -347,6 +347,7 @@
             this.Controls.Add(this.rBtn12);
             this.Name = "ClockHourSelectControl";
             this.Size = new System.Drawing.Size(150, 147);
+            this.Load += new System.EventHandler(this.ClockHourSelectControl_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 

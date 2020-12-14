@@ -173,6 +173,7 @@ namespace CSCoursework_Smiley
             this.rBtn35.TabIndex = 37;
             this.rBtn35.TabStop = true;
             this.rBtn35.UseVisualStyleBackColor = true;
+            this.rBtn35.CheckedChanged += new System.EventHandler(this.rBtn35_CheckedChanged);
             // 
             // rBtn40
             // 
@@ -183,6 +184,7 @@ namespace CSCoursework_Smiley
             this.rBtn40.TabIndex = 36;
             this.rBtn40.TabStop = true;
             this.rBtn40.UseVisualStyleBackColor = true;
+            this.rBtn40.CheckedChanged += new System.EventHandler(this.rBtn40_CheckedChanged);
             // 
             // rBtn50
             // 
@@ -193,6 +195,7 @@ namespace CSCoursework_Smiley
             this.rBtn50.TabIndex = 35;
             this.rBtn50.TabStop = true;
             this.rBtn50.UseVisualStyleBackColor = true;
+            this.rBtn50.CheckedChanged += new System.EventHandler(this.rBtn50_CheckedChanged);
             // 
             // rBtn55
             // 
@@ -203,6 +206,7 @@ namespace CSCoursework_Smiley
             this.rBtn55.TabIndex = 34;
             this.rBtn55.TabStop = true;
             this.rBtn55.UseVisualStyleBackColor = true;
+            this.rBtn55.CheckedChanged += new System.EventHandler(this.rBtn55_CheckedChanged);
             // 
             // rBtn20
             // 
@@ -213,6 +217,7 @@ namespace CSCoursework_Smiley
             this.rBtn20.TabIndex = 33;
             this.rBtn20.TabStop = true;
             this.rBtn20.UseVisualStyleBackColor = true;
+            this.rBtn20.CheckedChanged += new System.EventHandler(this.rBtn20_CheckedChanged);
             // 
             // rBtn25
             // 
@@ -223,6 +228,7 @@ namespace CSCoursework_Smiley
             this.rBtn25.TabIndex = 32;
             this.rBtn25.TabStop = true;
             this.rBtn25.UseVisualStyleBackColor = true;
+            this.rBtn25.CheckedChanged += new System.EventHandler(this.rBtn25_CheckedChanged);
             // 
             // rBtn45
             // 
@@ -233,6 +239,7 @@ namespace CSCoursework_Smiley
             this.rBtn45.TabIndex = 31;
             this.rBtn45.TabStop = true;
             this.rBtn45.UseVisualStyleBackColor = true;
+            this.rBtn45.CheckedChanged += new System.EventHandler(this.rBtn45_CheckedChanged);
             // 
             // rBtn30
             // 
@@ -243,6 +250,7 @@ namespace CSCoursework_Smiley
             this.rBtn30.TabIndex = 30;
             this.rBtn30.TabStop = true;
             this.rBtn30.UseVisualStyleBackColor = true;
+            this.rBtn30.CheckedChanged += new System.EventHandler(this.rBtn30_CheckedChanged);
             // 
             // rBtn10
             // 
@@ -253,6 +261,7 @@ namespace CSCoursework_Smiley
             this.rBtn10.TabIndex = 29;
             this.rBtn10.TabStop = true;
             this.rBtn10.UseVisualStyleBackColor = true;
+            this.rBtn10.CheckedChanged += new System.EventHandler(this.rBtn10_CheckedChanged);
             // 
             // rBtn15
             // 
@@ -263,6 +272,7 @@ namespace CSCoursework_Smiley
             this.rBtn15.TabIndex = 28;
             this.rBtn15.TabStop = true;
             this.rBtn15.UseVisualStyleBackColor = true;
+            this.rBtn15.CheckedChanged += new System.EventHandler(this.rBtn15_CheckedChanged);
             // 
             // rBtn05
             // 
@@ -273,6 +283,7 @@ namespace CSCoursework_Smiley
             this.rBtn05.TabIndex = 27;
             this.rBtn05.TabStop = true;
             this.rBtn05.UseVisualStyleBackColor = true;
+            this.rBtn05.CheckedChanged += new System.EventHandler(this.rBtn05_CheckedChanged);
             // 
             // rBtn00
             // 

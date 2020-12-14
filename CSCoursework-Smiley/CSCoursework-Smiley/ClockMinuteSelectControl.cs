@@ -101,5 +101,10 @@ namespace CSCoursework_Smiley
                 clockMinuteSelected = "55";
             }
         }
+
+        private void rBtn05_CheckedChaged_1(object sender, EventArgs e)
+        {
+
+        }
     }
 }
