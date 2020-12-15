@@ -28,9 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle7 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle8 = new System.Windows.Forms.DataGridViewCellStyle();
             this.rotaHeaderDataGrid = new System.Windows.Forms.DataGridView();
             this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.weekdayMonday = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -38,8 +37,6 @@
             this.weekdayWednesday = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.weekDayThrusday = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.weekdayFriday = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.testDatabaseDataSetBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.tblRotaBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.rotaDataGrid = new System.Windows.Forms.DataGridView();
             this.columnStaffMember = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MondayRotaIn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -67,13 +64,12 @@
             this.lblCurrentWeek = new System.Windows.Forms.Label();
             this.btnPrevWeek = new System.Windows.Forms.Button();
             this.btnNextWeek = new System.Windows.Forms.Button();
-            this.clockMinuteSelectControl1 = new CSCoursework_Smiley.ClockMinuteSelectControl();
-            this.clockHourSelectControl1 = new CSCoursework_Smiley.ClockHourSelectControl();
             this.btnPrintRota = new System.Windows.Forms.Button();
             this.btnSaveRota = new System.Windows.Forms.Button();
+            this.clockMinuteSelectControl1 = new CSCoursework_Smiley.ClockMinuteSelectControl();
+            this.clockHourSelectControl1 = new CSCoursework_Smiley.ClockHourSelectControl();
+            this.btnClearRota = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.rotaHeaderDataGrid)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.testDatabaseDataSetBindingSource)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tblRotaBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rotaDataGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -89,14 +85,14 @@
             this.weekdayWednesday,
             this.weekDayThrusday,
             this.weekdayFriday});
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle5.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle5.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle5.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.rotaHeaderDataGrid.DefaultCellStyle = dataGridViewCellStyle5;
+            dataGridViewCellStyle7.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle7.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle7.Font = new System.Drawing.Font("Century Gothic", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle7.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle7.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle7.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle7.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.rotaHeaderDataGrid.DefaultCellStyle = dataGridViewCellStyle7;
             this.rotaHeaderDataGrid.Location = new System.Drawing.Point(3, 77);
             this.rotaHeaderDataGrid.Name = "rotaHeaderDataGrid";
             this.rotaHeaderDataGrid.ReadOnly = true;
@@ -179,17 +175,17 @@
             this.FridayRotaOut,
             this.FridayTimesheetIn,
             this.FridayTimesheetOut});
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Century Gothic", 7F);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.rotaDataGrid.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle8.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle8.Font = new System.Drawing.Font("Century Gothic", 7F);
+            dataGridViewCellStyle8.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle8.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle8.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle8.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.rotaDataGrid.DefaultCellStyle = dataGridViewCellStyle8;
             this.rotaDataGrid.Location = new System.Drawing.Point(3, 98);
             this.rotaDataGrid.Name = "rotaDataGrid";
-            this.rotaDataGrid.Size = new System.Drawing.Size(808, 378);
+            this.rotaDataGrid.Size = new System.Drawing.Size(808, 382);
             this.rotaDataGrid.TabIndex = 1;
             // 
             // columnStaffMember
@@ -335,6 +331,7 @@
             // btnSaveClockSelection
             // 
             this.btnSaveClockSelection.BackColor = System.Drawing.SystemColors.Control;
+            this.btnSaveClockSelection.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.btnSaveClockSelection.Location = new System.Drawing.Point(138, 367);
             this.btnSaveClockSelection.Name = "btnSaveClockSelection";
             this.btnSaveClockSelection.Size = new System.Drawing.Size(150, 23);
@@ -373,6 +370,28 @@
             this.btnNextWeek.UseVisualStyleBackColor = true;
             this.btnNextWeek.Click += new System.EventHandler(this.btnNextWeek_Click);
             // 
+            // btnPrintRota
+            // 
+            this.btnPrintRota.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPrintRota.Location = new System.Drawing.Point(669, 537);
+            this.btnPrintRota.Name = "btnPrintRota";
+            this.btnPrintRota.Size = new System.Drawing.Size(142, 45);
+            this.btnPrintRota.TabIndex = 9;
+            this.btnPrintRota.Text = "Print Rota";
+            this.btnPrintRota.UseVisualStyleBackColor = true;
+            this.btnPrintRota.Click += new System.EventHandler(this.btnPrintRota_Click);
+            // 
+            // btnSaveRota
+            // 
+            this.btnSaveRota.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSaveRota.Location = new System.Drawing.Point(669, 588);
+            this.btnSaveRota.Name = "btnSaveRota";
+            this.btnSaveRota.Size = new System.Drawing.Size(142, 45);
+            this.btnSaveRota.TabIndex = 10;
+            this.btnSaveRota.Text = "Save";
+            this.btnSaveRota.UseVisualStyleBackColor = true;
+            this.btnSaveRota.Click += new System.EventHandler(this.btnSaveRota_Click);
+            // 
             // clockMinuteSelectControl1
             // 
             this.clockMinuteSelectControl1.BackColor = System.Drawing.Color.White;
@@ -391,31 +410,22 @@
             this.clockHourSelectControl1.TabIndex = 3;
             this.clockHourSelectControl1.Visible = false;
             // 
-            // btnPrintRota
+            // btnClearRota
             // 
-            this.btnPrintRota.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnPrintRota.Location = new System.Drawing.Point(669, 483);
-            this.btnPrintRota.Name = "btnPrintRota";
-            this.btnPrintRota.Size = new System.Drawing.Size(142, 45);
-            this.btnPrintRota.TabIndex = 9;
-            this.btnPrintRota.Text = "Print Rota";
-            this.btnPrintRota.UseVisualStyleBackColor = true;
-            // 
-            // btnSaveRota
-            // 
-            this.btnSaveRota.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSaveRota.Location = new System.Drawing.Point(669, 534);
-            this.btnSaveRota.Name = "btnSaveRota";
-            this.btnSaveRota.Size = new System.Drawing.Size(142, 45);
-            this.btnSaveRota.TabIndex = 10;
-            this.btnSaveRota.Text = "Save";
-            this.btnSaveRota.UseVisualStyleBackColor = true;
-            this.btnSaveRota.Click += new System.EventHandler(this.btnSaveRota_Click);
+            this.btnClearRota.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnClearRota.Location = new System.Drawing.Point(669, 486);
+            this.btnClearRota.Name = "btnClearRota";
+            this.btnClearRota.Size = new System.Drawing.Size(142, 45);
+            this.btnClearRota.TabIndex = 11;
+            this.btnClearRota.Text = "Clear Rota";
+            this.btnClearRota.UseVisualStyleBackColor = true;
+            this.btnClearRota.Click += new System.EventHandler(this.btnClearRota_Click);
             // 
             // RotaControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.btnClearRota);
             this.Controls.Add(this.btnSaveRota);
             this.Controls.Add(this.btnPrintRota);
             this.Controls.Add(this.btnNextWeek);
@@ -431,8 +441,6 @@
             this.Size = new System.Drawing.Size(814, 636);
             this.Load += new System.EventHandler(this.RotaControl_Load);
             ((System.ComponentModel.ISupportInitialize)(this.rotaHeaderDataGrid)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.testDatabaseDataSetBindingSource)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.tblRotaBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.rotaDataGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -442,8 +450,6 @@
         #endregion
 
         private System.Windows.Forms.DataGridView rotaHeaderDataGrid;
-        private System.Windows.Forms.BindingSource testDatabaseDataSetBindingSource;
-        private System.Windows.Forms.BindingSource tblRotaBindingSource;
         private System.Windows.Forms.DataGridView rotaDataGrid;
         private System.Windows.Forms.DataGridViewTextBoxColumn Date;
         private System.Windows.Forms.DataGridViewTextBoxColumn weekdayMonday;
@@ -481,5 +487,6 @@
         private System.Windows.Forms.Button btnNextWeek;
         private System.Windows.Forms.Button btnPrintRota;
         private System.Windows.Forms.Button btnSaveRota;
+        private System.Windows.Forms.Button btnClearRota;
     }
 }
