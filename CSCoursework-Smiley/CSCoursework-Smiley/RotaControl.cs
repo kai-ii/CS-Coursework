@@ -9,8 +9,14 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using System.Data.OleDb;
-
-
+using PdfSharp;
+using PdfSharp.Pdf;
+using MigraDoc;
+using System.Diagnostics;
+using PdfSharp.Drawing;
+using MigraDoc.DocumentObjectModel;
+using MigraDoc.Rendering;
+using MigraDoc.DocumentObjectModel.Tables;
 
 namespace CSCoursework_Smiley
 {
@@ -24,10 +30,10 @@ namespace CSCoursework_Smiley
         string clockMinuteChoice;
         Tuple<int, int> cellLocation;
 
-        private Color backgroundColour;
-        private Color highlightColour;
+        private System.Drawing.Color backgroundColour;
+        private System.Drawing.Color highlightColour;
 
-        public void setBackgroundHighlightColours(Color receivedBackgroundColour, Color receivedHighlightColour)
+        public void setBackgroundHighlightColours(System.Drawing.Color receivedBackgroundColour, System.Drawing.Color receivedHighlightColour)
         {
             backgroundColour = receivedBackgroundColour;
             highlightColour = receivedHighlightColour;
@@ -485,7 +491,137 @@ namespace CSCoursework_Smiley
 
         private void btnPrintRota_Click(object sender, EventArgs e)
         {
+            string filename = "RotaPDF.pdf";
+            //filename = Guid.NewGuid().ToString("D").ToUpper() + ".pdf";
+            PdfDocument document = new PdfDocument();
+            document.Info.Title = $"{currentWeek.ToString("d")}Rota";
+            document.Info.Author = "Kai Chevannes";
+            document.Info.Subject = "Displays weekly rota in PDF form for printing.";
+            document.Info.Keywords = "PDFsharp, XGraphics";
 
+            RotaPdfPage1(document);
+
+            //Save document
+            document.Save(filename);
+            //Start a viewer
+            Process.Start(filename);
+        }
+
+        private void RotaPdfPage1(PdfDocument document)
+        {
+            //reference http://www.pdfsharp.net/wiki/Invoice-sample.ashx#Source_Code_6
+            PdfPage page = document.AddPage();
+            XGraphics gfx = XGraphics.FromPdfPage(page);
+            gfx.MUH = PdfFontEncoding.Unicode;
+            XFont font = new XFont("Verdana", 13, XFontStyle.Bold);
+
+            //A MigraDoc document is required for rendering
+            Document doc = new Document();
+            Section section = doc.AddSection();
+
+            //Set document to horizontal
+            section.PageSetup = doc.DefaultPageSetup.Clone();
+            section.PageSetup.Orientation = MigraDoc.DocumentObjectModel.Orientation.Landscape;
+            section.PageSetup.PageHeight = "10cm";
+
+            //Table
+            Table table;
+            table = section.AddTable();
+            table.Style = "Table";
+            //table.Borders.Color = 
+            table.Borders.Width = 0.25;
+            table.Borders.Left.Width = 0.5;
+            table.Borders.Right.Width = 0.5;
+            table.Rows.LeftIndent = 0;
+
+            // Before adding a row, columns must be defined
+            //Date
+            Column column = table.AddColumn("3cm");
+            column.Format.Alignment = ParagraphAlignment.Center;
+
+            //Monday
+            column = table.AddColumn("1cm");
+            column.Format.Alignment = ParagraphAlignment.Center;
+
+            column = table.AddColumn("1cm");
+            column.Format.Alignment = ParagraphAlignment.Right;
+
+            column = table.AddColumn("1cm");
+            column.Format.Alignment = ParagraphAlignment.Right;
+
+            column = table.AddColumn("1cm");
+            column.Format.Alignment = ParagraphAlignment.Right;
+
+            //Tuesday
+            column = table.AddColumn("1cm");
+            column.Format.Alignment = ParagraphAlignment.Right;
+
+            column = table.AddColumn("1cm");
+            column.Format.Alignment = ParagraphAlignment.Right;
+
+            column = table.AddColumn("1cm");
+            column.Format.Alignment = ParagraphAlignment.Right;
+
+            column = table.AddColumn("1cm");
+            column.Format.Alignment = ParagraphAlignment.Right;
+
+
+            // Create the header of the table
+            Row row = table.AddRow();
+            row.HeadingFormat = true;
+            row.Format.Alignment = ParagraphAlignment.Center;
+            row.Format.Font.Bold = true;
+            //row.Shading.Color = TableBlue;
+            row.Cells[0].AddParagraph("Date");
+            row.Cells[0].Format.Alignment = ParagraphAlignment.Left;
+            row.Cells[0].VerticalAlignment = VerticalAlignment.Bottom;
+            row.Cells[0].MergeDown = 1;
+            row.Cells[1].AddParagraph("Monday");
+            row.Cells[1].Format.Alignment = ParagraphAlignment.Left;
+            row.Cells[1].VerticalAlignment = VerticalAlignment.Bottom;
+            row.Cells[1].MergeRight = 3;
+            row.Cells[5].AddParagraph("Tuesday");
+            row.Cells[5].Format.Alignment = ParagraphAlignment.Left;
+            row.Cells[5].VerticalAlignment = VerticalAlignment.Bottom;
+            row.Cells[5].MergeRight = 3;
+
+            row = table.AddRow();
+            row.HeadingFormat = true;
+            row.Format.Alignment = ParagraphAlignment.Center;
+            row.Format.Font.Bold = true;
+            //row.Shading.Color = TableBlue
+
+            //Monday
+            row.Cells[1].AddParagraph("In");
+            row.Cells[1].Format.Alignment = ParagraphAlignment.Left;
+            row.Cells[2].AddParagraph("Out");
+            row.Cells[2].Format.Alignment = ParagraphAlignment.Left;
+            row.Cells[3].AddParagraph("In");
+            row.Cells[3].Format.Alignment = ParagraphAlignment.Left;
+            row.Cells[4].AddParagraph("Out");
+            row.Cells[4].Format.Alignment = ParagraphAlignment.Left;
+
+            //Tuesday
+            row.Cells[5].AddParagraph("In");
+            row.Cells[5].Format.Alignment = ParagraphAlignment.Left;
+            row.Cells[6].AddParagraph("Out");
+            row.Cells[6].Format.Alignment = ParagraphAlignment.Left;
+            row.Cells[7].AddParagraph("In");
+            row.Cells[7].Format.Alignment = ParagraphAlignment.Left;
+            row.Cells[8].AddParagraph("Out");
+            row.Cells[8].Format.Alignment = ParagraphAlignment.Left;
+
+
+            table.SetEdge(0, 0, 9, 2, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 0.75, MigraDoc.DocumentObjectModel.Color.Empty);
+
+
+
+            //Create a renderer and prepare (=layout) the document
+            DocumentRenderer docRenderer = new DocumentRenderer(doc);
+            docRenderer.PrepareDocument();
+
+            //Render the paragraph. You can render tables or shapes the same way
+            docRenderer.RenderObject(gfx, XUnit.FromCentimeter(5), XUnit.FromCentimeter(10), "12cm", table);
         }
     }
 }
