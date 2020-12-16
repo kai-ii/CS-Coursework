@@ -491,6 +491,7 @@ namespace CSCoursework_Smiley
 
         private void btnPrintRota_Click(object sender, EventArgs e)
         {
+
             string filename = "RotaPDF.pdf";
             //filename = Guid.NewGuid().ToString("D").ToUpper() + ".pdf";
             PdfDocument document = new PdfDocument();
@@ -509,11 +510,14 @@ namespace CSCoursework_Smiley
 
         private void RotaPdfPage1(PdfDocument document)
         {
+
             //reference http://www.pdfsharp.net/wiki/Invoice-sample.ashx#Source_Code_6
             PdfPage page = document.AddPage();
+            page.Size = PageSize.A4;
+            page.Orientation = PageOrientation.Landscape;
             XGraphics gfx = XGraphics.FromPdfPage(page);
             gfx.MUH = PdfFontEncoding.Unicode;
-            XFont font = new XFont("Verdana", 13, XFontStyle.Bold);
+            //XFont font = new XFont("Verdana", 13, XFontStyle.Bold);
 
             //A MigraDoc document is required for rendering
             Document doc = new Document();
@@ -535,38 +539,78 @@ namespace CSCoursework_Smiley
             table.Rows.LeftIndent = 0;
 
             // Before adding a row, columns must be defined
+            string columnWidth = "1.235cm";
             //Date
             Column column = table.AddColumn("3cm");
             column.Format.Alignment = ParagraphAlignment.Center;
 
             //Monday
-            column = table.AddColumn("1cm");
+            column = table.AddColumn(columnWidth);
             column.Format.Alignment = ParagraphAlignment.Center;
 
-            column = table.AddColumn("1cm");
+            column = table.AddColumn(columnWidth);
             column.Format.Alignment = ParagraphAlignment.Right;
 
-            column = table.AddColumn("1cm");
+            column = table.AddColumn(columnWidth);
             column.Format.Alignment = ParagraphAlignment.Right;
 
-            column = table.AddColumn("1cm");
+            column = table.AddColumn(columnWidth);
             column.Format.Alignment = ParagraphAlignment.Right;
 
             //Tuesday
-            column = table.AddColumn("1cm");
+            column = table.AddColumn(columnWidth);
             column.Format.Alignment = ParagraphAlignment.Right;
 
-            column = table.AddColumn("1cm");
+            column = table.AddColumn(columnWidth);
             column.Format.Alignment = ParagraphAlignment.Right;
 
-            column = table.AddColumn("1cm");
+            column = table.AddColumn(columnWidth);
             column.Format.Alignment = ParagraphAlignment.Right;
 
-            column = table.AddColumn("1cm");
+            column = table.AddColumn(columnWidth);
+            column.Format.Alignment = ParagraphAlignment.Right;
+
+            //Wednesday
+            column = table.AddColumn(columnWidth);
+            column.Format.Alignment = ParagraphAlignment.Center;
+
+            column = table.AddColumn(columnWidth);
+            column.Format.Alignment = ParagraphAlignment.Right;
+
+            column = table.AddColumn(columnWidth);
+            column.Format.Alignment = ParagraphAlignment.Right;
+
+            column = table.AddColumn(columnWidth);
+            column.Format.Alignment = ParagraphAlignment.Right;
+
+            //Thursday
+            column = table.AddColumn(columnWidth);
+            column.Format.Alignment = ParagraphAlignment.Center;
+
+            column = table.AddColumn(columnWidth);
+            column.Format.Alignment = ParagraphAlignment.Right;
+
+            column = table.AddColumn(columnWidth);
+            column.Format.Alignment = ParagraphAlignment.Right;
+
+            column = table.AddColumn(columnWidth);
+            column.Format.Alignment = ParagraphAlignment.Right;
+
+            //Friday
+            column = table.AddColumn(columnWidth);
+            column.Format.Alignment = ParagraphAlignment.Center;
+
+            column = table.AddColumn(columnWidth);
+            column.Format.Alignment = ParagraphAlignment.Right;
+
+            column = table.AddColumn(columnWidth);
+            column.Format.Alignment = ParagraphAlignment.Right;
+
+            column = table.AddColumn(columnWidth);
             column.Format.Alignment = ParagraphAlignment.Right;
 
 
-            // Create the header of the table
+            // Create the header of the table length = 20 [0->20 = 21columns]
             Row row = table.AddRow();
             row.HeadingFormat = true;
             row.Format.Alignment = ParagraphAlignment.Center;
@@ -584,6 +628,18 @@ namespace CSCoursework_Smiley
             row.Cells[5].Format.Alignment = ParagraphAlignment.Left;
             row.Cells[5].VerticalAlignment = VerticalAlignment.Bottom;
             row.Cells[5].MergeRight = 3;
+            row.Cells[9].AddParagraph("Wednesday");
+            row.Cells[9].Format.Alignment = ParagraphAlignment.Left;
+            row.Cells[9].VerticalAlignment = VerticalAlignment.Bottom;
+            row.Cells[9].MergeRight = 3;
+            row.Cells[13].AddParagraph("Thursday");
+            row.Cells[13].Format.Alignment = ParagraphAlignment.Left;
+            row.Cells[13].VerticalAlignment = VerticalAlignment.Bottom;
+            row.Cells[13].MergeRight = 3;
+            row.Cells[17].AddParagraph("Friday");
+            row.Cells[17].Format.Alignment = ParagraphAlignment.Left;
+            row.Cells[17].VerticalAlignment = VerticalAlignment.Bottom;
+            row.Cells[17].MergeRight = 3;
 
             row = table.AddRow();
             row.HeadingFormat = true;
@@ -611,17 +667,63 @@ namespace CSCoursework_Smiley
             row.Cells[8].AddParagraph("Out");
             row.Cells[8].Format.Alignment = ParagraphAlignment.Left;
 
+            //Wednesday
+            row.Cells[9].AddParagraph("In");
+            row.Cells[9].Format.Alignment = ParagraphAlignment.Left;
+            row.Cells[10].AddParagraph("Out");
+            row.Cells[10].Format.Alignment = ParagraphAlignment.Left;
+            row.Cells[11].AddParagraph("In");
+            row.Cells[11].Format.Alignment = ParagraphAlignment.Left;
+            row.Cells[12].AddParagraph("Out");
+            row.Cells[12].Format.Alignment = ParagraphAlignment.Left;
 
-            table.SetEdge(0, 0, 9, 2, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 0.75, MigraDoc.DocumentObjectModel.Color.Empty);
+            //Thursday
+            row.Cells[13].AddParagraph("In");
+            row.Cells[13].Format.Alignment = ParagraphAlignment.Left;
+            row.Cells[14].AddParagraph("Out");
+            row.Cells[14].Format.Alignment = ParagraphAlignment.Left;
+            row.Cells[15].AddParagraph("In");
+            row.Cells[15].Format.Alignment = ParagraphAlignment.Left;
+            row.Cells[16].AddParagraph("Out");
+            row.Cells[16].Format.Alignment = ParagraphAlignment.Left;
 
+            //Friday
+            row.Cells[17].AddParagraph("In");
+            row.Cells[17].Format.Alignment = ParagraphAlignment.Left;
+            row.Cells[18].AddParagraph("Out");
+            row.Cells[18].Format.Alignment = ParagraphAlignment.Left;
+            row.Cells[19].AddParagraph("In");
+            row.Cells[19].Format.Alignment = ParagraphAlignment.Left;
+            row.Cells[20].AddParagraph("Out");
+            row.Cells[20].Format.Alignment = ParagraphAlignment.Left;
 
+            table.SetEdge(0, 0, 21, 2, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 0.75, MigraDoc.DocumentObjectModel.Color.Empty);
+
+            //Fill Table
+            for (int staffMemberCount = 1; staffMemberCount <= 2; staffMemberCount++)
+            {
+                List<string> staffRowInformation = new List<string>();
+                Row staffRow = table.AddRow();
+                string cellValue;
+                for (int cell = 0; cell < rotaDataGrid.Rows[staffMemberCount - 1].Cells.Count; cell++)
+                {
+                    cellValue = rotaDataGrid.Rows[staffMemberCount - 1].Cells[cell].Value?.ToString();
+                    if (cellValue == null)
+                    {
+                        MessageBox.Show($"Incomplete Rota. (Row {staffMemberCount}, Column {cell+1})");
+                        return;
+                    }
+                    staffRowInformation.Add(cellValue);
+                    staffRow.Cells[cell].AddParagraph(staffRowInformation[cell]);
+                }
+            }
 
             //Create a renderer and prepare (=layout) the document
             DocumentRenderer docRenderer = new DocumentRenderer(doc);
             docRenderer.PrepareDocument();
 
             //Render the paragraph. You can render tables or shapes the same way
-            docRenderer.RenderObject(gfx, XUnit.FromCentimeter(5), XUnit.FromCentimeter(10), "12cm", table);
+            docRenderer.RenderObject(gfx, XUnit.FromCentimeter(1), XUnit.FromCentimeter(1), "19cm", table);
         }
     }
 }
