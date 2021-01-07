@@ -26,7 +26,11 @@ namespace CSCoursework_Smiley
             InitializeSearchTextbox();
             InitializeDatabaseConnection();
             InitializeStaffMembers();
-            lstBoxDummy.Visible = false;
+            lstBoxEmployees.Visible = false;
+            lstBoxDummy.Visible = true;
+            comboBoxSort.SelectedIndex = 0;
+            CopyBaseListBoxToDummyBox();
+            SortDummyBox();
             rBtnDetails.Checked = true;
         }
 
@@ -55,7 +59,9 @@ namespace CSCoursework_Smiley
             {
                 txtSearch.Text = "search";
                 txtSearch.ForeColor = SystemColors.GrayText;
-                lstBoxDummy.Visible = false;
+                //lstBoxDummy.Visible = false;
+                CopyBaseListBoxToDummyBox();
+                SortDummyBox();
             }
         }
         private void InitializeDatabaseConnection()
@@ -273,7 +279,8 @@ namespace CSCoursework_Smiley
         {
             if (txtSearch.Text.Length == 0)
             {
-                lstBoxDummy.Visible = false;
+                //lstBoxDummy.Visible = false;
+                CopyBaseListBoxToDummyBox();
             }
             else
             {
@@ -281,7 +288,7 @@ namespace CSCoursework_Smiley
                 lstBoxDummy.Items.Clear();
                 foreach (string employee in lstBoxEmployees.Items)
                 {
-                    lstBoxDummy.Visible = true;
+                    //lstBoxDummy.Visible = true;
                     if (employee.ToLower().Contains(searchString))
                     {
                         if (!lstBoxDummy.Items.Contains(employee))
@@ -289,6 +296,94 @@ namespace CSCoursework_Smiley
                             lstBoxDummy.Items.Add(employee);
                         }
                     }
+                }
+            }
+            SortDummyBox();
+        }
+
+        private void CopyBaseListBoxToDummyBox()
+        {
+            lstBoxDummy.Items.Clear();
+            foreach (string employee in lstBoxEmployees.Items)
+            {
+                lstBoxDummy.Items.Add(employee);
+            }
+        }
+
+        private void SortDummyBox()
+        {
+            List<string> bubbleSortList = new List<string>();
+            bool sorted = false;
+
+            if (lstBoxDummy.Items.Count > 0)
+            {
+                foreach (string employee in lstBoxDummy.Items)
+                {
+                    bubbleSortList.Add(employee);
+                }
+            }
+            else
+            {
+                foreach (string employee in lstBoxEmployees.Items)
+                {
+                    bubbleSortList.Add(employee);
+                }
+            }
+            
+
+            if (comboBoxSort.SelectedIndex == 0)
+            {
+                while (!sorted)
+                {
+                    sorted = true;
+                    for (int item = 0; item<bubbleSortList.Count-1; item++)
+                    {
+                        string pair1 = bubbleSortList[item];
+                        string pair2 = bubbleSortList[item + 1];
+                        if ((int)pair1[0] < (int)pair2[0])
+                        {
+                            bubbleSortList[item] = pair2;
+                            bubbleSortList[item + 1] = pair1;
+                            sorted = false;
+                        }
+                    }
+                }
+            }
+            else if (comboBoxSort.SelectedIndex == 1)
+            {
+                while (!sorted)
+                {
+                    sorted = true;
+                    for (int item = 0; item<bubbleSortList.Count-1; item++)
+                    {
+                        string pair1 = bubbleSortList[item];
+                        string pair2 = bubbleSortList[item + 1];
+                        if ((int)pair1[0] > (int)pair2[0])
+                        {
+                            bubbleSortList[item] = pair2;
+                            bubbleSortList[item + 1] = pair1;
+                            sorted = false;
+                        }
+                    }
+                }
+            }
+
+            lstBoxDummy.Items.Clear();
+            foreach (string employee in bubbleSortList)
+            {
+                lstBoxDummy.Items.Add(employee);
+            }
+            
+        }
+
+        private void lstBoxDummy_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            for (int employee = 0; employee < lstBoxEmployees.Items.Count; employee++)
+            {
+                if (lstBoxDummy.SelectedItem.ToString() == lstBoxEmployees.Items[employee].ToString())
+                {
+                    lstBoxEmployees.SelectedIndex = employee;
+                    lstBoxEmployeeUpdate();
                 }
             }
         }
@@ -384,16 +479,9 @@ namespace CSCoursework_Smiley
             MessageBox.Show(message);
         }
 
-        private void lstBoxDummy_SelectedIndexChanged(object sender, EventArgs e)
+        private void comboBoxSort_SelectedIndexChanged(object sender, EventArgs e)
         {
-            for (int employee = 0; employee<lstBoxEmployees.Items.Count; employee++)
-            {
-                if (lstBoxDummy.SelectedItem.ToString() == lstBoxEmployees.Items[employee].ToString())
-                {
-                    lstBoxEmployees.SelectedIndex = employee;
-                    lstBoxEmployeeUpdate();
-                }
-            }
+            SortDummyBox();
         }
     }
 }
