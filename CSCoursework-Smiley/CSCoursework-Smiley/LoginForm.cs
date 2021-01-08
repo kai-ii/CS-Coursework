@@ -140,13 +140,26 @@ namespace CSCoursework_Smiley
 
         private void SubmitUsernamePassword()
         {
+            //Validation
+
+            //Presence Check
+            if (UsernameTextbox.Text.Length == 0)
+            {
+                MessageBox.Show("Username must not be empty.");
+            }
+            if (PasswordTextbox.Text.Length == 0)
+            {
+                MessageBox.Show("Password must not be empty");
+            }
+
             //Initialize variables
             DataSet LoginInfoDS;
             OleDbDataAdapter da;
             string sql;
 
             //Check Login Details
-            sql = $"SELECT * FROM tblUsers WHERE username='{UsernameTextbox.Text}' AND password='{PasswordTextbox.Text}'";
+            //sql = $"SELECT * FROM tblUsers WHERE username='{UsernameTextbox.Text}' AND password='{PasswordTextbox.Text}'";
+            sql = $"SELECT * FROM tblUsers WHERE StrComp(username, '{UsernameTextbox.Text}', 0)=0 AND StrComp(password, '{PasswordTextbox.Text}', 0)=0";
             da = new OleDbDataAdapter(sql, con);
             LoginInfoDS = new DataSet();
             da.Fill(LoginInfoDS, "LoginInfo");
@@ -157,6 +170,10 @@ namespace CSCoursework_Smiley
                 dashboard.Show();
                 this.Hide();
                 con.Close();
+            }
+            else
+            {
+                MessageBox.Show("Incorrect login details, please try again.");
             }
         }
 

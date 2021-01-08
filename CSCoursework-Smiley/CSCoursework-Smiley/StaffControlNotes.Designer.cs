@@ -34,12 +34,14 @@
             this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
             this.grpAbsentNotes = new System.Windows.Forms.GroupBox();
             this.rTxtAbsentNotes = new System.Windows.Forms.RichTextBox();
+            this.btnSaveToFile = new System.Windows.Forms.Button();
             this.grpGeneralNotes.SuspendLayout();
             this.grpAbsentNotes.SuspendLayout();
             this.SuspendLayout();
             // 
             // grpGeneralNotes
             // 
+            this.grpGeneralNotes.Controls.Add(this.btnSaveToFile);
             this.grpGeneralNotes.Controls.Add(this.btnSaveGeneralNotes);
             this.grpGeneralNotes.Controls.Add(this.rTxtGeneralNotes);
             this.grpGeneralNotes.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -95,6 +97,16 @@
             this.rTxtAbsentNotes.TabIndex = 2;
             this.rTxtAbsentNotes.Text = "";
             // 
+            // btnSaveToFile
+            // 
+            this.btnSaveToFile.Location = new System.Drawing.Point(7, 356);
+            this.btnSaveToFile.Name = "btnSaveToFile";
+            this.btnSaveToFile.Size = new System.Drawing.Size(93, 23);
+            this.btnSaveToFile.TabIndex = 2;
+            this.btnSaveToFile.Text = "Save To File";
+            this.btnSaveToFile.UseVisualStyleBackColor = true;
+            this.btnSaveToFile.Click += new System.EventHandler(this.btnSaveToFile_Click);
+            // 
             // StaffControlNotes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -118,5 +130,6 @@
         private System.Windows.Forms.RichTextBox rTxtGeneralNotes;
         private System.Windows.Forms.RichTextBox rTxtAbsentNotes;
         private System.Windows.Forms.Button btnSaveGeneralNotes;
+        private System.Windows.Forms.Button btnSaveToFile;
     }
 }

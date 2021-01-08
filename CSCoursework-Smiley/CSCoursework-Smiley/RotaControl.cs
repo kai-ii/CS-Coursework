@@ -359,9 +359,13 @@ namespace CSCoursework_Smiley
                 int pointer = 0;
                 while (staffRotaRow.Count < 10)
                 {
-                    staffRotaRow.Add(rotaDataGrid.Rows[staffMemberCount-1].Cells[++pointer].Value?.ToString());
-                    staffRotaRow.Add(rotaDataGrid.Rows[staffMemberCount-1].Cells[++pointer].Value?.ToString());
-                    pointer+=2;
+                    string cell1 = rotaDataGrid.Rows[staffMemberCount - 1].Cells[++pointer].Value?.ToString();
+                    string cell2 = rotaDataGrid.Rows[staffMemberCount - 1].Cells[++pointer].Value?.ToString();
+                    staffRotaRow.Add(cell1);
+                    staffRotaRow.Add(cell2);
+                    //staffRotaRow.Add(rotaDataGrid.Rows[staffMemberCount-1].Cells[++pointer].Value?.ToString());
+                    //staffRotaRow.Add(rotaDataGrid.Rows[staffMemberCount-1].Cells[++pointer].Value?.ToString());
+                    pointer +=2;
                 }
 
                 //Update existing database entries

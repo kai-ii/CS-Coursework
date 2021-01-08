@@ -91,6 +91,20 @@ namespace CSCoursework_Smiley
             parentForm.UpdateGeneralNotes(rTxtGeneralNotes.Text);
         }
 
+        private void btnSaveToFile_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string text = rTxtGeneralNotes.Text;
+                string CurrentProjectPath = System.AppDomain.CurrentDomain.BaseDirectory;
+                System.IO.File.WriteAllText($@"{CurrentProjectPath}\GeneralNote.txt", text);
+                MessageBox.Show("File saved.");
+            }
+            catch
+            {
+                MessageBox.Show("Failed to save file.");
+            }
+        }
     }
 }
 
