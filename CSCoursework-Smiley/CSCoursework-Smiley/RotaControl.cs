@@ -17,6 +17,7 @@ using PdfSharp.Drawing;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.Rendering;
 using MigraDoc.DocumentObjectModel.Tables;
+using System.Text.RegularExpressions;
 
 namespace CSCoursework_Smiley
 {
@@ -196,6 +197,7 @@ namespace CSCoursework_Smiley
 
         private void checkBoxClockInput_CheckedChanged(object sender, EventArgs e)
         {
+            SaveRotaToDatabase();
             int[] columnsToChange = { 1, 2, 5, 6, 9, 10, 13, 14, 17, 18 };
             if (checkBoxClockInput.Checked)
             {
@@ -309,6 +311,11 @@ namespace CSCoursework_Smiley
 
         private void btnSaveRota_Click(object sender, EventArgs e)
         {
+            SaveRotaToDatabase();
+        }
+
+        private void SaveRotaToDatabase()
+        {
             //Open database connection
             con.Open();
 
@@ -360,12 +367,56 @@ namespace CSCoursework_Smiley
                 while (staffRotaRow.Count < 10)
                 {
                     string cell1 = rotaDataGrid.Rows[staffMemberCount - 1].Cells[++pointer].Value?.ToString();
+                    //Format Check
+                    if (cell1 != null)
+                    {
+                        if (Regex.IsMatch(cell1, @"[0-2][0-9]\:[0-6][0-9]"))
+                        {
+                            staffRotaRow.Add(cell1);
+                        }
+                        else if (Regex.IsMatch(cell1, @"[0-9]\:[0-6][0-9]"))
+                        {
+                            staffRotaRow.Add($"0{cell1}");
+                            rotaDataGrid.Rows[staffMemberCount - 1].Cells[pointer].Value = $"0{cell1}";
+                        }
+                        else
+                        {
+                            MessageBox.Show($"Invalid input in Row: {staffMemberCount}, Cell: {pointer}. Must in the format hh:mm");
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        staffRotaRow.Add(cell1);
+                    }
+
+
                     string cell2 = rotaDataGrid.Rows[staffMemberCount - 1].Cells[++pointer].Value?.ToString();
-                    staffRotaRow.Add(cell1);
-                    staffRotaRow.Add(cell2);
-                    //staffRotaRow.Add(rotaDataGrid.Rows[staffMemberCount-1].Cells[++pointer].Value?.ToString());
-                    //staffRotaRow.Add(rotaDataGrid.Rows[staffMemberCount-1].Cells[++pointer].Value?.ToString());
-                    pointer +=2;
+                    //Format Check
+                    if (cell2 != null)
+                    {
+                        if (Regex.IsMatch(cell2, @"[0-2][0-9]\:[0-6][0-9]"))
+                        {
+                            staffRotaRow.Add(cell2);
+                        }
+                        else if (Regex.IsMatch(cell2, @"[0-9]\:[0-6][0-9]"))
+                        {
+                            staffRotaRow.Add($"0{cell2}");
+                            rotaDataGrid.Rows[staffMemberCount - 1].Cells[pointer].Value = $"0{cell2}";
+                        }
+                        else
+                        {
+                            MessageBox.Show($"Invalid input in Row: {staffMemberCount}, Cell: {pointer}. Must in the format hh:mm");
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        staffRotaRow.Add(cell2);
+                    }
+
+                    //Increment pointer by 2 to get to the next cell pair.
+                    pointer += 2;
                 }
 
                 //Update existing database entries
@@ -427,7 +478,7 @@ namespace CSCoursework_Smiley
                     int branchID = 1;
                     string rotaWeek = currentWeek.ToString("d");
 
-                    for (int dayID = 1; dayID<=5; dayID++)
+                    for (int dayID = 1; dayID <= 5; dayID++)
                     {
                         rotaID++;
                         newRotaRow = RotaInfoTable.NewRow();
@@ -437,8 +488,8 @@ namespace CSCoursework_Smiley
                         newRotaRow["export_id"] = exportID;
                         newRotaRow["branch_id"] = branchID;
                         newRotaRow["rota_week"] = rotaWeek;
-                        newRotaRow["rota_start_time"] = staffRotaRow[2*dayID-2];
-                        newRotaRow["rota_end_time"] = staffRotaRow[2*dayID-1];
+                        newRotaRow["rota_start_time"] = staffRotaRow[2 * dayID - 2];
+                        newRotaRow["rota_end_time"] = staffRotaRow[2 * dayID - 1];
 
                         RotaInfoTable.Rows.Add(newRotaRow);
                         da.Update(RotaInfoDS, "RotaInfo");

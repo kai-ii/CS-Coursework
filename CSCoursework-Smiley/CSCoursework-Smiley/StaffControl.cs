@@ -340,7 +340,7 @@ namespace CSCoursework_Smiley
                     {
                         string pair1 = bubbleSortList[item];
                         string pair2 = bubbleSortList[item + 1];
-                        if ((int)pair1[0] < (int)pair2[0])
+                        if ((int)pair1[0] > (int)pair2[0])
                         {
                             bubbleSortList[item] = pair2;
                             bubbleSortList[item + 1] = pair1;
@@ -358,7 +358,7 @@ namespace CSCoursework_Smiley
                     {
                         string pair1 = bubbleSortList[item];
                         string pair2 = bubbleSortList[item + 1];
-                        if ((int)pair1[0] > (int)pair2[0])
+                        if ((int)pair1[0] < (int)pair2[0])
                         {
                             bubbleSortList[item] = pair2;
                             bubbleSortList[item + 1] = pair1;
@@ -378,12 +378,16 @@ namespace CSCoursework_Smiley
 
         private void lstBoxDummy_SelectedIndexChanged(object sender, EventArgs e)
         {
-            for (int employee = 0; employee < lstBoxEmployees.Items.Count; employee++)
+            //Presence check
+            if (lstBoxDummy.SelectedItem != null)
             {
-                if (lstBoxDummy.SelectedItem.ToString() == lstBoxEmployees.Items[employee].ToString())
+                for (int employee = 0; employee < lstBoxEmployees.Items.Count; employee++)
                 {
-                    lstBoxEmployees.SelectedIndex = employee;
-                    lstBoxEmployeeUpdate();
+                    if (lstBoxDummy.SelectedItem.ToString() == lstBoxEmployees.Items[employee].ToString())
+                    {
+                        lstBoxEmployees.SelectedIndex = employee;
+                        lstBoxEmployeeUpdate();
+                    }
                 }
             }
         }

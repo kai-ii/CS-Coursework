@@ -141,15 +141,16 @@ namespace CSCoursework_Smiley
         private void SubmitUsernamePassword()
         {
             //Validation
-
             //Presence Check
-            if (UsernameTextbox.Text.Length == 0)
+            if (UsernameTextbox.Text.Length == 0 || UsernameTextbox.Text == "Username") //When clicked out of username textbox it contains 'Username'.
             {
                 MessageBox.Show("Username must not be empty.");
+                return;
             }
-            if (PasswordTextbox.Text.Length == 0)
+            else if (PasswordTextbox.Text.Length == 0 || PasswordTextbox.Text == "Password") //When clicked out of password textbox it contains 'Password'.
             {
                 MessageBox.Show("Password must not be empty");
+                return;
             }
 
             //Initialize variables
@@ -174,6 +175,7 @@ namespace CSCoursework_Smiley
             else
             {
                 MessageBox.Show("Incorrect login details, please try again.");
+                return;
             }
         }
 

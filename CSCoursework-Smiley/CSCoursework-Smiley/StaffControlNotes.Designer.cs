@@ -29,14 +29,14 @@
         private void InitializeComponent()
         {
             this.grpGeneralNotes = new System.Windows.Forms.GroupBox();
+            this.btnSaveToFile = new System.Windows.Forms.Button();
             this.btnSaveGeneralNotes = new System.Windows.Forms.Button();
             this.rTxtGeneralNotes = new System.Windows.Forms.RichTextBox();
             this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
-            this.grpAbsentNotes = new System.Windows.Forms.GroupBox();
+            this.grpAbsenceNotes = new System.Windows.Forms.GroupBox();
             this.rTxtAbsentNotes = new System.Windows.Forms.RichTextBox();
-            this.btnSaveToFile = new System.Windows.Forms.Button();
             this.grpGeneralNotes.SuspendLayout();
-            this.grpAbsentNotes.SuspendLayout();
+            this.grpAbsenceNotes.SuspendLayout();
             this.SuspendLayout();
             // 
             // grpGeneralNotes
@@ -51,6 +51,16 @@
             this.grpGeneralNotes.TabIndex = 0;
             this.grpGeneralNotes.TabStop = false;
             this.grpGeneralNotes.Text = "General Notes";
+            // 
+            // btnSaveToFile
+            // 
+            this.btnSaveToFile.Location = new System.Drawing.Point(7, 356);
+            this.btnSaveToFile.Name = "btnSaveToFile";
+            this.btnSaveToFile.Size = new System.Drawing.Size(93, 23);
+            this.btnSaveToFile.TabIndex = 2;
+            this.btnSaveToFile.Text = "Save To File";
+            this.btnSaveToFile.UseVisualStyleBackColor = true;
+            this.btnSaveToFile.Click += new System.EventHandler(this.btnSaveToFile_Click);
             // 
             // btnSaveGeneralNotes
             // 
@@ -78,16 +88,16 @@
             this.monthCalendar1.TabIndex = 1;
             this.monthCalendar1.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.monthCalendar1_DateChanged);
             // 
-            // grpAbsentNotes
+            // grpAbsenceNotes
             // 
-            this.grpAbsentNotes.Controls.Add(this.rTxtAbsentNotes);
-            this.grpAbsentNotes.Controls.Add(this.monthCalendar1);
-            this.grpAbsentNotes.Location = new System.Drawing.Point(3, 391);
-            this.grpAbsentNotes.Name = "grpAbsentNotes";
-            this.grpAbsentNotes.Size = new System.Drawing.Size(553, 194);
-            this.grpAbsentNotes.TabIndex = 1;
-            this.grpAbsentNotes.TabStop = false;
-            this.grpAbsentNotes.Text = "Absent Notes";
+            this.grpAbsenceNotes.Controls.Add(this.rTxtAbsentNotes);
+            this.grpAbsenceNotes.Controls.Add(this.monthCalendar1);
+            this.grpAbsenceNotes.Location = new System.Drawing.Point(3, 391);
+            this.grpAbsenceNotes.Name = "grpAbsenceNotes";
+            this.grpAbsenceNotes.Size = new System.Drawing.Size(553, 194);
+            this.grpAbsenceNotes.TabIndex = 1;
+            this.grpAbsenceNotes.TabStop = false;
+            this.grpAbsenceNotes.Text = "Absence Notes";
             // 
             // rTxtAbsentNotes
             // 
@@ -97,27 +107,17 @@
             this.rTxtAbsentNotes.TabIndex = 2;
             this.rTxtAbsentNotes.Text = "";
             // 
-            // btnSaveToFile
-            // 
-            this.btnSaveToFile.Location = new System.Drawing.Point(7, 356);
-            this.btnSaveToFile.Name = "btnSaveToFile";
-            this.btnSaveToFile.Size = new System.Drawing.Size(93, 23);
-            this.btnSaveToFile.TabIndex = 2;
-            this.btnSaveToFile.Text = "Save To File";
-            this.btnSaveToFile.UseVisualStyleBackColor = true;
-            this.btnSaveToFile.Click += new System.EventHandler(this.btnSaveToFile_Click);
-            // 
             // StaffControlNotes
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.grpAbsentNotes);
+            this.Controls.Add(this.grpAbsenceNotes);
             this.Controls.Add(this.grpGeneralNotes);
             this.Name = "StaffControlNotes";
             this.Size = new System.Drawing.Size(556, 585);
             this.Load += new System.EventHandler(this.StaffControlNotes_Load);
             this.grpGeneralNotes.ResumeLayout(false);
-            this.grpAbsentNotes.ResumeLayout(false);
+            this.grpAbsenceNotes.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -126,7 +126,7 @@
 
         private System.Windows.Forms.GroupBox grpGeneralNotes;
         private System.Windows.Forms.MonthCalendar monthCalendar1;
-        private System.Windows.Forms.GroupBox grpAbsentNotes;
+        private System.Windows.Forms.GroupBox grpAbsenceNotes;
         private System.Windows.Forms.RichTextBox rTxtGeneralNotes;
         private System.Windows.Forms.RichTextBox rTxtAbsentNotes;
         private System.Windows.Forms.Button btnSaveGeneralNotes;

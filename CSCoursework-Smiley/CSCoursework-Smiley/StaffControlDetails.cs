@@ -24,11 +24,7 @@ namespace CSCoursework_Smiley
             get { return null; }
             set
             {
-                if (value == null)
-                {
-                    //MessageBox.Show($"value = {value}");
-                }
-                else
+                if (value != null)
                 {
                     staffInfoDict = new Dictionary<string, string>();
                     staffInfoDict.Add("staff_id", Convert.ToString(value.Field<int>("staff_id")));
@@ -136,6 +132,11 @@ namespace CSCoursework_Smiley
             lblPaymentDetailsNILetter.Text = $"NI Letter: {staffInfoDict["staff_NI_letter"]}";
             lblPaymentDetailsTaxCode.Text = $"Tax Code: {staffInfoDict["staff_tax_code"]}";
             lblPaymentDetailsWorksNumber.Text = $"Works Number: {staffInfoDict["staff_works_number"]}";
+        }
+
+        private void grpAddress_Enter(object sender, EventArgs e)
+        {
+
         }
     }
 }
