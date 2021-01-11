@@ -406,7 +406,7 @@ namespace CSCoursework_Smiley
                         }
                         else
                         {
-                            MessageBox.Show($"Invalid input in Row: {staffMemberCount}, Cell: {pointer}. Must in the format hh:mm");
+                            MessageBox.Show($"Invalid input in Row: {staffMemberCount}, Col: {pointer+1}. Must in the format hh:mm");
                             return;
                         }
                     }
@@ -547,7 +547,8 @@ namespace CSCoursework_Smiley
         private void btnPrintRota_Click(object sender, EventArgs e)
         {
 
-            string filename = "RotaPDF.pdf";
+            string filename = $"{currentWeek.ToString("m")}RotaPDF.pdf";
+            filename = Regex.Replace(filename, @"\s+", "");
             //filename = Guid.NewGuid().ToString("D").ToUpper() + ".pdf";
             PdfDocument document = new PdfDocument();
             document.Info.Title = $"{currentWeek.ToString("d")}Rota";
@@ -671,7 +672,7 @@ namespace CSCoursework_Smiley
             row.Format.Alignment = ParagraphAlignment.Center;
             row.Format.Font.Bold = true;
             //row.Shading.Color = TableBlue;
-            row.Cells[0].AddParagraph("Date");
+            row.Cells[0].AddParagraph($"{currentWeek.ToString("d")}");
             row.Cells[0].Format.Alignment = ParagraphAlignment.Left;
             row.Cells[0].VerticalAlignment = VerticalAlignment.Bottom;
             row.Cells[0].MergeDown = 1;
