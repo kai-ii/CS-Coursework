@@ -30,6 +30,7 @@ namespace CSCoursework_Smiley
         string clockHourChoice;
         string clockMinuteChoice;
         Tuple<int, int> cellLocation;
+        List<string> staffMemberList;
 
         private System.Drawing.Color backgroundColour;
         private System.Drawing.Color highlightColour;
@@ -65,9 +66,17 @@ namespace CSCoursework_Smiley
             InitializeDatabaseConnection();
             InitializeDataGridHeaderDate();
             rotaDataGrid.AutoGenerateColumns = false;
+            InitializeStaffMemberComboBox();
             GetRotaData();
             SetUpEventHandlers();
             UpdateWeekLabel();
+        }
+
+        private void InitializeStaffMemberComboBox()
+        {
+            staffMemberList = new List<string> { "Emma. B", "Kai. C" };
+            DataGridViewComboBoxColumn staffMemberComboBox = (DataGridViewComboBoxColumn)rotaDataGrid.Columns[0];
+            staffMemberComboBox.DataSource = staffMemberList;
         }
 
         private void SetUpEventHandlers()
@@ -368,7 +377,7 @@ namespace CSCoursework_Smiley
                 {
                     string cell1 = rotaDataGrid.Rows[staffMemberCount - 1].Cells[++pointer].Value?.ToString();
                     //Format Check
-                    if (cell1 != null)
+                    if (cell1 != null && cell1 != "")
                     {
                         if (Regex.IsMatch(cell1, @"[0-2][0-9]\:[0-6][0-9]"))
                         {
@@ -393,7 +402,7 @@ namespace CSCoursework_Smiley
 
                     string cell2 = rotaDataGrid.Rows[staffMemberCount - 1].Cells[++pointer].Value?.ToString();
                     //Format Check
-                    if (cell2 != null)
+                    if (cell2 != null && cell2 != "")
                     {
                         if (Regex.IsMatch(cell2, @"[0-2][0-9]\:[0-6][0-9]"))
                         {
