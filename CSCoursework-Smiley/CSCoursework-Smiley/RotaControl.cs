@@ -74,7 +74,36 @@ namespace CSCoursework_Smiley
 
         private void InitializeStaffMemberComboBox()
         {
-            staffMemberList = new List<string> { "Emma. B", "Kai. C" };
+            staffMemberList = new List<string>();
+
+            //Open database connection
+            con.Open();
+
+            //Initialize variables
+            DataSet StaffInfoDS;
+            OleDbDataAdapter da;
+            string sql;
+
+            //Join tblRota and tblAbsence on rota_id where staff_id is the selected user
+            sql = $"SELECT tblStaff.staff_firstname, tblStaff.staff_surname, tblStaff.staff_id FROM tblStaff ORDER BY tblStaff.staff_firstname, tblStaff.staff_surname ASC";
+            da = new OleDbDataAdapter(sql, con);
+            StaffInfoDS = new DataSet();
+            da.Fill(StaffInfoDS, "StaffInfo");
+
+            //Close database connection
+            con.Close();
+
+            DataTable StaffInfoTable = StaffInfoDS.Tables["StaffInfo"];
+
+            DataColumn[] keyColumns = new DataColumn[1];
+            keyColumns[0] = StaffInfoTable.Columns["staff_id"];
+            StaffInfoTable.PrimaryKey = keyColumns;
+
+            foreach (DataRow row in StaffInfoTable.Rows)
+            {
+                staffMemberList.Add($"{row.Field<string>("staff_firstname")}. {row.Field<string>("staff_surname")[0]}");
+            }
+            
             DataGridViewComboBoxColumn staffMemberComboBox = (DataGridViewComboBoxColumn)rotaDataGrid.Columns[0];
             staffMemberComboBox.DataSource = staffMemberList;
         }
@@ -138,6 +167,11 @@ namespace CSCoursework_Smiley
             string sql;
 
             //Join tblRota and tblAbsence on rota_id where staff_id is the selected user
+            //DateTime prevDay = currentWeek.AddDays(-1);
+            //MessageBox.Show(prevDay.ToString("d"));
+            //DateTime nextDay = currentWeek.AddDays(1);
+            //.Show(nextDay.ToString("d"));
+            //sql = $"SELECT tblRota.day_id, tblRota.rota_week, tblRota.rota_start_time, tblRota.rota_end_time, tblRota.branch_id, tblStaff.staff_firstname, tblStaff.staff_surname, tblStaff.staff_id FROM tblRota INNER JOIN tblStaff ON tblRota.staff_id=tblStaff.staff_id WHERE tblRota.rota_week >= #{prevDay.ToString("d")}# AND tblRota.rota_week <= #{nextDay.ToString("d")}#";
             sql = $"SELECT tblRota.day_id, tblRota.rota_week, tblRota.rota_start_time, tblRota.rota_end_time, tblRota.branch_id, tblStaff.staff_firstname, tblStaff.staff_surname, tblStaff.staff_id FROM tblRota INNER JOIN tblStaff ON tblRota.staff_id=tblStaff.staff_id";
             da = new OleDbDataAdapter(sql, con);
             RotaInfoDS = new DataSet();
@@ -147,15 +181,11 @@ namespace CSCoursework_Smiley
             con.Close();
 
             DataTable RotaInfoTable = RotaInfoDS.Tables["RotaInfo"];
+            MessageBox.Show(RotaInfoTable.Rows.Count.ToString());
 
             DataColumn[] keyColumns = new DataColumn[1];
             keyColumns[0] = RotaInfoTable.Columns["rota_id"];
             RotaInfoTable.PrimaryKey = keyColumns;
-
-            foreach (DataColumn column in RotaInfoTable.Columns)
-            {
-                //MessageBox.Show(column.ColumnName);
-            }
 
             //Clear the rows
             this.rotaDataGrid.Rows.Clear();

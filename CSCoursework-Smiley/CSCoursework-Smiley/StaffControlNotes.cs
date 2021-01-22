@@ -105,6 +105,11 @@ namespace CSCoursework_Smiley
                 MessageBox.Show("Failed to save file.");
             }
         }
+
+        private void rTxtGeneralNotes_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 
