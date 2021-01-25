@@ -178,50 +178,47 @@ namespace CSCoursework_Smiley
                 string[] staffRotaRow = new string[21];
                 foreach (DataRow row in RotaInfoTable.Rows)
                 {
-                    if (row.Field<int>("staff_id") == staffMemberCount)
+                    if (row.Field<DateTime>("rota_week").ToString("d") == currentWeek.ToString("d"))
                     {
-                        if (row.Field<DateTime>("rota_week").ToString("d") == currentWeek.ToString("d"))
+                        int day = row.Field<int>("day_id");
+                        string staffMember = $"{row.Field<string>("staff_firstname")}. {row.Field<string>("staff_surname")[0]}";
+                        staffRotaRow[0] = staffMember;
+                        string rotaStartTime = row.Field<string>("rota_start_time");
+                        string rotaEndTime = row.Field<string>("rota_end_time");
+                        string timesheetStartTime = row.Field<string>("timesheet_start_time");
+                        string timesheetEndTime = row.Field<string>("timesheet_end_time");
+                        switch (day)
                         {
-                            int day = row.Field<int>("day_id");
-                            string staffMember = $"{row.Field<string>("staff_firstname")}. {row.Field<string>("staff_surname")[0]}";
-                            staffRotaRow[0] = staffMember;
-                            string rotaStartTime = row.Field<string>("rota_start_time");
-                            string rotaEndTime = row.Field<string>("rota_end_time");
-                            string timesheetStartTime = row.Field<string>("timesheet_start_time");
-                            string timesheetEndTime = row.Field<string>("timesheet_end_time");
-                            switch (day)
-                            {
-                                case 1:
-                                    staffRotaRow[1] = rotaStartTime;
-                                    staffRotaRow[2] = rotaEndTime;
-                                    staffRotaRow[3] = timesheetStartTime;
-                                    staffRotaRow[4] = timesheetEndTime;
-                                    break;
-                                case 2:
-                                    staffRotaRow[5] = rotaStartTime;
-                                    staffRotaRow[6] = rotaEndTime;
-                                    staffRotaRow[7] = timesheetStartTime;
-                                    staffRotaRow[8] = timesheetEndTime;
-                                    break;
-                                case 3:
-                                    staffRotaRow[9] = rotaStartTime;
-                                    staffRotaRow[10] = rotaEndTime;
-                                    staffRotaRow[11] = timesheetStartTime;
-                                    staffRotaRow[12] = timesheetEndTime;
-                                    break;
-                                case 4:
-                                    staffRotaRow[13] = rotaStartTime;
-                                    staffRotaRow[14] = rotaEndTime;
-                                    staffRotaRow[15] = timesheetStartTime;
-                                    staffRotaRow[16] = timesheetEndTime;
-                                    break;
-                                case 5:
-                                    staffRotaRow[17] = rotaStartTime;
-                                    staffRotaRow[18] = rotaEndTime;
-                                    staffRotaRow[19] = timesheetStartTime;
-                                    staffRotaRow[20] = timesheetEndTime;
-                                    break;
-                            }
+                            case 1:
+                                staffRotaRow[1] = rotaStartTime;
+                                staffRotaRow[2] = rotaEndTime;
+                                staffRotaRow[3] = timesheetStartTime;
+                                staffRotaRow[4] = timesheetEndTime;
+                                break;
+                            case 2:
+                                staffRotaRow[5] = rotaStartTime;
+                                staffRotaRow[6] = rotaEndTime;
+                                staffRotaRow[7] = timesheetStartTime;
+                                staffRotaRow[8] = timesheetEndTime;
+                                break;
+                            case 3:
+                                staffRotaRow[9] = rotaStartTime;
+                                staffRotaRow[10] = rotaEndTime;
+                                staffRotaRow[11] = timesheetStartTime;
+                                staffRotaRow[12] = timesheetEndTime;
+                                break;
+                            case 4:
+                                staffRotaRow[13] = rotaStartTime;
+                                staffRotaRow[14] = rotaEndTime;
+                                staffRotaRow[15] = timesheetStartTime;
+                                staffRotaRow[16] = timesheetEndTime;
+                                break;
+                            case 5:
+                                staffRotaRow[17] = rotaStartTime;
+                                staffRotaRow[18] = rotaEndTime;
+                                staffRotaRow[19] = timesheetStartTime;
+                                staffRotaRow[20] = timesheetEndTime;
+                                break;
                         }
                     }
                 }
