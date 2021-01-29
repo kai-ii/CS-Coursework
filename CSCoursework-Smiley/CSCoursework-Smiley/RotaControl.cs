@@ -121,6 +121,12 @@ namespace CSCoursework_Smiley
         private void SetUpEventHandlers()
         {
             this.rotaDataGrid.CellContentClick += new DataGridViewCellEventHandler(this.rotaDataGrid_CellContentClick);
+            this.rotaDataGrid.CellValueChanged += new DataGridViewCellEventHandler(this.rotaDataGrid_CellValueChanged);
+        }
+
+        private void rotaDataGrid_CellValueChanged (object sender, DataGridViewCellEventArgs e)
+        {
+            changeToRotaTableMade = true;
         }
         private void UpdateDataGridViewColumnColours()
         {
@@ -401,6 +407,11 @@ namespace CSCoursework_Smiley
 
         private void SaveRotaToDatabase()
         {
+            if (!changeToRotaTableMade) // if no change has been made then do not save
+            {
+                return;
+            }
+
             string validationRowValue;
             //Confirms each row has a staff member assigned to it
             //Check rows 0 to total-2, this is because the auto generated row will never have a name assigned to it.
@@ -628,6 +639,8 @@ namespace CSCoursework_Smiley
                     }
                 }
             }
+
+            changeToRotaTableMade = false;
         }
 
         private void btnClearRota_Click(object sender, EventArgs e)

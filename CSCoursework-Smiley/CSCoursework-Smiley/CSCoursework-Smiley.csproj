@@ -196,6 +196,12 @@
     <Compile Include="TimesheetControl.Designer.cs">
       <DependentUpon>TimesheetControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="TimesheetHolidayDataControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TimesheetHolidayDataControl.Designer.cs">
+      <DependentUpon>TimesheetHolidayDataControl.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="ClockHourSelectControl.resx">
       <DependentUpon>ClockHourSelectControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -245,6 +251,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TimesheetControl.resx">
       <DependentUpon>TimesheetControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimesheetHolidayDataControl.resx">
+      <DependentUpon>TimesheetHolidayDataControl.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

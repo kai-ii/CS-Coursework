@@ -51,6 +51,7 @@
             this.grpGeneralNotes.TabIndex = 0;
             this.grpGeneralNotes.TabStop = false;
             this.grpGeneralNotes.Text = "General Notes";
+            this.grpGeneralNotes.Enter += new System.EventHandler(this.grpGeneralNotes_Enter);
             // 
             // btnSaveToFile
             // 

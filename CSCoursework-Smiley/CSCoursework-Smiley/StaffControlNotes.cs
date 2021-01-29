@@ -110,6 +110,11 @@ namespace CSCoursework_Smiley
         {
 
         }
+
+        private void grpGeneralNotes_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

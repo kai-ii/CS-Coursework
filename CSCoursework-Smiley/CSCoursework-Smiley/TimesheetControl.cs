@@ -24,7 +24,9 @@ namespace CSCoursework_Smiley
         string clockMinuteChoice;
         Tuple<int, int> cellLocation;
         List<string> fullStaffMemberList;
+        List<string> staffMembersInDataGridList;
         int staffIDToSave;
+        bool changeToRotaTableMade = false;
 
         private Color backgroundColour;
         private Color highlightColour;
@@ -61,6 +63,36 @@ namespace CSCoursework_Smiley
             SetUpEventHandlers();
             UpdateWeekLabel();
             InitializeStaffMemberList();
+            UpdateHolidayControlEmployees();
+            InitializeParentForms();
+        }
+
+        private void InitializeParentForms()
+        {
+            timesheetHolidayDataControl1.parentForm = this;
+        }
+
+        public void UpdateHolidayData(int rowToChange, int dayToChange, bool checkedValue)
+        {
+            switch (dayToChange)
+            {
+                case 1:
+                    if (checkedValue)
+                    {
+                        rotaDataGrid.Rows[rowToChange].Cells[3].Value = "Holiday";
+                        rotaDataGrid.Rows[rowToChange].Cells[4].Value = "Holiday";
+                    }
+                    else
+                    {
+                        rotaDataGrid.Rows[rowToChange].Cells[3].Value = "";
+                        rotaDataGrid.Rows[rowToChange].Cells[4].Value = "";
+                    }
+                    break;
+            }
+        }
+        private void UpdateHolidayControlEmployees()
+        {
+            timesheetHolidayDataControl1.SetComboBoxMembers(staffMembersInDataGridList);
         }
         private void InitializeStaffMemberList()
         {
@@ -101,6 +133,11 @@ namespace CSCoursework_Smiley
         private void SetUpEventHandlers()
         {
             this.rotaDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.rotaDataGrid_CellContentClick);
+            this.rotaDataGrid.CellValueChanged += new DataGridViewCellEventHandler(this.rotaDataGrid_CellValueChanged);
+        }
+        private void rotaDataGrid_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            changeToRotaTableMade = true;
         }
 
         private void rotaDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -220,6 +257,7 @@ namespace CSCoursework_Smiley
                 //MessageBox.Show($"row staff ID = {row.Field<int>("staff_id")}");
             }
 
+            staffMembersInDataGridList = new List<string>();
 
             if (uniqueStaffMembers > 0)
             {
@@ -297,6 +335,7 @@ namespace CSCoursework_Smiley
                         }
                     }
 
+                    staffMembersInDataGridList.Add(staffRotaRow[0]);
                     //MessageBox.Show($"Adding Row for {staffRotaRow[0]}");
                     this.rotaDataGrid.Rows.Add(staffRotaRow[0], staffRotaRow[1], staffRotaRow[2], staffRotaRow[3], staffRotaRow[4], staffRotaRow[5], staffRotaRow[6], staffRotaRow[7], staffRotaRow[8], staffRotaRow[9], staffRotaRow[10], staffRotaRow[11], staffRotaRow[12], staffRotaRow[13], staffRotaRow[14], staffRotaRow[15], staffRotaRow[16], staffRotaRow[17], staffRotaRow[18], staffRotaRow[19], staffRotaRow[20]);
                 }
@@ -351,6 +390,11 @@ namespace CSCoursework_Smiley
         }
         private void SaveRotaToDatabase()
         {
+            if (!changeToRotaTableMade) // if no change has been made then do not save
+            {
+                return;
+            }
+
             //Open database connection
             con.Open();
 
@@ -555,6 +599,7 @@ namespace CSCoursework_Smiley
             currentWeek = currentWeek.AddDays(-7);
             GetTimesheetRotaData();
             UpdateWeekLabel();
+            UpdateHolidayControlEmployees();
         }
 
         private void btnNextWeek_Click_1(object sender, EventArgs e)
@@ -562,6 +607,7 @@ namespace CSCoursework_Smiley
             currentWeek = currentWeek.AddDays(7);
             GetTimesheetRotaData();
             UpdateWeekLabel();
+            UpdateHolidayControlEmployees();
         }
 
         private void btnSaveClockSelection_Click(object sender, EventArgs e)
@@ -588,6 +634,11 @@ namespace CSCoursework_Smiley
         private void rotaHeaderDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void btnInputHolidayData_Click(object sender, EventArgs e)
+        {
+            timesheetHolidayDataControl1.Visible = !timesheetHolidayDataControl1.Visible;
         }
     }
 

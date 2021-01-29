@@ -32,8 +32,8 @@
             this.rotaHeaderDataGrid = new System.Windows.Forms.DataGridView();
             this.checkBoxClockInput = new System.Windows.Forms.CheckBox();
             this.btnSaveRota = new System.Windows.Forms.Button();
-            this.btnInputHolidayData = new System.Windows.Forms.Button();
             this.btnInputAbsenceData = new System.Windows.Forms.Button();
+            this.btnInputHolidayData = new System.Windows.Forms.Button();
             this.lblCurrentWeek = new System.Windows.Forms.Label();
             this.btnNextWeek = new System.Windows.Forms.Button();
             this.btnPrevWeek = new System.Windows.Forms.Button();
@@ -67,6 +67,7 @@
             this.FridayRotaOut = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FridayTimesheetIn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FridayTimesheetOut = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.timesheetHolidayDataControl1 = new CSCoursework_Smiley.TimesheetHolidayDataControl();
             ((System.ComponentModel.ISupportInitialize)(this.rotaDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rotaHeaderDataGrid)).BeginInit();
             this.SuspendLayout();
@@ -144,25 +145,26 @@
             this.btnSaveRota.UseVisualStyleBackColor = true;
             this.btnSaveRota.Click += new System.EventHandler(this.btnSaveRota_Click);
             // 
-            // btnInputHolidayData
-            // 
-            this.btnInputHolidayData.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnInputHolidayData.Location = new System.Drawing.Point(669, 536);
-            this.btnInputHolidayData.Name = "btnInputHolidayData";
-            this.btnInputHolidayData.Size = new System.Drawing.Size(142, 45);
-            this.btnInputHolidayData.TabIndex = 12;
-            this.btnInputHolidayData.Text = "Input Absence";
-            this.btnInputHolidayData.UseVisualStyleBackColor = true;
-            // 
             // btnInputAbsenceData
             // 
             this.btnInputAbsenceData.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnInputAbsenceData.Location = new System.Drawing.Point(669, 484);
+            this.btnInputAbsenceData.Location = new System.Drawing.Point(669, 536);
             this.btnInputAbsenceData.Name = "btnInputAbsenceData";
             this.btnInputAbsenceData.Size = new System.Drawing.Size(142, 45);
-            this.btnInputAbsenceData.TabIndex = 13;
-            this.btnInputAbsenceData.Text = "Input Holiday";
+            this.btnInputAbsenceData.TabIndex = 12;
+            this.btnInputAbsenceData.Text = "Input Absence";
             this.btnInputAbsenceData.UseVisualStyleBackColor = true;
+            // 
+            // btnInputHolidayData
+            // 
+            this.btnInputHolidayData.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnInputHolidayData.Location = new System.Drawing.Point(669, 484);
+            this.btnInputHolidayData.Name = "btnInputHolidayData";
+            this.btnInputHolidayData.Size = new System.Drawing.Size(142, 45);
+            this.btnInputHolidayData.TabIndex = 13;
+            this.btnInputHolidayData.Text = "Input Holiday";
+            this.btnInputHolidayData.UseVisualStyleBackColor = true;
+            this.btnInputHolidayData.Click += new System.EventHandler(this.btnInputHolidayData_Click);
             // 
             // lblCurrentWeek
             // 
@@ -400,18 +402,27 @@
             this.FridayTimesheetOut.HeaderText = "Out";
             this.FridayTimesheetOut.Name = "FridayTimesheetOut";
             // 
+            // timesheetHolidayDataControl1
+            // 
+            this.timesheetHolidayDataControl1.Location = new System.Drawing.Point(491, 317);
+            this.timesheetHolidayDataControl1.Name = "timesheetHolidayDataControl1";
+            this.timesheetHolidayDataControl1.Size = new System.Drawing.Size(320, 161);
+            this.timesheetHolidayDataControl1.TabIndex = 21;
+            this.timesheetHolidayDataControl1.Visible = false;
+            // 
             // TimesheetControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.timesheetHolidayDataControl1);
             this.Controls.Add(this.btnSaveClockSelection);
             this.Controls.Add(this.clockMinuteSelectControl1);
             this.Controls.Add(this.clockHourSelectControl1);
             this.Controls.Add(this.btnPrevWeek);
             this.Controls.Add(this.btnNextWeek);
             this.Controls.Add(this.lblCurrentWeek);
-            this.Controls.Add(this.btnInputAbsenceData);
             this.Controls.Add(this.btnInputHolidayData);
+            this.Controls.Add(this.btnInputAbsenceData);
             this.Controls.Add(this.btnSaveRota);
             this.Controls.Add(this.checkBoxClockInput);
             this.Controls.Add(this.rotaDataGrid);
@@ -432,8 +443,8 @@
         private System.Windows.Forms.DataGridView rotaHeaderDataGrid;
         private System.Windows.Forms.CheckBox checkBoxClockInput;
         private System.Windows.Forms.Button btnSaveRota;
-        private System.Windows.Forms.Button btnInputHolidayData;
         private System.Windows.Forms.Button btnInputAbsenceData;
+        private System.Windows.Forms.Button btnInputHolidayData;
         private System.Windows.Forms.Label lblCurrentWeek;
         private System.Windows.Forms.Button btnNextWeek;
         private System.Windows.Forms.Button btnPrevWeek;
@@ -467,5 +478,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn weekdayWednesday;
         private System.Windows.Forms.DataGridViewTextBoxColumn weekDayThrusday;
         private System.Windows.Forms.DataGridViewTextBoxColumn weekdayFriday;
+        private TimesheetHolidayDataControl timesheetHolidayDataControl1;
     }
 }
