@@ -34,6 +34,7 @@ namespace CSCoursework_Smiley
         List<string> staffMemberList;
         List<string> fullStaffMemberList;
         int staffIDToSave;
+        bool changeToRotaTableMade = false;
 
         private System.Drawing.Color backgroundColour;
         private System.Drawing.Color highlightColour;
@@ -179,7 +180,7 @@ namespace CSCoursework_Smiley
             DateTime prevDay = currentWeek.AddDays(-1);
             DateTime nextDay = currentWeek.AddDays(1);
             CultureInfo USCulture = CultureInfo.CreateSpecificCulture("en-US");
-            sql = $"SELECT tblRota.day_id, tblRota.rota_week, tblRota.rota_start_time, tblRota.rota_end_time, tblRota.branch_id, tblStaff.staff_firstname, tblStaff.staff_surname, tblStaff.staff_id FROM tblRota INNER JOIN tblStaff ON tblRota.staff_id=tblStaff.staff_id WHERE tblRota.rota_week >= #{prevDay.ToString("d", USCulture)}# AND tblRota.rota_week <= #{nextDay.ToString("d", USCulture)}#";
+            sql = $"SELECT tblRota.day_id, tblRota.rota_week, tblRota.rota_start_time, tblRota.rota_end_time, tblRota.branch_id, tblStaff.staff_firstname, tblStaff.staff_surname, tblStaff.staff_id FROM tblRota INNER JOIN tblStaff ON tblRota.staff_id=tblStaff.staff_id WHERE tblRota.rota_week >= #{prevDay.ToString("d", USCulture)}# AND tblRota.rota_week <= #{nextDay.ToString("d", USCulture)}# ORDER BY tblRota.rota_id ASC";
             da = new OleDbDataAdapter(sql, con);
             RotaInfoDS = new DataSet();
             da.Fill(RotaInfoDS, "RotaInfo");
@@ -202,6 +203,12 @@ namespace CSCoursework_Smiley
             //MessageBox.Show($"uniqueStaffMembers = {uniqueStaffMembers}");
             Dictionary<int, int> uniqueStaffIDDict = new Dictionary<int, int>();
             uniqueStaffIDDict.Add(0, 0);
+
+            foreach (DataRow row in RotaInfoTable.Rows)
+            {
+                //MessageBox.Show($"row staff ID = {row.Field<int>("staff_id")}");
+            }
+
             
             if (uniqueStaffMembers > 0)
             {
@@ -211,24 +218,25 @@ namespace CSCoursework_Smiley
                     string[] staffRotaRow = new string[11];
                     foreach (DataRow row in RotaInfoTable.Rows)
                     {
-                        if (row.Field<DateTime>("rota_week").ToString("d") == currentWeek.ToString("d"))
+                        int rowStaffID = row.Field<int>("staff_id"); // set rowStaffID to the current rows staff id
+                        if (!uniqueStaffIDDict.ContainsKey(rowStaffID)) // if the dictionary does not contain this staff id
                         {
-                            int rowStaffID = row.Field<int>("staff_id"); // set rowStaffID to the current rows staff id
-                            if (!uniqueStaffIDDict.ContainsKey(rowStaffID)) // if the dictionary does not contain this staff id
-                            {
-                                uniqueStaffIDDict.Add(rowStaffID, 1); // add this staff id to the dictionary
-                                currentID = rowStaffID; // set the currentID to this id, this current id will last for 1 loop cycle
-                                MessageBox.Show($"Added {rowStaffID} to the dict.");
-                            }
-                            else if (uniqueStaffIDDict.ContainsKey(rowStaffID) && uniqueStaffIDDict[rowStaffID] >= 5) // if the dictionary does contain this staff id and it has been seen at least 5 times
-                            {
-                                continue; // pass over this row
-                            }
-                            else // if the dictionary does contain this staff id and it has not been seen at least 5 times
-                            {
-                                uniqueStaffIDDict[currentID]++; // increment the amount of times this staff id has been seen
-                            }
+                            uniqueStaffIDDict.Add(rowStaffID, 1); // add this staff id to the dictionary
+                            currentID = rowStaffID; // set the currentID to this id, this current id will last for 1 loop cycle
+                            //MessageBox.Show($"Added {rowStaffID} to the dict.");
+                        }
+                        else if (uniqueStaffIDDict.ContainsKey(rowStaffID) && uniqueStaffIDDict[rowStaffID] >= 5) // if the dictionary does contain this staff id and it has been seen at least 5 times
+                        {
+                            continue; // pass over this row
+                        }
+                        else // if the dictionary does contain this staff id and it has not been seen at least 5 times
+                        {
+                            uniqueStaffIDDict[currentID]++; // increment the amount of times this staff id has been seen
+                        }
 
+                        if (rowStaffID == currentID)
+                        {
+                            //MessageBox.Show($"staffRotaRow[0] = {staffRotaRow[0]}, rowstaffID = {rowStaffID}, currentID = {currentID}");
                             int day = row.Field<int>("day_id");
                             string staffMember = $"{row.Field<string>("staff_firstname")}. {row.Field<string>("staff_surname")[0]}";
                             staffRotaRow[0] = staffMember;
@@ -257,15 +265,16 @@ namespace CSCoursework_Smiley
                                     staffRotaRow[10] = rotaEndTime;
                                     break;
                             }
+                        }
 
-                            if (uniqueStaffIDDict[currentID] == 5)
-                            {
-                                //MessageBox.Show($"currentID = {currentID}, breaking");
-                                break;
-                            }
+                        if (uniqueStaffIDDict[currentID] == 5)
+                        {
+                            //MessageBox.Show($"currentID = {currentID}, breaking");
+                            break;
                         }
                     }
 
+                    //MessageBox.Show($"Adding Row for {staffRotaRow[0]}");
                     this.rotaDataGrid.Rows.Add(staffRotaRow[0], staffRotaRow[1], staffRotaRow[2], "", "", staffRotaRow[3], staffRotaRow[4], "", "", staffRotaRow[5], staffRotaRow[6], "", "", staffRotaRow[7], staffRotaRow[8], "", "", staffRotaRow[9], staffRotaRow[10], "", "");
                 }
             }

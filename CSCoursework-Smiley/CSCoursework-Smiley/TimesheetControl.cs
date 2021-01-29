@@ -10,6 +10,7 @@ using System.Windows.Forms;
 
 using System.Data.OleDb;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace CSCoursework_Smiley
 {
@@ -22,6 +23,8 @@ namespace CSCoursework_Smiley
         string clockHourChoice;
         string clockMinuteChoice;
         Tuple<int, int> cellLocation;
+        List<string> fullStaffMemberList;
+        int staffIDToSave;
 
         private Color backgroundColour;
         private Color highlightColour;
@@ -57,6 +60,39 @@ namespace CSCoursework_Smiley
             GetTimesheetRotaData();
             SetUpEventHandlers();
             UpdateWeekLabel();
+            InitializeStaffMemberList();
+        }
+        private void InitializeStaffMemberList()
+        {
+            fullStaffMemberList = new List<string>();
+
+            //Open database connection
+            con.Open();
+
+            //Initialize variables
+            DataSet StaffInfoDS;
+            OleDbDataAdapter da;
+            string sql;
+
+            //Join tblRota and tblAbsence on rota_id where staff_id is the selected user
+            sql = "SELECT tblStaff.staff_firstname, tblStaff.staff_surname, tblStaff.staff_id FROM tblStaff ORDER BY tblStaff.staff_firstname, tblStaff.staff_surname ASC";
+            da = new OleDbDataAdapter(sql, con);
+            StaffInfoDS = new DataSet();
+            da.Fill(StaffInfoDS, "StaffInfo");
+
+            //Close database connection
+            con.Close();
+
+            DataTable StaffInfoTable = StaffInfoDS.Tables["StaffInfo"];
+
+            DataColumn[] keyColumns = new DataColumn[1];
+            keyColumns[0] = StaffInfoTable.Columns["staff_id"];
+            StaffInfoTable.PrimaryKey = keyColumns;
+
+            foreach (DataRow row in StaffInfoTable.Rows)
+            {
+                fullStaffMemberList.Add($"{row.Field<string>("staff_firstname")},{row.Field<string>("staff_surname")}");
+            }
         }
         private void UpdateWeekLabel()
         {
@@ -142,87 +178,128 @@ namespace CSCoursework_Smiley
 
         private void GetTimesheetRotaData()
         {
-            //Open database connection
+            // Open database connection
             con.Open();
 
-            //Initialize variables
+            // Initialize variables
             DataSet RotaInfoDS;
             OleDbDataAdapter da;
             string sql;
 
-            //Join tblRota and tblAbsence on rota_id where staff_id is the selected user
-            sql = $"SELECT tblRota.day_id, tblRota.rota_week, tblRota.rota_start_time, tblRota.rota_end_time, tblRota.timesheet_start_time, tblRota.timesheet_end_time, tblRota.branch_id, tblStaff.staff_firstname, tblStaff.staff_surname, tblStaff.staff_id FROM tblRota INNER JOIN tblStaff ON tblRota.staff_id=tblStaff.staff_id";
+            // Join tblRota and tblAbsence on rota_id where staff_id is the selected user
+            DateTime prevDay = currentWeek.AddDays(-1);
+            DateTime nextDay = currentWeek.AddDays(1);
+            CultureInfo USCulture = CultureInfo.CreateSpecificCulture("en-US");
+            //sql = $"SELECT tblRota.day_id, tblRota.rota_week, tblRota.rota_start_time, tblRota.rota_end_time, tblRota.timesheet_start_time, tlbRota.timesheet_end_time, tblRota.branch_id, tblStaff.staff_firstname, tblStaff.staff_surname, tblStaff.staff_id FROM tblRota INNER JOIN tblStaff ON tblRota.staff_id=tblStaff.staff_id WHERE tblRota.rota_week >= #{prevDay.ToString("d", USCulture)}# AND tblRota.rota_week <= #{nextDay.ToString("d", USCulture)}# ORDER BY tblRota.rota_id ASC";
+            sql = $"SELECT tblRota.day_id, tblRota.rota_week, tblRota.rota_start_time, tblRota.rota_end_time, tblRota.timesheet_start_time, tblRota.timesheet_end_time, tblRota.branch_id, tblStaff.staff_firstname, tblStaff.staff_surname, tblStaff.staff_id FROM tblRota INNER JOIN tblStaff ON tblRota.staff_id=tblStaff.staff_id WHERE tblRota.rota_week >= #{prevDay.ToString("d", USCulture)}# AND tblRota.rota_week <= #{nextDay.ToString("d", USCulture)}# ORDER BY tblRota.rota_id ASC";
             da = new OleDbDataAdapter(sql, con);
             RotaInfoDS = new DataSet();
             da.Fill(RotaInfoDS, "RotaInfo");
 
-            //Close database connection
+            // Close database connection
             con.Close();
 
             DataTable RotaInfoTable = RotaInfoDS.Tables["RotaInfo"];
+            //MessageBox.Show(RotaInfoTable.Rows.Count.ToString());
 
             DataColumn[] keyColumns = new DataColumn[1];
             keyColumns[0] = RotaInfoTable.Columns["rota_id"];
             RotaInfoTable.PrimaryKey = keyColumns;
 
-            foreach (DataColumn column in RotaInfoTable.Columns)
-            {
-                //MessageBox.Show(column.ColumnName);
-            }
-
-            //Clear the rows
+            // Clear the rows
             this.rotaDataGrid.Rows.Clear();
 
-            for (int staffMemberCount = 1; staffMemberCount <= 2; staffMemberCount++)
+            // Identify number of unique rows to be displayed
+            int uniqueStaffMembers = RotaInfoTable.Rows.Count / 5; // since 5 rows are created per rota added.
+            //MessageBox.Show($"uniqueStaffMembers = {uniqueStaffMembers}");
+            Dictionary<int, int> uniqueStaffIDDict = new Dictionary<int, int>();
+            uniqueStaffIDDict.Add(0, 0);
+
+            foreach (DataRow row in RotaInfoTable.Rows)
             {
-                string[] staffRotaRow = new string[21];
-                foreach (DataRow row in RotaInfoTable.Rows)
+                //MessageBox.Show($"row staff ID = {row.Field<int>("staff_id")}");
+            }
+
+
+            if (uniqueStaffMembers > 0)
+            {
+                for (int staffMemberCount = 1; staffMemberCount <= uniqueStaffMembers; staffMemberCount++)
                 {
-                    if (row.Field<DateTime>("rota_week").ToString("d") == currentWeek.ToString("d"))
+                    int currentID = 0;
+                    string[] staffRotaRow = new string[21];
+                    foreach (DataRow row in RotaInfoTable.Rows)
                     {
-                        int day = row.Field<int>("day_id");
-                        string staffMember = $"{row.Field<string>("staff_firstname")}. {row.Field<string>("staff_surname")[0]}";
-                        staffRotaRow[0] = staffMember;
-                        string rotaStartTime = row.Field<string>("rota_start_time");
-                        string rotaEndTime = row.Field<string>("rota_end_time");
-                        string timesheetStartTime = row.Field<string>("timesheet_start_time");
-                        string timesheetEndTime = row.Field<string>("timesheet_end_time");
-                        switch (day)
+                        int rowStaffID = row.Field<int>("staff_id"); // set rowStaffID to the current rows staff id
+                        if (!uniqueStaffIDDict.ContainsKey(rowStaffID)) // if the dictionary does not contain this staff id
                         {
-                            case 1:
-                                staffRotaRow[1] = rotaStartTime;
-                                staffRotaRow[2] = rotaEndTime;
-                                staffRotaRow[3] = timesheetStartTime;
-                                staffRotaRow[4] = timesheetEndTime;
-                                break;
-                            case 2:
-                                staffRotaRow[5] = rotaStartTime;
-                                staffRotaRow[6] = rotaEndTime;
-                                staffRotaRow[7] = timesheetStartTime;
-                                staffRotaRow[8] = timesheetEndTime;
-                                break;
-                            case 3:
-                                staffRotaRow[9] = rotaStartTime;
-                                staffRotaRow[10] = rotaEndTime;
-                                staffRotaRow[11] = timesheetStartTime;
-                                staffRotaRow[12] = timesheetEndTime;
-                                break;
-                            case 4:
-                                staffRotaRow[13] = rotaStartTime;
-                                staffRotaRow[14] = rotaEndTime;
-                                staffRotaRow[15] = timesheetStartTime;
-                                staffRotaRow[16] = timesheetEndTime;
-                                break;
-                            case 5:
-                                staffRotaRow[17] = rotaStartTime;
-                                staffRotaRow[18] = rotaEndTime;
-                                staffRotaRow[19] = timesheetStartTime;
-                                staffRotaRow[20] = timesheetEndTime;
-                                break;
+                            uniqueStaffIDDict.Add(rowStaffID, 1); // add this staff id to the dictionary
+                            currentID = rowStaffID; // set the currentID to this id, this current id will last for 1 loop cycle
+                            //MessageBox.Show($"Added {rowStaffID} to the dict.");
+                        }
+                        else if (uniqueStaffIDDict.ContainsKey(rowStaffID) && uniqueStaffIDDict[rowStaffID] >= 5) // if the dictionary does contain this staff id and it has been seen at least 5 times
+                        {
+                            continue; // pass over this row
+                        }
+                        else // if the dictionary does contain this staff id and it has not been seen at least 5 times
+                        {
+                            uniqueStaffIDDict[currentID]++; // increment the amount of times this staff id has been seen
+                        }
+
+                        if (rowStaffID == currentID)
+                        {
+                            //MessageBox.Show($"staffRotaRow[0] = {staffRotaRow[0]}, rowstaffID = {rowStaffID}, currentID = {currentID}");
+                            int day = row.Field<int>("day_id");
+                            string staffMember = $"{row.Field<string>("staff_firstname")}. {row.Field<string>("staff_surname")[0]}";
+                            staffRotaRow[0] = staffMember;
+                            string rotaStartTime = row.Field<string>("rota_start_time");
+                            string rotaEndTime = row.Field<string>("rota_end_time");
+                            string timesheetStartTime = row.Field<string>("timesheet_start_time");
+                            string timesheetEndTime = row.Field<string>("timesheet_end_time");
+                            switch (day)
+                            {
+                                case 1:
+                                    staffRotaRow[1] = rotaStartTime;
+                                    staffRotaRow[2] = rotaEndTime;
+                                    staffRotaRow[3] = timesheetStartTime;
+                                    staffRotaRow[4] = timesheetEndTime;
+                                    break;
+                                case 2:
+                                    staffRotaRow[5] = rotaStartTime;
+                                    staffRotaRow[6] = rotaEndTime;
+                                    staffRotaRow[7] = timesheetStartTime;
+                                    staffRotaRow[8] = timesheetEndTime;
+                                    break;
+                                case 3:
+                                    staffRotaRow[9] = rotaStartTime;
+                                    staffRotaRow[10] = rotaEndTime;
+                                    staffRotaRow[11] = timesheetStartTime;
+                                    staffRotaRow[12] = timesheetEndTime;
+                                    break;
+                                case 4:
+                                    staffRotaRow[13] = rotaStartTime;
+                                    staffRotaRow[14] = rotaEndTime;
+                                    staffRotaRow[15] = timesheetStartTime;
+                                    staffRotaRow[16] = timesheetEndTime;
+                                    break;
+                                case 5:
+                                    staffRotaRow[17] = rotaStartTime;
+                                    staffRotaRow[18] = rotaEndTime;
+                                    staffRotaRow[19] = timesheetStartTime;
+                                    staffRotaRow[20] = timesheetEndTime;
+                                    break;
+                            }
+                        }
+
+                        if (uniqueStaffIDDict[currentID] == 5)
+                        {
+                            //MessageBox.Show($"currentID = {currentID}, breaking");
+                            break;
                         }
                     }
+
+                    //MessageBox.Show($"Adding Row for {staffRotaRow[0]}");
+                    this.rotaDataGrid.Rows.Add(staffRotaRow[0], staffRotaRow[1], staffRotaRow[2], staffRotaRow[3], staffRotaRow[4], staffRotaRow[5], staffRotaRow[6], staffRotaRow[7], staffRotaRow[8], staffRotaRow[9], staffRotaRow[10], staffRotaRow[11], staffRotaRow[12], staffRotaRow[13], staffRotaRow[14], staffRotaRow[15], staffRotaRow[16], staffRotaRow[17], staffRotaRow[18], staffRotaRow[19], staffRotaRow[20]);
                 }
-                this.rotaDataGrid.Rows.Add(staffRotaRow[0], staffRotaRow[1], staffRotaRow[2], staffRotaRow[3], staffRotaRow[4], staffRotaRow[5], staffRotaRow[6], staffRotaRow[7], staffRotaRow[8], staffRotaRow[9], staffRotaRow[10], staffRotaRow[11], staffRotaRow[12], staffRotaRow[13], staffRotaRow[14], staffRotaRow[15], staffRotaRow[16], staffRotaRow[17], staffRotaRow[18], staffRotaRow[19], staffRotaRow[20]);
             }
         }
 
@@ -314,10 +391,24 @@ namespace CSCoursework_Smiley
             //This line of code is needed for the update builder to be autogenerated so the da.Update line works
             _ = new OleDbCommandBuilder(da);
 
-            for (int staffMemberCount = 1; staffMemberCount <= 2; staffMemberCount++)
+            for (int staffMemberCount = 0; staffMemberCount < rotaDataGrid.Rows.Count; staffMemberCount++)
             {
                 //Variable to check if this staff member already has a row for this week
                 bool staffMemberHasRow = false;
+
+                //Check the staffID of the member in the timesheet
+                int staffID;
+                string firstNameToCheck = rotaDataGrid.Rows[staffMemberCount].Cells[0].Value.ToString().Split('.')[0];
+                char secondNameToCheck = rotaDataGrid.Rows[staffMemberCount].Cells[0].Value.ToString().Split('.')[1][1];
+                for (int i = 0; i < fullStaffMemberList.Count; i++)
+                {
+                    if (firstNameToCheck == fullStaffMemberList[i].Split(',')[0] && secondNameToCheck == fullStaffMemberList[i].Split(',')[1][0])
+                    {
+                        staffID = i + 1;
+                        staffIDToSave = staffID;
+                        //MessageBox.Show($"staffID = {staffID}, for Kai. C expect 2");
+                    }
+                }
 
                 //Add validation here
                 List<string> staffRotaRow = new List<string>();
@@ -327,7 +418,7 @@ namespace CSCoursework_Smiley
                     //Increment pointer by 2 to get to the next cell pair.
                     pointer += 2;
 
-                    string cell1 = rotaDataGrid.Rows[staffMemberCount - 1].Cells[++pointer].Value?.ToString();
+                    string cell1 = rotaDataGrid.Rows[staffMemberCount].Cells[++pointer].Value?.ToString();
                     //Format Check
                     if (cell1 != null && cell1 != "")
                     {
@@ -338,11 +429,11 @@ namespace CSCoursework_Smiley
                         else if (Regex.IsMatch(cell1, @"[0-9]\:[0-6][0-9]"))
                         {
                             staffRotaRow.Add($"0{cell1}");
-                            rotaDataGrid.Rows[staffMemberCount - 1].Cells[pointer].Value = $"0{cell1}";
+                            rotaDataGrid.Rows[staffMemberCount].Cells[pointer].Value = $"0{cell1}";
                         }
                         else
                         {
-                            MessageBox.Show($"Invalid input in Row: {staffMemberCount}, Cell: {pointer}. Must in the format hh:mm");
+                            MessageBox.Show($"Invalid input in Row: {staffMemberCount + 1}, Cell: {pointer}. Must in the format hh:mm");
                             return;
                         }
                     }
@@ -351,7 +442,7 @@ namespace CSCoursework_Smiley
                         staffRotaRow.Add(cell1);
                     }
 
-                    string cell2 = rotaDataGrid.Rows[staffMemberCount - 1].Cells[++pointer].Value?.ToString();
+                    string cell2 = rotaDataGrid.Rows[staffMemberCount].Cells[++pointer].Value?.ToString();
                     //Format Check
                     if (cell2 != null && cell2 != "")
                     {
@@ -362,11 +453,11 @@ namespace CSCoursework_Smiley
                         else if (Regex.IsMatch(cell2, @"[0-9]\:[0-6][0-9]"))
                         {
                             staffRotaRow.Add($"0{cell2}");
-                            rotaDataGrid.Rows[staffMemberCount - 1].Cells[pointer].Value = $"0{cell2}";
+                            rotaDataGrid.Rows[staffMemberCount].Cells[pointer].Value = $"0{cell2}";
                         }
                         else
                         {
-                            MessageBox.Show($"Invalid input in Row: {staffMemberCount}, Col: {pointer + 1}. Must in the format hh:mm");
+                            MessageBox.Show($"Invalid input in Row: {staffMemberCount + 1}, Col: {pointer + 1}. Must in the format hh:mm");
                             return;
                         }
                     }
@@ -379,7 +470,7 @@ namespace CSCoursework_Smiley
                 //Update existing database entries
                 foreach (DataRow dynamicRow in DynamicRotaInfoTable.Rows)
                 {
-                    if (dynamicRow.Field<int>("staff_id") == staffMemberCount)
+                    if (dynamicRow.Field<int>("staff_id") == staffIDToSave)
                     {
                         if (dynamicRow.Field<DateTime>("rota_week").ToString("d") == currentWeek.ToString("d"))
                         {
@@ -430,7 +521,6 @@ namespace CSCoursework_Smiley
                     int rotaID = rotaToStart;
 
                     DataRow newRotaRow;
-                    int staffID = staffMemberCount;
                     int exportID = 1;
                     int branchID = 1;
                     string rotaWeek = currentWeek.ToString("d");
@@ -441,7 +531,7 @@ namespace CSCoursework_Smiley
                         newRotaRow = RotaInfoTable.NewRow();
                         newRotaRow["rota_id"] = rotaID;
                         newRotaRow["day_id"] = dayID;
-                        newRotaRow["staff_id"] = staffID;
+                        newRotaRow["staff_id"] = staffIDToSave;
                         newRotaRow["export_id"] = exportID;
                         newRotaRow["branch_id"] = branchID;
                         newRotaRow["rota_week"] = rotaWeek;
@@ -493,6 +583,11 @@ namespace CSCoursework_Smiley
                 timeSaveSection = 0;
                 UpdateClockCell();
             }
+        }
+
+        private void rotaHeaderDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 

@@ -29,6 +29,23 @@
         private void InitializeComponent()
         {
             this.rotaDataGrid = new System.Windows.Forms.DataGridView();
+            this.rotaHeaderDataGrid = new System.Windows.Forms.DataGridView();
+            this.checkBoxClockInput = new System.Windows.Forms.CheckBox();
+            this.btnSaveRota = new System.Windows.Forms.Button();
+            this.btnInputHolidayData = new System.Windows.Forms.Button();
+            this.btnInputAbsenceData = new System.Windows.Forms.Button();
+            this.lblCurrentWeek = new System.Windows.Forms.Label();
+            this.btnNextWeek = new System.Windows.Forms.Button();
+            this.btnPrevWeek = new System.Windows.Forms.Button();
+            this.clockHourSelectControl1 = new CSCoursework_Smiley.ClockHourSelectControl();
+            this.clockMinuteSelectControl1 = new CSCoursework_Smiley.ClockMinuteSelectControl();
+            this.btnSaveClockSelection = new System.Windows.Forms.Button();
+            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.weekdayMonday = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.weekdayTuesday = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.weekdayWednesday = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.weekDayThrusday = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.weekdayFriday = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.columnStaffMember = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MondayRotaIn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.MondayRotaOut = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -50,23 +67,6 @@
             this.FridayRotaOut = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FridayTimesheetIn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FridayTimesheetOut = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.rotaHeaderDataGrid = new System.Windows.Forms.DataGridView();
-            this.Date = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.weekdayMonday = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.weekdayTuesday = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.weekdayWednesday = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.weekDayThrusday = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.weekdayFriday = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.checkBoxClockInput = new System.Windows.Forms.CheckBox();
-            this.btnSaveRota = new System.Windows.Forms.Button();
-            this.btnInputHolidayData = new System.Windows.Forms.Button();
-            this.btnInputAbsenceData = new System.Windows.Forms.Button();
-            this.lblCurrentWeek = new System.Windows.Forms.Label();
-            this.btnNextWeek = new System.Windows.Forms.Button();
-            this.btnPrevWeek = new System.Windows.Forms.Button();
-            this.clockHourSelectControl1 = new CSCoursework_Smiley.ClockHourSelectControl();
-            this.clockMinuteSelectControl1 = new CSCoursework_Smiley.ClockMinuteSelectControl();
-            this.btnSaveClockSelection = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.rotaDataGrid)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.rotaHeaderDataGrid)).BeginInit();
             this.SuspendLayout();
@@ -103,12 +103,182 @@
             this.rotaDataGrid.Size = new System.Drawing.Size(808, 378);
             this.rotaDataGrid.TabIndex = 3;
             // 
+            // rotaHeaderDataGrid
+            // 
+            this.rotaHeaderDataGrid.AllowUserToAddRows = false;
+            this.rotaHeaderDataGrid.AllowUserToDeleteRows = false;
+            this.rotaHeaderDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.rotaHeaderDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Date,
+            this.weekdayMonday,
+            this.weekdayTuesday,
+            this.weekdayWednesday,
+            this.weekDayThrusday,
+            this.weekdayFriday});
+            this.rotaHeaderDataGrid.Location = new System.Drawing.Point(3, 77);
+            this.rotaHeaderDataGrid.Name = "rotaHeaderDataGrid";
+            this.rotaHeaderDataGrid.ReadOnly = true;
+            this.rotaHeaderDataGrid.Size = new System.Drawing.Size(808, 23);
+            this.rotaHeaderDataGrid.TabIndex = 2;
+            this.rotaHeaderDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.rotaHeaderDataGrid_CellContentClick);
+            // 
+            // checkBoxClockInput
+            // 
+            this.checkBoxClockInput.AutoSize = true;
+            this.checkBoxClockInput.Location = new System.Drawing.Point(3, 54);
+            this.checkBoxClockInput.Name = "checkBoxClockInput";
+            this.checkBoxClockInput.Size = new System.Drawing.Size(80, 17);
+            this.checkBoxClockInput.TabIndex = 4;
+            this.checkBoxClockInput.Text = "Clock Input";
+            this.checkBoxClockInput.UseVisualStyleBackColor = true;
+            this.checkBoxClockInput.CheckedChanged += new System.EventHandler(this.checkBoxClockInput_CheckedChanged);
+            // 
+            // btnSaveRota
+            // 
+            this.btnSaveRota.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSaveRota.Location = new System.Drawing.Point(669, 588);
+            this.btnSaveRota.Name = "btnSaveRota";
+            this.btnSaveRota.Size = new System.Drawing.Size(142, 45);
+            this.btnSaveRota.TabIndex = 11;
+            this.btnSaveRota.Text = "Save";
+            this.btnSaveRota.UseVisualStyleBackColor = true;
+            this.btnSaveRota.Click += new System.EventHandler(this.btnSaveRota_Click);
+            // 
+            // btnInputHolidayData
+            // 
+            this.btnInputHolidayData.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnInputHolidayData.Location = new System.Drawing.Point(669, 536);
+            this.btnInputHolidayData.Name = "btnInputHolidayData";
+            this.btnInputHolidayData.Size = new System.Drawing.Size(142, 45);
+            this.btnInputHolidayData.TabIndex = 12;
+            this.btnInputHolidayData.Text = "Input Absence";
+            this.btnInputHolidayData.UseVisualStyleBackColor = true;
+            // 
+            // btnInputAbsenceData
+            // 
+            this.btnInputAbsenceData.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnInputAbsenceData.Location = new System.Drawing.Point(669, 484);
+            this.btnInputAbsenceData.Name = "btnInputAbsenceData";
+            this.btnInputAbsenceData.Size = new System.Drawing.Size(142, 45);
+            this.btnInputAbsenceData.TabIndex = 13;
+            this.btnInputAbsenceData.Text = "Input Holiday";
+            this.btnInputAbsenceData.UseVisualStyleBackColor = true;
+            // 
+            // lblCurrentWeek
+            // 
+            this.lblCurrentWeek.AutoSize = true;
+            this.lblCurrentWeek.Location = new System.Drawing.Point(338, 8);
+            this.lblCurrentWeek.Name = "lblCurrentWeek";
+            this.lblCurrentWeek.Size = new System.Drawing.Size(73, 13);
+            this.lblCurrentWeek.TabIndex = 14;
+            this.lblCurrentWeek.Text = "Current Week";
+            // 
+            // btnNextWeek
+            // 
+            this.btnNextWeek.Location = new System.Drawing.Point(736, 4);
+            this.btnNextWeek.Name = "btnNextWeek";
+            this.btnNextWeek.Size = new System.Drawing.Size(75, 23);
+            this.btnNextWeek.TabIndex = 15;
+            this.btnNextWeek.Text = "Next Week";
+            this.btnNextWeek.UseVisualStyleBackColor = true;
+            this.btnNextWeek.Click += new System.EventHandler(this.btnNextWeek_Click_1);
+            // 
+            // btnPrevWeek
+            // 
+            this.btnPrevWeek.Location = new System.Drawing.Point(3, 3);
+            this.btnPrevWeek.Name = "btnPrevWeek";
+            this.btnPrevWeek.Size = new System.Drawing.Size(75, 23);
+            this.btnPrevWeek.TabIndex = 16;
+            this.btnPrevWeek.Text = "Prev Week";
+            this.btnPrevWeek.UseVisualStyleBackColor = true;
+            this.btnPrevWeek.Click += new System.EventHandler(this.btnPrevWeek_Click);
+            // 
+            // clockHourSelectControl1
+            // 
+            this.clockHourSelectControl1.BackColor = System.Drawing.Color.White;
+            this.clockHourSelectControl1.Location = new System.Drawing.Point(246, 201);
+            this.clockHourSelectControl1.Name = "clockHourSelectControl1";
+            this.clockHourSelectControl1.Size = new System.Drawing.Size(150, 147);
+            this.clockHourSelectControl1.TabIndex = 17;
+            this.clockHourSelectControl1.Visible = false;
+            // 
+            // clockMinuteSelectControl1
+            // 
+            this.clockMinuteSelectControl1.BackColor = System.Drawing.Color.White;
+            this.clockMinuteSelectControl1.Location = new System.Drawing.Point(452, 200);
+            this.clockMinuteSelectControl1.Name = "clockMinuteSelectControl1";
+            this.clockMinuteSelectControl1.Size = new System.Drawing.Size(150, 148);
+            this.clockMinuteSelectControl1.TabIndex = 18;
+            this.clockMinuteSelectControl1.Visible = false;
+            // 
+            // btnSaveClockSelection
+            // 
+            this.btnSaveClockSelection.BackColor = System.Drawing.SystemColors.Control;
+            this.btnSaveClockSelection.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.btnSaveClockSelection.Location = new System.Drawing.Point(246, 348);
+            this.btnSaveClockSelection.Name = "btnSaveClockSelection";
+            this.btnSaveClockSelection.Size = new System.Drawing.Size(150, 23);
+            this.btnSaveClockSelection.TabIndex = 19;
+            this.btnSaveClockSelection.Text = "Save";
+            this.btnSaveClockSelection.UseVisualStyleBackColor = false;
+            this.btnSaveClockSelection.Visible = false;
+            this.btnSaveClockSelection.Click += new System.EventHandler(this.btnSaveClockSelection_Click);
+            // 
+            // Date
+            // 
+            this.Date.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
+            this.Date.FillWeight = 304.5685F;
+            this.Date.HeaderText = "Date";
+            this.Date.Name = "Date";
+            this.Date.ReadOnly = true;
+            this.Date.Width = 60;
+            // 
+            // weekdayMonday
+            // 
+            this.weekdayMonday.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.weekdayMonday.FillWeight = 59.08629F;
+            this.weekdayMonday.HeaderText = "Monday";
+            this.weekdayMonday.Name = "weekdayMonday";
+            this.weekdayMonday.ReadOnly = true;
+            // 
+            // weekdayTuesday
+            // 
+            this.weekdayTuesday.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.weekdayTuesday.FillWeight = 59.08629F;
+            this.weekdayTuesday.HeaderText = "Tuesday";
+            this.weekdayTuesday.Name = "weekdayTuesday";
+            this.weekdayTuesday.ReadOnly = true;
+            // 
+            // weekdayWednesday
+            // 
+            this.weekdayWednesday.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.weekdayWednesday.FillWeight = 59.08629F;
+            this.weekdayWednesday.HeaderText = "Wednesday";
+            this.weekdayWednesday.Name = "weekdayWednesday";
+            this.weekdayWednesday.ReadOnly = true;
+            // 
+            // weekDayThrusday
+            // 
+            this.weekDayThrusday.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.weekDayThrusday.FillWeight = 59.08629F;
+            this.weekDayThrusday.HeaderText = "Thursday";
+            this.weekDayThrusday.Name = "weekDayThrusday";
+            this.weekDayThrusday.ReadOnly = true;
+            // 
+            // weekdayFriday
+            // 
+            this.weekdayFriday.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.weekdayFriday.FillWeight = 59.08629F;
+            this.weekdayFriday.HeaderText = "Friday";
+            this.weekdayFriday.Name = "weekdayFriday";
+            this.weekdayFriday.ReadOnly = true;
+            // 
             // columnStaffMember
             // 
             this.columnStaffMember.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
             this.columnStaffMember.HeaderText = "Staff Member";
             this.columnStaffMember.Name = "columnStaffMember";
-            this.columnStaffMember.Width = 70;
+            this.columnStaffMember.Width = 60;
             // 
             // MondayRotaIn
             // 
@@ -230,175 +400,6 @@
             this.FridayTimesheetOut.HeaderText = "Out";
             this.FridayTimesheetOut.Name = "FridayTimesheetOut";
             // 
-            // rotaHeaderDataGrid
-            // 
-            this.rotaHeaderDataGrid.AllowUserToAddRows = false;
-            this.rotaHeaderDataGrid.AllowUserToDeleteRows = false;
-            this.rotaHeaderDataGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.rotaHeaderDataGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.Date,
-            this.weekdayMonday,
-            this.weekdayTuesday,
-            this.weekdayWednesday,
-            this.weekDayThrusday,
-            this.weekdayFriday});
-            this.rotaHeaderDataGrid.Location = new System.Drawing.Point(3, 77);
-            this.rotaHeaderDataGrid.Name = "rotaHeaderDataGrid";
-            this.rotaHeaderDataGrid.ReadOnly = true;
-            this.rotaHeaderDataGrid.Size = new System.Drawing.Size(808, 23);
-            this.rotaHeaderDataGrid.TabIndex = 2;
-            // 
-            // Date
-            // 
-            this.Date.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.None;
-            this.Date.FillWeight = 304.5685F;
-            this.Date.HeaderText = "Date";
-            this.Date.Name = "Date";
-            this.Date.ReadOnly = true;
-            this.Date.Width = 70;
-            // 
-            // weekdayMonday
-            // 
-            this.weekdayMonday.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.weekdayMonday.FillWeight = 59.08629F;
-            this.weekdayMonday.HeaderText = "Monday";
-            this.weekdayMonday.Name = "weekdayMonday";
-            this.weekdayMonday.ReadOnly = true;
-            // 
-            // weekdayTuesday
-            // 
-            this.weekdayTuesday.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.weekdayTuesday.FillWeight = 59.08629F;
-            this.weekdayTuesday.HeaderText = "Tuesday";
-            this.weekdayTuesday.Name = "weekdayTuesday";
-            this.weekdayTuesday.ReadOnly = true;
-            // 
-            // weekdayWednesday
-            // 
-            this.weekdayWednesday.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.weekdayWednesday.FillWeight = 59.08629F;
-            this.weekdayWednesday.HeaderText = "Wednesday";
-            this.weekdayWednesday.Name = "weekdayWednesday";
-            this.weekdayWednesday.ReadOnly = true;
-            // 
-            // weekDayThrusday
-            // 
-            this.weekDayThrusday.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.weekDayThrusday.FillWeight = 59.08629F;
-            this.weekDayThrusday.HeaderText = "Thursday";
-            this.weekDayThrusday.Name = "weekDayThrusday";
-            this.weekDayThrusday.ReadOnly = true;
-            // 
-            // weekdayFriday
-            // 
-            this.weekdayFriday.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
-            this.weekdayFriday.FillWeight = 59.08629F;
-            this.weekdayFriday.HeaderText = "Friday";
-            this.weekdayFriday.Name = "weekdayFriday";
-            this.weekdayFriday.ReadOnly = true;
-            // 
-            // checkBoxClockInput
-            // 
-            this.checkBoxClockInput.AutoSize = true;
-            this.checkBoxClockInput.Location = new System.Drawing.Point(3, 54);
-            this.checkBoxClockInput.Name = "checkBoxClockInput";
-            this.checkBoxClockInput.Size = new System.Drawing.Size(80, 17);
-            this.checkBoxClockInput.TabIndex = 4;
-            this.checkBoxClockInput.Text = "Clock Input";
-            this.checkBoxClockInput.UseVisualStyleBackColor = true;
-            this.checkBoxClockInput.CheckedChanged += new System.EventHandler(this.checkBoxClockInput_CheckedChanged);
-            // 
-            // btnSaveRota
-            // 
-            this.btnSaveRota.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSaveRota.Location = new System.Drawing.Point(669, 588);
-            this.btnSaveRota.Name = "btnSaveRota";
-            this.btnSaveRota.Size = new System.Drawing.Size(142, 45);
-            this.btnSaveRota.TabIndex = 11;
-            this.btnSaveRota.Text = "Save";
-            this.btnSaveRota.UseVisualStyleBackColor = true;
-            this.btnSaveRota.Click += new System.EventHandler(this.btnSaveRota_Click);
-            // 
-            // btnInputHolidayData
-            // 
-            this.btnInputHolidayData.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnInputHolidayData.Location = new System.Drawing.Point(669, 536);
-            this.btnInputHolidayData.Name = "btnInputHolidayData";
-            this.btnInputHolidayData.Size = new System.Drawing.Size(142, 45);
-            this.btnInputHolidayData.TabIndex = 12;
-            this.btnInputHolidayData.Text = "Input Absence";
-            this.btnInputHolidayData.UseVisualStyleBackColor = true;
-            // 
-            // btnInputAbsenceData
-            // 
-            this.btnInputAbsenceData.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnInputAbsenceData.Location = new System.Drawing.Point(669, 484);
-            this.btnInputAbsenceData.Name = "btnInputAbsenceData";
-            this.btnInputAbsenceData.Size = new System.Drawing.Size(142, 45);
-            this.btnInputAbsenceData.TabIndex = 13;
-            this.btnInputAbsenceData.Text = "Input Holiday";
-            this.btnInputAbsenceData.UseVisualStyleBackColor = true;
-            // 
-            // lblCurrentWeek
-            // 
-            this.lblCurrentWeek.AutoSize = true;
-            this.lblCurrentWeek.Location = new System.Drawing.Point(338, 8);
-            this.lblCurrentWeek.Name = "lblCurrentWeek";
-            this.lblCurrentWeek.Size = new System.Drawing.Size(73, 13);
-            this.lblCurrentWeek.TabIndex = 14;
-            this.lblCurrentWeek.Text = "Current Week";
-            // 
-            // btnNextWeek
-            // 
-            this.btnNextWeek.Location = new System.Drawing.Point(736, 4);
-            this.btnNextWeek.Name = "btnNextWeek";
-            this.btnNextWeek.Size = new System.Drawing.Size(75, 23);
-            this.btnNextWeek.TabIndex = 15;
-            this.btnNextWeek.Text = "Next Week";
-            this.btnNextWeek.UseVisualStyleBackColor = true;
-            this.btnNextWeek.Click += new System.EventHandler(this.btnNextWeek_Click_1);
-            // 
-            // btnPrevWeek
-            // 
-            this.btnPrevWeek.Location = new System.Drawing.Point(3, 3);
-            this.btnPrevWeek.Name = "btnPrevWeek";
-            this.btnPrevWeek.Size = new System.Drawing.Size(75, 23);
-            this.btnPrevWeek.TabIndex = 16;
-            this.btnPrevWeek.Text = "Prev Week";
-            this.btnPrevWeek.UseVisualStyleBackColor = true;
-            this.btnPrevWeek.Click += new System.EventHandler(this.btnPrevWeek_Click);
-            // 
-            // clockHourSelectControl1
-            // 
-            this.clockHourSelectControl1.BackColor = System.Drawing.Color.White;
-            this.clockHourSelectControl1.Location = new System.Drawing.Point(246, 201);
-            this.clockHourSelectControl1.Name = "clockHourSelectControl1";
-            this.clockHourSelectControl1.Size = new System.Drawing.Size(150, 147);
-            this.clockHourSelectControl1.TabIndex = 17;
-            this.clockHourSelectControl1.Visible = false;
-            // 
-            // clockMinuteSelectControl1
-            // 
-            this.clockMinuteSelectControl1.BackColor = System.Drawing.Color.White;
-            this.clockMinuteSelectControl1.Location = new System.Drawing.Point(452, 200);
-            this.clockMinuteSelectControl1.Name = "clockMinuteSelectControl1";
-            this.clockMinuteSelectControl1.Size = new System.Drawing.Size(150, 148);
-            this.clockMinuteSelectControl1.TabIndex = 18;
-            this.clockMinuteSelectControl1.Visible = false;
-            // 
-            // btnSaveClockSelection
-            // 
-            this.btnSaveClockSelection.BackColor = System.Drawing.SystemColors.Control;
-            this.btnSaveClockSelection.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
-            this.btnSaveClockSelection.Location = new System.Drawing.Point(246, 348);
-            this.btnSaveClockSelection.Name = "btnSaveClockSelection";
-            this.btnSaveClockSelection.Size = new System.Drawing.Size(150, 23);
-            this.btnSaveClockSelection.TabIndex = 19;
-            this.btnSaveClockSelection.Text = "Save";
-            this.btnSaveClockSelection.UseVisualStyleBackColor = false;
-            this.btnSaveClockSelection.Visible = false;
-            this.btnSaveClockSelection.Click += new System.EventHandler(this.btnSaveClockSelection_Click);
-            // 
             // TimesheetControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -428,6 +429,17 @@
         #endregion
 
         private System.Windows.Forms.DataGridView rotaDataGrid;
+        private System.Windows.Forms.DataGridView rotaHeaderDataGrid;
+        private System.Windows.Forms.CheckBox checkBoxClockInput;
+        private System.Windows.Forms.Button btnSaveRota;
+        private System.Windows.Forms.Button btnInputHolidayData;
+        private System.Windows.Forms.Button btnInputAbsenceData;
+        private System.Windows.Forms.Label lblCurrentWeek;
+        private System.Windows.Forms.Button btnNextWeek;
+        private System.Windows.Forms.Button btnPrevWeek;
+        private ClockHourSelectControl clockHourSelectControl1;
+        private ClockMinuteSelectControl clockMinuteSelectControl1;
+        private System.Windows.Forms.Button btnSaveClockSelection;
         private System.Windows.Forms.DataGridViewTextBoxColumn columnStaffMember;
         private System.Windows.Forms.DataGridViewTextBoxColumn MondayRotaIn;
         private System.Windows.Forms.DataGridViewTextBoxColumn MondayRotaOut;
@@ -449,22 +461,11 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn FridayRotaOut;
         private System.Windows.Forms.DataGridViewTextBoxColumn FridayTimesheetIn;
         private System.Windows.Forms.DataGridViewTextBoxColumn FridayTimesheetOut;
-        private System.Windows.Forms.DataGridView rotaHeaderDataGrid;
         private System.Windows.Forms.DataGridViewTextBoxColumn Date;
         private System.Windows.Forms.DataGridViewTextBoxColumn weekdayMonday;
         private System.Windows.Forms.DataGridViewTextBoxColumn weekdayTuesday;
         private System.Windows.Forms.DataGridViewTextBoxColumn weekdayWednesday;
         private System.Windows.Forms.DataGridViewTextBoxColumn weekDayThrusday;
         private System.Windows.Forms.DataGridViewTextBoxColumn weekdayFriday;
-        private System.Windows.Forms.CheckBox checkBoxClockInput;
-        private System.Windows.Forms.Button btnSaveRota;
-        private System.Windows.Forms.Button btnInputHolidayData;
-        private System.Windows.Forms.Button btnInputAbsenceData;
-        private System.Windows.Forms.Label lblCurrentWeek;
-        private System.Windows.Forms.Button btnNextWeek;
-        private System.Windows.Forms.Button btnPrevWeek;
-        private ClockHourSelectControl clockHourSelectControl1;
-        private ClockMinuteSelectControl clockMinuteSelectControl1;
-        private System.Windows.Forms.Button btnSaveClockSelection;
     }
 }
