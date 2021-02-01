@@ -61,6 +61,7 @@
             this.comboBoxSelectEmployee.Name = "comboBoxSelectEmployee";
             this.comboBoxSelectEmployee.Size = new System.Drawing.Size(121, 24);
             this.comboBoxSelectEmployee.TabIndex = 1;
+            this.comboBoxSelectEmployee.SelectedIndexChanged += new System.EventHandler(this.comboBoxSelectEmployee_SelectedIndexChanged_1);
             // 
             // grpBoxSelectEmployee
             // 
@@ -95,7 +96,7 @@
             this.ColumnWednesday,
             this.ColumnThursday,
             this.ColumnFriday});
-            this.holidayDataGridView.Location = new System.Drawing.Point(17, 20);
+            this.holidayDataGridView.Location = new System.Drawing.Point(12, 20);
             this.holidayDataGridView.Name = "holidayDataGridView";
             this.holidayDataGridView.RowHeadersVisible = false;
             this.holidayDataGridView.Size = new System.Drawing.Size(276, 47);

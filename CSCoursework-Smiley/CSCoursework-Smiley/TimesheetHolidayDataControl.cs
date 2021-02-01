@@ -56,9 +56,20 @@ namespace CSCoursework_Smiley
             comboBoxSelectEmployee.SelectedIndex = 0;
         }
 
+        public void ClearDataGrid()
+        {
+            holidayDataGridView.Rows.Clear();
+            holidayDataGridView.Rows.Add();
+        }
+
         private void comboBoxSelectEmployee_SelectedIndexChanged(object sender, EventArgs e)
         {
             //MessageBox.Show(comboBoxSelectEmployee.SelectedIndex.ToString()) ;
+        }
+
+        private void comboBoxSelectEmployee_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            ClearDataGrid();
         }
     }
 }

@@ -190,6 +190,12 @@
     <Compile Include="StaffControlNotes.Designer.cs">
       <DependentUpon>StaffControlNotes.cs</DependentUpon>
     </Compile>
+    <Compile Include="TimesheetAbsenceDataControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TimesheetAbsenceDataControl.Designer.cs">
+      <DependentUpon>TimesheetAbsenceDataControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="TimesheetControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -248,6 +254,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="StaffControlNotes.resx">
       <DependentUpon>StaffControlNotes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TimesheetAbsenceDataControl.resx">
+      <DependentUpon>TimesheetAbsenceDataControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="TimesheetControl.resx">
       <DependentUpon>TimesheetControl.cs</DependentUpon>

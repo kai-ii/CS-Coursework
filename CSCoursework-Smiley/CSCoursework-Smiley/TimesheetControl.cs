@@ -63,13 +63,28 @@ namespace CSCoursework_Smiley
             SetUpEventHandlers();
             UpdateWeekLabel();
             InitializeStaffMemberList();
-            UpdateHolidayControlEmployees();
+            UpdateControlEmployees();
             InitializeParentForms();
+        }
+        private void UpdateControlEmployees()
+        {
+            List<Tuple<string, List<bool>>> staffMembersInDataGridListHolidayTuple = new List<Tuple<string, List<bool>>>();
+            List<Tuple<string, List<bool>>> staffMembersInDataGridListAbsenceTuple = new List<Tuple<string, List<bool>>>();
+
+            for (int row = 0; row < rotaDataGrid.Rows.Count; row++)
+            {
+                staffMembersInDataGridListAbsenceTuple
+                for (int column = 3, column<)
+            }
+
+            timesheetHolidayDataControl1.SetComboBoxMembers(staffMembersInDataGridList);
+            timesheetAbsenceDataControl1.SetComboBoxMembers(staffMembersInDataGridList);
         }
 
         private void InitializeParentForms()
         {
             timesheetHolidayDataControl1.parentForm = this;
+            timesheetAbsenceDataControl1.parentForm = this;
         }
 
         public void UpdateHolidayData(int rowToChange, int dayToChange, bool checkedValue)
@@ -88,12 +103,216 @@ namespace CSCoursework_Smiley
                         rotaDataGrid.Rows[rowToChange].Cells[4].Value = "";
                     }
                     break;
+                case 2:
+                    if (checkedValue)
+                    {
+                        rotaDataGrid.Rows[rowToChange].Cells[7].Value = "Holiday";
+                        rotaDataGrid.Rows[rowToChange].Cells[8].Value = "Holiday";
+                    }
+                    else
+                    {
+                        rotaDataGrid.Rows[rowToChange].Cells[7].Value = "";
+                        rotaDataGrid.Rows[rowToChange].Cells[8].Value = "";
+                    }
+                    break;
+                case 3:
+                    if (checkedValue)
+                    {
+                        rotaDataGrid.Rows[rowToChange].Cells[11].Value = "Holiday";
+                        rotaDataGrid.Rows[rowToChange].Cells[12].Value = "Holiday";
+                    }
+                    else
+                    {
+                        rotaDataGrid.Rows[rowToChange].Cells[11].Value = "";
+                        rotaDataGrid.Rows[rowToChange].Cells[12].Value = "";
+                    }
+                    break;
+                case 4:
+                    if (checkedValue)
+                    {
+                        rotaDataGrid.Rows[rowToChange].Cells[15].Value = "Holiday";
+                        rotaDataGrid.Rows[rowToChange].Cells[16].Value = "Holiday";
+                    }
+                    else
+                    {
+                        rotaDataGrid.Rows[rowToChange].Cells[15].Value = "";
+                        rotaDataGrid.Rows[rowToChange].Cells[16].Value = "";
+                    }
+                    break;
+                case 5:
+                    if (checkedValue)
+                    {
+                        rotaDataGrid.Rows[rowToChange].Cells[19].Value = "Holiday";
+                        rotaDataGrid.Rows[rowToChange].Cells[20].Value = "Holiday";
+                    }
+                    else
+                    {
+                        rotaDataGrid.Rows[rowToChange].Cells[19].Value = "";
+                        rotaDataGrid.Rows[rowToChange].Cells[20].Value = "";
+                    }
+                    break;
             }
         }
-        private void UpdateHolidayControlEmployees()
+        public void UpdateAbsenceDataGrid(int rowToChange, int dayToChange, bool checkedValue)
         {
-            timesheetHolidayDataControl1.SetComboBoxMembers(staffMembersInDataGridList);
+            switch (dayToChange)
+            {
+                case 1:
+                    if (checkedValue)
+                    {
+                        rotaDataGrid.Rows[rowToChange].Cells[3].Value = "Absent";
+                        rotaDataGrid.Rows[rowToChange].Cells[4].Value = "Absent";
+                    }
+                    else
+                    {
+                        rotaDataGrid.Rows[rowToChange].Cells[3].Value = "";
+                        rotaDataGrid.Rows[rowToChange].Cells[4].Value = "";
+                    }
+                    break;
+                case 2:
+                    if (checkedValue)
+                    {
+                        rotaDataGrid.Rows[rowToChange].Cells[7].Value = "Absent";
+                        rotaDataGrid.Rows[rowToChange].Cells[8].Value = "Absent";
+                    }
+                    else
+                    {
+                        rotaDataGrid.Rows[rowToChange].Cells[7].Value = "";
+                        rotaDataGrid.Rows[rowToChange].Cells[8].Value = "";
+                    }
+                    break;
+                case 3:
+                    if (checkedValue)
+                    {
+                        rotaDataGrid.Rows[rowToChange].Cells[11].Value = "Absent";
+                        rotaDataGrid.Rows[rowToChange].Cells[12].Value = "Absent";
+                    }
+                    else
+                    {
+                        rotaDataGrid.Rows[rowToChange].Cells[11].Value = "";
+                        rotaDataGrid.Rows[rowToChange].Cells[12].Value = "";
+                    }
+                    break;
+                case 4:
+                    if (checkedValue)
+                    {
+                        rotaDataGrid.Rows[rowToChange].Cells[15].Value = "Absent";
+                        rotaDataGrid.Rows[rowToChange].Cells[16].Value = "Absent";
+                    }
+                    else
+                    {
+                        rotaDataGrid.Rows[rowToChange].Cells[15].Value = "";
+                        rotaDataGrid.Rows[rowToChange].Cells[16].Value = "";
+                    }
+                    break;
+                case 5:
+                    if (checkedValue)
+                    {
+                        rotaDataGrid.Rows[rowToChange].Cells[19].Value = "Absent";
+                        rotaDataGrid.Rows[rowToChange].Cells[20].Value = "Absent";
+                    }
+                    else
+                    {
+                        rotaDataGrid.Rows[rowToChange].Cells[19].Value = "";
+                        rotaDataGrid.Rows[rowToChange].Cells[20].Value = "";
+                    }
+                    break;
+            }
         }
+        public void UpdateAbsenceDatabaseInformation(Day dayOfWeek, string textToSave, int employeeSelected)
+        {
+            // Open database connection
+            con.Open();
+
+            // Initialize variables
+            DataSet RotaIDDS;
+            DataSet AbsenceNoteInfoDS;
+            OleDbDataAdapter da;
+            string sql;
+
+            string staffMemberToFind = staffMembersInDataGridList[employeeSelected];
+            int staffID = 0;
+            int rotaID;
+
+            for (int staffIDIterator = 0; staffIDIterator < fullStaffMemberList.Count; staffIDIterator++)
+            {
+                string firstname = fullStaffMemberList[staffIDIterator].Split(',')[0];
+                char surname = fullStaffMemberList[staffIDIterator].Split(',')[1][0];
+                string fullNameToCheck = $"{firstname}. {surname}";
+                if (staffMemberToFind == fullNameToCheck) { staffID = staffIDIterator+1; }
+                //MessageBox.Show($"firstname = {firstname}, surname = {surname}, staffMemberToFind={staffMemberToFind}, fullNameToCheck = {fullNameToCheck}, identical={staffMemberToFind==fullNameToCheck}");
+            }
+
+            // Get the rota id for this day/employee | day/employee combos will always be unique since we can just check from current week
+            DateTime prevDay = currentWeek.AddDays(-1);
+            DateTime nextDay = currentWeek.AddDays(1);
+            CultureInfo USCulture = CultureInfo.CreateSpecificCulture("en-US");
+
+            sql = $"SELECT rota_id FROM tblRota where day_id={Convert.ToInt32(dayOfWeek + 1)} AND staff_id={staffID} AND rota_week >= #{prevDay.ToString("d", USCulture)}# AND rota_week <= #{nextDay.ToString("d", USCulture)}# ORDER BY tblRota.rota_id ASC";
+            da = new OleDbDataAdapter(sql, con);
+            RotaIDDS = new DataSet();
+            da.Fill(RotaIDDS, "RotaIDInfo");
+
+            rotaID = RotaIDDS.Tables["RotaIDInfo"].Rows[0].Field<int>("rota_id");
+            MessageBox.Show(rotaID.ToString());
+
+            // Get absence info row if exists
+            sql = $"SELECT * FROM tblAbsence where rota_id={rotaID}";
+            da = new OleDbDataAdapter(sql, con);
+            AbsenceNoteInfoDS = new DataSet();
+            da.Fill(AbsenceNoteInfoDS, "AbsenceNoteInfo");
+
+            if (AbsenceNoteInfoDS.Tables["AbsenceNoteInfo"].Rows.Count > 0)
+            {
+                DataTable AbsenceNoteInfoTable = AbsenceNoteInfoDS.Tables["NoteInfo"];
+
+                DataColumn[] keyColumns = new DataColumn[1];
+                keyColumns[0] = AbsenceNoteInfoTable.Columns["staff_id"];
+                AbsenceNoteInfoTable.PrimaryKey = keyColumns;
+
+                // This line of code is needed for the update builder to be autogenerated so the da.Update line works
+                _ = new OleDbCommandBuilder(da);
+
+                DataRow row = AbsenceNoteInfoTable.Rows.Find(rotaID);
+                row["absence_notes"] = textToSave;
+                da.Update(AbsenceNoteInfoDS, "AbsenceNoteInfo");
+
+                return;
+            }
+            else
+            {
+                AbsenceNoteInfoDS.Clear();
+                DataSet FullAbsenceDS;
+
+                sql = "Select * FROM tblAbsence";
+                da = new OleDbDataAdapter(sql, con);
+                FullAbsenceDS = new DataSet();
+                da.Fill(FullAbsenceDS, "AbsenceInfo");
+
+                DataTable FullAbsenceTable = FullAbsenceDS.Tables["AbsenceInfo"];
+                
+                int absenceID = FullAbsenceDS.Tables["AbsenceInfo"].Rows.Count+1;
+                string absenceType = "absence"; //Future proofing
+                string absenceDate = currentWeek.AddDays(Convert.ToInt32(dayOfWeek)).ToShortDateString();
+
+                DataRow newRotaRow = FullAbsenceTable.NewRow();
+
+                newRotaRow["absence_id"] = absenceID;
+                newRotaRow["rota_id"] = rotaID;
+                newRotaRow["absence_type"] = absenceType;
+                newRotaRow["absence_date"] = absenceDate;
+                newRotaRow["absence_notes"] = textToSave;
+
+                _ = new OleDbCommandBuilder(da);
+
+                FullAbsenceTable.Rows.Add(newRotaRow);
+                da.Update(FullAbsenceDS, "AbsenceInfo");
+            }
+
+            // Close database connection
+            con.Close();
+        }
+        
         private void InitializeStaffMemberList()
         {
             fullStaffMemberList = new List<string>();
@@ -464,7 +683,7 @@ namespace CSCoursework_Smiley
 
                     string cell1 = rotaDataGrid.Rows[staffMemberCount].Cells[++pointer].Value?.ToString();
                     //Format Check
-                    if (cell1 != null && cell1 != "")
+                    if (cell1 != null && cell1 != "" && cell1 != "Holiday")
                     {
                         if (Regex.IsMatch(cell1, @"[0-2][0-9]\:[0-6][0-9]"))
                         {
@@ -488,7 +707,7 @@ namespace CSCoursework_Smiley
 
                     string cell2 = rotaDataGrid.Rows[staffMemberCount].Cells[++pointer].Value?.ToString();
                     //Format Check
-                    if (cell2 != null && cell2 != "")
+                    if (cell2 != null && cell2 != "" && cell2 != "Holiday")
                     {
                         if (Regex.IsMatch(cell2, @"[0-2][0-9]\:[0-6][0-9]"))
                         {
@@ -599,7 +818,7 @@ namespace CSCoursework_Smiley
             currentWeek = currentWeek.AddDays(-7);
             GetTimesheetRotaData();
             UpdateWeekLabel();
-            UpdateHolidayControlEmployees();
+            UpdateControlEmployees();
         }
 
         private void btnNextWeek_Click_1(object sender, EventArgs e)
@@ -607,7 +826,7 @@ namespace CSCoursework_Smiley
             currentWeek = currentWeek.AddDays(7);
             GetTimesheetRotaData();
             UpdateWeekLabel();
-            UpdateHolidayControlEmployees();
+            UpdateControlEmployees();
         }
 
         private void btnSaveClockSelection_Click(object sender, EventArgs e)
@@ -638,7 +857,16 @@ namespace CSCoursework_Smiley
 
         private void btnInputHolidayData_Click(object sender, EventArgs e)
         {
+            if (timesheetAbsenceDataControl1.Visible) { timesheetAbsenceDataControl1.Visible = false; }
             timesheetHolidayDataControl1.Visible = !timesheetHolidayDataControl1.Visible;
+            timesheetHolidayDataControl1.ClearDataGrid();
+        }
+
+        private void btnInputAbsenceData_Click(object sender, EventArgs e)
+        {
+            if (timesheetHolidayDataControl1.Visible) { timesheetHolidayDataControl1.Visible = false; }
+            timesheetAbsenceDataControl1.Visible = !timesheetAbsenceDataControl1.Visible;
+            timesheetAbsenceDataControl1.ClearDataGrid();
         }
     }
 

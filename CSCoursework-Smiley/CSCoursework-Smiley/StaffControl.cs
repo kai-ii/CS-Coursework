@@ -23,6 +23,10 @@ namespace CSCoursework_Smiley
         public StaffControl()
         {
             InitializeComponent();
+        }
+
+        private void StaffControl_Load(object sender, EventArgs e)
+        {
             InitializeSearchTextbox();
             InitializeDatabaseConnection();
             InitializeStaffMembers();
@@ -32,11 +36,6 @@ namespace CSCoursework_Smiley
             CopyBaseListBoxToDummyBox();
             SortDummyBox();
             rBtnDetails.Checked = true;
-        }
-
-        private void StaffControl_Load(object sender, EventArgs e)
-        {
-
         }
         void InitializeSearchTextbox()
         {
