@@ -80,6 +80,7 @@
             this.comboBoxSelectEmployee.Size = new System.Drawing.Size(121, 24);
             this.comboBoxSelectEmployee.TabIndex = 1;
             this.comboBoxSelectEmployee.SelectedIndexChanged += new System.EventHandler(this.comboBoxSelectEmployee_SelectedIndexChanged);
+            this.comboBoxSelectEmployee.Enter += new System.EventHandler(this.comboBoxSelectEmployee_Enter);
             // 
             // grpBoxAbsenceTable
             // 

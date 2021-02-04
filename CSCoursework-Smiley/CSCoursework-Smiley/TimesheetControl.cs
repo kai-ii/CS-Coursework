@@ -68,17 +68,49 @@ namespace CSCoursework_Smiley
         }
         private void UpdateControlEmployees()
         {
-            List<Tuple<string, List<bool>>> staffMembersInDataGridListHolidayTuple = new List<Tuple<string, List<bool>>>();
-            List<Tuple<string, List<bool>>> staffMembersInDataGridListAbsenceTuple = new List<Tuple<string, List<bool>>>();
+            List<Tuple<int, List<bool>>> staffMembersInDataGridListHolidayTuple = new List<Tuple<int, List<bool>>>();
+            List<Tuple<int, List<bool>>> staffMembersInDataGridListAbsenceTuple = new List<Tuple<int, List<bool>>>();
 
             for (int row = 0; row < rotaDataGrid.Rows.Count; row++)
             {
-                staffMembersInDataGridListAbsenceTuple
-                for (int column = 3, column<)
+                List<bool> absenceList = new List<bool>();
+                List<bool> holidayList = new List<bool>();
+
+                int rowToAdd = row;
+                for (int column = 3; column<20; column+=4)
+                {
+                    if (rotaDataGrid.Rows[row].Cells[column].Value?.ToString() == "Absent")
+                    {
+                        absenceList.Add(true);
+                    }
+                    else
+                    {
+                        absenceList.Add(false);
+                    }
+
+                    if (rotaDataGrid.Rows[row].Cells[column].Value?.ToString() == "Holiday")
+                    {
+                        holidayList.Add(true);
+                        //MessageBox.Show($"true added to holiday list, column={column}");
+                    }
+                    else
+                    {
+                        holidayList.Add(false);
+                        //MessageBox.Show($"false added to holiday list, column={column}");
+                    }
+                }
+
+                staffMembersInDataGridListAbsenceTuple.Add(new Tuple<int, List<bool>>(rowToAdd, absenceList));
+                staffMembersInDataGridListHolidayTuple.Add(new Tuple<int, List<bool>>(rowToAdd, holidayList));
             }
 
+            timesheetHolidayDataControl1.employeeCombobox = staffMembersInDataGridListHolidayTuple;
+            timesheetAbsenceDataControl1.employeeCombobox = staffMembersInDataGridListAbsenceTuple;
             timesheetHolidayDataControl1.SetComboBoxMembers(staffMembersInDataGridList);
             timesheetAbsenceDataControl1.SetComboBoxMembers(staffMembersInDataGridList);
+            timesheetHolidayDataControl1.UpdateDatagrid();
+            timesheetAbsenceDataControl1.UpdateDatagrid();
+            
         }
 
         private void InitializeParentForms()
@@ -152,6 +184,8 @@ namespace CSCoursework_Smiley
                     }
                     break;
             }
+
+            UpdateControlEmployees();
         }
         public void UpdateAbsenceDataGrid(int rowToChange, int dayToChange, bool checkedValue)
         {
@@ -218,6 +252,8 @@ namespace CSCoursework_Smiley
                     }
                     break;
             }
+
+            UpdateControlEmployees();
         }
         public void UpdateAbsenceDatabaseInformation(Day dayOfWeek, string textToSave, int employeeSelected)
         {
@@ -254,7 +290,7 @@ namespace CSCoursework_Smiley
             da.Fill(RotaIDDS, "RotaIDInfo");
 
             rotaID = RotaIDDS.Tables["RotaIDInfo"].Rows[0].Field<int>("rota_id");
-            MessageBox.Show(rotaID.ToString());
+            //MessageBox.Show(rotaID.ToString());
 
             // Get absence info row if exists
             sql = $"SELECT * FROM tblAbsence where rota_id={rotaID}";
@@ -431,7 +467,6 @@ namespace CSCoursework_Smiley
                 MessageBox.Show("Error establishing database connection LoginForm.");
             }
         }
-
         private void GetTimesheetRotaData()
         {
             // Open database connection
@@ -860,6 +895,7 @@ namespace CSCoursework_Smiley
             if (timesheetAbsenceDataControl1.Visible) { timesheetAbsenceDataControl1.Visible = false; }
             timesheetHolidayDataControl1.Visible = !timesheetHolidayDataControl1.Visible;
             timesheetHolidayDataControl1.ClearDataGrid();
+            timesheetHolidayDataControl1.UpdateDatagrid();
         }
 
         private void btnInputAbsenceData_Click(object sender, EventArgs e)
@@ -867,6 +903,7 @@ namespace CSCoursework_Smiley
             if (timesheetHolidayDataControl1.Visible) { timesheetHolidayDataControl1.Visible = false; }
             timesheetAbsenceDataControl1.Visible = !timesheetAbsenceDataControl1.Visible;
             timesheetAbsenceDataControl1.ClearDataGrid();
+            timesheetAbsenceDataControl1.UpdateDatagrid();
         }
     }
 

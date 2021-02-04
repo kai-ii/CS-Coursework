@@ -12,12 +12,14 @@ namespace CSCoursework_Smiley
 {
     public partial class TimesheetHolidayDataControl : UserControl
     {
+        
         public TimesheetHolidayDataControl()
         {
             InitializeComponent();
         }
 
         public TimesheetControl parentForm { get; set; }
+        public List<Tuple<int, List<bool>>> employeeCombobox { get; set; }
 
         private void TimesheetHolidayDataControl_Load(object sender, EventArgs e)
         {
@@ -41,7 +43,6 @@ namespace CSCoursework_Smiley
                 parentForm.UpdateHolidayData(comboBoxSelectEmployee.SelectedIndex, e.ColumnIndex + 1, false);
             }
         }
-
         private void InitializeHolidayDataGridView()
         {
             holidayDataGridView.Rows.Add();
@@ -49,11 +50,16 @@ namespace CSCoursework_Smiley
 
         public void SetComboBoxMembers(List<string> EmployeeList)
         {
+            comboBoxSelectEmployee.Items.Clear();
             foreach (string employee in EmployeeList)
             {
                 comboBoxSelectEmployee.Items.Add(employee);
             }
-            comboBoxSelectEmployee.SelectedIndex = 0;
+
+            if (comboBoxSelectEmployee.SelectedIndex == -1)
+            {
+                comboBoxSelectEmployee.SelectedIndex = 0;
+            }
         }
 
         public void ClearDataGrid()
@@ -70,6 +76,18 @@ namespace CSCoursework_Smiley
         private void comboBoxSelectEmployee_SelectedIndexChanged_1(object sender, EventArgs e)
         {
             ClearDataGrid();
+            UpdateDatagrid();
+        }
+
+        public void UpdateDatagrid()
+        {
+            for (int holiday = 0; holiday < employeeCombobox[comboBoxSelectEmployee.SelectedIndex].Item2.Count; holiday++)
+            {
+                if (employeeCombobox[comboBoxSelectEmployee.SelectedIndex].Item2[holiday])
+                {
+                    holidayDataGridView.Rows[0].Cells[holiday].Value = true;
+                }
+            }
         }
     }
 }

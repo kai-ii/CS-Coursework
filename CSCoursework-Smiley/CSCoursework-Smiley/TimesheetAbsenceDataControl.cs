@@ -13,12 +13,15 @@ namespace CSCoursework_Smiley
     public partial class TimesheetAbsenceDataControl : UserControl
     {
         Day currentDay;
+        private bool userUpdate = true;
+        private int comboBoxIndex = 0;
         public TimesheetAbsenceDataControl()
         {
             InitializeComponent();
         }
 
         public TimesheetControl parentForm { get; set; }
+        public List<Tuple<int, List<bool>>> employeeCombobox { get; set; }
 
         private void TimesheetAbsenceDataControl_Load(object sender, EventArgs e)
         {
@@ -38,22 +41,28 @@ namespace CSCoursework_Smiley
 
         private void absenceDataGridView_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (Convert.ToBoolean(absenceDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value))
+            if (userUpdate)
             {
-                parentForm.UpdateAbsenceDataGrid(comboBoxSelectEmployee.SelectedIndex, e.ColumnIndex + 1, true);
+                if (Convert.ToBoolean(absenceDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value))
+                {
+                    parentForm.UpdateAbsenceDataGrid(comboBoxSelectEmployee.SelectedIndex, e.ColumnIndex + 1, true);
+                }
+                else
+                {
+                    parentForm.UpdateAbsenceDataGrid(comboBoxSelectEmployee.SelectedIndex, e.ColumnIndex + 1, false);
+                }
             }
-            else
-            {
-                parentForm.UpdateAbsenceDataGrid(comboBoxSelectEmployee.SelectedIndex, e.ColumnIndex + 1, false);
-            }
+            
         }
         public void SetComboBoxMembers(List<string> EmployeeList)
         {
+            comboBoxSelectEmployee.Items.Clear();
             foreach (string employee in EmployeeList)
             {
                 comboBoxSelectEmployee.Items.Add(employee);
             }
-            comboBoxSelectEmployee.SelectedIndex = 0;
+
+            comboBoxSelectEmployee.SelectedIndex = comboBoxIndex;
         }
         public void ClearDataGrid()
         {
@@ -68,6 +77,8 @@ namespace CSCoursework_Smiley
         private void comboBoxSelectEmployee_SelectedIndexChanged(object sender, EventArgs e)
         {
             ClearDataGrid();
+            UpdateDatagrid();
+            comboBoxIndex = comboBoxSelectEmployee.SelectedIndex;
         }
 
         private void btnPreviousDay_Click(object sender, EventArgs e)
@@ -110,6 +121,22 @@ namespace CSCoursework_Smiley
                 return;
             }
             parentForm.UpdateAbsenceDatabaseInformation(currentDay, rTxtAbsenceNotes.Text, comboBoxSelectEmployee.SelectedIndex);
+        }
+        public void UpdateDatagrid()
+        {
+            userUpdate = false;
+            for (int absence = 0; absence < employeeCombobox[comboBoxSelectEmployee.SelectedIndex].Item2.Count; absence++)
+            {
+                if (employeeCombobox[comboBoxSelectEmployee.SelectedIndex].Item2[absence])
+                {
+                    absenceDataGridView.Rows[0].Cells[absence].Value = true;
+                }
+            }
+            userUpdate = true;
+        }
+        private void comboBoxSelectEmployee_Enter(object sender, EventArgs e)
+        {
+            comboBoxIndex = comboBoxSelectEmployee.SelectedIndex;
         }
     }
 }
