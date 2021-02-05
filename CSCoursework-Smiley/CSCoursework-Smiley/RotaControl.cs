@@ -508,6 +508,9 @@ namespace CSCoursework_Smiley
                 //Format Validation
                 List<string> staffRotaRow = new List<string>();
                 int pointer = 0;
+                DateTime cell1time = DateTime.Now; // must assign value or visual studio freaks out, this is always reassigned
+                DateTime cell2time = DateTime.Now; // must assign value or visual studio freaks out, this is always reassigned
+                string textToWriteToDatabase;
                 while (staffRotaRow.Count < 10)
                 {
                     string cell1 = rotaDataGrid.Rows[staffMemberCount].Cells[++pointer].Value?.ToString();
@@ -516,12 +519,16 @@ namespace CSCoursework_Smiley
                     {
                         if (Regex.IsMatch(cell1, @"[0-2][0-9]\:[0-6][0-9]"))
                         {
-                            staffRotaRow.Add(cell1);
+                            textToWriteToDatabase = cell1;
+                            staffRotaRow.Add(textToWriteToDatabase);
+                            cell1time = DateTime.ParseExact(textToWriteToDatabase, "H:mm", null, System.Globalization.DateTimeStyles.None);
                         }
                         else if (Regex.IsMatch(cell1, @"[0-9]\:[0-6][0-9]"))
                         {
-                            staffRotaRow.Add($"0{cell1}");
+                            textToWriteToDatabase = $"0{cell1}";
+                            staffRotaRow.Add(textToWriteToDatabase);
                             rotaDataGrid.Rows[staffMemberCount].Cells[pointer].Value = $"0{cell1}";
+                            cell1time = DateTime.ParseExact(textToWriteToDatabase, "H:mm", null, System.Globalization.DateTimeStyles.None);
                         }
                         else
                         {
@@ -531,7 +538,7 @@ namespace CSCoursework_Smiley
                     }
                     else
                     {
-                        staffRotaRow.Add(cell1);
+                        staffRotaRow.Add(cell1); // Allows for incomplete rotas to be saved for convenience. (saving null/"" values)
                     }
 
 
@@ -541,22 +548,28 @@ namespace CSCoursework_Smiley
                     {
                         if (Regex.IsMatch(cell2, @"[0-2][0-9]\:[0-6][0-9]"))
                         {
-                            staffRotaRow.Add(cell2);
+                            textToWriteToDatabase = cell2;
+                            staffRotaRow.Add(textToWriteToDatabase);
+                            cell2time = DateTime.ParseExact(textToWriteToDatabase, "H:mm", null, System.Globalization.DateTimeStyles.None);
+                            if (cell1time > cell2time) { MessageBox.Show($"Invalid input in Row: {staffMemberCount + 1}, Col: {pointer + 1}. The second item of an in-out pair cannot exceed the first item."); return; }
                         }
                         else if (Regex.IsMatch(cell2, @"[0-9]\:[0-6][0-9]"))
                         {
-                            staffRotaRow.Add($"0{cell2}");
+                            textToWriteToDatabase = $"0{cell2}";
+                            staffRotaRow.Add(textToWriteToDatabase);
                             rotaDataGrid.Rows[staffMemberCount].Cells[pointer].Value = $"0{cell2}";
+                            cell2time = DateTime.ParseExact(textToWriteToDatabase, "H:mm", null, System.Globalization.DateTimeStyles.None);
+                            if (cell1time > cell2time) { MessageBox.Show($"Invalid input in Row: {staffMemberCount + 1}, Col: {pointer + 1}. The second item of an in-out pair cannot exceed the first item."); return; }
                         }
                         else
                         {
-                            MessageBox.Show($"Invalid input in Row: {staffMemberCount + 1}, Col: {pointer+1}. Must in the format hh:mm");
+                            MessageBox.Show($"Invalid input in Row: {staffMemberCount + 1}, Col: {pointer + 1}. Must in the format hh:mm");
                             return;
                         }
                     }
                     else
                     {
-                        staffRotaRow.Add(cell2);
+                        staffRotaRow.Add(cell2); // Allows for incomplete rotas to be saved for convenience. (saving null/"" values)
                     }
 
                     //Increment pointer by 2 to get to the next cell pair.

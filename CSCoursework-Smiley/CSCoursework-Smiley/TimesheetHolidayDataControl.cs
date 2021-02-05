@@ -12,7 +12,9 @@ namespace CSCoursework_Smiley
 {
     public partial class TimesheetHolidayDataControl : UserControl
     {
-        
+        // Initialize Variables
+        private bool userUpdate = true;
+        private int comboBoxIndex = 0;
         public TimesheetHolidayDataControl()
         {
             InitializeComponent();
@@ -34,13 +36,16 @@ namespace CSCoursework_Smiley
 
         private void holidayDataGridView_CellValueChanged (object sender, DataGridViewCellEventArgs e)
         {
-            if (Convert.ToBoolean(holidayDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value))
+            if (userUpdate)
             {
-                parentForm.UpdateHolidayData(comboBoxSelectEmployee.SelectedIndex, e.ColumnIndex + 1, true);
-            }
-            else
-            {
-                parentForm.UpdateHolidayData(comboBoxSelectEmployee.SelectedIndex, e.ColumnIndex + 1, false);
+                if (Convert.ToBoolean(holidayDataGridView.Rows[e.RowIndex].Cells[e.ColumnIndex].Value))
+                {
+                    parentForm.UpdateHolidayData(comboBoxSelectEmployee.SelectedIndex, e.ColumnIndex + 1, true);
+                }
+                else
+                {
+                    parentForm.UpdateHolidayData(comboBoxSelectEmployee.SelectedIndex, e.ColumnIndex + 1, false);
+                }
             }
         }
         private void InitializeHolidayDataGridView()
@@ -56,10 +61,7 @@ namespace CSCoursework_Smiley
                 comboBoxSelectEmployee.Items.Add(employee);
             }
 
-            if (comboBoxSelectEmployee.SelectedIndex == -1)
-            {
-                comboBoxSelectEmployee.SelectedIndex = 0;
-            }
+            comboBoxSelectEmployee.SelectedIndex = comboBoxIndex;
         }
 
         public void ClearDataGrid()
@@ -70,7 +72,10 @@ namespace CSCoursework_Smiley
 
         private void comboBoxSelectEmployee_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //MessageBox.Show(comboBoxSelectEmployee.SelectedIndex.ToString()) ;
+            //MessageBox.Show(comboBoxSelectEmployee.SelectedIndex.ToString());
+            ClearDataGrid();
+            UpdateDatagrid();
+            comboBoxIndex = comboBoxSelectEmployee.SelectedIndex;
         }
 
         private void comboBoxSelectEmployee_SelectedIndexChanged_1(object sender, EventArgs e)
@@ -81,6 +86,7 @@ namespace CSCoursework_Smiley
 
         public void UpdateDatagrid()
         {
+            userUpdate = false;
             for (int holiday = 0; holiday < employeeCombobox[comboBoxSelectEmployee.SelectedIndex].Item2.Count; holiday++)
             {
                 if (employeeCombobox[comboBoxSelectEmployee.SelectedIndex].Item2[holiday])
@@ -88,6 +94,16 @@ namespace CSCoursework_Smiley
                     holidayDataGridView.Rows[0].Cells[holiday].Value = true;
                 }
             }
+            userUpdate = true;
+        }
+        private void comboBoxSelectEmployee_Enter(object sender, EventArgs e)
+        {
+            comboBoxIndex = comboBoxSelectEmployee.SelectedIndex;
+        }
+
+        private void comboBoxSelectEmployee_Leave(object sender, EventArgs e)
+        {
+            comboBoxIndex = comboBoxSelectEmployee.SelectedIndex;
         }
     }
 }

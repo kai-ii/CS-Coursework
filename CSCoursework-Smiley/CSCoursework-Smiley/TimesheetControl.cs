@@ -711,23 +711,38 @@ namespace CSCoursework_Smiley
                 //Add validation here
                 List<string> staffRotaRow = new List<string>();
                 int pointer = 0;
+                bool cell1holiday;
+                bool cell1absent;
+                DateTime cell1time = DateTime.Now; // must assign value or visual studio freaks out, this is always reassigned
+                DateTime cell2time = DateTime.Now; // must assign value or visual studio freaks out, this is always reassigned
+                string textToWriteToDatabase;
                 while (staffRotaRow.Count < 10)
                 {
-                    //Increment pointer by 2 to get to the next cell pair.
+                    // Reset holiday and absent pair validation
+                    cell1holiday = false;
+                    cell1absent = false;
+
+                    // Increment pointer by 2 to get to the next cell pair.
                     pointer += 2;
 
                     string cell1 = rotaDataGrid.Rows[staffMemberCount].Cells[++pointer].Value?.ToString();
-                    //Format Check
-                    if (cell1 != null && cell1 != "" && cell1 != "Holiday")
+                    // Format Check
+                    if (cell1 == "Holiday") { cell1holiday = true; }
+                    if (cell1 == "Absent") { cell1absent = true; }
+                    if (cell1 != null && cell1 != "" && cell1 != "Holiday" && cell1 != "Absent")
                     {
                         if (Regex.IsMatch(cell1, @"[0-2][0-9]\:[0-6][0-9]"))
                         {
-                            staffRotaRow.Add(cell1);
+                            textToWriteToDatabase = cell1;
+                            staffRotaRow.Add(textToWriteToDatabase);
+                            cell1time = DateTime.ParseExact(textToWriteToDatabase, "H:mm", null, System.Globalization.DateTimeStyles.None);
                         }
                         else if (Regex.IsMatch(cell1, @"[0-9]\:[0-6][0-9]"))
                         {
-                            staffRotaRow.Add($"0{cell1}");
+                            textToWriteToDatabase = $"0{cell1}";
+                            staffRotaRow.Add(textToWriteToDatabase);
                             rotaDataGrid.Rows[staffMemberCount].Cells[pointer].Value = $"0{cell1}";
+                            cell1time = DateTime.ParseExact(textToWriteToDatabase, "H:mm", null, System.Globalization.DateTimeStyles.None);
                         }
                         else
                         {
@@ -742,16 +757,26 @@ namespace CSCoursework_Smiley
 
                     string cell2 = rotaDataGrid.Rows[staffMemberCount].Cells[++pointer].Value?.ToString();
                     //Format Check
-                    if (cell2 != null && cell2 != "" && cell2 != "Holiday")
+
+                    if (cell1holiday) { if (cell2 != "Holiday") { MessageBox.Show($"Invalid input in row {staffMemberCount + 1}, Col: {pointer + 1}. Holidays must always come in pairs."); } }
+                    if (cell1absent) { if (cell2 != "Absent") { MessageBox.Show($"Invalid input in row {staffMemberCount + 1}, Col: {pointer + 1}. Absences must always come in pairs."); } }
+
+                    if (cell2 != null && cell2 != "" && cell2 != "Holiday" && cell2 != "Absent")
                     {
                         if (Regex.IsMatch(cell2, @"[0-2][0-9]\:[0-6][0-9]"))
                         {
-                            staffRotaRow.Add(cell2);
+                            textToWriteToDatabase = cell2;
+                            staffRotaRow.Add(textToWriteToDatabase);
+                            cell2time = DateTime.ParseExact(textToWriteToDatabase, "H:mm", null, System.Globalization.DateTimeStyles.None);
+                            if (cell1time > cell2time) { MessageBox.Show($"Invalid input in Row: {staffMemberCount + 1}, Col: {pointer + 1}. The second item of an in-out pair cannot exceed the first item."); return; }
                         }
                         else if (Regex.IsMatch(cell2, @"[0-9]\:[0-6][0-9]"))
                         {
-                            staffRotaRow.Add($"0{cell2}");
+                            textToWriteToDatabase = $"0{cell2}";
+                            staffRotaRow.Add(textToWriteToDatabase);
                             rotaDataGrid.Rows[staffMemberCount].Cells[pointer].Value = $"0{cell2}";
+                            cell2time = DateTime.ParseExact(textToWriteToDatabase, "H:mm", null, System.Globalization.DateTimeStyles.None);
+                            if (cell1time > cell2time) { MessageBox.Show($"Invalid input in Row: {staffMemberCount + 1}, Col: {pointer + 1}. The second item of an in-out pair cannot exceed the first item."); return; }
                         }
                         else
                         {
@@ -892,7 +917,12 @@ namespace CSCoursework_Smiley
 
         private void btnInputHolidayData_Click(object sender, EventArgs e)
         {
-            if (timesheetAbsenceDataControl1.Visible) { timesheetAbsenceDataControl1.Visible = false; }
+            if (timesheetAbsenceDataControl1.Visible) 
+            {
+                timesheetAbsenceDataControl1.Visible = false;
+                timesheetAbsenceDataControl1.ClearDataGrid();
+                timesheetAbsenceDataControl1.UpdateDatagrid();
+            }
             timesheetHolidayDataControl1.Visible = !timesheetHolidayDataControl1.Visible;
             timesheetHolidayDataControl1.ClearDataGrid();
             timesheetHolidayDataControl1.UpdateDatagrid();
@@ -900,7 +930,12 @@ namespace CSCoursework_Smiley
 
         private void btnInputAbsenceData_Click(object sender, EventArgs e)
         {
-            if (timesheetHolidayDataControl1.Visible) { timesheetHolidayDataControl1.Visible = false; }
+            if (timesheetHolidayDataControl1.Visible) 
+            { 
+                timesheetHolidayDataControl1.Visible = false;
+                timesheetHolidayDataControl1.ClearDataGrid();
+                timesheetHolidayDataControl1.UpdateDatagrid();
+            }
             timesheetAbsenceDataControl1.Visible = !timesheetAbsenceDataControl1.Visible;
             timesheetAbsenceDataControl1.ClearDataGrid();
             timesheetAbsenceDataControl1.UpdateDatagrid();

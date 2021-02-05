@@ -131,5 +131,10 @@ namespace CSCoursework_Smiley
             loginForm.Show();
             this.Hide();
         }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
