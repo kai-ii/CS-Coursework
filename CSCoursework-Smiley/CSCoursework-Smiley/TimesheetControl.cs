@@ -37,7 +37,6 @@ namespace CSCoursework_Smiley
             highlightColour = receivedHighlightColour;
             UpdateDataGridViewColumnColours();
         }
-
         
         public TimesheetControl()
         {

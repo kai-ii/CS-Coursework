@@ -106,7 +106,7 @@ namespace CSCoursework_Smiley
             string dbProvider;
             string DatabasePath;
             string CurrentProjectPath;
-            string FullDatabasePath;
+            string FullDatabasePath = "";
             string dbSource;
 
             try
@@ -116,6 +116,7 @@ namespace CSCoursework_Smiley
                 DatabasePath = "TestDatabase.accdb";
                 CurrentProjectPath = System.AppDomain.CurrentDomain.BaseDirectory; 
                 FullDatabasePath = CurrentProjectPath + DatabasePath;
+                //MessageBox.Show(FullDatabasePath);
                 dbSource = "Data Source =" + FullDatabasePath;
                 con.ConnectionString = dbProvider + dbSource;
                 con.Open();
@@ -124,7 +125,7 @@ namespace CSCoursework_Smiley
             }
             catch
             {
-                MessageBox.Show("Error establishing database connection LoginForm.");
+                MessageBox.Show($"Error establishing database connection LoginForm. FullDatabasePath = {FullDatabasePath}");
             }
         }
 
@@ -156,21 +157,34 @@ namespace CSCoursework_Smiley
             //Initialize variables
             DataSet LoginInfoDS;
             OleDbDataAdapter da;
+            DataTable LoginInfoTable;
             string sql;
 
             //Check Login Details
+            con.Open();
+
             //sql = $"SELECT * FROM tblUsers WHERE username='{UsernameTextbox.Text}' AND password='{PasswordTextbox.Text}'";
             sql = $"SELECT * FROM tblUsers WHERE StrComp(username, '{UsernameTextbox.Text}', 0)=0 AND StrComp(password, '{PasswordTextbox.Text}', 0)=0";
             da = new OleDbDataAdapter(sql, con);
             LoginInfoDS = new DataSet();
             da.Fill(LoginInfoDS, "LoginInfo");
+            LoginInfoTable = LoginInfoDS.Tables["LoginInfo"];
 
-            if (LoginInfoDS.Tables["LoginInfo"].Rows.Count > 0)
+            con.Close();
+
+            if (LoginInfoTable.Rows.Count > 0)
             {
-                Dashboard dashboard = new Dashboard(UsernameTextbox.Text);
+                string highlightColourRGBString = LoginInfoTable.Rows[0].Field<string>("settings_highlight_colour");
+                string backgroundColourRGBString = LoginInfoTable.Rows[0].Field<string>("settings_base_colour");
+                string[] highlightColourRBGStringArray = highlightColourRGBString.Split(',');
+                string[] backgroundColourRBGStringArray = backgroundColourRGBString.Split(',');
+                int[] highlightColourRGBIntArray = highlightColourRBGStringArray.Select(item => int.Parse(item)).ToArray();
+                int[] backgroundColourRGBIntArray = backgroundColourRBGStringArray.Select(item => int.Parse(item)).ToArray();
+                Color highlightColourRGB = Color.FromArgb(highlightColourRGBIntArray[0], highlightColourRGBIntArray[1], highlightColourRGBIntArray[2]);
+                Color backgroundColourRGB = Color.FromArgb(backgroundColourRGBIntArray[0], backgroundColourRGBIntArray[1], backgroundColourRGBIntArray[2]);
+                Dashboard dashboard = new Dashboard(UsernameTextbox.Text, backgroundColourRGB, highlightColourRGB, LoginInfoTable.Rows[0].Field<int>("user_id"), LoginInfoTable.Rows[0].Field<string>("password"));
                 dashboard.Show();
                 this.Hide();
-                con.Close();
             }
             else
             {

@@ -104,6 +104,12 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminControlAddNewStaff.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AdminControlAddNewStaff.Designer.cs">
+      <DependentUpon>AdminControlAddNewStaff.cs</DependentUpon>
+    </Compile>
     <Compile Include="ClockHourSelectControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -208,6 +214,9 @@
     <Compile Include="TimesheetHolidayDataControl.Designer.cs">
       <DependentUpon>TimesheetHolidayDataControl.cs</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="AdminControlAddNewStaff.resx">
+      <DependentUpon>AdminControlAddNewStaff.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ClockHourSelectControl.resx">
       <DependentUpon>ClockHourSelectControl.cs</DependentUpon>
     </EmbeddedResource>

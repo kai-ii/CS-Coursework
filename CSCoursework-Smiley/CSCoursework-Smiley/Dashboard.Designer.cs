@@ -38,7 +38,7 @@
             this.btnTimesheet = new System.Windows.Forms.Button();
             this.btnRota = new System.Windows.Forms.Button();
             this.btnStaff = new System.Windows.Forms.Button();
-            this.panel3 = new System.Windows.Forms.Panel();
+            this.LeftBottomPanel = new System.Windows.Forms.Panel();
             this.btnDashboard = new System.Windows.Forms.Button();
             this.SmileyLogo = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -72,7 +72,7 @@
             this.LeftPanel.Controls.Add(this.btnTimesheet);
             this.LeftPanel.Controls.Add(this.btnRota);
             this.LeftPanel.Controls.Add(this.btnStaff);
-            this.LeftPanel.Controls.Add(this.panel3);
+            this.LeftPanel.Controls.Add(this.LeftBottomPanel);
             this.LeftPanel.Controls.Add(this.btnDashboard);
             this.LeftPanel.Controls.Add(this.SmileyLogo);
             this.LeftPanel.Dock = System.Windows.Forms.DockStyle.Left;
@@ -209,13 +209,13 @@
             this.btnStaff.UseVisualStyleBackColor = false;
             this.btnStaff.Click += new System.EventHandler(this.btnStaff_Click);
             // 
-            // panel3
+            // LeftBottomPanel
             // 
-            this.panel3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(165)))), ((int)(((byte)(182)))));
-            this.panel3.Location = new System.Drawing.Point(0, 582);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(366, 128);
-            this.panel3.TabIndex = 2;
+            this.LeftBottomPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(165)))), ((int)(((byte)(182)))));
+            this.LeftBottomPanel.Location = new System.Drawing.Point(0, 582);
+            this.LeftBottomPanel.Name = "LeftBottomPanel";
+            this.LeftBottomPanel.Size = new System.Drawing.Size(366, 128);
+            this.LeftBottomPanel.TabIndex = 2;
             // 
             // btnDashboard
             // 
@@ -377,7 +377,7 @@
         private System.Windows.Forms.PictureBox SmileyLogo;
         private System.Windows.Forms.PictureBox btnExitDashboard;
         private System.Windows.Forms.Button btnDashboard;
-        private System.Windows.Forms.Panel panel3;
+        private System.Windows.Forms.Panel LeftBottomPanel;
         private System.Windows.Forms.Button btnSettings;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.Button btnPayslip;
