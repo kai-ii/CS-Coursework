@@ -125,7 +125,7 @@ namespace CSCoursework_Smiley
             }
             catch
             {
-                MessageBox.Show($"Error establishing database connection LoginForm. FullDatabasePath = {FullDatabasePath}");
+                Console.WriteLine($"Error establishing database connection LoginForm. FullDatabasePath = {FullDatabasePath}");
             }
         }
 
