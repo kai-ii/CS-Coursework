@@ -165,12 +165,17 @@ namespace CSCoursework_Smiley
             }
 
             //Initialize variables
-            DataSet StaffDS;
             OleDbDataAdapter da;
+            OleDbDataAdapter da2;
+            DataSet StaffDS;
             DataTable StaffTable;
+            DataSet StaffBranchDS;
+            DataTable StaffBranchTable;
             string sql;
             int staffID;
-            int jobPositionID;
+            int branchID;
+            int staffBranchID;
+            int jobPositionID = 0;
             string staffFirstname;
             string staffSurname;
             string staffNINumber = "";
@@ -178,17 +183,17 @@ namespace CSCoursework_Smiley
             string staffGender;
             string staffContractType;
             int staffSalariedHours;
-            string staffWorksNumber;
-            string staffNILetter;
-            string staffTaxCode;
-            string staffStreet;
-            string staffCity;
-            string staffCounty;
-            string staffPostcode;
-            string staffMobileNumber;
-            string staffHomeNumber;
-            string staffEmailAddress;
-            bool staffEmployed = true;
+            string staffWorksNumber = "";
+            string staffNILetter = "";
+            string staffTaxCode = "";
+            string staffStreet = "";
+            string staffCity = "";
+            string staffCounty = "";
+            string staffPostcode = "";
+            string staffMobileNumber = "";
+            string staffHomeNumber = "";
+            string staffEmailAddress = "";
+            bool staffEmployed;
 
             //Initialize StaffDS
             con.Open();
@@ -199,11 +204,23 @@ namespace CSCoursework_Smiley
             da.Fill(StaffDS, "StaffInfo");
             StaffTable = StaffDS.Tables["StaffInfo"];
 
+            sql = $"SELECT * FROM tblStaffBranch";
+            da2 = new OleDbDataAdapter(sql, con);
+            StaffBranchDS = new DataSet();
+            da2.Fill(StaffBranchDS, "StaffBranchInfo");
+            StaffBranchTable = StaffBranchDS.Tables["StaffBranchInfo"];
+
             con.Close();
             
             // StaffID
             staffID = StaffTable.Rows[StaffTable.Rows.Count - 1].Field<int>("staff_id") + 1; // staffID is set to 1 more than the last staff member in the database regardless of database size. Therefore no duplicate staff_ids since the last staff_id will alwasy be the greatest.
-            
+
+            // BranchID
+            branchID = comboBoxBranch.SelectedIndex + 1;
+
+            // StaffbranchID
+            staffBranchID = StaffBranchTable.Rows[StaffBranchTable.Rows.Count - 1].Field<int>("staffbranch_id") + 1;
+
             // JobPosition
             foreach (var pair in jobPositionPairs)
             {
@@ -212,6 +229,7 @@ namespace CSCoursework_Smiley
                     jobPositionID = pair.Item1;
                 }
             }
+            //Validation - Forename Surname DateOfBirth Gender ContractType ContractedWeeklyHour Branch JobPosition
 
             // Firstname
             staffFirstname = txtForename.Text;
@@ -231,8 +249,99 @@ namespace CSCoursework_Smiley
             // Contract Type
             staffContractType = comboBoxContractType.SelectedItem.ToString();
 
-            // 
-            
+            // Salaried Hours
+            if (staffContractType == "Salaried") { staffSalariedHours = Convert.ToInt32(txtContractedWeeklyHours.Text.ToString()); } //Can safely use convert here since validation was done to check it is an integer
+            else { staffSalariedHours = 0; } //0 salaried hours = flexible
+
+            // Works Number
+            if (txtWorksNumber.Text.ToString().Trim() != "") { staffWorksNumber = txtWorksNumber.Text.ToString(); }
+
+            // NI Letter + Length Check
+            if (txtNILetter.Text.ToString().Trim() != "")
+            {
+                if (txtNILetter.Text.ToString().Trim().Length == 1 && char.IsLetter(txtNILetter.Text.ToString().Trim()[0])) { staffNILetter = txtNILetter.Text.ToString(); }
+                else { MessageBox.Show("NI Letter must only be a single letter."); return; }
+            }
+
+            // NI Number
+            if (txtNINumber.Text.ToString().Trim() != "") { staffNINumber = txtNINumber.Text.ToString(); }
+
+            // Tax Code
+            if (txtTaxCode.Text.ToString().Trim() != "") { staffTaxCode = txtTaxCode.Text.ToString(); }
+
+            // Street
+            if (txtStreet.Text.ToString().Trim() != "") { staffStreet = txtStreet.Text.ToString(); }
+
+            // City
+            if (txtTownCity.Text.ToString().Trim() != "") { staffCity = txtTownCity.Text.ToString(); }
+
+            // County
+            if (txtCounty.Text.ToString().Trim() != "") { staffCounty = txtCounty.Text.ToString(); }
+
+            // Postcode
+            if (txtPostcode.Text.ToString().Trim() != "") { staffPostcode = txtPostcode.Text.ToString(); }
+
+            // Mobile Number + Length Check
+            if (txtMobileNumber.Text.ToString().Trim() != "")
+            {
+                if (txtMobileNumber.Text.ToString().Trim().Length == 11) { staffMobileNumber = txtMobileNumber.Text.ToString(); }
+                else { MessageBox.Show("Mobile Number must have 11 digits."); return; }
+                }
+
+            // Home Number + Length Check
+            if (txtHomeNumber.Text.ToString().Trim() != "")
+            {
+                if(txtHomeNumber.Text.ToString().Length == 11) { staffHomeNumber = txtHomeNumber.Text.ToString(); }
+                else { MessageBox.Show("Home Number must have 11 digits."); return; }
+            }
+
+            // Email Address
+            if (txtEmailAddress.Text.ToString().Trim() != "") { staffEmailAddress = txtEmailAddress.Text.ToString(); }
+
+            // Employed
+            staffEmployed = true;
+
+
+            // Command Builder
+            _ = new OleDbCommandBuilder(da);
+            _ = new OleDbCommandBuilder(da2);
+
+            // Staff Table Row Addition
+            DataRow newStaffRow = StaffTable.NewRow();
+            newStaffRow["staff_id"] = staffID;
+            newStaffRow["jobposition_id"] = jobPositionID;
+            newStaffRow["staff_firstname"] = staffFirstname;
+            newStaffRow["staff_surname"] = staffSurname;
+            newStaffRow["staff_NI_number"] = staffNINumber;
+            newStaffRow["staff_DoB"] = staffDoB;
+            newStaffRow["staff_gender"] = staffGender;
+            newStaffRow["staff_contract_type"] = staffContractType;
+            newStaffRow["staff_salaried_hours"] = staffSalariedHours;
+            newStaffRow["staff_works_number"] = staffWorksNumber;
+            newStaffRow["staff_NI_letter"] = staffNILetter;
+            newStaffRow["staff_tax_code"] = staffTaxCode;
+            newStaffRow["staff_street"] = staffStreet;
+            newStaffRow["staff_city"] = staffCity;
+            newStaffRow["staff_county"] = staffCounty;
+            newStaffRow["staff_postcode"] = staffPostcode;
+            newStaffRow["staff_mobile_number"] = staffMobileNumber;
+            newStaffRow["staff_home_number"] = staffHomeNumber;
+            newStaffRow["staff_email_address"] = staffEmailAddress;
+            newStaffRow["staff_employed"] = staffEmployed;
+
+            StaffTable.Rows.Add(newStaffRow);
+            da.Update(StaffDS, "StaffInfo");
+
+            // StaffBranch Table Row Addition
+            DataRow newStaffBranchRow = StaffBranchTable.NewRow();
+            newStaffBranchRow["staffbranch_id"] = staffBranchID;
+            newStaffBranchRow["staff_id"] = staffID;
+            newStaffBranchRow["branch_id"] = branchID;
+
+            StaffBranchTable.Rows.Add(newStaffBranchRow);
+            da2.Update(StaffBranchDS, "StaffBranchInfo");
+
+            //parentForm.ResetControls();
         }
         private bool hasOnlyLetters(string stringToValidate)
         {

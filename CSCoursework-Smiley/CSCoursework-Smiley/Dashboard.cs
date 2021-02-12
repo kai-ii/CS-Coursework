@@ -53,6 +53,12 @@ namespace CSCoursework_Smiley
             SetParentChildForms();
             InitializeDatabaseConnection();
             PassSettingsUserInfo();
+            InitializeParentChildFormRelationships();
+        }
+
+        private void InitializeParentChildFormRelationships()
+        {
+            adminControl1.parentForm = this;
         }
 
         public void UpdateUserPassword(string Password)
@@ -236,5 +242,10 @@ namespace CSCoursework_Smiley
         {
 
         }
+
+        //public void ResetControls()
+        //{
+        //    staffControl1 = new StaffControl();
+        //}
     }
 }

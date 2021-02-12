@@ -12,6 +12,7 @@ namespace CSCoursework_Smiley.Properties
 {
     public partial class AdminControl : UserControl
     {
+        public Dashboard parentForm { get; set; }
         public AdminControl()
         {
             InitializeComponent();
