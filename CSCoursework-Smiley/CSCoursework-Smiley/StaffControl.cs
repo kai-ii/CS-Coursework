@@ -18,6 +18,7 @@ namespace CSCoursework_Smiley
     {
         // Variables
         OleDbConnection con = new OleDbConnection();
+        Dictionary<string, string> staffNameDictionary;
         int primaryKeySelected;
 
         public StaffControl()
@@ -100,6 +101,9 @@ namespace CSCoursework_Smiley
         }
         private void InitializeStaffMembers()
         {
+            //Initialize Staff List
+            staffNameDictionary = new Dictionary<string, string>();
+
             //Open database connection
             con.Open();
 
@@ -114,12 +118,12 @@ namespace CSCoursework_Smiley
             StaffInfoDS = new DataSet();
             da.Fill(StaffInfoDS, "StaffInfo");
 
-
             for (int employee = 0; employee<StaffInfoDS.Tables["StaffInfo"].Rows.Count; employee++)
             {
                 string staff_firstname = StaffInfoDS.Tables["StaffInfo"].Rows[employee].Field<string>("staff_firstname");
                 string staff_surname = StaffInfoDS.Tables["StaffInfo"].Rows[employee].Field<string>("staff_surname");
                 lstBoxEmployees.Items.Add($"{staff_firstname}. {staff_surname[0]}");
+                staffNameDictionary.Add($"{staff_surname.Trim()}{staff_firstname.Trim()}", $"{staff_firstname}. {staff_surname[0]}");
             }
 
             //Close database connection
@@ -319,68 +323,157 @@ namespace CSCoursework_Smiley
 
         private void SortDummyBox()
         {
-            List<string> bubbleSortList = new List<string>();
-            bool sorted = false;
+            if (staffNameDictionary == null) { Console.WriteLine("SortDummyBox somehow got accidentally called."); return; }
+            string[] quicksortArray = staffNameDictionary.Keys.ToArray();
 
-            if (lstBoxDummy.Items.Count > 0)
+            Console.Write("Unsorted Array: ");
+            foreach (string item in quicksortArray)
             {
-                foreach (string employee in lstBoxDummy.Items)
-                {
-                    bubbleSortList.Add(employee);
-                }
+                Console.Write($"{item}, ");
             }
-            else
-            {
-                foreach (string employee in lstBoxEmployees.Items)
-                {
-                    bubbleSortList.Add(employee);
-                }
-            }
-            
+            Console.WriteLine();
 
-            if (comboBoxSort.SelectedIndex == 0)
+            Quicksort(quicksortArray, 0, quicksortArray.Length - 1);
+            Console.Write("Sorted Array: ");
+            foreach (string item in quicksortArray)
             {
-                while (!sorted)
-                {
-                    sorted = true;
-                    for (int item = 0; item<bubbleSortList.Count-1; item++)
-                    {
-                        string pair1 = bubbleSortList[item];
-                        string pair2 = bubbleSortList[item + 1];
-                        if ((int)pair1[0] > (int)pair2[0])
-                        {
-                            bubbleSortList[item] = pair2;
-                            bubbleSortList[item + 1] = pair1;
-                            sorted = false;
-                        }
-                    }
-                }
+                Console.Write($"{item}, ");
             }
-            else if (comboBoxSort.SelectedIndex == 1)
-            {
-                while (!sorted)
-                {
-                    sorted = true;
-                    for (int item = 0; item<bubbleSortList.Count-1; item++)
-                    {
-                        string pair1 = bubbleSortList[item];
-                        string pair2 = bubbleSortList[item + 1];
-                        if ((int)pair1[0] < (int)pair2[0])
-                        {
-                            bubbleSortList[item] = pair2;
-                            bubbleSortList[item + 1] = pair1;
-                            sorted = false;
-                        }
-                    }
-                }
-            }
+            Console.WriteLine();
 
             lstBoxDummy.Items.Clear();
-            foreach (string employee in bubbleSortList)
+            foreach (string key in quicksortArray)
             {
-                lstBoxDummy.Items.Add(employee);
+                //MessageBox.Show(staffNameDictionary[key]);
+                lstBoxDummy.Items.Add(staffNameDictionary[key]);
             }
+
+            void Quicksort(string[] arr, int start, int end)
+            {
+                int i;
+                if (start < end)
+                {
+                    i = Partition(arr, start, end);
+
+                    Quicksort(arr, start, i - 1);
+                    Quicksort(arr, i + 1, end);
+                }
+            }
+            int Partition(string[] arr, int start, int end)
+            {
+                string[] a = arr;
+                string pivot = a[end];
+                int i = start - 1;
+                string tempLow;
+                string tempHigh;
+
+                for (int j = start; j < end; j++)
+                {
+                    if (comboBoxSort.SelectedIndex == 0)
+                    {
+                        if (String.Compare(a[j], pivot) < 0)
+                        {
+                            Console.WriteLine($"{a[j]} < {pivot}");
+                            i++;
+                            tempLow = a[i];
+                            tempHigh = a[j];
+                            a[j] = tempLow;
+                            a[i] = tempHigh;
+                        }
+                    }
+                    else if (comboBoxSort.SelectedIndex == 1)
+                    {
+                        if (String.Compare(a[j], pivot) > 0)
+                        {
+                            Console.WriteLine($"{a[j]} > {pivot}");
+                            i++;
+                            tempLow = a[i];
+                            tempHigh = a[j];
+                            a[j] = tempLow;
+                            a[i] = tempHigh;
+                        }
+                    }
+                }
+
+                tempLow = a[i + 1];
+                tempHigh = a[end];
+                a[i + 1] = tempHigh;
+                a[end] = tempLow;
+
+                Console.Write($"Pivot = {pivot}. Current Array: ");
+                foreach (string item in a)
+                {
+                    Console.Write($"{item}, ");
+                }
+                Console.WriteLine();
+
+                return i + 1;
+            }
+
             
+
+            //List<string> bubbleSortList = new List<string>();
+            //bool sorted = false;
+
+            //if (lstBoxDummy.Items.Count > 0)
+            //{
+            //    foreach (string employee in lstBoxDummy.Items)
+            //    {
+            //        bubbleSortList.Add(employee);
+            //    }
+            //}
+            //else
+            //{
+            //    foreach (string employee in lstBoxEmployees.Items)
+            //    {
+            //        bubbleSortList.Add(employee);
+            //    }
+            //}
+
+
+            //if (comboBoxSort.SelectedIndex == 0)
+            //{
+            //    while (!sorted)
+            //    {
+            //        sorted = true;
+            //        for (int item = 0; item<bubbleSortList.Count-1; item++)
+            //        {
+            //            string pair1 = bubbleSortList[item];
+            //            string pair2 = bubbleSortList[item + 1];
+            //            if ((int)pair1[0] > (int)pair2[0])
+            //            {
+            //                bubbleSortList[item] = pair2;
+            //                bubbleSortList[item + 1] = pair1;
+            //                sorted = false;
+            //            }
+            //        }
+            //    }
+            //}
+            //else if (comboBoxSort.SelectedIndex == 1)
+            //{
+            //    while (!sorted)
+            //    {
+            //        sorted = true;
+            //        for (int item = 0; item<bubbleSortList.Count-1; item++)
+            //        {
+            //            string pair1 = bubbleSortList[item];
+            //            string pair2 = bubbleSortList[item + 1];
+            //            if ((int)pair1[0] < (int)pair2[0])
+            //            {
+            //                bubbleSortList[item] = pair2;
+            //                bubbleSortList[item + 1] = pair1;
+            //                sorted = false;
+            //            }
+            //        }
+            //    }
+            //}
+
+            //lstBoxDummy.Items.Clear();
+            //foreach (string employee in bubbleSortList)
+            //{
+            //    lstBoxDummy.Items.Add(employee);
+            //}
+
         }
 
         private void lstBoxDummy_SelectedIndexChanged(object sender, EventArgs e)
