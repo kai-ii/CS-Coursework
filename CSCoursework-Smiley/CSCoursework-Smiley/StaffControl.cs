@@ -96,7 +96,7 @@ namespace CSCoursework_Smiley
             }
             catch
             {
-                MessageBox.Show("Error establishing database connection LoginForm.");
+                MessageBox.Show("Error establishing database connection StaffControl.");
             }
         }
         private void InitializeStaffMembers()

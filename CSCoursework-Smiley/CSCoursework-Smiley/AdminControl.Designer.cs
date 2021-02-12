@@ -35,6 +35,7 @@
             this.grpBoxJobs = new System.Windows.Forms.GroupBox();
             this.btnManageJobPositions = new System.Windows.Forms.Button();
             this.adminControlAddNewStaff1 = new CSCoursework_Smiley.AdminControlAddNewStaff();
+            this.adminControlManageEmployees1 = new CSCoursework_Smiley.AdminControlManageEmployees();
             this.grpBoxAccounts.SuspendLayout();
             this.grpBoxJobs.SuspendLayout();
             this.SuspendLayout();
@@ -107,14 +108,24 @@
             // 
             this.adminControlAddNewStaff1.Location = new System.Drawing.Point(258, 3);
             this.adminControlAddNewStaff1.Name = "adminControlAddNewStaff1";
+            this.adminControlAddNewStaff1.parentForm = null;
             this.adminControlAddNewStaff1.Size = new System.Drawing.Size(814, 636);
             this.adminControlAddNewStaff1.TabIndex = 2;
             this.adminControlAddNewStaff1.Visible = false;
+            // 
+            // adminControlManageEmployees1
+            // 
+            this.adminControlManageEmployees1.Location = new System.Drawing.Point(258, 4);
+            this.adminControlManageEmployees1.Name = "adminControlManageEmployees1";
+            this.adminControlManageEmployees1.Size = new System.Drawing.Size(814, 636);
+            this.adminControlManageEmployees1.TabIndex = 3;
+            this.adminControlManageEmployees1.Visible = false;
             // 
             // AdminControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.adminControlManageEmployees1);
             this.Controls.Add(this.adminControlAddNewStaff1);
             this.Controls.Add(this.grpBoxJobs);
             this.Controls.Add(this.grpBoxAccounts);
@@ -136,5 +147,6 @@
         private System.Windows.Forms.GroupBox grpBoxJobs;
         private System.Windows.Forms.Button btnManageJobPositions;
         private AdminControlAddNewStaff adminControlAddNewStaff1;
+        private AdminControlManageEmployees adminControlManageEmployees1;
     }
 }

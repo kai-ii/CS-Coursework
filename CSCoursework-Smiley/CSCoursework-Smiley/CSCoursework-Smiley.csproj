@@ -110,6 +110,12 @@
     <Compile Include="AdminControlAddNewStaff.Designer.cs">
       <DependentUpon>AdminControlAddNewStaff.cs</DependentUpon>
     </Compile>
+    <Compile Include="AdminControlManageEmployees.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AdminControlManageEmployees.Designer.cs">
+      <DependentUpon>AdminControlManageEmployees.cs</DependentUpon>
+    </Compile>
     <Compile Include="ClockHourSelectControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -216,6 +222,9 @@
     </Compile>
     <EmbeddedResource Include="AdminControlAddNewStaff.resx">
       <DependentUpon>AdminControlAddNewStaff.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="AdminControlManageEmployees.resx">
+      <DependentUpon>AdminControlManageEmployees.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ClockHourSelectControl.resx">
       <DependentUpon>ClockHourSelectControl.cs</DependentUpon>

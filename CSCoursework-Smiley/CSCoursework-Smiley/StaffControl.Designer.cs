@@ -33,13 +33,13 @@
             this.lstBoxDummy = new System.Windows.Forms.ListBox();
             this.lstBoxEmployees = new System.Windows.Forms.ListBox();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.staffControlNotes1 = new CSCoursework_Smiley.StaffControlNotes();
-            this.staffControlGraphs1 = new CSCoursework_Smiley.StaffControlGraphs();
-            this.staffControlDetails1 = new CSCoursework_Smiley.StaffControlDetails();
             this.rBtnDetails = new System.Windows.Forms.RadioButton();
             this.rBtnGraphs = new System.Windows.Forms.RadioButton();
             this.rBtnNotes = new System.Windows.Forms.RadioButton();
             this.comboBoxSort = new System.Windows.Forms.ComboBox();
+            this.staffControlNotes1 = new CSCoursework_Smiley.StaffControlNotes();
+            this.staffControlGraphs1 = new CSCoursework_Smiley.StaffControlGraphs();
+            this.staffControlDetails1 = new CSCoursework_Smiley.StaffControlDetails();
             this.pnlStaffScroll.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
@@ -70,7 +70,8 @@
             this.lstBoxDummy.ItemHeight = 17;
             this.lstBoxDummy.Location = new System.Drawing.Point(0, 0);
             this.lstBoxDummy.Name = "lstBoxDummy";
-            this.lstBoxDummy.Size = new System.Drawing.Size(227, 599);
+            this.lstBoxDummy.ScrollAlwaysVisible = true;
+            this.lstBoxDummy.Size = new System.Drawing.Size(245, 599);
             this.lstBoxDummy.TabIndex = 5;
             this.lstBoxDummy.Visible = false;
             this.lstBoxDummy.SelectedIndexChanged += new System.EventHandler(this.lstBoxDummy_SelectedIndexChanged);
@@ -84,6 +85,7 @@
             this.lstBoxEmployees.Name = "lstBoxEmployees";
             this.lstBoxEmployees.Size = new System.Drawing.Size(227, 599);
             this.lstBoxEmployees.TabIndex = 4;
+            this.lstBoxEmployees.Visible = false;
             this.lstBoxEmployees.SelectedIndexChanged += new System.EventHandler(this.lstBoxEmployees_SelectedIndexChanged);
             // 
             // panel1
@@ -95,35 +97,6 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(556, 585);
             this.panel1.TabIndex = 3;
-            // 
-            // staffControlNotes1
-            // 
-            this.staffControlNotes1.AbsenceTupleList = null;
-            this.staffControlNotes1.GeneralNotes = "temp";
-            this.staffControlNotes1.Location = new System.Drawing.Point(0, 0);
-            this.staffControlNotes1.Name = "staffControlNotes1";
-            this.staffControlNotes1.parentForm = null;
-            this.staffControlNotes1.Size = new System.Drawing.Size(556, 585);
-            this.staffControlNotes1.TabIndex = 2;
-            this.staffControlNotes1.Load += new System.EventHandler(this.staffControlNotes1_Load);
-            // 
-            // staffControlGraphs1
-            // 
-            this.staffControlGraphs1.LineChartValues = new int[] {
-        0};
-            this.staffControlGraphs1.Location = new System.Drawing.Point(0, 0);
-            this.staffControlGraphs1.Name = "staffControlGraphs1";
-            this.staffControlGraphs1.PieChartData = null;
-            this.staffControlGraphs1.Size = new System.Drawing.Size(556, 585);
-            this.staffControlGraphs1.TabIndex = 1;
-            // 
-            // staffControlDetails1
-            // 
-            this.staffControlDetails1.Location = new System.Drawing.Point(0, 0);
-            this.staffControlDetails1.Name = "staffControlDetails1";
-            this.staffControlDetails1.Size = new System.Drawing.Size(556, 585);
-            this.staffControlDetails1.Staff_details = null;
-            this.staffControlDetails1.TabIndex = 0;
             // 
             // rBtnDetails
             // 
@@ -173,6 +146,35 @@
             this.comboBoxSort.Size = new System.Drawing.Size(45, 21);
             this.comboBoxSort.TabIndex = 7;
             this.comboBoxSort.SelectedIndexChanged += new System.EventHandler(this.comboBoxSort_SelectedIndexChanged);
+            // 
+            // staffControlNotes1
+            // 
+            this.staffControlNotes1.AbsenceTupleList = null;
+            this.staffControlNotes1.GeneralNotes = "temp";
+            this.staffControlNotes1.Location = new System.Drawing.Point(0, 0);
+            this.staffControlNotes1.Name = "staffControlNotes1";
+            this.staffControlNotes1.parentForm = null;
+            this.staffControlNotes1.Size = new System.Drawing.Size(556, 585);
+            this.staffControlNotes1.TabIndex = 2;
+            this.staffControlNotes1.Load += new System.EventHandler(this.staffControlNotes1_Load);
+            // 
+            // staffControlGraphs1
+            // 
+            this.staffControlGraphs1.LineChartValues = new int[] {
+        0};
+            this.staffControlGraphs1.Location = new System.Drawing.Point(0, 0);
+            this.staffControlGraphs1.Name = "staffControlGraphs1";
+            this.staffControlGraphs1.PieChartData = null;
+            this.staffControlGraphs1.Size = new System.Drawing.Size(556, 585);
+            this.staffControlGraphs1.TabIndex = 1;
+            // 
+            // staffControlDetails1
+            // 
+            this.staffControlDetails1.Location = new System.Drawing.Point(0, 0);
+            this.staffControlDetails1.Name = "staffControlDetails1";
+            this.staffControlDetails1.Size = new System.Drawing.Size(556, 585);
+            this.staffControlDetails1.Staff_details = null;
+            this.staffControlDetails1.TabIndex = 0;
             // 
             // StaffControl
             // 

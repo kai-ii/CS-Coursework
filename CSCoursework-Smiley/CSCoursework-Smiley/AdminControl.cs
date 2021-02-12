@@ -32,6 +32,7 @@ namespace CSCoursework_Smiley.Properties
         {
             Point origin = new Point(0,0);
             adminControlAddNewStaff1.Location = origin;
+            adminControlManageEmployees1.Location = origin;
         }
 
         private void btnAddNewStaff_Click(object sender, EventArgs e)
@@ -41,7 +42,7 @@ namespace CSCoursework_Smiley.Properties
 
         private void btnAccountManagement_Click(object sender, EventArgs e)
         {
-
+            adminControlManageEmployees1.Visible = true;
         }
 
         private void btnCreateAnnouncement_Click(object sender, EventArgs e)
