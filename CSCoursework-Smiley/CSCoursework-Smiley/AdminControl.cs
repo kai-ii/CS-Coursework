@@ -16,6 +16,17 @@ namespace CSCoursework_Smiley.Properties
         public AdminControl()
         {
             InitializeComponent();
+            InitializeParentChildRelationships();
+        }
+
+        private void InitializeParentChildRelationships()
+        {
+            adminControlAddNewStaff1.parentForm = this;
+        }
+
+        public void ResetControls()
+        {
+            parentForm.ResetControls();
         }
         private void AdminControl_Load(object sender, EventArgs e)
         {

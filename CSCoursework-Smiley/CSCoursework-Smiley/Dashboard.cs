@@ -243,9 +243,11 @@ namespace CSCoursework_Smiley
 
         }
 
-        //public void ResetControls()
-        //{
-        //    staffControl1 = new StaffControl();
-        //}
+        public void ResetControls()
+        {
+            staffControl1.UpdateStaffControl();
+            rotaControl1.UpdateRotaControl();
+            timesheetControl1.UpdateTimesheetControl();
+        }
     }
 }

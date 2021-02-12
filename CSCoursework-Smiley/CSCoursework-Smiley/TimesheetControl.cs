@@ -65,6 +65,13 @@ namespace CSCoursework_Smiley
             UpdateControlEmployees();
             InitializeParentForms();
         }
+
+        public void UpdateTimesheetControl()
+        {
+            GetTimesheetRotaData();
+            InitializeStaffMemberList();
+            UpdateControlEmployees();
+        }
         private void UpdateControlEmployees()
         {
             List<Tuple<int, List<bool>>> staffMembersInDataGridListHolidayTuple = new List<Tuple<int, List<bool>>>();

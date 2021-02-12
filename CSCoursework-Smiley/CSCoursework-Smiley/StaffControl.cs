@@ -27,8 +27,8 @@ namespace CSCoursework_Smiley
 
         private void StaffControl_Load(object sender, EventArgs e)
         {
-            InitializeSearchTextbox();
             InitializeDatabaseConnection();
+            InitializeSearchTextbox();
             InitializeStaffMembers();
             lstBoxEmployees.Visible = false;
             lstBoxDummy.Visible = true;
@@ -37,7 +37,15 @@ namespace CSCoursework_Smiley
             SortDummyBox();
             rBtnDetails.Checked = true;
         }
-        void InitializeSearchTextbox()
+        public void UpdateStaffControl()
+        {
+            lstBoxEmployees.Items.Clear();
+            lstBoxDummy.Items.Clear();
+            InitializeStaffMembers();
+            CopyBaseListBoxToDummyBox();
+            SortDummyBox();
+        }
+        private void InitializeSearchTextbox()
         {
             txtSearch.ForeColor = SystemColors.GrayText;
             txtSearch.Text = "search";
@@ -436,7 +444,15 @@ namespace CSCoursework_Smiley
             NoteInfoTable.PrimaryKey = keyColumns;
 
             DataRow row = NoteInfoTable.Rows.Find(primaryKey);
-            return Convert.ToString(row.Field<string>("note_contents"));
+            try
+            {
+                return Convert.ToString(row.Field<string>("note_contents"));
+            }
+            catch
+            {
+                return "";
+            }
+            
         }
 
         private void staffControlNotes1_Load(object sender, EventArgs e)

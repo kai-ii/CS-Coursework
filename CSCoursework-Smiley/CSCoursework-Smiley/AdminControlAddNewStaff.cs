@@ -23,6 +23,8 @@ namespace CSCoursework_Smiley
             InitializeComponent();
         }
 
+        public Properties.AdminControl parentForm { get; set; }
+
         private void btnBack_Click(object sender, EventArgs e)
         {
             this.Visible = false;
@@ -341,7 +343,7 @@ namespace CSCoursework_Smiley
             StaffBranchTable.Rows.Add(newStaffBranchRow);
             da2.Update(StaffBranchDS, "StaffBranchInfo");
 
-            //parentForm.ResetControls();
+            parentForm.ResetControls();
         }
         private bool hasOnlyLetters(string stringToValidate)
         {

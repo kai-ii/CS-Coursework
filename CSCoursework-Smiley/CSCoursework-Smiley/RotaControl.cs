@@ -76,6 +76,11 @@ namespace CSCoursework_Smiley
             UpdateWeekLabel();
         }
 
+        public void UpdateRotaControl()
+        {
+            InitializeStaffMemberComboBox();
+        }
+
         private void InitializeStaffMemberComboBox()
         {
             staffMemberList = new List<string>();
