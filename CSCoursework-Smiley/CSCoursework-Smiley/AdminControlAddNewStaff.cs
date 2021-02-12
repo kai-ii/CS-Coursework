@@ -344,6 +344,30 @@ namespace CSCoursework_Smiley
             da2.Update(StaffBranchDS, "StaffBranchInfo");
 
             parentForm.ResetControls();
+            ResetForm();
+        }
+
+        private void ResetForm()
+        {
+            txtForename.Clear();
+            txtSurname.Clear();
+            txtNINumber.Clear();
+            txtDateOfBirth.Clear();
+            comboBoxGender.SelectedIndex = -1;
+            comboBoxContractType.SelectedIndex = -1;
+            txtContractedWeeklyHours.Clear();
+            txtWorksNumber.Clear();
+            txtNILetter.Clear();
+            txtTaxCode.Clear();
+            comboBoxBranch.SelectedIndex = -1;
+            comboBoxJobPosition.SelectedIndex = -1;
+            txtStreet.Clear();
+            txtTownCity.Clear();
+            txtCounty.Clear();
+            txtPostcode.Clear();
+            txtMobileNumber.Clear();
+            txtHomeNumber.Clear();
+            txtEmailAddress.Clear();
         }
         private bool hasOnlyLetters(string stringToValidate)
         {
