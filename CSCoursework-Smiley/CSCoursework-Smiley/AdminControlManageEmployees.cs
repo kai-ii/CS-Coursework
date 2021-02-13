@@ -16,6 +16,7 @@ namespace CSCoursework_Smiley
         // Initialize Variables
         OleDbConnection con = new OleDbConnection();
         Dictionary<string, string> staffNameDictionary;
+        int primaryKeySelected;
         public AdminControlManageEmployees()
         {
             InitializeComponent();
@@ -60,7 +61,7 @@ namespace CSCoursework_Smiley
             {
                 string staff_firstname = StaffInfoDS.Tables["StaffInfo"].Rows[employee].Field<string>("staff_firstname");
                 string staff_surname = StaffInfoDS.Tables["StaffInfo"].Rows[employee].Field<string>("staff_surname");
-                lstBoxEmployees.Items.Add($"{staff_firstname}. {staff_surname[0]}");
+                lstBoxEmployees.Items.Add($"{staff_firstname.ToLower()[0]}{staff_surname}");
                 staffNameDictionary.Add($"{staff_surname.Trim()}{staff_firstname.Trim()}", $"{staff_firstname.ToLower()[0]}{staff_surname}");
             }
 
@@ -111,7 +112,8 @@ namespace CSCoursework_Smiley
         {
             if (staffNameDictionary == null) { Console.WriteLine("SortDummyBox somehow got accidentally called."); return; }
             //this is the problem, make it so it works. to do that uhm, when searching only use the search values not all staff.
-            string[] quicksortArray = staffNameDictionary.Keys.ToArray();
+
+            string[] quicksortArray = lstBoxDummy.Items.OfType<string>().ToArray();
 
             Console.Write("Unsorted Array: ");
             foreach (string item in quicksortArray)
@@ -129,11 +131,7 @@ namespace CSCoursework_Smiley
             Console.WriteLine();
 
             lstBoxDummy.Items.Clear();
-            foreach (string key in quicksortArray)
-            {
-                //MessageBox.Show(staffNameDictionary[key]);
-                lstBoxDummy.Items.Add(staffNameDictionary[key]);
-            }
+            Array.ForEach<string>(quicksortArray, staffMember => lstBoxDummy.Items.Add(staffMember));
 
             void Quicksort(string[] arr, int start, int end)
             {
@@ -239,7 +237,7 @@ namespace CSCoursework_Smiley
                 lstBoxDummy.Items.Clear();
                 foreach (string employee in staffNameDictionary.Values)
                 {
-                    MessageBox.Show($"employee = {employee}, searchString = {searchString}");
+                    //MessageBox.Show($"employee = {employee}, searchString = {searchString}");
                     //lstBoxDummy.Visible = true;
                     if (employee.ToLower().Contains(searchString))
                     {
@@ -256,6 +254,32 @@ namespace CSCoursework_Smiley
         private void comboBoxSort_SelectedIndexChanged(object sender, EventArgs e)
         {
             SortDummyBox();
+        }
+        private void lstBoxDummy_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Presence check
+            if (lstBoxDummy.SelectedItem != null)
+            {
+                for (int employee = 0; employee < lstBoxEmployees.Items.Count; employee++)
+                {
+                    if (lstBoxDummy.SelectedItem.ToString() == lstBoxEmployees.Items[employee].ToString())
+                    {
+                        lstBoxEmployees.SelectedIndex = employee;
+                        lstBoxEmployeeUpdate();
+                    }
+                }
+            }
+        }
+        private void lstBoxEmployeeUpdate()
+        {
+            int index = lstBoxEmployees.SelectedIndex + 1;
+
+
+            if (primaryKeySelected != index)
+            {
+                primaryKeySelected = index;
+                //UpdateRowStaffDetails(primaryKeySelected);
+            }
         }
     }
 }

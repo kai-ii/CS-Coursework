@@ -37,6 +37,32 @@ namespace CSCoursework_Smiley
             CopyBaseListBoxToDummyBox();
             SortDummyBox();
             rBtnDetails.Checked = true;
+            InitializeParentChildRelationships();
+        }
+        private void InitializeParentChildRelationships()
+        {
+            staffControlDetails1.parentForm = this;
+        }
+        public void UpdateAddressInfo(string[] addressInfo)
+        {
+            var updateCommand = new OleDbCommand();
+            string sql = $"UPDATE [tblStaff] SET [staff_street]='{addressInfo[1]}', [staff_city]='{addressInfo[2]}', [staff_county]='{addressInfo[3]}', [staff_postcode]='{addressInfo[4]}' WHERE [staff_id]={Convert.ToInt32(addressInfo[0])};";
+            updateCommand.CommandText = sql;
+            updateCommand.Connection = con;
+            con.Open();
+            updateCommand.ExecuteNonQuery();
+            con.Close();
+        }
+
+        public void UpdateEmploymentDetails(string[] employmentDetails)
+        {
+            var updateCommand = new OleDbCommand();
+            string sql = $"UPDATE [tblStaff] SET [jobposition_id]={Convert.ToInt32(employmentDetails[1])}, [staff_contract_type]='{employmentDetails[2]}', [staff_salaried_hours]={Convert.ToInt32(employmentDetails[3])} WHERE [staff_id]={Convert.ToInt32(employmentDetails[0])};";
+            updateCommand.CommandText = sql;
+            updateCommand.Connection = con;
+            con.Open();
+            updateCommand.ExecuteNonQuery();
+            con.Close();
         }
         public void UpdateStaffControl()
         {

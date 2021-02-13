@@ -57,6 +57,7 @@
             this.lstBoxDummy.Size = new System.Drawing.Size(245, 599);
             this.lstBoxDummy.TabIndex = 6;
             this.lstBoxDummy.Visible = false;
+            this.lstBoxDummy.SelectedIndexChanged += new System.EventHandler(this.lstBoxDummy_SelectedIndexChanged);
             // 
             // txtSearch
             // 

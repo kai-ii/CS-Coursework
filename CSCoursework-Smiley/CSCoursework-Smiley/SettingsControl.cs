@@ -26,7 +26,6 @@ namespace CSCoursework_Smiley.Properties
         {
             //UpdateUsernamePasswordTextboxes();
         }
-
         public void UpdateUsernamePasswordTextboxes()
         {
             txtUsername.Text = userUsername;
