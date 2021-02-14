@@ -77,6 +77,8 @@
             this.lblPaymentDetailsWorksNumber = new System.Windows.Forms.Label();
             this.lblPaymentDetailsTaxCode = new System.Windows.Forms.Label();
             this.lblPaymentDetailsNILetter = new System.Windows.Forms.Label();
+            this.txtPaymentDetailsNINumber = new System.Windows.Forms.TextBox();
+            this.lblPaymentDetailsNINumber = new System.Windows.Forms.Label();
             this.grpAddress.SuspendLayout();
             this.grpEmployment.SuspendLayout();
             this.grpContactInfo.SuspendLayout();
@@ -366,6 +368,7 @@
             this.btnSaveContactInfoDetails.Text = "Save";
             this.btnSaveContactInfoDetails.UseVisualStyleBackColor = false;
             this.btnSaveContactInfoDetails.Visible = false;
+            this.btnSaveContactInfoDetails.Click += new System.EventHandler(this.btnSaveContactInfoDetails_Click);
             // 
             // btnEditContactInfoDetails
             // 
@@ -379,6 +382,7 @@
             this.btnEditContactInfoDetails.TabIndex = 12;
             this.btnEditContactInfoDetails.Text = "Edit";
             this.btnEditContactInfoDetails.UseVisualStyleBackColor = false;
+            this.btnEditContactInfoDetails.Click += new System.EventHandler(this.btnEditContactInfoDetails_Click);
             // 
             // txtContactInfoHomeNumber
             // 
@@ -468,6 +472,7 @@
             this.btnSaveEmploymentInfoDetails.Text = "Save";
             this.btnSaveEmploymentInfoDetails.UseVisualStyleBackColor = false;
             this.btnSaveEmploymentInfoDetails.Visible = false;
+            this.btnSaveEmploymentInfoDetails.Click += new System.EventHandler(this.btnSaveEmploymentInfoDetails_Click);
             // 
             // btnEditEmploymentInfoDetails
             // 
@@ -481,6 +486,7 @@
             this.btnEditEmploymentInfoDetails.TabIndex = 12;
             this.btnEditEmploymentInfoDetails.Text = "Edit";
             this.btnEditEmploymentInfoDetails.UseVisualStyleBackColor = false;
+            this.btnEditEmploymentInfoDetails.Click += new System.EventHandler(this.btnEditEmploymentInfoDetails_Click);
             // 
             // txtEmploymentInfoCurrentlyEmployed
             // 
@@ -541,6 +547,8 @@
             // 
             // grpPaymentDetails
             // 
+            this.grpPaymentDetails.Controls.Add(this.txtPaymentDetailsNINumber);
+            this.grpPaymentDetails.Controls.Add(this.lblPaymentDetailsNINumber);
             this.grpPaymentDetails.Controls.Add(this.btnSavePaymentDetails);
             this.grpPaymentDetails.Controls.Add(this.btnEditPaymentDetails);
             this.grpPaymentDetails.Controls.Add(this.txtPaymentDetailsWorksNumber);
@@ -570,6 +578,7 @@
             this.btnSavePaymentDetails.Text = "Save";
             this.btnSavePaymentDetails.UseVisualStyleBackColor = false;
             this.btnSavePaymentDetails.Visible = false;
+            this.btnSavePaymentDetails.Click += new System.EventHandler(this.btnSavePaymentDetails_Click);
             // 
             // btnEditPaymentDetails
             // 
@@ -583,11 +592,12 @@
             this.btnEditPaymentDetails.TabIndex = 17;
             this.btnEditPaymentDetails.Text = "Edit";
             this.btnEditPaymentDetails.UseVisualStyleBackColor = false;
+            this.btnEditPaymentDetails.Click += new System.EventHandler(this.btnEditPaymentDetails_Click);
             // 
             // txtPaymentDetailsWorksNumber
             // 
             this.txtPaymentDetailsWorksNumber.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPaymentDetailsWorksNumber.Location = new System.Drawing.Point(130, 62);
+            this.txtPaymentDetailsWorksNumber.Location = new System.Drawing.Point(130, 84);
             this.txtPaymentDetailsWorksNumber.Name = "txtPaymentDetailsWorksNumber";
             this.txtPaymentDetailsWorksNumber.ReadOnly = true;
             this.txtPaymentDetailsWorksNumber.Size = new System.Drawing.Size(182, 23);
@@ -597,7 +607,7 @@
             // txtPaymentDetailsTaxCode
             // 
             this.txtPaymentDetailsTaxCode.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPaymentDetailsTaxCode.Location = new System.Drawing.Point(130, 41);
+            this.txtPaymentDetailsTaxCode.Location = new System.Drawing.Point(130, 63);
             this.txtPaymentDetailsTaxCode.Name = "txtPaymentDetailsTaxCode";
             this.txtPaymentDetailsTaxCode.ReadOnly = true;
             this.txtPaymentDetailsTaxCode.Size = new System.Drawing.Size(182, 23);
@@ -607,7 +617,7 @@
             // txtPaymentDetailsNILetter
             // 
             this.txtPaymentDetailsNILetter.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtPaymentDetailsNILetter.Location = new System.Drawing.Point(130, 19);
+            this.txtPaymentDetailsNILetter.Location = new System.Drawing.Point(130, 41);
             this.txtPaymentDetailsNILetter.Name = "txtPaymentDetailsNILetter";
             this.txtPaymentDetailsNILetter.ReadOnly = true;
             this.txtPaymentDetailsNILetter.Size = new System.Drawing.Size(182, 23);
@@ -617,7 +627,7 @@
             // lblPaymentDetailsWorksNumber
             // 
             this.lblPaymentDetailsWorksNumber.AutoSize = true;
-            this.lblPaymentDetailsWorksNumber.Location = new System.Drawing.Point(9, 62);
+            this.lblPaymentDetailsWorksNumber.Location = new System.Drawing.Point(9, 84);
             this.lblPaymentDetailsWorksNumber.Name = "lblPaymentDetailsWorksNumber";
             this.lblPaymentDetailsWorksNumber.Size = new System.Drawing.Size(112, 20);
             this.lblPaymentDetailsWorksNumber.TabIndex = 16;
@@ -626,7 +636,7 @@
             // lblPaymentDetailsTaxCode
             // 
             this.lblPaymentDetailsTaxCode.AutoSize = true;
-            this.lblPaymentDetailsTaxCode.Location = new System.Drawing.Point(46, 41);
+            this.lblPaymentDetailsTaxCode.Location = new System.Drawing.Point(46, 63);
             this.lblPaymentDetailsTaxCode.Name = "lblPaymentDetailsTaxCode";
             this.lblPaymentDetailsTaxCode.Size = new System.Drawing.Size(75, 20);
             this.lblPaymentDetailsTaxCode.TabIndex = 15;
@@ -635,11 +645,30 @@
             // lblPaymentDetailsNILetter
             // 
             this.lblPaymentDetailsNILetter.AutoSize = true;
-            this.lblPaymentDetailsNILetter.Location = new System.Drawing.Point(54, 19);
+            this.lblPaymentDetailsNILetter.Location = new System.Drawing.Point(54, 41);
             this.lblPaymentDetailsNILetter.Name = "lblPaymentDetailsNILetter";
             this.lblPaymentDetailsNILetter.Size = new System.Drawing.Size(67, 20);
             this.lblPaymentDetailsNILetter.TabIndex = 14;
             this.lblPaymentDetailsNILetter.Text = "NI letter";
+            // 
+            // txtPaymentDetailsNINumber
+            // 
+            this.txtPaymentDetailsNINumber.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtPaymentDetailsNINumber.Location = new System.Drawing.Point(130, 20);
+            this.txtPaymentDetailsNINumber.Name = "txtPaymentDetailsNINumber";
+            this.txtPaymentDetailsNINumber.ReadOnly = true;
+            this.txtPaymentDetailsNINumber.Size = new System.Drawing.Size(182, 23);
+            this.txtPaymentDetailsNINumber.TabIndex = 21;
+            this.txtPaymentDetailsNINumber.Text = "NI number";
+            // 
+            // lblPaymentDetailsNINumber
+            // 
+            this.lblPaymentDetailsNINumber.AutoSize = true;
+            this.lblPaymentDetailsNINumber.Location = new System.Drawing.Point(36, 20);
+            this.lblPaymentDetailsNINumber.Name = "lblPaymentDetailsNINumber";
+            this.lblPaymentDetailsNINumber.Size = new System.Drawing.Size(85, 20);
+            this.lblPaymentDetailsNINumber.TabIndex = 20;
+            this.lblPaymentDetailsNINumber.Text = "NI number";
             // 
             // StaffControlDetails
             // 
@@ -718,5 +747,7 @@
         private System.Windows.Forms.Button btnEditEmploymentInfoDetails;
         private System.Windows.Forms.Button btnSavePaymentDetails;
         private System.Windows.Forms.Button btnEditPaymentDetails;
+        private System.Windows.Forms.TextBox txtPaymentDetailsNINumber;
+        private System.Windows.Forms.Label lblPaymentDetailsNINumber;
     }
 }

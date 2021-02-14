@@ -17,6 +17,8 @@ namespace CSCoursework_Smiley
         OleDbConnection con = new OleDbConnection();
         Dictionary<string, string> staffNameDictionary;
         int primaryKeySelected;
+
+        public int userID { get; set; }
         public AdminControlManageEmployees()
         {
             InitializeComponent();
@@ -37,6 +39,9 @@ namespace CSCoursework_Smiley
             comboBoxSort.SelectedIndex = 0;
             CopyBaseListBoxToDummyBox();
             SortDummyBox();
+            lstBoxDummy.SelectedIndex = 0;
+            //GetAccountDetails(primaryKeySelected);
+            //GetPermissionDetails(primaryKeySelected);
         }
         private void InitializeStaffMembers()
         {
@@ -111,8 +116,6 @@ namespace CSCoursework_Smiley
         private void SortDummyBox()
         {
             if (staffNameDictionary == null) { Console.WriteLine("SortDummyBox somehow got accidentally called."); return; }
-            //this is the problem, make it so it works. to do that uhm, when searching only use the search values not all staff.
-
             string[] quicksortArray = lstBoxDummy.Items.OfType<string>().ToArray();
 
             Console.Write("Unsorted Array: ");
@@ -274,12 +277,107 @@ namespace CSCoursework_Smiley
         {
             int index = lstBoxEmployees.SelectedIndex + 1;
 
-
             if (primaryKeySelected != index)
             {
                 primaryKeySelected = index;
-                //UpdateRowStaffDetails(primaryKeySelected);
+                string[] name = GetAccountDetails(primaryKeySelected);
+                GetPermissionDetails(name);
             }
+        }
+        private string[] GetAccountDetails(int primaryKey)
+        {
+            // Open database connection
+            con.Open();
+
+            // Initialize variables
+            DataSet StaffInfoDS;
+            DataSet JobPositionInfoDS;
+            OleDbDataAdapter da;
+            string sql;
+
+            // Get staff members
+            sql = $"SELECT jobposition_id, staff_firstname, staff_surname FROM tblStaff WHERE staff_id={primaryKey}";
+            da = new OleDbDataAdapter(sql, con);
+            StaffInfoDS = new DataSet();
+            da.Fill(StaffInfoDS, "StaffInfo");
+
+            DataTable StaffInfoTable = StaffInfoDS.Tables["StaffInfo"];
+
+            // Get job position
+            sql = $"SELECT jobposition_name FROM tblJobPositions WHERE jobposition_id={StaffInfoTable.Rows[0].Field<int>("jobposition_id")}";
+            da = new OleDbDataAdapter(sql, con);
+            JobPositionInfoDS = new DataSet();
+            da.Fill(JobPositionInfoDS, "JobPositionInfo");
+
+            DataTable JobPositionInfoTable = JobPositionInfoDS.Tables["JobPositionInfo"];
+
+            // Close database connection
+            con.Close();
+
+            string[] accountInfo = new string[3]; //forename, surname, jobposition
+            accountInfo[0] = StaffInfoTable.Rows[0].Field<string>("staff_firstname");
+            accountInfo[1] = StaffInfoTable.Rows[0].Field<string>("staff_surname");
+            accountInfo[2] = JobPositionInfoTable.Rows[0].Field<string>("jobposition_name");
+
+            adminControlManageEmployeesDetails1.UpdateAccountDetails(accountInfo);
+            string[] name = { accountInfo[0], accountInfo[1] };
+            return name;
+        }
+        private void GetPermissionDetails(string[] name)
+        {
+            // Open database connection
+            con.Open();
+
+            // Initialize variables
+            DataSet UserInfoDS;
+            DataSet PermissionInfoDS;
+            OleDbDataAdapter da;
+            string sql;
+            bool[] accountPermissions = new bool[7];
+
+            // Get permissionID
+            sql = $"SELECT permission_id FROM tblUsers WHERE username='{name[0].ToLower()[0]}{name[1].ToLower()}'";
+            da = new OleDbDataAdapter(sql, con);
+            UserInfoDS = new DataSet();
+            da.Fill(UserInfoDS, "UserInfo");
+
+            DataTable UserInfoTable = UserInfoDS.Tables["UserInfo"];
+            if (UserInfoTable.Rows.Count == 0)
+            {
+                accountPermissions[0] = false;
+                accountPermissions[1] = false;
+                accountPermissions[2] = false;
+                accountPermissions[3] = false;
+                accountPermissions[4] = false;
+                accountPermissions[5] = false;
+                accountPermissions[6] = false;
+                adminControlManageEmployeesDetails1.UpdatePermissionDetails(accountPermissions);
+                adminControlManageEmployeesDetails1.UpdatePermissionsAccountNotCreated();
+                con.Close();
+                return;
+            }
+
+            // Get permissions
+            sql = $"SELECT * FROM tblPermissions WHERE permission_id={UserInfoTable.Rows[0].Field<int>("permission_id")}";
+            da = new OleDbDataAdapter(sql, con);
+            PermissionInfoDS = new DataSet();
+            da.Fill(PermissionInfoDS, "PermissionInfo");
+
+            DataTable PermissionInfoTable = PermissionInfoDS.Tables["PermissionInfo"];
+
+            // Close database connection
+            con.Close();
+
+            //dashboard, staffpersonal, staffall, rota, timesheet, payslip, export
+            accountPermissions[0] = PermissionInfoTable.Rows[0].Field<bool>("dashboard_access");
+            accountPermissions[1] = PermissionInfoTable.Rows[0].Field<bool>("staff_personal_access");
+            accountPermissions[2] = PermissionInfoTable.Rows[0].Field<bool>("staff_all_access");
+            accountPermissions[3] = PermissionInfoTable.Rows[0].Field<bool>("rota_access");
+            accountPermissions[4] = PermissionInfoTable.Rows[0].Field<bool>("timesheet_access");
+            accountPermissions[5] = PermissionInfoTable.Rows[0].Field<bool>("payslip_access");
+            accountPermissions[6] = PermissionInfoTable.Rows[0].Field<bool>("export_access");
+
+            adminControlManageEmployeesDetails1.UpdatePermissionDetails(accountPermissions);
         }
     }
 }

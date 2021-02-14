@@ -64,6 +64,36 @@ namespace CSCoursework_Smiley
             updateCommand.ExecuteNonQuery();
             con.Close();
         }
+        public void UpdateContactInfoDetails(string[] contactInfoDetails)
+        {
+            var updateCommand = new OleDbCommand();
+            string sql = $"UPDATE [tblStaff] SET [staff_email_address]='{contactInfoDetails[1]}', [staff_mobile_number]='{contactInfoDetails[2]}', [staff_home_number]='{contactInfoDetails[3]}' WHERE [staff_id]={Convert.ToInt32(contactInfoDetails[0])};";
+            updateCommand.CommandText = sql;
+            updateCommand.Connection = con;
+            con.Open();
+            updateCommand.ExecuteNonQuery();
+            con.Close();
+        }
+        public void UpdateEmploymentInfoDetails(string[] employmentInfoDetails)
+        {
+            var updateCommand = new OleDbCommand();
+            string sql = $"UPDATE [tblStaff] SET [staff_DoB]='{employmentInfoDetails[1]}', [staff_gender]='{employmentInfoDetails[2]}', [staff_employed]={Convert.ToBoolean(employmentInfoDetails[3])} WHERE [staff_id]={Convert.ToInt32(employmentInfoDetails[0])};";
+            updateCommand.CommandText = sql;
+            updateCommand.Connection = con;
+            con.Open();
+            updateCommand.ExecuteNonQuery();
+            con.Close();
+        }
+        public void UpdatePaymentDetails(string[] paymentDetails)
+        {
+            var updateCommand = new OleDbCommand();
+            string sql = $"UPDATE [tblStaff] SET [staff_NI_number]='{paymentDetails[1]}', [staff_NI_letter]='{paymentDetails[2]}', [staff_tax_code]='{paymentDetails[3]}', [staff_works_number]='{paymentDetails[4]}' WHERE [staff_id]={Convert.ToInt32(paymentDetails[0])};";
+            updateCommand.CommandText = sql;
+            updateCommand.Connection = con;
+            con.Open();
+            updateCommand.ExecuteNonQuery();
+            con.Close();
+        }
         public void UpdateStaffControl()
         {
             lstBoxEmployees.Items.Clear();
@@ -350,7 +380,7 @@ namespace CSCoursework_Smiley
         private void SortDummyBox()
         {
             if (staffNameDictionary == null) { Console.WriteLine("SortDummyBox somehow got accidentally called."); return; }
-            string[] quicksortArray = staffNameDictionary.Keys.ToArray();
+            string[] quicksortArray = lstBoxDummy.Items.OfType<string>().ToArray();
 
             Console.Write("Unsorted Array: ");
             foreach (string item in quicksortArray)
@@ -368,11 +398,7 @@ namespace CSCoursework_Smiley
             Console.WriteLine();
 
             lstBoxDummy.Items.Clear();
-            foreach (string key in quicksortArray)
-            {
-                //MessageBox.Show(staffNameDictionary[key]);
-                lstBoxDummy.Items.Add(staffNameDictionary[key]);
-            }
+            Array.ForEach<string>(quicksortArray, staffMember => lstBoxDummy.Items.Add(staffMember));
 
             void Quicksort(string[] arr, int start, int end)
             {

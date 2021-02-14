@@ -13,12 +13,15 @@ namespace CSCoursework_Smiley.Properties
     public partial class AdminControl : UserControl
     {
         public Dashboard parentForm { get; set; }
+        public int userID { get; set; }
         public AdminControl()
         {
             InitializeComponent();
-            InitializeParentChildRelationships();
         }
-
+        private void PassUserID()
+        {
+            adminControlManageEmployees1.userID = userID;
+        }
         private void InitializeParentChildRelationships()
         {
             adminControlAddNewStaff1.parentForm = this;
@@ -30,9 +33,14 @@ namespace CSCoursework_Smiley.Properties
         }
         private void AdminControl_Load(object sender, EventArgs e)
         {
+            // Setup locations
             Point origin = new Point(0,0);
             adminControlAddNewStaff1.Location = origin;
             adminControlManageEmployees1.Location = origin;
+
+            // Setup code things
+            InitializeParentChildRelationships();
+            PassUserID();
         }
 
         private void btnAddNewStaff_Click(object sender, EventArgs e)

@@ -52,10 +52,14 @@ namespace CSCoursework_Smiley
             PassBackgroundHighlightColours();
             SetParentChildForms();
             InitializeDatabaseConnection();
-            PassSettingsUserInfo();
+            PassSettingsControlUserInfo();
+            PassAdminControlUserInfo();
             InitializeParentChildFormRelationships();
         }
-
+        private void PassAdminControlUserInfo()
+        {
+            adminControl1.userID = userID;
+        }
         private void InitializeParentChildFormRelationships()
         {
             adminControl1.parentForm = this;
@@ -73,7 +77,7 @@ namespace CSCoursework_Smiley
             updateCommand.ExecuteNonQuery();
             con.Close();
         }
-        private void PassSettingsUserInfo()
+        private void PassSettingsControlUserInfo()
         {
             settingsControl1.userUsername = username;
             settingsControl1.userPassword = password;

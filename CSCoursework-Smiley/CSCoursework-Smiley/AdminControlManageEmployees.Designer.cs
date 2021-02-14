@@ -33,6 +33,8 @@
             this.txtSearch = new System.Windows.Forms.TextBox();
             this.btnBack = new System.Windows.Forms.Button();
             this.comboBoxSort = new System.Windows.Forms.ComboBox();
+            this.lblAccountManagement = new System.Windows.Forms.Label();
+            this.adminControlManageEmployeesDetails1 = new CSCoursework_Smiley.AdminControlManageEmployeesDetails();
             this.SuspendLayout();
             // 
             // lstBoxEmployees
@@ -92,10 +94,29 @@
             this.comboBoxSort.TabIndex = 9;
             this.comboBoxSort.SelectedIndexChanged += new System.EventHandler(this.comboBoxSort_SelectedIndexChanged);
             // 
+            // lblAccountManagement
+            // 
+            this.lblAccountManagement.AutoSize = true;
+            this.lblAccountManagement.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAccountManagement.Location = new System.Drawing.Point(62, 4);
+            this.lblAccountManagement.Name = "lblAccountManagement";
+            this.lblAccountManagement.Size = new System.Drawing.Size(178, 20);
+            this.lblAccountManagement.TabIndex = 10;
+            this.lblAccountManagement.Text = "Account Management";
+            // 
+            // adminControlManageEmployeesDetails1
+            // 
+            this.adminControlManageEmployeesDetails1.Location = new System.Drawing.Point(258, 0);
+            this.adminControlManageEmployeesDetails1.Name = "adminControlManageEmployeesDetails1";
+            this.adminControlManageEmployeesDetails1.Size = new System.Drawing.Size(556, 636);
+            this.adminControlManageEmployeesDetails1.TabIndex = 11;
+            // 
             // AdminControlManageEmployees
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.adminControlManageEmployeesDetails1);
+            this.Controls.Add(this.lblAccountManagement);
             this.Controls.Add(this.comboBoxSort);
             this.Controls.Add(this.btnBack);
             this.Controls.Add(this.txtSearch);
@@ -116,5 +137,7 @@
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.Button btnBack;
         private System.Windows.Forms.ComboBox comboBoxSort;
+        private System.Windows.Forms.Label lblAccountManagement;
+        private AdminControlManageEmployeesDetails adminControlManageEmployeesDetails1;
     }
 }

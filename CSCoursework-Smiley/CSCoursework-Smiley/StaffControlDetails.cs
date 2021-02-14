@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 using System.Data.OleDb;
+using System.Text.RegularExpressions;
 
 namespace CSCoursework_Smiley
 {
@@ -156,6 +157,7 @@ namespace CSCoursework_Smiley
             txtEmploymentInfoGender.Text = $"{staffInfoDict["staff_gender"]}";
             txtEmploymentInfoCurrentlyEmployed.Text = $"{staffInfoDict["staff_employed"]}";
             //Payment Details
+            txtPaymentDetailsNINumber.Text = $"{staffInfoDict["staff_NI_number"]}";
             txtPaymentDetailsNILetter.Text = $"{staffInfoDict["staff_NI_letter"]}";
             txtPaymentDetailsTaxCode.Text = $"{staffInfoDict["staff_tax_code"]}";
             txtPaymentDetailsWorksNumber.Text = $"{staffInfoDict["staff_works_number"]}";
@@ -177,17 +179,17 @@ namespace CSCoursework_Smiley
         private void btnSaveAddressDetails_Click(object sender, EventArgs e)
         {
             string[] addressDetails = new string[5]; //staffid, street, city, country, postcode
-            addressDetails[0] = txtEmploymentStaffID.Text;
-            addressDetails[1] = txtAddressStreet.Text;
-            addressDetails[2] = txtAddressCity.Text;
-            addressDetails[3] = txtAddressCounty.Text;
-            addressDetails[4] = txtAddressPostcode.Text;
+            addressDetails[0] = txtEmploymentStaffID.Text.Trim();
+            addressDetails[1] = txtAddressStreet.Text.Trim();
+            addressDetails[2] = txtAddressCity.Text.Trim();
+            addressDetails[3] = txtAddressCounty.Text.Trim();
+            addressDetails[4] = txtAddressPostcode.Text.Trim();
             parentForm.UpdateAddressInfo(addressDetails);
         }
         private void btnSaveEmploymentDetails_Click(object sender, EventArgs e)
         {
             string[] employmentDetails = new string[4]; //staffid, jobpositionID, contracttype, salariedhours
-            employmentDetails[0] = txtEmploymentStaffID.Text;
+            employmentDetails[0] = txtEmploymentStaffID.Text.Trim();
             int jobID = GetJobPositionID(txtEmploymentJobTitle.Text);
             if (jobID == -1) { return; } //rogue value to terminate function in case of failed validation.
             employmentDetails[1] = Convert.ToString(jobID);
@@ -233,6 +235,140 @@ namespace CSCoursework_Smiley
             txtEmploymentContractType.ReadOnly = !txtEmploymentContractType.ReadOnly;
             txtEmploymentSalariedHours.ReadOnly = !txtEmploymentSalariedHours.ReadOnly;
             btnSaveEmploymentDetails.Visible = !btnSaveEmploymentDetails.Visible;
+        }
+
+        private void btnEditContactInfoDetails_Click(object sender, EventArgs e)
+        {
+            txtContactInfoEmailAddress.ReadOnly = !txtContactInfoEmailAddress.ReadOnly;
+            txtContactInfoMobileNumber.ReadOnly = !txtContactInfoMobileNumber.ReadOnly;
+            txtContactInfoHomeNumber.ReadOnly = !txtContactInfoHomeNumber.ReadOnly;
+            btnSaveContactInfoDetails.Visible = !btnSaveContactInfoDetails.Visible;
+        }
+
+        private void btnSaveContactInfoDetails_Click(object sender, EventArgs e)
+        {
+            if (!Regex.IsMatch(txtContactInfoEmailAddress.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)))
+            {
+                MessageBox.Show("Email Address must be in the format string@string.string");
+                return;
+            }
+            if (txtContactInfoMobileNumber.Text.Trim().Length != 11)
+            {
+                MessageBox.Show("Mobile Number must be 11 digits.");
+                return;
+            }
+            if (txtContactInfoHomeNumber.Text.Trim().Length != 11)
+            {
+                MessageBox.Show("Home Number must be 11 digits.");
+                return;
+            }
+            string[] contactInfoDetails = new string[4]; // staffID, emailAddress, mobileNumber, homeNumber
+            contactInfoDetails[0] = txtEmploymentStaffID.Text.Trim();
+            contactInfoDetails[1] = txtContactInfoEmailAddress.Text.Trim();
+            contactInfoDetails[2] = txtContactInfoMobileNumber.Text.Trim();
+            contactInfoDetails[3] = txtContactInfoHomeNumber.Text.Trim();
+        }
+
+        private void btnEditEmploymentInfoDetails_Click(object sender, EventArgs e)
+        {
+            txtEmploymentInfoDoB.ReadOnly = !txtEmploymentInfoDoB.ReadOnly;
+            txtEmploymentInfoGender.ReadOnly = !txtEmploymentInfoGender.ReadOnly;
+            txtEmploymentInfoCurrentlyEmployed.ReadOnly = !txtEmploymentInfoCurrentlyEmployed.ReadOnly;
+            btnSaveEmploymentInfoDetails.Visible = !btnSaveEmploymentInfoDetails.Visible;
+        }
+
+        private void btnSaveEmploymentInfoDetails_Click(object sender, EventArgs e)
+        {
+            // Format Check
+            string DateOfBirth = txtEmploymentInfoDoB.Text;
+            string formatString = "dd/MM/yyyy";
+            if (!DateTime.TryParseExact(DateOfBirth, formatString, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out _))
+            {
+                MessageBox.Show("Invalid Date. Check the Date Of Birth field.");
+                return;
+            }
+            if (txtEmploymentInfoGender.Text.Trim().ToLower() != "male" && txtEmploymentInfoGender.Text.Trim().ToLower() != "female")
+            {
+                MessageBox.Show("Gender must be either male or female.");
+                return;
+            }
+            if (txtEmploymentInfoCurrentlyEmployed.Text.Trim().ToLower() != "true" && txtEmploymentInfoCurrentlyEmployed.Text.Trim().ToLower() != "false")
+            {
+                MessageBox.Show("Employed must be either true or false.");
+                return;
+            }
+            
+
+            string[] employmentInfoDetails = new string[4]; //staffID, DoB, gender, employed
+            employmentInfoDetails[0] = txtEmploymentStaffID.Text.Trim();
+            employmentInfoDetails[1] = txtEmploymentInfoDoB.Text.Trim();
+            employmentInfoDetails[2] = txtEmploymentInfoGender.Text.Trim();
+
+            if (txtEmploymentInfoCurrentlyEmployed.Text.Trim().ToLower() == "true") { employmentInfoDetails[3] = "True"; }
+            else { employmentInfoDetails[3] = "False"; } // Since if it is not true, it must be false if it passed the validation check.
+
+            parentForm.UpdateEmploymentInfoDetails(employmentInfoDetails);
+        }
+
+        private void btnEditPaymentDetails_Click(object sender, EventArgs e)
+        {
+            txtPaymentDetailsNINumber.ReadOnly = !txtPaymentDetailsNINumber.ReadOnly;
+            txtPaymentDetailsNILetter.ReadOnly = !txtPaymentDetailsNILetter.ReadOnly;
+            txtPaymentDetailsTaxCode.ReadOnly = !txtPaymentDetailsTaxCode.ReadOnly;
+            txtPaymentDetailsWorksNumber.ReadOnly = !txtPaymentDetailsWorksNumber.ReadOnly;
+            btnSavePaymentDetails.Visible = !btnSavePaymentDetails.Visible;
+        }
+
+        private void btnSavePaymentDetails_Click(object sender, EventArgs e)
+        {
+            string[] paymentDetails = new string[5]; //staffID, NINumber, NIletter, taxcode, worksnumber
+            paymentDetails[0] = txtEmploymentStaffID.Text.Trim();
+            if (txtPaymentDetailsNINumber.Text.Substring(0, 2).IndexOfAny("DFIQUV".ToCharArray()) == -1)
+            {
+                if (Regex.IsMatch(txtPaymentDetailsNINumber.Text.Trim(), @"^[a-zA-z][a-zA-z]\d{6}[a-zA-Z]$"))
+                {
+                    paymentDetails[1] = txtPaymentDetailsNINumber.Text.Trim();
+                }
+                else
+                {
+                    MessageBox.Show("National insurance number must be in the format 'AB123456C'");
+                    return;
+                }
+            }
+            else
+            {
+                MessageBox.Show("The first 2 characters of a national insurance number cannot be 'D', 'F', 'I', 'Q', U' or 'V'.");
+                return;
+            }
+            
+            if (txtPaymentDetailsNILetter.Text.ToString().Trim().Length == 1 && char.IsLetter(txtPaymentDetailsNILetter.Text.ToString().Trim()[0])) { paymentDetails[2] = txtPaymentDetailsNILetter.Text.ToString().Trim(); }
+            else { MessageBox.Show("NI Letter must only be a single letter."); return; }
+
+            //Tax code format check
+            for (int index = 0; index<txtPaymentDetailsTaxCode.Text.Length; index++)
+            {
+                if (index == txtPaymentDetailsTaxCode.Text.Length - 1)
+                {
+                    if (!Char.IsLetter(txtPaymentDetailsTaxCode.Text[index]))
+                    {
+                        MessageBox.Show("Tax code must be in the format of a number followed by a letter.");
+                        return;
+                    }
+                }
+                else
+                {
+                    if (Char.IsLetter(txtPaymentDetailsTaxCode.Text[index]))
+                    {
+                        MessageBox.Show("Tax code must be in the format of a number followed by a letter.");
+                        return;
+                    }
+                }
+            }
+            paymentDetails[3] = txtPaymentDetailsTaxCode.Text;
+
+            // Works number has no unique format and is used by the employer for internal employee referencing
+            paymentDetails[4] = txtPaymentDetailsWorksNumber.Text;
+            parentForm.UpdatePaymentDetails(paymentDetails);
         }
     }
 }

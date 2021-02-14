@@ -234,71 +234,114 @@ namespace CSCoursework_Smiley
             //Validation - Forename Surname DateOfBirth Gender ContractType ContractedWeeklyHour Branch JobPosition
 
             // Firstname
-            staffFirstname = txtForename.Text;
+            staffFirstname = txtForename.Text.Trim();
 
             // Surname
-            staffSurname = txtSurname.Text;
+            staffSurname = txtSurname.Text.Trim();
 
             // NINumber
-            if (txtNINumber.Text.Trim() != "") { staffNINumber = txtNINumber.Text; }
+            if (txtNINumber.Text.Trim() != "") 
+            {
+                if (txtNINumber.Text.Substring(0, 2).IndexOfAny("DFIQUV".ToCharArray()) != -1)
+                {
+                    if (Regex.IsMatch(txtNINumber.Text.Trim(), @"^[a-zA-z][a-zA-z]\d{6}[a-zA-Z]$"))
+                    {
+                        staffNINumber = txtNINumber.Text.Trim();
+                    }
+                    else
+                    {
+                        MessageBox.Show("National insurance number must be in the format 'AB123456C'");
+                        return;
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("The first 2 characters of a national insurance number cannot be 'D', 'F', 'I', 'Q', U' or 'V'.");
+                    return;
+                }
+            }
 
             // DateOfBirth
-            staffDoB = txtDateOfBirth.Text;
+            staffDoB = txtDateOfBirth.Text.Trim();
 
             // Gender
-            staffGender = comboBoxGender.SelectedItem.ToString();
+            staffGender = comboBoxGender.SelectedItem.ToString().Trim();
 
             // Contract Type
-            staffContractType = comboBoxContractType.SelectedItem.ToString();
+            staffContractType = comboBoxContractType.SelectedItem.ToString().Trim();
 
             // Salaried Hours
-            if (staffContractType == "Salaried") { staffSalariedHours = Convert.ToInt32(txtContractedWeeklyHours.Text.ToString()); } //Can safely use convert here since validation was done to check it is an integer
+            if (staffContractType == "Salaried") { staffSalariedHours = Convert.ToInt32(txtContractedWeeklyHours.Text.ToString().Trim()); } //Can safely use convert here since validation was done to check it is an integer
             else { staffSalariedHours = 0; } //0 salaried hours = flexible
 
-            // Works Number
-            if (txtWorksNumber.Text.ToString().Trim() != "") { staffWorksNumber = txtWorksNumber.Text.ToString(); }
+            // Works number has no unique format and is used by the employer for internal employee referencing
+            if (txtWorksNumber.Text.ToString().Trim() != "") { staffWorksNumber = txtWorksNumber.Text.ToString().Trim(); }
 
-            // NI Letter + Length Check
+            // NI Letter + Length Check + Character Check
             if (txtNILetter.Text.ToString().Trim() != "")
             {
-                if (txtNILetter.Text.ToString().Trim().Length == 1 && char.IsLetter(txtNILetter.Text.ToString().Trim()[0])) { staffNILetter = txtNILetter.Text.ToString(); }
+                if (txtNILetter.Text.ToString().Trim().Length == 1 && char.IsLetter(txtNILetter.Text.ToString().Trim()[0])) { staffNILetter = txtNILetter.Text.ToString().Trim(); }
                 else { MessageBox.Show("NI Letter must only be a single letter."); return; }
             }
 
-            // NI Number
-            if (txtNINumber.Text.ToString().Trim() != "") { staffNINumber = txtNINumber.Text.ToString(); }
-
-            // Tax Code
-            if (txtTaxCode.Text.ToString().Trim() != "") { staffTaxCode = txtTaxCode.Text.ToString(); }
+            // Tax Code format check
+            for (int index = 0; index < txtTaxCode.Text.Length; index++)
+            {
+                if (index == txtTaxCode.Text.Length - 1)
+                {
+                    if (!Char.IsLetter(txtTaxCode.Text[index]))
+                    {
+                        MessageBox.Show("Tax code must be in the format of a number followed by a letter.");
+                        return;
+                    }
+                }
+                else
+                {
+                    if (Char.IsLetter(txtTaxCode.Text[index]))
+                    {
+                        MessageBox.Show("Tax code must be in the format of a number followed by a letter.");
+                        return;
+                    }
+                }
+            }
+            staffTaxCode = txtTaxCode.Text.ToString().Trim();
 
             // Street
-            if (txtStreet.Text.ToString().Trim() != "") { staffStreet = txtStreet.Text.ToString(); }
+            if (txtStreet.Text.ToString().Trim() != "") { staffStreet = txtStreet.Text.ToString().Trim(); }
 
             // City
-            if (txtTownCity.Text.ToString().Trim() != "") { staffCity = txtTownCity.Text.ToString(); }
+            if (txtTownCity.Text.ToString().Trim() != "") { staffCity = txtTownCity.Text.ToString().Trim(); }
 
             // County
-            if (txtCounty.Text.ToString().Trim() != "") { staffCounty = txtCounty.Text.ToString(); }
+            if (txtCounty.Text.ToString().Trim() != "") { staffCounty = txtCounty.Text.ToString().Trim(); }
 
             // Postcode
-            if (txtPostcode.Text.ToString().Trim() != "") { staffPostcode = txtPostcode.Text.ToString(); }
+            if (txtPostcode.Text.ToString().Trim() != "") { staffPostcode = txtPostcode.Text.ToString().Trim(); }
 
             // Mobile Number + Length Check
             if (txtMobileNumber.Text.ToString().Trim() != "")
             {
-                if (txtMobileNumber.Text.ToString().Trim().Length == 11) { staffMobileNumber = txtMobileNumber.Text.ToString(); }
+                if (txtMobileNumber.Text.ToString().Trim().Length == 11) { staffMobileNumber = txtMobileNumber.Text.ToString().Trim(); }
                 else { MessageBox.Show("Mobile Number must have 11 digits."); return; }
                 }
 
             // Home Number + Length Check
             if (txtHomeNumber.Text.ToString().Trim() != "")
             {
-                if(txtHomeNumber.Text.ToString().Length == 11) { staffHomeNumber = txtHomeNumber.Text.ToString(); }
+                if(txtHomeNumber.Text.ToString().Length == 11) { staffHomeNumber = txtHomeNumber.Text.ToString().Trim(); }
                 else { MessageBox.Show("Home Number must have 11 digits."); return; }
             }
 
             // Email Address
-            if (txtEmailAddress.Text.ToString().Trim() != "") { staffEmailAddress = txtEmailAddress.Text.ToString(); }
+            if (txtEmailAddress.Text.ToString().Trim() != "") 
+            {
+                if (!Regex.IsMatch(txtEmailAddress.Text.ToString(), @"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)))
+                {
+                    MessageBox.Show("Email Address must be in the format string@string.string");
+                    return;
+                }
+                staffEmailAddress = txtEmailAddress.Text.ToString().Trim(); 
+            }
 
             // Employed
             staffEmployed = true;
@@ -424,6 +467,7 @@ namespace CSCoursework_Smiley
                 if (!DateTime.TryParseExact(DateOfBirth, formatString, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out _))
                 {
                     MessageBox.Show("Invalid Date. Check the Date Of Birth field.");
+                    return false;
                 }
             }
 
@@ -431,12 +475,14 @@ namespace CSCoursework_Smiley
             if (comboBoxGender.SelectedIndex == -1)
             {
                 MessageBox.Show("All required fields must be complete. The 'Gender' drop down box currently has no selected value.");
+                return false;
             }
 
             // Presence Check
             if (comboBoxContractType.SelectedIndex == -1)
             {
                 MessageBox.Show("All required fields must be complete. The 'Contract Type' drop down box currently has no selected value.");
+                return false;
             }
 
             // Conditioned on the contract type being salaried:
@@ -460,12 +506,14 @@ namespace CSCoursework_Smiley
             if (comboBoxBranch.SelectedIndex == -1)
             {
                 MessageBox.Show("All required fields must be complete. The 'Branch' drop down box currently has no selected value.");
+                return false;
             }
 
             // Presence Check
             if (comboBoxJobPosition.SelectedIndex == -1)
             {
                 MessageBox.Show("All required fields must be complete. The 'Job Position' drop down box currently has no selected value.");
+                return false;
             }
 
             // If every validation check is passed -> return true;
