@@ -29,19 +29,25 @@
         private void InitializeComponent()
         {
             this.LeftPanelAnchor = new System.Windows.Forms.Panel();
-            this.btnSubmit = new System.Windows.Forms.PictureBox();
             this.PasswordTextbox = new System.Windows.Forms.TextBox();
             this.UsernameTextbox = new System.Windows.Forms.TextBox();
             this.Sign_in_label = new System.Windows.Forms.Label();
+            this.btnCreateAccount = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.btnExit = new System.Windows.Forms.PictureBox();
+            this.btnSubmit = new System.Windows.Forms.PictureBox();
+            this.lblCreateAccount = new System.Windows.Forms.Label();
+            this.button2 = new System.Windows.Forms.Button();
             this.LeftPanelAnchor.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.btnSubmit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnExit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnSubmit)).BeginInit();
             this.SuspendLayout();
             // 
             // LeftPanelAnchor
             // 
             this.LeftPanelAnchor.BackColor = System.Drawing.Color.White;
+            this.LeftPanelAnchor.Controls.Add(this.button2);
+            this.LeftPanelAnchor.Controls.Add(this.btnCreateAccount);
             this.LeftPanelAnchor.Controls.Add(this.btnSubmit);
             this.LeftPanelAnchor.Controls.Add(this.PasswordTextbox);
             this.LeftPanelAnchor.Controls.Add(this.UsernameTextbox);
@@ -51,18 +57,6 @@
             this.LeftPanelAnchor.Name = "LeftPanelAnchor";
             this.LeftPanelAnchor.Size = new System.Drawing.Size(300, 710);
             this.LeftPanelAnchor.TabIndex = 0;
-            // 
-            // btnSubmit
-            // 
-            this.btnSubmit.Image = global::CSCoursework_Smiley.Properties.Resources.SigninSubmit;
-            this.btnSubmit.InitialImage = null;
-            this.btnSubmit.Location = new System.Drawing.Point(163, 177);
-            this.btnSubmit.Name = "btnSubmit";
-            this.btnSubmit.Size = new System.Drawing.Size(113, 114);
-            this.btnSubmit.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
-            this.btnSubmit.TabIndex = 3;
-            this.btnSubmit.TabStop = false;
-            this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
             // 
             // PasswordTextbox
             // 
@@ -90,6 +84,28 @@
             this.Sign_in_label.TabIndex = 0;
             this.Sign_in_label.Text = "SIGN IN";
             // 
+            // btnCreateAccount
+            // 
+            this.btnCreateAccount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(165)))), ((int)(((byte)(182)))));
+            this.btnCreateAccount.FlatAppearance.BorderColor = System.Drawing.SystemColors.MenuText;
+            this.btnCreateAccount.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCreateAccount.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCreateAccount.Location = new System.Drawing.Point(21, 556);
+            this.btnCreateAccount.Name = "btnCreateAccount";
+            this.btnCreateAccount.Size = new System.Drawing.Size(142, 29);
+            this.btnCreateAccount.TabIndex = 11;
+            this.btnCreateAccount.Text = "Create Account";
+            this.btnCreateAccount.UseVisualStyleBackColor = false;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(299, 62);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(882, 636);
+            this.button1.TabIndex = 2;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
+            // 
             // btnExit
             // 
             this.btnExit.Image = global::CSCoursework_Smiley.Properties.Resources.Close_Button;
@@ -100,11 +116,48 @@
             this.btnExit.TabStop = false;
             this.btnExit.Click += new System.EventHandler(this.ExitButton_Click);
             // 
+            // btnSubmit
+            // 
+            this.btnSubmit.Image = global::CSCoursework_Smiley.Properties.Resources.SigninSubmit;
+            this.btnSubmit.InitialImage = null;
+            this.btnSubmit.Location = new System.Drawing.Point(163, 177);
+            this.btnSubmit.Name = "btnSubmit";
+            this.btnSubmit.Size = new System.Drawing.Size(113, 114);
+            this.btnSubmit.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.btnSubmit.TabIndex = 3;
+            this.btnSubmit.TabStop = false;
+            this.btnSubmit.Click += new System.EventHandler(this.btnSubmit_Click);
+            // 
+            // lblCreateAccount
+            // 
+            this.lblCreateAccount.AutoSize = true;
+            this.lblCreateAccount.Font = new System.Drawing.Font("Century Gothic", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblCreateAccount.Location = new System.Drawing.Point(314, 13);
+            this.lblCreateAccount.Name = "lblCreateAccount";
+            this.lblCreateAccount.Size = new System.Drawing.Size(248, 36);
+            this.lblCreateAccount.TabIndex = 3;
+            this.lblCreateAccount.Text = "Create Account";
+            // 
+            // button2
+            // 
+            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(165)))), ((int)(((byte)(182)))));
+            this.button2.FlatAppearance.BorderColor = System.Drawing.SystemColors.MenuText;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.Location = new System.Drawing.Point(21, 591);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(118, 29);
+            this.button2.TabIndex = 12;
+            this.button2.Text = "Can\'t sign in?";
+            this.button2.UseVisualStyleBackColor = false;
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1180, 710);
+            this.Controls.Add(this.lblCreateAccount);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.btnExit);
             this.Controls.Add(this.LeftPanelAnchor);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
@@ -114,9 +167,10 @@
             this.Load += new System.EventHandler(this.LoginForm_Load);
             this.LeftPanelAnchor.ResumeLayout(false);
             this.LeftPanelAnchor.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.btnSubmit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnExit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btnSubmit)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -128,5 +182,9 @@
         private System.Windows.Forms.TextBox PasswordTextbox;
         private System.Windows.Forms.PictureBox btnSubmit;
         private System.Windows.Forms.PictureBox btnExit;
+        private System.Windows.Forms.Button btnCreateAccount;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Label lblCreateAccount;
+        private System.Windows.Forms.Button button2;
     }
 }

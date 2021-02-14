@@ -146,6 +146,12 @@
     <Compile Include="LoginForm.Designer.cs">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="LoginFormCreateAccount.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LoginFormCreateAccount.Designer.cs">
+      <DependentUpon>LoginFormCreateAccount.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="AdminControl.cs">
       <SubType>UserControl</SubType>
@@ -255,6 +261,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ExportControl.resx">
       <DependentUpon>ExportControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginFormCreateAccount.resx">
+      <DependentUpon>LoginFormCreateAccount.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PayslipControl.resx">
       <DependentUpon>PayslipControl.cs</DependentUpon>
