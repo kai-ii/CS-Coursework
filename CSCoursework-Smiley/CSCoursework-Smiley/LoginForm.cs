@@ -41,6 +41,16 @@ namespace CSCoursework_Smiley
 
             //Initialize Database
             InitializeDatabaseConnection();
+
+            //Initialize Relationships
+            InitializeParentChildRelationships();
+
+            //Initialize Child Form
+            GetTextboxAutocompleteData();
+        }
+        private void InitializeParentChildRelationships()
+        {
+            loginFormCreateAccount1.parentForm = this;
         }
 
         private void LoginForm_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
@@ -126,6 +136,7 @@ namespace CSCoursework_Smiley
             catch
             {
                 Console.WriteLine($"Error establishing database connection LoginForm. FullDatabasePath = {FullDatabasePath}");
+                MessageBox.Show($"Error establishing database connection LoginForm. FullDatabasePath = {FullDatabasePath}");
             }
         }
 
@@ -164,7 +175,7 @@ namespace CSCoursework_Smiley
             con.Open();
 
             //sql = $"SELECT * FROM tblUsers WHERE username='{UsernameTextbox.Text}' AND password='{PasswordTextbox.Text}'";
-            sql = $"SELECT * FROM tblUsers WHERE StrComp(username, '{UsernameTextbox.Text}', 0)=0 AND StrComp(password, '{PasswordTextbox.Text}', 0)=0";
+            sql = $"SELECT * FROM tblUsers WHERE StrComp(username, '{UsernameTextbox.Text}', 0)=0 AND StrComp(password, '{CreateMD5(PasswordTextbox.Text)}', 0)=0";
             da = new OleDbDataAdapter(sql, con);
             LoginInfoDS = new DataSet();
             da.Fill(LoginInfoDS, "LoginInfo");
@@ -174,6 +185,8 @@ namespace CSCoursework_Smiley
 
             if (LoginInfoTable.Rows.Count > 0)
             {
+                int userID = LoginInfoTable.Rows[0].Field<int>("user_id");
+                int permissionID = LoginInfoTable.Rows[0].Field<int>("permission_id");
                 string highlightColourRGBString = LoginInfoTable.Rows[0].Field<string>("settings_highlight_colour");
                 string backgroundColourRGBString = LoginInfoTable.Rows[0].Field<string>("settings_base_colour");
                 string[] highlightColourRBGStringArray = highlightColourRGBString.Split(',');
@@ -182,7 +195,8 @@ namespace CSCoursework_Smiley
                 int[] backgroundColourRGBIntArray = backgroundColourRBGStringArray.Select(item => int.Parse(item)).ToArray();
                 Color highlightColourRGB = Color.FromArgb(highlightColourRGBIntArray[0], highlightColourRGBIntArray[1], highlightColourRGBIntArray[2]);
                 Color backgroundColourRGB = Color.FromArgb(backgroundColourRGBIntArray[0], backgroundColourRGBIntArray[1], backgroundColourRGBIntArray[2]);
-                Dashboard dashboard = new Dashboard(UsernameTextbox.Text, backgroundColourRGB, highlightColourRGB, LoginInfoTable.Rows[0].Field<int>("user_id"), LoginInfoTable.Rows[0].Field<string>("password"));
+                bool[] staffPermissionArray = GetPermissions(permissionID);
+                Dashboard dashboard = new Dashboard(UsernameTextbox.Text, backgroundColourRGB, highlightColourRGB, userID, PasswordTextbox.Text, staffPermissionArray);
                 dashboard.Show();
                 this.Hide();
             }
@@ -192,7 +206,36 @@ namespace CSCoursework_Smiley
                 return;
             }
         }
+        private bool[] GetPermissions(int permissionID)
+        {
+            // Initialize variables
+            DataSet PermissionDS;
+            OleDbDataAdapter da;
+            DataTable PermissionTable;
+            string sql;
 
+            // Open Con
+            con.Open();
+
+            sql = $"SELECT * FROM tblPermissions WHERE permission_id={permissionID}";
+            da = new OleDbDataAdapter(sql, con);
+            PermissionDS = new DataSet();
+            da.Fill(PermissionDS, "PermissionInfo");
+            PermissionTable = PermissionDS.Tables["PermissionInfo"];
+
+            con.Close();
+
+            bool[] permissionArray = new bool[8];
+            for (int permission = 1; permission<=8; permission++)
+            {
+                permissionArray[permission - 1] = Convert.ToBoolean(PermissionTable.Rows[0].ItemArray[permission]);
+            }
+            //foreach (bool permission in permissionArray)
+            //{
+            //    MessageBox.Show(permission.ToString());
+            //}
+            return permissionArray;
+        }
         private void PasswordTextbox_KeyDown(object sender, KeyEventArgs e)
         {
             CheckEnter(e);
@@ -208,6 +251,115 @@ namespace CSCoursework_Smiley
             if (e.KeyCode == Keys.Enter)
             {
                 SubmitUsernamePassword();
+            }
+        }
+
+        private void btnCreateAccount_Click(object sender, EventArgs e)
+        {
+            if (!loginFormCreateAccount1.Visible)
+            {
+                loginFormCreateAccount1.Visible = true;
+                lblCreateAccount.Visible = true;
+            }
+            //GetTextboxAutocompleteData();
+        }
+        private void GetTextboxAutocompleteData()
+        {
+            //Initialize variables
+            DataSet StaffInfoDS;
+            OleDbDataAdapter da;
+            DataTable StaffInfoTable;
+            string sql;
+
+            //Open Con
+            con.Open();
+
+            sql = $"SELECT staff_firstname, staff_surname FROM tblStaff";
+            da = new OleDbDataAdapter(sql, con);
+            StaffInfoDS = new DataSet();
+            da.Fill(StaffInfoDS, "StaffInfo");
+            con.Close();
+
+            StaffInfoTable = StaffInfoDS.Tables["StaffInfo"];
+
+            string[] autocompleteArray = new string[StaffInfoTable.Rows.Count];
+            for (int staffPair = 0; staffPair<StaffInfoTable.Rows.Count; staffPair++)
+            {
+                autocompleteArray[staffPair] = $"{StaffInfoTable.Rows[staffPair].Field<string>("staff_firstname")} {StaffInfoTable.Rows[staffPair].Field<string>("staff_surname")}";
+            }
+            loginFormCreateAccount1.UpdateTextboxAutocomplete(autocompleteArray);
+        }
+        public void CancelAccountCreation()
+        {
+            loginFormCreateAccount1.Visible = false;
+            lblCreateAccount.Visible = false;
+        }
+        public void SaveAccount(string username, string password, string securityQuestion1, string securityAnswer1, string securityQuestion2, string securityAnswer2, string securityQuestion3, string securityAnswer3)
+        {
+            //Encrypt password
+            string encryptedPassword = CreateMD5(password);
+
+            //Initialize variables
+            OleDbDataAdapter da;
+            DataSet UserDS;
+            DataTable UserTable;
+            string sql;
+
+            //Initialize UserDS
+            con.Open();
+
+            sql = $"SELECT * FROM tblUsers";
+            da = new OleDbDataAdapter(sql, con);
+            UserDS = new DataSet();
+            da.Fill(UserDS, "UserInfo");
+            con.Close();
+
+            UserTable = UserDS.Tables["UserInfo"];
+
+            // Command Builder
+            var builder = new OleDbCommandBuilder(da);
+            builder.QuotePrefix = "[";
+            builder.QuoteSuffix = "]";
+            int userID = UserTable.Rows[UserTable.Rows.Count - 1].Field<int>("user_id") + 1;
+
+            // Staff Table Row Addition
+            DataRow newRow = UserTable.NewRow();
+            newRow["user_id"] = userID;
+            newRow["dashboard_id"] = 1; // Default dashboard
+            newRow["permission_id"] = 2; // Default permissions
+            newRow["username"] = username;
+            newRow["password"] = encryptedPassword;
+            newRow["settings_base_colour"] = "245, 208, 226"; //Default background colour
+            newRow["settings_highlight_colour"] = "221, 165, 182"; //Default highlight colour
+            newRow["settings_show_date_time"] = false;
+            newRow["dashboard_notes"] = "";
+            newRow["security_question_1"] = securityQuestion1;
+            newRow["security_answer_1"] = securityAnswer1;
+            newRow["security_question_2"] = securityQuestion2;
+            newRow["security_answer_2"] = securityAnswer2;
+            newRow["security_question_3"] = securityQuestion3;
+            newRow["security_answer_3"] = securityAnswer3;
+
+            UserTable.Rows.Add(newRow);
+            da.Update(UserDS, "UserInfo");
+        }
+
+        // Taken from https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.md5?redirectedfrom=MSDN&view=net-5.0
+        private string CreateMD5(string input)
+        {
+            // Use input string to calculate MD5 hash
+            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+            {
+                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                // Convert the byte array to hexadecimal string
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("X2"));
+                }
+                return sb.ToString();
             }
         }
     }

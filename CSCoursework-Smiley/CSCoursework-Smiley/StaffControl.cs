@@ -647,5 +647,10 @@ namespace CSCoursework_Smiley
         {
             SortDummyBox();
         }
+
+        public void displayPersonalStaffInfo()
+        {
+
+        }
     }
 }

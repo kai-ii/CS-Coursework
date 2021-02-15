@@ -31,7 +31,9 @@ namespace CSCoursework_Smiley
         string username;
         int userID;
         string password;
-        public Dashboard(string Username, Color BackgroundColour, Color HighlightColour, int UserID, string Password)
+        bool[] permissionArray;
+        bool permissionAllStaff = false;
+        public Dashboard(string Username, Color BackgroundColour, Color HighlightColour, int UserID, string Password, bool[] PermissionArray)
         {
             InitializeComponent();
             username = Username;
@@ -39,6 +41,7 @@ namespace CSCoursework_Smiley
             highlightColour = HighlightColour;
             userID = UserID;
             password = Password;
+            permissionArray = PermissionArray;
         }
 
         private void Dashboard_Load(object sender, EventArgs e)
@@ -55,6 +58,27 @@ namespace CSCoursework_Smiley
             PassSettingsControlUserInfo();
             PassAdminControlUserInfo();
             InitializeParentChildFormRelationships();
+            InitializePermissions();
+        }
+        private void InitializePermissions()
+        {
+            int buttonPositionCounter = 0;
+            Point[] buttonPositionArray = { new Point(0, 74), new Point(0, 127), new Point(0, 180), new Point(0, 233), new Point(0, 286), new Point(0, 339), new Point(0, 392), new Point(0, 445), new Point(0, 498) };
+            Button[] buttonArray = { btnDashboard, btnStaff, btnRota, btnTimesheet, btnPayslip, btnExport, btnSettings, btnAdmin };
+            for (int permission = 0; permission<permissionArray.Length; permission++)
+            {
+                if (permission == 2)
+                {
+                    permissionAllStaff = true;
+                }
+                if (permissionArray[permission])
+                {
+                    buttonArray[permission].Location = buttonPositionArray[permission];
+                    buttonArray[permission].Visible = true;
+                    buttonPositionCounter++;
+                }
+            }
+            btnLogout.Location = buttonPositionArray[buttonPositionCounter];
         }
         private void PassAdminControlUserInfo()
         {
@@ -70,7 +94,7 @@ namespace CSCoursework_Smiley
             password = Password;
 
             var updateCommand = new OleDbCommand();
-            string sql = $"UPDATE [tblUsers] SET [password]='{password}' WHERE [user_id]={userID};"; //square brackets? :)
+            string sql = $"UPDATE [tblUsers] SET [password]='{CreateMD5(password)}' WHERE [user_id]={userID};"; // Encrypts password
             updateCommand.CommandText = sql;
             updateCommand.Connection = con;
             con.Open();
@@ -189,6 +213,10 @@ namespace CSCoursework_Smiley
         {
             ResetBackgroundColours();
             btnStaff.BackColor = highlightColour;
+            if (!permissionAllStaff)
+            {
+                staffControl1.displayPersonalStaffInfo();
+            }
             staffControl1.BringToFront();
         }
 
@@ -246,12 +274,30 @@ namespace CSCoursework_Smiley
         {
 
         }
-
         public void ResetControls()
         {
             staffControl1.UpdateStaffControl();
             rotaControl1.UpdateRotaControl();
             timesheetControl1.UpdateTimesheetControl();
+        }
+
+        // Taken from https://docs.microsoft.com/en-us/dotnet/api/system.security.cryptography.md5?redirectedfrom=MSDN&view=net-5.0
+        private string CreateMD5(string input)
+        {
+            // Use input string to calculate MD5 hash
+            using (System.Security.Cryptography.MD5 md5 = System.Security.Cryptography.MD5.Create())
+            {
+                byte[] inputBytes = System.Text.Encoding.ASCII.GetBytes(input);
+                byte[] hashBytes = md5.ComputeHash(inputBytes);
+
+                // Convert the byte array to hexadecimal string
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < hashBytes.Length; i++)
+                {
+                    sb.Append(hashBytes[i].ToString("X2"));
+                }
+                return sb.ToString();
+            }
         }
     }
 }

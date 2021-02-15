@@ -111,6 +111,7 @@
             this.btnAdmin.Text = "   Admin";
             this.btnAdmin.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnAdmin.UseVisualStyleBackColor = false;
+            this.btnAdmin.Visible = false;
             this.btnAdmin.Click += new System.EventHandler(this.btnAdmin_Click);
             // 
             // btnSettings
@@ -127,6 +128,7 @@
             this.btnSettings.Text = "   Settings";
             this.btnSettings.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSettings.UseVisualStyleBackColor = false;
+            this.btnSettings.Visible = false;
             this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
             // btnExport
@@ -143,6 +145,7 @@
             this.btnExport.Text = "   Export";
             this.btnExport.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnExport.UseVisualStyleBackColor = false;
+            this.btnExport.Visible = false;
             this.btnExport.Click += new System.EventHandler(this.btnExport_Click);
             // 
             // btnPayslip
@@ -159,6 +162,7 @@
             this.btnPayslip.Text = "   Payslip";
             this.btnPayslip.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnPayslip.UseVisualStyleBackColor = false;
+            this.btnPayslip.Visible = false;
             this.btnPayslip.Click += new System.EventHandler(this.btnPayslip_Click);
             // 
             // btnTimesheet
@@ -175,6 +179,7 @@
             this.btnTimesheet.Text = "   Timesheet";
             this.btnTimesheet.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnTimesheet.UseVisualStyleBackColor = false;
+            this.btnTimesheet.Visible = false;
             this.btnTimesheet.Click += new System.EventHandler(this.btnTimesheet_Click);
             // 
             // btnRota
@@ -191,6 +196,7 @@
             this.btnRota.Text = "   Rota";
             this.btnRota.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnRota.UseVisualStyleBackColor = false;
+            this.btnRota.Visible = false;
             this.btnRota.Click += new System.EventHandler(this.btnRota_Click);
             // 
             // btnStaff
@@ -207,6 +213,7 @@
             this.btnStaff.Text = "   Staff";
             this.btnStaff.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnStaff.UseVisualStyleBackColor = false;
+            this.btnStaff.Visible = false;
             this.btnStaff.Click += new System.EventHandler(this.btnStaff_Click);
             // 
             // LeftBottomPanel
@@ -231,6 +238,7 @@
             this.btnDashboard.Text = "   Dashboard";
             this.btnDashboard.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnDashboard.UseVisualStyleBackColor = false;
+            this.btnDashboard.Visible = false;
             this.btnDashboard.Click += new System.EventHandler(this.btnDashboard_Click);
             // 
             // SmileyLogo
@@ -322,15 +330,20 @@
             // 
             this.settingsControl1.Location = new System.Drawing.Point(366, 74);
             this.settingsControl1.Name = "settingsControl1";
+            this.settingsControl1.parentForm = null;
             this.settingsControl1.Size = new System.Drawing.Size(814, 636);
             this.settingsControl1.TabIndex = 8;
+            this.settingsControl1.userPassword = null;
+            this.settingsControl1.userUsername = null;
             // 
             // adminControl1
             // 
             this.adminControl1.Location = new System.Drawing.Point(366, 74);
             this.adminControl1.Name = "adminControl1";
+            this.adminControl1.parentForm = null;
             this.adminControl1.Size = new System.Drawing.Size(814, 636);
             this.adminControl1.TabIndex = 9;
+            this.adminControl1.userID = 0;
             // 
             // staffControl1
             // 
