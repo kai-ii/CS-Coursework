@@ -33,7 +33,8 @@ namespace CSCoursework_Smiley
         string password;
         bool[] permissionArray;
         bool permissionAllStaff = false;
-        public Dashboard(string Username, Color BackgroundColour, Color HighlightColour, int UserID, string Password, bool[] PermissionArray)
+        bool showdateTime;
+        public Dashboard(string Username, Color BackgroundColour, Color HighlightColour, int UserID, string Password, bool[] PermissionArray, bool ShowDateTime)
         {
             InitializeComponent();
             username = Username;
@@ -42,6 +43,7 @@ namespace CSCoursework_Smiley
             userID = UserID;
             password = Password;
             permissionArray = PermissionArray;
+            showdateTime = ShowDateTime;
         }
 
         private void Dashboard_Load(object sender, EventArgs e)
@@ -53,32 +55,58 @@ namespace CSCoursework_Smiley
             dashboardControl1.Username = username;
             dashboardControl1.BringToFront();
             PassBackgroundHighlightColours();
-            SetParentChildForms();
             InitializeDatabaseConnection();
             PassSettingsControlUserInfo();
             PassAdminControlUserInfo();
             InitializeParentChildFormRelationships();
             InitializePermissions();
+            DisplayDateTimeLabel(showdateTime);
+            InitializeChildForms();
+        }
+        private void InitializeChildForms()
+        {
+            settingsControl1.UpdateShowDateTimeCheckbox(showdateTime);
+        }
+        public void DisplayDateTimeLabel(bool dateTimeLabelBool)
+        {
+            lblDateTime.Visible = dateTimeLabelBool;
+        }
+        public void SaveSettingsShowDateTimeLabel(bool updateValue)
+        {
+            var updateCommand = new OleDbCommand();
+            string sql = $"UPDATE [tblUsers] SET [settings_show_date_time]={updateValue} WHERE [user_id]={userID};";
+            updateCommand.CommandText = sql;
+            updateCommand.Connection = con;
+            con.Open();
+            updateCommand.ExecuteNonQuery();
+            con.Close();
         }
         private void InitializePermissions()
         {
             int buttonPositionCounter = 0;
             Point[] buttonPositionArray = { new Point(0, 74), new Point(0, 127), new Point(0, 180), new Point(0, 233), new Point(0, 286), new Point(0, 339), new Point(0, 392), new Point(0, 445), new Point(0, 498) };
-            Button[] buttonArray = { btnDashboard, btnStaff, btnRota, btnTimesheet, btnPayslip, btnExport, btnSettings, btnAdmin };
+            Button[] buttonArray = { btnDashboard, btnStaff, btnRota, btnTimesheet, btnPayslip, btnExport, btnAdmin };
             for (int permission = 0; permission<permissionArray.Length; permission++)
             {
-                if (permission == 2)
-                {
-                    permissionAllStaff = true;
-                }
-                if (permissionArray[permission])
+                if (permission < 2 && permissionArray[permission])
                 {
                     buttonArray[permission].Location = buttonPositionArray[permission];
                     buttonArray[permission].Visible = true;
                     buttonPositionCounter++;
                 }
+                else if (permission == 2 && permissionArray[permission])
+                {
+                    permissionAllStaff = true;
+                }
+                else if (permission > 2 && permissionArray[permission])
+                {
+                    buttonArray[permission - 1].Location = buttonPositionArray[permission - 1];
+                    buttonArray[permission - 1].Visible = true;
+                    buttonPositionCounter++;
+                }
             }
-            btnLogout.Location = buttonPositionArray[buttonPositionCounter];
+            btnSettings.Location = buttonPositionArray[buttonPositionCounter];
+            btnLogout.Location = buttonPositionArray[++buttonPositionCounter];
         }
         private void PassAdminControlUserInfo()
         {
@@ -86,6 +114,7 @@ namespace CSCoursework_Smiley
         }
         private void InitializeParentChildFormRelationships()
         {
+            settingsControl1.parentForm = this;
             adminControl1.parentForm = this;
         }
 
@@ -134,11 +163,6 @@ namespace CSCoursework_Smiley
             {
                 MessageBox.Show($"Error establishing database connection");
             }
-        }
-
-        private void SetParentChildForms()
-        {
-            settingsControl1.parentForm = this;
         }
 
         public void UpdateUserColours(Color BackgroundColour, Color HighlightColour)
@@ -215,7 +239,11 @@ namespace CSCoursework_Smiley
             btnStaff.BackColor = highlightColour;
             if (!permissionAllStaff)
             {
-                staffControl1.displayPersonalStaffInfo();
+                staffControl1.displayPersonalStaffInfo(username);
+            }
+            else
+            {
+                staffControl1.displayAllStaffInfo();
             }
             staffControl1.BringToFront();
         }
@@ -298,6 +326,12 @@ namespace CSCoursework_Smiley
                 }
                 return sb.ToString();
             }
+        }
+        private void timerClock_Tick(object sender, EventArgs e)
+        {
+            string time = DateTime.Now.TimeOfDay.ToString(@"hh\:mm\:ss");
+            string date = DateTime.Now.Date.ToString("d");
+            lblDateTime.Text = $"{date} - {time}";
         }
     }
 }

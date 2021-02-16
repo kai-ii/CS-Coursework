@@ -30,17 +30,18 @@
         {
             this.lblStaffMemberDetailsTitle = new System.Windows.Forms.Label();
             this.grpBoxAccountInfo = new System.Windows.Forms.GroupBox();
-            this.lblForename = new System.Windows.Forms.Label();
-            this.lblSurname = new System.Windows.Forms.Label();
             this.lblJobPosition = new System.Windows.Forms.Label();
+            this.lblSurname = new System.Windows.Forms.Label();
+            this.lblForename = new System.Windows.Forms.Label();
             this.grpBoxAccountPermissions = new System.Windows.Forms.GroupBox();
-            this.checkBoxDashboardPermission = new System.Windows.Forms.CheckBox();
-            this.checkBoxStaffPersonalPermission = new System.Windows.Forms.CheckBox();
-            this.checkBoxStaffAllPermission = new System.Windows.Forms.CheckBox();
-            this.checkBoxRotaPermission = new System.Windows.Forms.CheckBox();
-            this.checkBoxTimesheetPermission = new System.Windows.Forms.CheckBox();
-            this.checkBoxPayslipPermission = new System.Windows.Forms.CheckBox();
+            this.btnSavePermissions = new System.Windows.Forms.Button();
             this.checkBoxExportPermission = new System.Windows.Forms.CheckBox();
+            this.checkBoxPayslipPermission = new System.Windows.Forms.CheckBox();
+            this.checkBoxTimesheetPermission = new System.Windows.Forms.CheckBox();
+            this.checkBoxRotaPermission = new System.Windows.Forms.CheckBox();
+            this.checkBoxStaffAllPermission = new System.Windows.Forms.CheckBox();
+            this.checkBoxStaffPersonalPermission = new System.Windows.Forms.CheckBox();
+            this.checkBoxDashboardPermission = new System.Windows.Forms.CheckBox();
             this.lblAccountNotCreatedWarning = new System.Windows.Forms.Label();
             this.grpBoxAccountInfo.SuspendLayout();
             this.grpBoxAccountPermissions.SuspendLayout();
@@ -69,14 +70,14 @@
             this.grpBoxAccountInfo.TabStop = false;
             this.grpBoxAccountInfo.Text = "Account Info";
             // 
-            // lblForename
+            // lblJobPosition
             // 
-            this.lblForename.AutoSize = true;
-            this.lblForename.Location = new System.Drawing.Point(6, 19);
-            this.lblForename.Name = "lblForename";
-            this.lblForename.Size = new System.Drawing.Size(168, 20);
-            this.lblForename.TabIndex = 0;
-            this.lblForename.Text = "Forename - forename";
+            this.lblJobPosition.AutoSize = true;
+            this.lblJobPosition.Location = new System.Drawing.Point(6, 59);
+            this.lblJobPosition.Name = "lblJobPosition";
+            this.lblJobPosition.Size = new System.Drawing.Size(187, 20);
+            this.lblJobPosition.TabIndex = 2;
+            this.lblJobPosition.Text = "Job Position - jobposition";
             // 
             // lblSurname
             // 
@@ -87,17 +88,18 @@
             this.lblSurname.TabIndex = 1;
             this.lblSurname.Text = "Surname - surname";
             // 
-            // lblJobPosition
+            // lblForename
             // 
-            this.lblJobPosition.AutoSize = true;
-            this.lblJobPosition.Location = new System.Drawing.Point(6, 59);
-            this.lblJobPosition.Name = "lblJobPosition";
-            this.lblJobPosition.Size = new System.Drawing.Size(187, 20);
-            this.lblJobPosition.TabIndex = 2;
-            this.lblJobPosition.Text = "Job Position - jobposition";
+            this.lblForename.AutoSize = true;
+            this.lblForename.Location = new System.Drawing.Point(6, 19);
+            this.lblForename.Name = "lblForename";
+            this.lblForename.Size = new System.Drawing.Size(168, 20);
+            this.lblForename.TabIndex = 0;
+            this.lblForename.Text = "Forename - forename";
             // 
             // grpBoxAccountPermissions
             // 
+            this.grpBoxAccountPermissions.Controls.Add(this.btnSavePermissions);
             this.grpBoxAccountPermissions.Controls.Add(this.checkBoxExportPermission);
             this.grpBoxAccountPermissions.Controls.Add(this.checkBoxPayslipPermission);
             this.grpBoxAccountPermissions.Controls.Add(this.checkBoxTimesheetPermission);
@@ -113,55 +115,26 @@
             this.grpBoxAccountPermissions.TabStop = false;
             this.grpBoxAccountPermissions.Text = "Account Permissions";
             // 
-            // checkBoxDashboardPermission
+            // btnSavePermissions
             // 
-            this.checkBoxDashboardPermission.AutoSize = true;
-            this.checkBoxDashboardPermission.Location = new System.Drawing.Point(10, 22);
-            this.checkBoxDashboardPermission.Name = "checkBoxDashboardPermission";
-            this.checkBoxDashboardPermission.Size = new System.Drawing.Size(109, 24);
-            this.checkBoxDashboardPermission.TabIndex = 7;
-            this.checkBoxDashboardPermission.Text = "Dashboard";
-            this.checkBoxDashboardPermission.UseVisualStyleBackColor = true;
+            this.btnSavePermissions.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSavePermissions.Location = new System.Drawing.Point(224, 145);
+            this.btnSavePermissions.Name = "btnSavePermissions";
+            this.btnSavePermissions.Size = new System.Drawing.Size(79, 28);
+            this.btnSavePermissions.TabIndex = 12;
+            this.btnSavePermissions.Text = "Save";
+            this.btnSavePermissions.UseVisualStyleBackColor = true;
+            this.btnSavePermissions.Click += new System.EventHandler(this.btnSavePermissions_Click);
             // 
-            // checkBoxStaffPersonalPermission
+            // checkBoxExportPermission
             // 
-            this.checkBoxStaffPersonalPermission.AutoSize = true;
-            this.checkBoxStaffPersonalPermission.Location = new System.Drawing.Point(10, 43);
-            this.checkBoxStaffPersonalPermission.Name = "checkBoxStaffPersonalPermission";
-            this.checkBoxStaffPersonalPermission.Size = new System.Drawing.Size(136, 24);
-            this.checkBoxStaffPersonalPermission.TabIndex = 8;
-            this.checkBoxStaffPersonalPermission.Text = "Staff (Personal)";
-            this.checkBoxStaffPersonalPermission.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxStaffAllPermission
-            // 
-            this.checkBoxStaffAllPermission.AutoSize = true;
-            this.checkBoxStaffAllPermission.Location = new System.Drawing.Point(10, 64);
-            this.checkBoxStaffAllPermission.Name = "checkBoxStaffAllPermission";
-            this.checkBoxStaffAllPermission.Size = new System.Drawing.Size(91, 24);
-            this.checkBoxStaffAllPermission.TabIndex = 9;
-            this.checkBoxStaffAllPermission.Text = "Staff (All)";
-            this.checkBoxStaffAllPermission.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxRotaPermission
-            // 
-            this.checkBoxRotaPermission.AutoSize = true;
-            this.checkBoxRotaPermission.Location = new System.Drawing.Point(10, 85);
-            this.checkBoxRotaPermission.Name = "checkBoxRotaPermission";
-            this.checkBoxRotaPermission.Size = new System.Drawing.Size(62, 24);
-            this.checkBoxRotaPermission.TabIndex = 10;
-            this.checkBoxRotaPermission.Text = "Rota";
-            this.checkBoxRotaPermission.UseVisualStyleBackColor = true;
-            // 
-            // checkBoxTimesheetPermission
-            // 
-            this.checkBoxTimesheetPermission.AutoSize = true;
-            this.checkBoxTimesheetPermission.Location = new System.Drawing.Point(10, 105);
-            this.checkBoxTimesheetPermission.Name = "checkBoxTimesheetPermission";
-            this.checkBoxTimesheetPermission.Size = new System.Drawing.Size(99, 24);
-            this.checkBoxTimesheetPermission.TabIndex = 11;
-            this.checkBoxTimesheetPermission.Text = "Timesheet";
-            this.checkBoxTimesheetPermission.UseVisualStyleBackColor = true;
+            this.checkBoxExportPermission.AutoSize = true;
+            this.checkBoxExportPermission.Location = new System.Drawing.Point(10, 145);
+            this.checkBoxExportPermission.Name = "checkBoxExportPermission";
+            this.checkBoxExportPermission.Size = new System.Drawing.Size(73, 24);
+            this.checkBoxExportPermission.TabIndex = 13;
+            this.checkBoxExportPermission.Text = "Export";
+            this.checkBoxExportPermission.UseVisualStyleBackColor = true;
             // 
             // checkBoxPayslipPermission
             // 
@@ -173,15 +146,55 @@
             this.checkBoxPayslipPermission.Text = "Payslip";
             this.checkBoxPayslipPermission.UseVisualStyleBackColor = true;
             // 
-            // checkBoxExportPermission
+            // checkBoxTimesheetPermission
             // 
-            this.checkBoxExportPermission.AutoSize = true;
-            this.checkBoxExportPermission.Location = new System.Drawing.Point(10, 145);
-            this.checkBoxExportPermission.Name = "checkBoxExportPermission";
-            this.checkBoxExportPermission.Size = new System.Drawing.Size(73, 24);
-            this.checkBoxExportPermission.TabIndex = 13;
-            this.checkBoxExportPermission.Text = "Export";
-            this.checkBoxExportPermission.UseVisualStyleBackColor = true;
+            this.checkBoxTimesheetPermission.AutoSize = true;
+            this.checkBoxTimesheetPermission.Location = new System.Drawing.Point(10, 105);
+            this.checkBoxTimesheetPermission.Name = "checkBoxTimesheetPermission";
+            this.checkBoxTimesheetPermission.Size = new System.Drawing.Size(99, 24);
+            this.checkBoxTimesheetPermission.TabIndex = 11;
+            this.checkBoxTimesheetPermission.Text = "Timesheet";
+            this.checkBoxTimesheetPermission.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxRotaPermission
+            // 
+            this.checkBoxRotaPermission.AutoSize = true;
+            this.checkBoxRotaPermission.Location = new System.Drawing.Point(10, 85);
+            this.checkBoxRotaPermission.Name = "checkBoxRotaPermission";
+            this.checkBoxRotaPermission.Size = new System.Drawing.Size(62, 24);
+            this.checkBoxRotaPermission.TabIndex = 10;
+            this.checkBoxRotaPermission.Text = "Rota";
+            this.checkBoxRotaPermission.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxStaffAllPermission
+            // 
+            this.checkBoxStaffAllPermission.AutoSize = true;
+            this.checkBoxStaffAllPermission.Location = new System.Drawing.Point(10, 64);
+            this.checkBoxStaffAllPermission.Name = "checkBoxStaffAllPermission";
+            this.checkBoxStaffAllPermission.Size = new System.Drawing.Size(91, 24);
+            this.checkBoxStaffAllPermission.TabIndex = 9;
+            this.checkBoxStaffAllPermission.Text = "Staff (All)";
+            this.checkBoxStaffAllPermission.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxStaffPersonalPermission
+            // 
+            this.checkBoxStaffPersonalPermission.AutoSize = true;
+            this.checkBoxStaffPersonalPermission.Location = new System.Drawing.Point(10, 43);
+            this.checkBoxStaffPersonalPermission.Name = "checkBoxStaffPersonalPermission";
+            this.checkBoxStaffPersonalPermission.Size = new System.Drawing.Size(136, 24);
+            this.checkBoxStaffPersonalPermission.TabIndex = 8;
+            this.checkBoxStaffPersonalPermission.Text = "Staff (Personal)";
+            this.checkBoxStaffPersonalPermission.UseVisualStyleBackColor = true;
+            // 
+            // checkBoxDashboardPermission
+            // 
+            this.checkBoxDashboardPermission.AutoSize = true;
+            this.checkBoxDashboardPermission.Location = new System.Drawing.Point(10, 22);
+            this.checkBoxDashboardPermission.Name = "checkBoxDashboardPermission";
+            this.checkBoxDashboardPermission.Size = new System.Drawing.Size(109, 24);
+            this.checkBoxDashboardPermission.TabIndex = 7;
+            this.checkBoxDashboardPermission.Text = "Dashboard";
+            this.checkBoxDashboardPermission.UseVisualStyleBackColor = true;
             // 
             // lblAccountNotCreatedWarning
             // 
@@ -231,5 +244,6 @@
         private System.Windows.Forms.CheckBox checkBoxPayslipPermission;
         private System.Windows.Forms.CheckBox checkBoxExportPermission;
         private System.Windows.Forms.Label lblAccountNotCreatedWarning;
+        private System.Windows.Forms.Button btnSavePermissions;
     }
 }

@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.LeftPanelAnchor = new System.Windows.Forms.Panel();
+            this.checkBoxShowPassword = new System.Windows.Forms.CheckBox();
             this.button2 = new System.Windows.Forms.Button();
             this.btnCreateAccount = new System.Windows.Forms.Button();
             this.btnSubmit = new System.Windows.Forms.PictureBox();
@@ -37,15 +39,22 @@
             this.Sign_in_label = new System.Windows.Forms.Label();
             this.btnExit = new System.Windows.Forms.PictureBox();
             this.lblCreateAccount = new System.Windows.Forms.Label();
+            this.SmileyLogo = new System.Windows.Forms.PictureBox();
+            this.groupBoxAnnouncement = new System.Windows.Forms.GroupBox();
+            this.rTxtAnnouncementDetails = new System.Windows.Forms.RichTextBox();
+            this.rTxtAnnouncementTitle = new System.Windows.Forms.RichTextBox();
             this.loginFormCreateAccount1 = new CSCoursework_Smiley.LoginFormCreateAccount();
             this.LeftPanelAnchor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnSubmit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnExit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SmileyLogo)).BeginInit();
+            this.groupBoxAnnouncement.SuspendLayout();
             this.SuspendLayout();
             // 
             // LeftPanelAnchor
             // 
             this.LeftPanelAnchor.BackColor = System.Drawing.Color.White;
+            this.LeftPanelAnchor.Controls.Add(this.checkBoxShowPassword);
             this.LeftPanelAnchor.Controls.Add(this.button2);
             this.LeftPanelAnchor.Controls.Add(this.btnCreateAccount);
             this.LeftPanelAnchor.Controls.Add(this.btnSubmit);
@@ -57,6 +66,19 @@
             this.LeftPanelAnchor.Name = "LeftPanelAnchor";
             this.LeftPanelAnchor.Size = new System.Drawing.Size(300, 710);
             this.LeftPanelAnchor.TabIndex = 0;
+            this.LeftPanelAnchor.Paint += new System.Windows.Forms.PaintEventHandler(this.LeftPanelAnchor_Paint);
+            // 
+            // checkBoxShowPassword
+            // 
+            this.checkBoxShowPassword.AutoSize = true;
+            this.checkBoxShowPassword.Font = new System.Drawing.Font("Century Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxShowPassword.Location = new System.Drawing.Point(44, 158);
+            this.checkBoxShowPassword.Name = "checkBoxShowPassword";
+            this.checkBoxShowPassword.Size = new System.Drawing.Size(117, 21);
+            this.checkBoxShowPassword.TabIndex = 13;
+            this.checkBoxShowPassword.Text = "Show Password";
+            this.checkBoxShowPassword.UseVisualStyleBackColor = true;
+            this.checkBoxShowPassword.CheckedChanged += new System.EventHandler(this.checkBoxShowPassword_CheckedChanged);
             // 
             // button2
             // 
@@ -99,17 +121,19 @@
             // 
             // PasswordTextbox
             // 
+            this.PasswordTextbox.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PasswordTextbox.Location = new System.Drawing.Point(44, 131);
             this.PasswordTextbox.Name = "PasswordTextbox";
-            this.PasswordTextbox.Size = new System.Drawing.Size(190, 20);
+            this.PasswordTextbox.Size = new System.Drawing.Size(190, 23);
             this.PasswordTextbox.TabIndex = 2;
             this.PasswordTextbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.PasswordTextbox_KeyDown);
             // 
             // UsernameTextbox
             // 
+            this.UsernameTextbox.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UsernameTextbox.Location = new System.Drawing.Point(44, 105);
             this.UsernameTextbox.Name = "UsernameTextbox";
-            this.UsernameTextbox.Size = new System.Drawing.Size(190, 20);
+            this.UsernameTextbox.Size = new System.Drawing.Size(190, 23);
             this.UsernameTextbox.TabIndex = 1;
             this.UsernameTextbox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.UsernameTextbox_KeyDown);
             // 
@@ -144,10 +168,54 @@
             this.lblCreateAccount.Text = "Create Account";
             this.lblCreateAccount.Visible = false;
             // 
+            // SmileyLogo
+            // 
+            this.SmileyLogo.Image = ((System.Drawing.Image)(resources.GetObject("SmileyLogo.Image")));
+            this.SmileyLogo.Location = new System.Drawing.Point(300, 635);
+            this.SmileyLogo.Name = "SmileyLogo";
+            this.SmileyLogo.Size = new System.Drawing.Size(366, 75);
+            this.SmileyLogo.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.SmileyLogo.TabIndex = 5;
+            this.SmileyLogo.TabStop = false;
+            // 
+            // groupBoxAnnouncement
+            // 
+            this.groupBoxAnnouncement.BackColor = System.Drawing.SystemColors.Control;
+            this.groupBoxAnnouncement.Controls.Add(this.rTxtAnnouncementTitle);
+            this.groupBoxAnnouncement.Controls.Add(this.rTxtAnnouncementDetails);
+            this.groupBoxAnnouncement.Font = new System.Drawing.Font("Century Gothic", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBoxAnnouncement.Location = new System.Drawing.Point(458, 177);
+            this.groupBoxAnnouncement.Name = "groupBoxAnnouncement";
+            this.groupBoxAnnouncement.Size = new System.Drawing.Size(552, 252);
+            this.groupBoxAnnouncement.TabIndex = 6;
+            this.groupBoxAnnouncement.TabStop = false;
+            this.groupBoxAnnouncement.Text = "Announcement";
+            // 
+            // rTxtAnnouncementDetails
+            // 
+            this.rTxtAnnouncementDetails.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.rTxtAnnouncementDetails.Location = new System.Drawing.Point(7, 59);
+            this.rTxtAnnouncementDetails.Name = "rTxtAnnouncementDetails";
+            this.rTxtAnnouncementDetails.ReadOnly = true;
+            this.rTxtAnnouncementDetails.Size = new System.Drawing.Size(539, 187);
+            this.rTxtAnnouncementDetails.TabIndex = 1;
+            this.rTxtAnnouncementDetails.Text = "Announcement Contents";
+            // 
+            // rTxtAnnouncementTitle
+            // 
+            this.rTxtAnnouncementTitle.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.rTxtAnnouncementTitle.Location = new System.Drawing.Point(7, 25);
+            this.rTxtAnnouncementTitle.Name = "rTxtAnnouncementTitle";
+            this.rTxtAnnouncementTitle.ReadOnly = true;
+            this.rTxtAnnouncementTitle.Size = new System.Drawing.Size(539, 32);
+            this.rTxtAnnouncementTitle.TabIndex = 2;
+            this.rTxtAnnouncementTitle.Text = "Announcement Title";
+            // 
             // loginFormCreateAccount1
             // 
             this.loginFormCreateAccount1.Location = new System.Drawing.Point(299, 62);
             this.loginFormCreateAccount1.Name = "loginFormCreateAccount1";
+            this.loginFormCreateAccount1.parentForm = null;
             this.loginFormCreateAccount1.Size = new System.Drawing.Size(882, 636);
             this.loginFormCreateAccount1.TabIndex = 4;
             this.loginFormCreateAccount1.Visible = false;
@@ -157,6 +225,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1180, 710);
+            this.Controls.Add(this.groupBoxAnnouncement);
+            this.Controls.Add(this.SmileyLogo);
             this.Controls.Add(this.loginFormCreateAccount1);
             this.Controls.Add(this.lblCreateAccount);
             this.Controls.Add(this.btnExit);
@@ -170,6 +240,8 @@
             this.LeftPanelAnchor.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnSubmit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnExit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SmileyLogo)).EndInit();
+            this.groupBoxAnnouncement.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -187,5 +259,10 @@
         private System.Windows.Forms.Label lblCreateAccount;
         private System.Windows.Forms.Button button2;
         private LoginFormCreateAccount loginFormCreateAccount1;
+        private System.Windows.Forms.CheckBox checkBoxShowPassword;
+        private System.Windows.Forms.PictureBox SmileyLogo;
+        private System.Windows.Forms.GroupBox groupBoxAnnouncement;
+        private System.Windows.Forms.RichTextBox rTxtAnnouncementTitle;
+        private System.Windows.Forms.RichTextBox rTxtAnnouncementDetails;
     }
 }

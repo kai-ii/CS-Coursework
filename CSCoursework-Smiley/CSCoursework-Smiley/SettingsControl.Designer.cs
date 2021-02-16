@@ -44,6 +44,7 @@
             this.txtBackgroundColour = new System.Windows.Forms.TextBox();
             this.btnHighlightColour = new System.Windows.Forms.Button();
             this.btnBackgroundColour = new System.Windows.Forms.Button();
+            this.checkBoxShowDateAndTime = new System.Windows.Forms.CheckBox();
             this.grpBoxPersonalInfo.SuspendLayout();
             this.grpBoxColourScheme.SuspendLayout();
             this.SuspendLayout();
@@ -69,7 +70,7 @@
             this.grpBoxPersonalInfo.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpBoxPersonalInfo.Location = new System.Drawing.Point(3, 3);
             this.grpBoxPersonalInfo.Name = "grpBoxPersonalInfo";
-            this.grpBoxPersonalInfo.Size = new System.Drawing.Size(322, 121);
+            this.grpBoxPersonalInfo.Size = new System.Drawing.Size(394, 121);
             this.grpBoxPersonalInfo.TabIndex = 1;
             this.grpBoxPersonalInfo.TabStop = false;
             this.grpBoxPersonalInfo.Text = "Personal Information";
@@ -79,7 +80,7 @@
             this.txtUsername.Location = new System.Drawing.Point(82, 18);
             this.txtUsername.Name = "txtUsername";
             this.txtUsername.ReadOnly = true;
-            this.txtUsername.Size = new System.Drawing.Size(100, 23);
+            this.txtUsername.Size = new System.Drawing.Size(176, 23);
             this.txtUsername.TabIndex = 4;
             this.txtUsername.Text = "Username";
             // 
@@ -89,14 +90,14 @@
             this.txtPassword.Name = "txtPassword";
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.ReadOnly = true;
-            this.txtPassword.Size = new System.Drawing.Size(100, 23);
+            this.txtPassword.Size = new System.Drawing.Size(176, 23);
             this.txtPassword.TabIndex = 3;
             this.txtPassword.Text = "Password";
             // 
             // chkBoxShowPassword
             // 
             this.chkBoxShowPassword.AutoSize = true;
-            this.chkBoxShowPassword.Location = new System.Drawing.Point(194, 48);
+            this.chkBoxShowPassword.Location = new System.Drawing.Point(264, 50);
             this.chkBoxShowPassword.Name = "chkBoxShowPassword";
             this.chkBoxShowPassword.Size = new System.Drawing.Size(127, 21);
             this.chkBoxShowPassword.TabIndex = 2;
@@ -135,7 +136,7 @@
             this.grpBoxColourScheme.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.grpBoxColourScheme.Location = new System.Drawing.Point(3, 130);
             this.grpBoxColourScheme.Name = "grpBoxColourScheme";
-            this.grpBoxColourScheme.Size = new System.Drawing.Size(322, 121);
+            this.grpBoxColourScheme.Size = new System.Drawing.Size(394, 121);
             this.grpBoxColourScheme.TabIndex = 3;
             this.grpBoxColourScheme.TabStop = false;
             this.grpBoxColourScheme.Text = "Colour Scheme";
@@ -154,7 +155,7 @@
             // btnSaveNewColour
             // 
             this.btnSaveNewColour.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSaveNewColour.Location = new System.Drawing.Point(237, 85);
+            this.btnSaveNewColour.Location = new System.Drawing.Point(309, 85);
             this.btnSaveNewColour.Name = "btnSaveNewColour";
             this.btnSaveNewColour.Size = new System.Drawing.Size(79, 28);
             this.btnSaveNewColour.TabIndex = 11;
@@ -167,7 +168,7 @@
             this.btnEditHighlightColour.BackColor = System.Drawing.SystemColors.GradientInactiveCaption;
             this.btnEditHighlightColour.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveCaption;
             this.btnEditHighlightColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnEditHighlightColour.Location = new System.Drawing.Point(257, 56);
+            this.btnEditHighlightColour.Location = new System.Drawing.Point(329, 56);
             this.btnEditHighlightColour.Name = "btnEditHighlightColour";
             this.btnEditHighlightColour.Size = new System.Drawing.Size(59, 23);
             this.btnEditHighlightColour.TabIndex = 5;
@@ -181,7 +182,7 @@
             this.btnEditBackgroundColour.FlatAppearance.BorderColor = System.Drawing.SystemColors.ActiveCaption;
             this.btnEditBackgroundColour.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnEditBackgroundColour.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEditBackgroundColour.Location = new System.Drawing.Point(257, 24);
+            this.btnEditBackgroundColour.Location = new System.Drawing.Point(329, 24);
             this.btnEditBackgroundColour.Name = "btnEditBackgroundColour";
             this.btnEditBackgroundColour.Size = new System.Drawing.Size(59, 23);
             this.btnEditBackgroundColour.TabIndex = 4;
@@ -229,10 +230,23 @@
             this.btnBackgroundColour.TabIndex = 0;
             this.btnBackgroundColour.UseVisualStyleBackColor = true;
             // 
+            // checkBoxShowDateAndTime
+            // 
+            this.checkBoxShowDateAndTime.AutoSize = true;
+            this.checkBoxShowDateAndTime.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.checkBoxShowDateAndTime.Location = new System.Drawing.Point(9, 258);
+            this.checkBoxShowDateAndTime.Name = "checkBoxShowDateAndTime";
+            this.checkBoxShowDateAndTime.Size = new System.Drawing.Size(161, 21);
+            this.checkBoxShowDateAndTime.TabIndex = 4;
+            this.checkBoxShowDateAndTime.Text = "Show Date and Time";
+            this.checkBoxShowDateAndTime.UseVisualStyleBackColor = true;
+            this.checkBoxShowDateAndTime.CheckedChanged += new System.EventHandler(this.checkBoxShowDateAndTime_CheckedChanged);
+            // 
             // SettingsControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.checkBoxShowDateAndTime);
             this.Controls.Add(this.grpBoxColourScheme);
             this.Controls.Add(this.grpBoxPersonalInfo);
             this.Name = "SettingsControl";
@@ -243,6 +257,7 @@
             this.grpBoxColourScheme.ResumeLayout(false);
             this.grpBoxColourScheme.PerformLayout();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -264,5 +279,6 @@
         private System.Windows.Forms.Button btnResetColourToDefault;
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.TextBox txtUsername;
+        private System.Windows.Forms.CheckBox checkBoxShowDateAndTime;
     }
 }

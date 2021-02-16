@@ -32,15 +32,16 @@ namespace CSCoursework_Smiley
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
+            //Initialize Database
+            InitializeDatabaseConnection();
+
             //Initialize Form
             InitializeUsernameTextbox();
             InitializePasswordTextbox();
             btnSubmit.Image = Properties.Resources.SigninSubmit;
             btnExit.Image = Properties.Resources.Close_Button;
             this.MouseDown += LoginForm_MouseDown;
-
-            //Initialize Database
-            InitializeDatabaseConnection();
+            InitializeAnnouncement();
 
             //Initialize Relationships
             InitializeParentChildRelationships();
@@ -48,11 +49,32 @@ namespace CSCoursework_Smiley
             //Initialize Child Form
             GetTextboxAutocompleteData();
         }
+        private void InitializeAnnouncement()
+        {
+            // Initialize variables
+            DataSet AnnouncementDS;
+            OleDbDataAdapter da;
+            DataTable AnnouncementTable;
+            string sql;
+
+            // Open database connection
+            con.Open();
+
+            sql = $"SELECT announcement_title, announcement_details FROM tblAnnouncement";
+            da = new OleDbDataAdapter(sql, con);
+            AnnouncementDS = new DataSet();
+            da.Fill(AnnouncementDS, "AnnouncementInfo");
+            AnnouncementTable = AnnouncementDS.Tables["AnnouncementInfo"];
+
+            con.Close();
+
+            rTxtAnnouncementTitle.Text = AnnouncementTable.Rows[0].Field<string>("announcement_title");
+            rTxtAnnouncementDetails.Text = AnnouncementTable.Rows[0].Field<string>("announcement_details");
+        }
         private void InitializeParentChildRelationships()
         {
             loginFormCreateAccount1.parentForm = this;
         }
-
         private void LoginForm_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
             //Allows the user to move the form around without the titlebar
@@ -99,6 +121,7 @@ namespace CSCoursework_Smiley
             {
                 PasswordTextbox.Text = "";
                 PasswordTextbox.ForeColor = SystemColors.WindowText;
+                if (!checkBoxShowPassword.Checked) { PasswordTextbox.PasswordChar = '*'; }
             }
         }
         private void PasswordTextbox_Leave(object sender, EventArgs e)
@@ -107,6 +130,7 @@ namespace CSCoursework_Smiley
             {
                 PasswordTextbox.Text = "Password";
                 PasswordTextbox.ForeColor = SystemColors.GrayText;
+                if (!checkBoxShowPassword.Checked) { PasswordTextbox.PasswordChar = '\0'; }
             }
         }
 
@@ -196,7 +220,8 @@ namespace CSCoursework_Smiley
                 Color highlightColourRGB = Color.FromArgb(highlightColourRGBIntArray[0], highlightColourRGBIntArray[1], highlightColourRGBIntArray[2]);
                 Color backgroundColourRGB = Color.FromArgb(backgroundColourRGBIntArray[0], backgroundColourRGBIntArray[1], backgroundColourRGBIntArray[2]);
                 bool[] staffPermissionArray = GetPermissions(permissionID);
-                Dashboard dashboard = new Dashboard(UsernameTextbox.Text, backgroundColourRGB, highlightColourRGB, userID, PasswordTextbox.Text, staffPermissionArray);
+                bool showDateTime = LoginInfoTable.Rows[0].Field<bool>("settings_show_date_time");
+                Dashboard dashboard = new Dashboard(UsernameTextbox.Text, backgroundColourRGB, highlightColourRGB, userID, PasswordTextbox.Text, staffPermissionArray, showDateTime);
                 dashboard.Show();
                 this.Hide();
             }
@@ -260,6 +285,7 @@ namespace CSCoursework_Smiley
             {
                 loginFormCreateAccount1.Visible = true;
                 lblCreateAccount.Visible = true;
+                groupBoxAnnouncement.Visible = false;
             }
             //GetTextboxAutocompleteData();
         }
@@ -293,6 +319,7 @@ namespace CSCoursework_Smiley
         {
             loginFormCreateAccount1.Visible = false;
             lblCreateAccount.Visible = false;
+            groupBoxAnnouncement.Visible = true;
         }
         public void SaveAccount(string username, string password, string securityQuestion1, string securityAnswer1, string securityQuestion2, string securityAnswer2, string securityQuestion3, string securityAnswer3)
         {
@@ -360,6 +387,30 @@ namespace CSCoursework_Smiley
                     sb.Append(hashBytes[i].ToString("X2"));
                 }
                 return sb.ToString();
+            }
+        }
+
+        private void LeftPanelAnchor_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void checkBoxShowPassword_CheckedChanged(object sender, EventArgs e)
+        {
+            if (!checkBoxShowPassword.Checked)
+            {
+                if (PasswordTextbox.Text != "Password")
+                {
+                    PasswordTextbox.PasswordChar = '*';
+                }
+                else
+                {
+                    PasswordTextbox.PasswordChar = '\0';
+                }
+            }
+            else
+            {
+                PasswordTextbox.PasswordChar = '\0';
             }
         }
     }

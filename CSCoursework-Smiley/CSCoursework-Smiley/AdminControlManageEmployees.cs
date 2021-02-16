@@ -17,13 +17,78 @@ namespace CSCoursework_Smiley
         OleDbConnection con = new OleDbConnection();
         Dictionary<string, string> staffNameDictionary;
         int primaryKeySelected;
+        public Properties.AdminControl parentForm { get; set; }
 
-        public int userID { get; set; }
+        int userID;
         public AdminControlManageEmployees()
         {
             InitializeComponent();
         }
+        public void SavePermissions(bool[] permissionArray)
+        {
+            // Open database connection
+            con.Open();
 
+            // Initialize variables
+            DataSet PermissionDS;
+            DataTable PermissionTable;
+            OleDbDataAdapter da;
+            string sql;
+
+            // Get permission_id for permissionArray given
+            sql = $"SELECT permission_id FROM tblPermissions WHERE dashboard_access={permissionArray[0]} AND staff_personal_access={permissionArray[1]} AND staff_all_access={permissionArray[2]} AND rota_access={permissionArray[3]} AND timesheet_access={permissionArray[4]} AND payslip_access={permissionArray[5]} AND export_access={permissionArray[6]} AND admin_access=false";
+            da = new OleDbDataAdapter(sql, con);
+            PermissionDS = new DataSet();
+            da.Fill(PermissionDS, "PermissionInfo");
+            PermissionTable = PermissionDS.Tables["PermissionInfo"];
+
+            // CLose database connection
+            con.Close();
+
+            if (PermissionTable.Rows.Count > 0)
+            {
+                var updateCommand = new OleDbCommand();
+                sql = $"UPDATE [tblUsers] SET [permission_id]={PermissionTable.Rows[0].Field<int>("permission_id")} WHERE [user_id]={userID};";
+                updateCommand.CommandText = sql;
+                updateCommand.Connection = con;
+                con.Open();
+                updateCommand.ExecuteNonQuery();
+                con.Close();
+            }
+            else
+            {
+                con.Open(); 
+
+                sql = $"SELECT * FROM tblPermissions";
+                da = new OleDbDataAdapter(sql, con);
+                PermissionDS = new DataSet();
+                da.Fill(PermissionDS, "PermissionInfo");
+                PermissionTable = PermissionDS.Tables["PermissionInfo"];
+
+                con.Close();
+
+                DataRow newPermissionRow = PermissionTable.NewRow();
+                int permissionID = PermissionTable.Rows[PermissionTable.Rows.Count - 1].Field<int>("permission_id") + 1;
+                newPermissionRow[0] = permissionID;
+                for (int column = 1; column <= 7; column++)
+                {
+                    newPermissionRow[column] = permissionArray[column - 1];
+                }
+                newPermissionRow[8] = false; // Admin access is always false, this is only set true for the administrator for security reasons.
+                PermissionTable.Rows.Add(newPermissionRow);
+
+                _ = new OleDbCommandBuilder(da);
+                da.Update(PermissionDS, "PermissionInfo");
+
+                var updateCommand = new OleDbCommand();
+                sql = $"UPDATE [tblUsers] SET [permission_id]={permissionID} WHERE [user_id]={userID};";
+                updateCommand.CommandText = sql;
+                updateCommand.Connection = con;
+                con.Open();
+                updateCommand.ExecuteNonQuery();
+                con.Close();
+            }
+        }
         private void btnBack_Click(object sender, EventArgs e)
         {
             this.Visible = false;
@@ -40,8 +105,11 @@ namespace CSCoursework_Smiley
             CopyBaseListBoxToDummyBox();
             SortDummyBox();
             lstBoxDummy.SelectedIndex = 0;
-            //GetAccountDetails(primaryKeySelected);
-            //GetPermissionDetails(primaryKeySelected);
+            InitializeParentChildRelationships();
+        }
+        private void InitializeParentChildRelationships()
+        {
+            adminControlManageEmployeesDetails1.parentForm = this;
         }
         private void InitializeStaffMembers()
         {
@@ -236,18 +304,30 @@ namespace CSCoursework_Smiley
             }
             else
             {
-                string searchString = txtSearch.Text;
+                // Binary search the sorted list
+                CopyBaseListBoxToDummyBox();
+                SortDummyBox();
+                string[] sortedArray = lstBoxDummy.Items.OfType<string>().ToArray();
                 lstBoxDummy.Items.Clear();
-                foreach (string employee in staffNameDictionary.Values)
+                string searchItem = txtSearch.Text;
+                int min = 0;
+                int max = sortedArray.Length - 1;
+
+                while (min <= max)
                 {
-                    //MessageBox.Show($"employee = {employee}, searchString = {searchString}");
-                    //lstBoxDummy.Visible = true;
-                    if (employee.ToLower().Contains(searchString))
+                    int midpoint = (min + max) / 2;
+                    if (sortedArray[midpoint].ToLower().Contains(searchItem.ToLower()))
                     {
-                        if (!lstBoxDummy.Items.Contains(employee))
-                        {
-                            lstBoxDummy.Items.Add(employee);
-                        }
+                        lstBoxDummy.Items.Add(sortedArray[midpoint]);
+                        break;
+                    }
+                    else if (String.Compare(searchItem, sortedArray[midpoint]) > 0)
+                    {
+                        min = midpoint + 1;
+                    }
+                    else if (String.Compare(searchItem, sortedArray[midpoint]) < 0)
+                    {
+                        max = midpoint - 1;
                     }
                 }
             }
@@ -336,12 +416,13 @@ namespace CSCoursework_Smiley
             bool[] accountPermissions = new bool[7];
 
             // Get permissionID
-            sql = $"SELECT permission_id FROM tblUsers WHERE username='{name[0].ToLower()[0]}{name[1].ToLower()}'";
+            sql = $"SELECT user_id, permission_id FROM tblUsers WHERE username='{name[0].ToLower()[0]}{name[1].ToLower()}'";
             da = new OleDbDataAdapter(sql, con);
             UserInfoDS = new DataSet();
             da.Fill(UserInfoDS, "UserInfo");
 
             DataTable UserInfoTable = UserInfoDS.Tables["UserInfo"];
+
             if (UserInfoTable.Rows.Count == 0)
             {
                 accountPermissions[0] = false;
@@ -356,6 +437,8 @@ namespace CSCoursework_Smiley
                 con.Close();
                 return;
             }
+            // Set userID used later on to update permissions.
+            userID = UserInfoTable.Rows[0].Field<int>("user_id");
 
             // Get permissions
             sql = $"SELECT * FROM tblPermissions WHERE permission_id={UserInfoTable.Rows[0].Field<int>("permission_id")}";

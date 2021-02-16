@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Dashboard));
             this.LeftPanel = new System.Windows.Forms.Panel();
             this.btnLogout = new System.Windows.Forms.Button();
@@ -42,6 +43,7 @@
             this.btnDashboard = new System.Windows.Forms.Button();
             this.SmileyLogo = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.lblDateTime = new System.Windows.Forms.Label();
             this.ExitButton = new System.Windows.Forms.PictureBox();
             this.btnExitDashboard = new System.Windows.Forms.PictureBox();
             this.btnExit = new System.Windows.Forms.PictureBox();
@@ -53,6 +55,7 @@
             this.settingsControl1 = new CSCoursework_Smiley.Properties.SettingsControl();
             this.adminControl1 = new CSCoursework_Smiley.Properties.AdminControl();
             this.staffControl1 = new CSCoursework_Smiley.StaffControl();
+            this.timerClock = new System.Windows.Forms.Timer(this.components);
             this.LeftPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SmileyLogo)).BeginInit();
             this.panel2.SuspendLayout();
@@ -128,7 +131,6 @@
             this.btnSettings.Text = "   Settings";
             this.btnSettings.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnSettings.UseVisualStyleBackColor = false;
-            this.btnSettings.Visible = false;
             this.btnSettings.Click += new System.EventHandler(this.btnSettings_Click);
             // 
             // btnExport
@@ -254,6 +256,7 @@
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.panel2.Controls.Add(this.lblDateTime);
             this.panel2.Controls.Add(this.ExitButton);
             this.panel2.Controls.Add(this.btnExitDashboard);
             this.panel2.Controls.Add(this.btnExit);
@@ -263,6 +266,17 @@
             this.panel2.Size = new System.Drawing.Size(814, 75);
             this.panel2.TabIndex = 1;
             this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
+            // 
+            // lblDateTime
+            // 
+            this.lblDateTime.AutoSize = true;
+            this.lblDateTime.Font = new System.Drawing.Font("Century Gothic", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblDateTime.Location = new System.Drawing.Point(515, 5);
+            this.lblDateTime.Name = "lblDateTime";
+            this.lblDateTime.Size = new System.Drawing.Size(299, 30);
+            this.lblDateTime.TabIndex = 5;
+            this.lblDateTime.Text = "dd/mm/yyyy - hh:mm:ss";
+            this.lblDateTime.Visible = false;
             // 
             // ExitButton
             // 
@@ -352,6 +366,12 @@
             this.staffControl1.Size = new System.Drawing.Size(814, 636);
             this.staffControl1.TabIndex = 10;
             // 
+            // timerClock
+            // 
+            this.timerClock.Enabled = true;
+            this.timerClock.Interval = 1000;
+            this.timerClock.Tick += new System.EventHandler(this.timerClock_Tick);
+            // 
             // Dashboard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -375,6 +395,7 @@
             this.LeftPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SmileyLogo)).EndInit();
             this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ExitButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnExitDashboard)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnExit)).EndInit();
@@ -408,5 +429,7 @@
         private Properties.SettingsControl settingsControl1;
         private Properties.AdminControl adminControl1;
         private StaffControl staffControl1;
+        private System.Windows.Forms.Timer timerClock;
+        private System.Windows.Forms.Label lblDateTime;
     }
 }

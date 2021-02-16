@@ -12,6 +12,7 @@ namespace CSCoursework_Smiley
 {
     public partial class AdminControlManageEmployeesDetails : UserControl
     {
+        public AdminControlManageEmployees parentForm { get; set; }
         public AdminControlManageEmployeesDetails()
         {
             InitializeComponent();
@@ -43,6 +44,19 @@ namespace CSCoursework_Smiley
         public void UpdatePermissionsAccountNotCreated()
         {
             lblAccountNotCreatedWarning.Visible = true;
+        }
+
+        private void btnSavePermissions_Click(object sender, EventArgs e)
+        {
+            bool[] permissionArray = new bool[7];
+            permissionArray[0] = checkBoxDashboardPermission.Checked;
+            permissionArray[1] = checkBoxStaffPersonalPermission.Checked;
+            permissionArray[2] = checkBoxStaffAllPermission.Checked;
+            permissionArray[3] = checkBoxRotaPermission.Checked;
+            permissionArray[4] = checkBoxTimesheetPermission.Checked;
+            permissionArray[5] = checkBoxPayslipPermission.Checked;
+            permissionArray[6] = checkBoxExportPermission.Checked;
+            parentForm.SavePermissions(permissionArray);
         }
     }
 }

@@ -145,7 +145,64 @@ namespace CSCoursework_Smiley.Properties
         }
         private void btnChangePassword_Click(object sender, EventArgs e)
         {
+            // Password length check
+            if (txtPassword.Text.Length < 8)
+            {
+                MessageBox.Show("Your password must contain at least 8 characters.");
+                return;
+            }
+            bool passwordContainsLetter = false;
+            bool passwordContainsCaptial = false;
+            bool passwordContainsInteger = false;
+            foreach (char letter in txtPassword.Text)
+            {
+                if (letter == ' ')
+                {
+                    MessageBox.Show("Password Cannot contain any spaces.");
+                    return;
+                }
+                if (Char.IsLetter(letter))
+                {
+                    passwordContainsLetter = true;
+                    if (Char.IsUpper(letter))
+                    {
+                        passwordContainsCaptial = true;
+                    }
+                }
+                else
+                {
+                    passwordContainsInteger = true;
+                }
+            }
+
+            // Character/Type checks
+            if (!passwordContainsLetter)
+            {
+                MessageBox.Show("Password must contain a letter.");
+                return;
+            }
+            if (!passwordContainsCaptial)
+            {
+                MessageBox.Show("Password must contain a captial letter.");
+                return;
+            }
+            if (!passwordContainsInteger)
+            {
+                MessageBox.Show("Password must contain a number.");
+                return;
+            }
+
             parentForm.UpdateUserPassword(txtPassword.Text);
+        }
+
+        private void checkBoxShowDateAndTime_CheckedChanged(object sender, EventArgs e)
+        {
+            parentForm.DisplayDateTimeLabel(checkBoxShowDateAndTime.Checked);
+            parentForm.SaveSettingsShowDateTimeLabel(checkBoxShowDateAndTime.Checked);
+        }
+        public void UpdateShowDateTimeCheckbox(bool checkedBool)
+        {
+            checkBoxShowDateAndTime.Checked = checkedBool;
         }
     }
 }

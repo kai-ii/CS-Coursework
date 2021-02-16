@@ -19,7 +19,10 @@ namespace CSCoursework_Smiley
         // Variables
         OleDbConnection con = new OleDbConnection();
         Dictionary<string, string> staffNameDictionary;
+        Dictionary<string, string> staffUsernameDictionary;
         int primaryKeySelected;
+        bool displayPersonalData = false;
+        string username;
 
         public StaffControl()
         {
@@ -159,6 +162,7 @@ namespace CSCoursework_Smiley
         {
             //Initialize Staff List
             staffNameDictionary = new Dictionary<string, string>();
+            staffUsernameDictionary = new Dictionary<string, string>();
 
             //Open database connection
             con.Open();
@@ -180,6 +184,7 @@ namespace CSCoursework_Smiley
                 string staff_surname = StaffInfoDS.Tables["StaffInfo"].Rows[employee].Field<string>("staff_surname");
                 lstBoxEmployees.Items.Add($"{staff_firstname}. {staff_surname[0]}");
                 staffNameDictionary.Add($"{staff_surname.Trim()}{staff_firstname.Trim()}", $"{staff_firstname}. {staff_surname[0]}");
+                staffUsernameDictionary.Add($"{staff_firstname.ToLower().Trim()[0]}{staff_surname.ToLower().Trim()}", $"{staff_firstname}. {staff_surname[0]}");
             }
 
             //Close database connection
@@ -351,19 +356,45 @@ namespace CSCoursework_Smiley
             }
             else
             {
-                string searchString = txtSearch.Text;
+                // Binary search the sorted list
+                CopyBaseListBoxToDummyBox();
+                SortDummyBox();
+                string[] sortedArray = lstBoxDummy.Items.OfType<string>().ToArray();
                 lstBoxDummy.Items.Clear();
-                foreach (string employee in lstBoxEmployees.Items)
+                string searchItem = txtSearch.Text;
+                int min = 0;
+                int max = sortedArray.Length - 1;
+                
+                while (min <= max)
                 {
-                    //lstBoxDummy.Visible = true;
-                    if (employee.ToLower().Contains(searchString))
+                    int midpoint = (min + max) / 2;
+                    if (sortedArray[midpoint].ToLower().Contains(searchItem.ToLower()))
                     {
-                        if (!lstBoxDummy.Items.Contains(employee))
-                        {
-                            lstBoxDummy.Items.Add(employee);
-                        }
+                        lstBoxDummy.Items.Add(sortedArray[midpoint]);
+                        break;
+                    }
+                    else if (String.Compare(searchItem, sortedArray[midpoint]) > 0)
+                    {
+                        min = midpoint + 1;
+                    }
+                    else if (String.Compare(searchItem, sortedArray[midpoint]) < 0)
+                    {
+                        max = midpoint - 1;
                     }
                 }
+                //string searchString = txtSearch.Text;
+                //lstBoxDummy.Items.Clear();
+                //foreach (string employee in lstBoxEmployees.Items)
+                //{
+                //    //lstBoxDummy.Visible = true;
+                //    if (employee.ToLower().Contains(searchString))
+                //    {
+                //        if (!lstBoxDummy.Items.Contains(employee))
+                //        {
+                //            lstBoxDummy.Items.Add(employee);
+                //        }
+                //    }
+                //}
             }
             SortDummyBox();
         }
@@ -371,15 +402,28 @@ namespace CSCoursework_Smiley
         private void CopyBaseListBoxToDummyBox()
         {
             lstBoxDummy.Items.Clear();
-            foreach (string employee in lstBoxEmployees.Items)
+            if (displayPersonalData)
             {
-                lstBoxDummy.Items.Add(employee);
+                lstBoxDummy.Items.Add(staffUsernameDictionary[username]);
+            }
+            else
+            {
+                foreach (string employee in lstBoxEmployees.Items)
+                {
+                    lstBoxDummy.Items.Add(employee);
+                }
             }
         }
 
         private void SortDummyBox()
         {
             if (staffNameDictionary == null) { Console.WriteLine("SortDummyBox somehow got accidentally called."); return; }
+            if (displayPersonalData)
+            {
+                lstBoxDummy.Items.Clear();
+                lstBoxDummy.Items.Add(staffUsernameDictionary[username]);
+                return;
+            }
             string[] quicksortArray = lstBoxDummy.Items.OfType<string>().ToArray();
 
             Console.Write("Unsorted Array: ");
@@ -461,71 +505,6 @@ namespace CSCoursework_Smiley
 
                 return i + 1;
             }
-
-            
-
-            //List<string> bubbleSortList = new List<string>();
-            //bool sorted = false;
-
-            //if (lstBoxDummy.Items.Count > 0)
-            //{
-            //    foreach (string employee in lstBoxDummy.Items)
-            //    {
-            //        bubbleSortList.Add(employee);
-            //    }
-            //}
-            //else
-            //{
-            //    foreach (string employee in lstBoxEmployees.Items)
-            //    {
-            //        bubbleSortList.Add(employee);
-            //    }
-            //}
-
-
-            //if (comboBoxSort.SelectedIndex == 0)
-            //{
-            //    while (!sorted)
-            //    {
-            //        sorted = true;
-            //        for (int item = 0; item<bubbleSortList.Count-1; item++)
-            //        {
-            //            string pair1 = bubbleSortList[item];
-            //            string pair2 = bubbleSortList[item + 1];
-            //            if ((int)pair1[0] > (int)pair2[0])
-            //            {
-            //                bubbleSortList[item] = pair2;
-            //                bubbleSortList[item + 1] = pair1;
-            //                sorted = false;
-            //            }
-            //        }
-            //    }
-            //}
-            //else if (comboBoxSort.SelectedIndex == 1)
-            //{
-            //    while (!sorted)
-            //    {
-            //        sorted = true;
-            //        for (int item = 0; item<bubbleSortList.Count-1; item++)
-            //        {
-            //            string pair1 = bubbleSortList[item];
-            //            string pair2 = bubbleSortList[item + 1];
-            //            if ((int)pair1[0] < (int)pair2[0])
-            //            {
-            //                bubbleSortList[item] = pair2;
-            //                bubbleSortList[item + 1] = pair1;
-            //                sorted = false;
-            //            }
-            //        }
-            //    }
-            //}
-
-            //lstBoxDummy.Items.Clear();
-            //foreach (string employee in bubbleSortList)
-            //{
-            //    lstBoxDummy.Items.Add(employee);
-            //}
-
         }
 
         private void lstBoxDummy_SelectedIndexChanged(object sender, EventArgs e)
@@ -648,9 +627,22 @@ namespace CSCoursework_Smiley
             SortDummyBox();
         }
 
-        public void displayPersonalStaffInfo()
+        public void displayPersonalStaffInfo(string Username)
         {
+            displayPersonalData = true;
+            username = Username;
+            SortDummyBox();
+            lstBoxDummy.SelectedIndex = 0;
+            staffControlDetails1.PersonalView();
+            rBtnNotes.Visible = false;
+        }
 
+        public void displayAllStaffInfo()
+        {
+            displayPersonalData = false;
+            SortDummyBox();
+            staffControlDetails1.AdminView();
+            rBtnNotes.Visible = true;
         }
     }
 }

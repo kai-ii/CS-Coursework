@@ -67,7 +67,22 @@ namespace CSCoursework_Smiley
         {
             InitializeDatabaseConnection();
         }
-
+        public void PersonalView()
+        {
+            btnEditAddressDetails.Visible = false;
+            btnEditEmploymentDetails.Visible = false;
+            btnEditContactInfoDetails.Visible = false;
+            btnEditEmploymentInfoDetails.Visible = false;
+            btnEditPaymentDetails.Visible = false;
+        }
+        public void AdminView()
+        {
+            btnEditAddressDetails.Visible = true;
+            btnEditEmploymentDetails.Visible = true;
+            btnEditContactInfoDetails.Visible = true;
+            btnEditEmploymentInfoDetails.Visible = true;
+            btnEditPaymentDetails.Visible = true;
+        }
         private string GetJobPositionName(int jobposition_id)
         {
             //Initialize variables

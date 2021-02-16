@@ -18,10 +18,6 @@ namespace CSCoursework_Smiley.Properties
         {
             InitializeComponent();
         }
-        private void PassUserID()
-        {
-            adminControlManageEmployees1.userID = userID;
-        }
         private void InitializeParentChildRelationships()
         {
             adminControlAddNewStaff1.parentForm = this;
@@ -37,10 +33,10 @@ namespace CSCoursework_Smiley.Properties
             Point origin = new Point(0,0);
             adminControlAddNewStaff1.Location = origin;
             adminControlManageEmployees1.Location = origin;
+            adminControlCreateAnnouncement1.Location = origin;
 
             // Setup code things
             InitializeParentChildRelationships();
-            PassUserID();
         }
 
         private void btnAddNewStaff_Click(object sender, EventArgs e)
@@ -55,7 +51,7 @@ namespace CSCoursework_Smiley.Properties
 
         private void btnCreateAnnouncement_Click(object sender, EventArgs e)
         {
-
+            adminControlCreateAnnouncement1.Visible = true;
         }
 
         private void btnManageJobPositions_Click(object sender, EventArgs e)

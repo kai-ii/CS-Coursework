@@ -36,6 +36,7 @@
             this.btnManageJobPositions = new System.Windows.Forms.Button();
             this.adminControlAddNewStaff1 = new CSCoursework_Smiley.AdminControlAddNewStaff();
             this.adminControlManageEmployees1 = new CSCoursework_Smiley.AdminControlManageEmployees();
+            this.adminControlCreateAnnouncement1 = new CSCoursework_Smiley.AdminControlCreateAnnouncement();
             this.grpBoxAccounts.SuspendLayout();
             this.grpBoxJobs.SuspendLayout();
             this.SuspendLayout();
@@ -117,14 +118,24 @@
             // 
             this.adminControlManageEmployees1.Location = new System.Drawing.Point(258, 4);
             this.adminControlManageEmployees1.Name = "adminControlManageEmployees1";
+            this.adminControlManageEmployees1.parentForm = null;
             this.adminControlManageEmployees1.Size = new System.Drawing.Size(814, 636);
             this.adminControlManageEmployees1.TabIndex = 3;
             this.adminControlManageEmployees1.Visible = false;
+            // 
+            // adminControlCreateAnnouncement1
+            // 
+            this.adminControlCreateAnnouncement1.Location = new System.Drawing.Point(258, 3);
+            this.adminControlCreateAnnouncement1.Name = "adminControlCreateAnnouncement1";
+            this.adminControlCreateAnnouncement1.Size = new System.Drawing.Size(814, 636);
+            this.adminControlCreateAnnouncement1.TabIndex = 4;
+            this.adminControlCreateAnnouncement1.Visible = false;
             // 
             // AdminControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.adminControlCreateAnnouncement1);
             this.Controls.Add(this.adminControlManageEmployees1);
             this.Controls.Add(this.adminControlAddNewStaff1);
             this.Controls.Add(this.grpBoxJobs);
@@ -148,5 +159,6 @@
         private System.Windows.Forms.Button btnManageJobPositions;
         private AdminControlAddNewStaff adminControlAddNewStaff1;
         private AdminControlManageEmployees adminControlManageEmployees1;
+        private AdminControlCreateAnnouncement adminControlCreateAnnouncement1;
     }
 }
