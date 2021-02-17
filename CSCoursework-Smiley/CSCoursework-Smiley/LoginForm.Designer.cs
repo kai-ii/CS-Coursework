@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
             this.LeftPanelAnchor = new System.Windows.Forms.Panel();
             this.checkBoxShowPassword = new System.Windows.Forms.CheckBox();
-            this.button2 = new System.Windows.Forms.Button();
+            this.btnCantSignIn = new System.Windows.Forms.Button();
             this.btnCreateAccount = new System.Windows.Forms.Button();
             this.btnSubmit = new System.Windows.Forms.PictureBox();
             this.PasswordTextbox = new System.Windows.Forms.TextBox();
@@ -41,8 +41,10 @@
             this.lblCreateAccount = new System.Windows.Forms.Label();
             this.SmileyLogo = new System.Windows.Forms.PictureBox();
             this.groupBoxAnnouncement = new System.Windows.Forms.GroupBox();
-            this.rTxtAnnouncementDetails = new System.Windows.Forms.RichTextBox();
             this.rTxtAnnouncementTitle = new System.Windows.Forms.RichTextBox();
+            this.rTxtAnnouncementDetails = new System.Windows.Forms.RichTextBox();
+            this.lblAccountRecovery = new System.Windows.Forms.Label();
+            this.loginFormRecoverAccount1 = new CSCoursework_Smiley.LoginFormRecoverAccount();
             this.loginFormCreateAccount1 = new CSCoursework_Smiley.LoginFormCreateAccount();
             this.LeftPanelAnchor.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.btnSubmit)).BeginInit();
@@ -55,7 +57,7 @@
             // 
             this.LeftPanelAnchor.BackColor = System.Drawing.Color.White;
             this.LeftPanelAnchor.Controls.Add(this.checkBoxShowPassword);
-            this.LeftPanelAnchor.Controls.Add(this.button2);
+            this.LeftPanelAnchor.Controls.Add(this.btnCantSignIn);
             this.LeftPanelAnchor.Controls.Add(this.btnCreateAccount);
             this.LeftPanelAnchor.Controls.Add(this.btnSubmit);
             this.LeftPanelAnchor.Controls.Add(this.PasswordTextbox);
@@ -80,18 +82,19 @@
             this.checkBoxShowPassword.UseVisualStyleBackColor = true;
             this.checkBoxShowPassword.CheckedChanged += new System.EventHandler(this.checkBoxShowPassword_CheckedChanged);
             // 
-            // button2
+            // btnCantSignIn
             // 
-            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(165)))), ((int)(((byte)(182)))));
-            this.button2.FlatAppearance.BorderColor = System.Drawing.SystemColors.MenuText;
-            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button2.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(21, 591);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(118, 29);
-            this.button2.TabIndex = 12;
-            this.button2.Text = "Can\'t sign in?";
-            this.button2.UseVisualStyleBackColor = false;
+            this.btnCantSignIn.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(221)))), ((int)(((byte)(165)))), ((int)(((byte)(182)))));
+            this.btnCantSignIn.FlatAppearance.BorderColor = System.Drawing.SystemColors.MenuText;
+            this.btnCantSignIn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCantSignIn.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnCantSignIn.Location = new System.Drawing.Point(21, 591);
+            this.btnCantSignIn.Name = "btnCantSignIn";
+            this.btnCantSignIn.Size = new System.Drawing.Size(118, 29);
+            this.btnCantSignIn.TabIndex = 12;
+            this.btnCantSignIn.Text = "Can\'t sign in?";
+            this.btnCantSignIn.UseVisualStyleBackColor = false;
+            this.btnCantSignIn.Click += new System.EventHandler(this.btnCantSignIn_Click);
             // 
             // btnCreateAccount
             // 
@@ -191,6 +194,16 @@
             this.groupBoxAnnouncement.TabStop = false;
             this.groupBoxAnnouncement.Text = "Announcement";
             // 
+            // rTxtAnnouncementTitle
+            // 
+            this.rTxtAnnouncementTitle.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.rTxtAnnouncementTitle.Location = new System.Drawing.Point(7, 25);
+            this.rTxtAnnouncementTitle.Name = "rTxtAnnouncementTitle";
+            this.rTxtAnnouncementTitle.ReadOnly = true;
+            this.rTxtAnnouncementTitle.Size = new System.Drawing.Size(539, 32);
+            this.rTxtAnnouncementTitle.TabIndex = 2;
+            this.rTxtAnnouncementTitle.Text = "Announcement Title";
+            // 
             // rTxtAnnouncementDetails
             // 
             this.rTxtAnnouncementDetails.BackColor = System.Drawing.SystemColors.ControlLightLight;
@@ -201,15 +214,25 @@
             this.rTxtAnnouncementDetails.TabIndex = 1;
             this.rTxtAnnouncementDetails.Text = "Announcement Contents";
             // 
-            // rTxtAnnouncementTitle
+            // lblAccountRecovery
             // 
-            this.rTxtAnnouncementTitle.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.rTxtAnnouncementTitle.Location = new System.Drawing.Point(7, 25);
-            this.rTxtAnnouncementTitle.Name = "rTxtAnnouncementTitle";
-            this.rTxtAnnouncementTitle.ReadOnly = true;
-            this.rTxtAnnouncementTitle.Size = new System.Drawing.Size(539, 32);
-            this.rTxtAnnouncementTitle.TabIndex = 2;
-            this.rTxtAnnouncementTitle.Text = "Announcement Title";
+            this.lblAccountRecovery.AutoSize = true;
+            this.lblAccountRecovery.Font = new System.Drawing.Font("Century Gothic", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAccountRecovery.Location = new System.Drawing.Point(314, 13);
+            this.lblAccountRecovery.Name = "lblAccountRecovery";
+            this.lblAccountRecovery.Size = new System.Drawing.Size(282, 36);
+            this.lblAccountRecovery.TabIndex = 7;
+            this.lblAccountRecovery.Text = "Account Recovery";
+            this.lblAccountRecovery.Visible = false;
+            // 
+            // loginFormRecoverAccount1
+            // 
+            this.loginFormRecoverAccount1.Location = new System.Drawing.Point(300, 62);
+            this.loginFormRecoverAccount1.Name = "loginFormRecoverAccount1";
+            this.loginFormRecoverAccount1.parentForm = null;
+            this.loginFormRecoverAccount1.Size = new System.Drawing.Size(882, 636);
+            this.loginFormRecoverAccount1.TabIndex = 8;
+            this.loginFormRecoverAccount1.Visible = false;
             // 
             // loginFormCreateAccount1
             // 
@@ -225,6 +248,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1180, 710);
+            this.Controls.Add(this.loginFormRecoverAccount1);
+            this.Controls.Add(this.lblAccountRecovery);
             this.Controls.Add(this.groupBoxAnnouncement);
             this.Controls.Add(this.SmileyLogo);
             this.Controls.Add(this.loginFormCreateAccount1);
@@ -257,12 +282,14 @@
         private System.Windows.Forms.PictureBox btnExit;
         private System.Windows.Forms.Button btnCreateAccount;
         private System.Windows.Forms.Label lblCreateAccount;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button btnCantSignIn;
         private LoginFormCreateAccount loginFormCreateAccount1;
         private System.Windows.Forms.CheckBox checkBoxShowPassword;
         private System.Windows.Forms.PictureBox SmileyLogo;
         private System.Windows.Forms.GroupBox groupBoxAnnouncement;
         private System.Windows.Forms.RichTextBox rTxtAnnouncementTitle;
         private System.Windows.Forms.RichTextBox rTxtAnnouncementDetails;
+        private System.Windows.Forms.Label lblAccountRecovery;
+        private LoginFormRecoverAccount loginFormRecoverAccount1;
     }
 }

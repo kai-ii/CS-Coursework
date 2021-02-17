@@ -42,12 +42,40 @@ namespace CSCoursework_Smiley
             btnExit.Image = Properties.Resources.Close_Button;
             this.MouseDown += LoginForm_MouseDown;
             InitializeAnnouncement();
+            SmileyLogo.BringToFront();
 
             //Initialize Relationships
             InitializeParentChildRelationships();
 
-            //Initialize Child Form
+            //Initialize Child Forms
             GetTextboxAutocompleteData();
+            GetUserData();
+        }
+        private void GetUserData()
+        {
+            //Initialize variables
+            DataSet UserInfoDS;
+            OleDbDataAdapter da;
+            DataTable UserInfoTable;
+            string sql;
+
+            //Open Con
+            con.Open();
+
+            sql = $"SELECT username, security_question_1, security_answer_1, security_question_2, security_answer_2, security_question_3, security_answer_3, user_id, password FROM tblUsers";
+            da = new OleDbDataAdapter(sql, con);
+            UserInfoDS = new DataSet();
+            da.Fill(UserInfoDS, "UserInfo");
+            con.Close();
+
+            UserInfoTable = UserInfoDS.Tables["UserInfo"];
+
+            string[] userInfoArray = new string[UserInfoTable.Rows.Count];
+            for (int staffPair = 0; staffPair < UserInfoTable.Rows.Count; staffPair++)
+            {
+                userInfoArray[staffPair] = $"{UserInfoTable.Rows[staffPair].Field<string>("username")},{UserInfoTable.Rows[staffPair].Field<string>("security_question_1")},{UserInfoTable.Rows[staffPair].Field<string>("security_answer_1")},{UserInfoTable.Rows[staffPair].Field<string>("security_question_2")},{UserInfoTable.Rows[staffPair].Field<string>("security_answer_2")},{UserInfoTable.Rows[staffPair].Field<string>("security_question_3")},{UserInfoTable.Rows[staffPair].Field<string>("security_answer_3")},{UserInfoTable.Rows[staffPair].Field<int>("user_id").ToString()},{UserInfoTable.Rows[staffPair].Field<string>("password")}";
+            }
+            loginFormRecoverAccount1.UpdateUserData(userInfoArray);
         }
         private void InitializeAnnouncement()
         {
@@ -74,6 +102,7 @@ namespace CSCoursework_Smiley
         private void InitializeParentChildRelationships()
         {
             loginFormCreateAccount1.parentForm = this;
+            loginFormRecoverAccount1.parentForm = this;
         }
         private void LoginForm_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {
@@ -281,13 +310,12 @@ namespace CSCoursework_Smiley
 
         private void btnCreateAccount_Click(object sender, EventArgs e)
         {
-            if (!loginFormCreateAccount1.Visible)
+            if (!loginFormCreateAccount1.Visible && !loginFormRecoverAccount1.Visible)
             {
                 loginFormCreateAccount1.Visible = true;
                 lblCreateAccount.Visible = true;
                 groupBoxAnnouncement.Visible = false;
             }
-            //GetTextboxAutocompleteData();
         }
         private void GetTextboxAutocompleteData()
         {
@@ -319,6 +347,12 @@ namespace CSCoursework_Smiley
         {
             loginFormCreateAccount1.Visible = false;
             lblCreateAccount.Visible = false;
+            groupBoxAnnouncement.Visible = true;
+        }
+        public void CancelAccountRecovery()
+        {
+            loginFormRecoverAccount1.Visible = false;
+            lblAccountRecovery.Visible = false;
             groupBoxAnnouncement.Visible = true;
         }
         public void SaveAccount(string username, string password, string securityQuestion1, string securityAnswer1, string securityQuestion2, string securityAnswer2, string securityQuestion3, string securityAnswer3)
@@ -412,6 +446,26 @@ namespace CSCoursework_Smiley
             {
                 PasswordTextbox.PasswordChar = '\0';
             }
+        }
+        private void btnCantSignIn_Click(object sender, EventArgs e)
+        {
+            if (!loginFormRecoverAccount1.Visible && !loginFormCreateAccount1.Visible)
+            {
+                loginFormRecoverAccount1.Visible = true;
+                lblAccountRecovery.Visible = true;
+                groupBoxAnnouncement.Visible = false;
+            }
+        }
+        public void UpdatePassword(string userID, string password)
+        {
+            var updateCommand = new OleDbCommand();
+            string sql = $"UPDATE [tblUsers] SET [password]='{CreateMD5(password)}' WHERE [user_id]={int.Parse(userID)};";
+            updateCommand.CommandText = sql;
+            updateCommand.Connection = con;
+            con.Open();
+            updateCommand.ExecuteNonQuery();
+            con.Close();
+            MessageBox.Show("Successfully Updated Password.");
         }
     }
 }

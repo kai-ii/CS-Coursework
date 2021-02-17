@@ -34,6 +34,7 @@ namespace CSCoursework_Smiley.Properties
             adminControlAddNewStaff1.Location = origin;
             adminControlManageEmployees1.Location = origin;
             adminControlCreateAnnouncement1.Location = origin;
+            adminControlManageJobPositions1.Location = origin;
 
             // Setup code things
             InitializeParentChildRelationships();
@@ -56,9 +57,7 @@ namespace CSCoursework_Smiley.Properties
 
         private void btnManageJobPositions_Click(object sender, EventArgs e)
         {
-
+            adminControlManageJobPositions1.Visible = true;
         }
-
-        
     }
 }

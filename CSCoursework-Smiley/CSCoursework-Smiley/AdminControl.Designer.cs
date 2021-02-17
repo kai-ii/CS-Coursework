@@ -37,6 +37,7 @@
             this.adminControlAddNewStaff1 = new CSCoursework_Smiley.AdminControlAddNewStaff();
             this.adminControlManageEmployees1 = new CSCoursework_Smiley.AdminControlManageEmployees();
             this.adminControlCreateAnnouncement1 = new CSCoursework_Smiley.AdminControlCreateAnnouncement();
+            this.adminControlManageJobPositions1 = new CSCoursework_Smiley.AdminControlManageJobPositions();
             this.grpBoxAccounts.SuspendLayout();
             this.grpBoxJobs.SuspendLayout();
             this.SuspendLayout();
@@ -131,10 +132,19 @@
             this.adminControlCreateAnnouncement1.TabIndex = 4;
             this.adminControlCreateAnnouncement1.Visible = false;
             // 
+            // adminControlManageJobPositions1
+            // 
+            this.adminControlManageJobPositions1.Location = new System.Drawing.Point(258, 4);
+            this.adminControlManageJobPositions1.Name = "adminControlManageJobPositions1";
+            this.adminControlManageJobPositions1.Size = new System.Drawing.Size(814, 636);
+            this.adminControlManageJobPositions1.TabIndex = 5;
+            this.adminControlManageJobPositions1.Visible = false;
+            // 
             // AdminControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.adminControlManageJobPositions1);
             this.Controls.Add(this.adminControlCreateAnnouncement1);
             this.Controls.Add(this.adminControlManageEmployees1);
             this.Controls.Add(this.adminControlAddNewStaff1);
@@ -160,5 +170,6 @@
         private AdminControlAddNewStaff adminControlAddNewStaff1;
         private AdminControlManageEmployees adminControlManageEmployees1;
         private AdminControlCreateAnnouncement adminControlCreateAnnouncement1;
+        private AdminControlManageJobPositions adminControlManageJobPositions1;
     }
 }

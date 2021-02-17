@@ -39,12 +39,12 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnNext = new System.Windows.Forms.Button();
             this.grpBoxAccountSecurity = new System.Windows.Forms.GroupBox();
-            this.comboBoxSecurityQuestion1 = new System.Windows.Forms.ComboBox();
-            this.comboBoxSecurityQuestion2 = new System.Windows.Forms.ComboBox();
-            this.comboBoxSecurityQuestion3 = new System.Windows.Forms.ComboBox();
-            this.txtSecurityAnswer1 = new System.Windows.Forms.TextBox();
-            this.txtSecurityAnswer2 = new System.Windows.Forms.TextBox();
             this.txtSecurityAnswer3 = new System.Windows.Forms.TextBox();
+            this.txtSecurityAnswer2 = new System.Windows.Forms.TextBox();
+            this.txtSecurityAnswer1 = new System.Windows.Forms.TextBox();
+            this.comboBoxSecurityQuestion3 = new System.Windows.Forms.ComboBox();
+            this.comboBoxSecurityQuestion2 = new System.Windows.Forms.ComboBox();
+            this.comboBoxSecurityQuestion1 = new System.Windows.Forms.ComboBox();
             this.btnSubmit = new System.Windows.Forms.Button();
             this.grpBoxAccountCreation.SuspendLayout();
             this.grpBoxAccountSecurity.SuspendLayout();
@@ -175,41 +175,26 @@
             this.grpBoxAccountSecurity.Text = "Account Security";
             this.grpBoxAccountSecurity.Visible = false;
             // 
-            // comboBoxSecurityQuestion1
+            // txtSecurityAnswer3
             // 
-            this.comboBoxSecurityQuestion1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxSecurityQuestion1.FormattingEnabled = true;
-            this.comboBoxSecurityQuestion1.Items.AddRange(new object[] {
-            "What is your favourite book?",
-            "What is your mother\'s maiden name?",
-            "What was the name of your first pet?",
-            "Which primary school did you attend?",
-            "What is your favourite food?",
-            "What city were you born in?",
-            "Who was your childhood hero?",
-            "Who is your favourite fictional character?"});
-            this.comboBoxSecurityQuestion1.Location = new System.Drawing.Point(10, 30);
-            this.comboBoxSecurityQuestion1.Name = "comboBoxSecurityQuestion1";
-            this.comboBoxSecurityQuestion1.Size = new System.Drawing.Size(388, 30);
-            this.comboBoxSecurityQuestion1.TabIndex = 0;
+            this.txtSecurityAnswer3.Location = new System.Drawing.Point(404, 101);
+            this.txtSecurityAnswer3.Name = "txtSecurityAnswer3";
+            this.txtSecurityAnswer3.Size = new System.Drawing.Size(465, 31);
+            this.txtSecurityAnswer3.TabIndex = 5;
             // 
-            // comboBoxSecurityQuestion2
+            // txtSecurityAnswer2
             // 
-            this.comboBoxSecurityQuestion2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxSecurityQuestion2.FormattingEnabled = true;
-            this.comboBoxSecurityQuestion2.Items.AddRange(new object[] {
-            "What is your favourite book?",
-            "What is your mother\'s maiden name?",
-            "What was the name of your first pet?",
-            "Which primary school did you attend?",
-            "What is your favourite food?",
-            "What city were you born in?",
-            "Who was your childhood hero?",
-            "Who is your favourite fictional character?"});
-            this.comboBoxSecurityQuestion2.Location = new System.Drawing.Point(10, 66);
-            this.comboBoxSecurityQuestion2.Name = "comboBoxSecurityQuestion2";
-            this.comboBoxSecurityQuestion2.Size = new System.Drawing.Size(388, 30);
-            this.comboBoxSecurityQuestion2.TabIndex = 1;
+            this.txtSecurityAnswer2.Location = new System.Drawing.Point(404, 65);
+            this.txtSecurityAnswer2.Name = "txtSecurityAnswer2";
+            this.txtSecurityAnswer2.Size = new System.Drawing.Size(465, 31);
+            this.txtSecurityAnswer2.TabIndex = 4;
+            // 
+            // txtSecurityAnswer1
+            // 
+            this.txtSecurityAnswer1.Location = new System.Drawing.Point(404, 30);
+            this.txtSecurityAnswer1.Name = "txtSecurityAnswer1";
+            this.txtSecurityAnswer1.Size = new System.Drawing.Size(465, 31);
+            this.txtSecurityAnswer1.TabIndex = 3;
             // 
             // comboBoxSecurityQuestion3
             // 
@@ -229,26 +214,41 @@
             this.comboBoxSecurityQuestion3.Size = new System.Drawing.Size(388, 30);
             this.comboBoxSecurityQuestion3.TabIndex = 2;
             // 
-            // txtSecurityAnswer1
+            // comboBoxSecurityQuestion2
             // 
-            this.txtSecurityAnswer1.Location = new System.Drawing.Point(404, 30);
-            this.txtSecurityAnswer1.Name = "txtSecurityAnswer1";
-            this.txtSecurityAnswer1.Size = new System.Drawing.Size(465, 31);
-            this.txtSecurityAnswer1.TabIndex = 3;
+            this.comboBoxSecurityQuestion2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxSecurityQuestion2.FormattingEnabled = true;
+            this.comboBoxSecurityQuestion2.Items.AddRange(new object[] {
+            "What is your favourite book?",
+            "What is your mother\'s maiden name?",
+            "What was the name of your first pet?",
+            "Which primary school did you attend?",
+            "What is your favourite food?",
+            "What city were you born in?",
+            "Who was your childhood hero?",
+            "Who is your favourite fictional character?"});
+            this.comboBoxSecurityQuestion2.Location = new System.Drawing.Point(10, 66);
+            this.comboBoxSecurityQuestion2.Name = "comboBoxSecurityQuestion2";
+            this.comboBoxSecurityQuestion2.Size = new System.Drawing.Size(388, 30);
+            this.comboBoxSecurityQuestion2.TabIndex = 1;
             // 
-            // txtSecurityAnswer2
+            // comboBoxSecurityQuestion1
             // 
-            this.txtSecurityAnswer2.Location = new System.Drawing.Point(404, 65);
-            this.txtSecurityAnswer2.Name = "txtSecurityAnswer2";
-            this.txtSecurityAnswer2.Size = new System.Drawing.Size(465, 31);
-            this.txtSecurityAnswer2.TabIndex = 4;
-            // 
-            // txtSecurityAnswer3
-            // 
-            this.txtSecurityAnswer3.Location = new System.Drawing.Point(404, 101);
-            this.txtSecurityAnswer3.Name = "txtSecurityAnswer3";
-            this.txtSecurityAnswer3.Size = new System.Drawing.Size(465, 31);
-            this.txtSecurityAnswer3.TabIndex = 5;
+            this.comboBoxSecurityQuestion1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxSecurityQuestion1.FormattingEnabled = true;
+            this.comboBoxSecurityQuestion1.Items.AddRange(new object[] {
+            "What is your favourite book?",
+            "What is your mother\'s maiden name?",
+            "What was the name of your first pet?",
+            "Which primary school did you attend?",
+            "What is your favourite food?",
+            "What city were you born in?",
+            "Who was your childhood hero?",
+            "Who is your favourite fictional character?"});
+            this.comboBoxSecurityQuestion1.Location = new System.Drawing.Point(10, 30);
+            this.comboBoxSecurityQuestion1.Name = "comboBoxSecurityQuestion1";
+            this.comboBoxSecurityQuestion1.Size = new System.Drawing.Size(388, 30);
+            this.comboBoxSecurityQuestion1.TabIndex = 0;
             // 
             // btnSubmit
             // 

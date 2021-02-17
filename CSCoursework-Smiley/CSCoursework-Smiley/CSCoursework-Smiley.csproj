@@ -128,6 +128,12 @@
     <Compile Include="AdminControlManageEmployeesDetails.Designer.cs">
       <DependentUpon>AdminControlManageEmployeesDetails.cs</DependentUpon>
     </Compile>
+    <Compile Include="AdminControlManageJobPositions.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="AdminControlManageJobPositions.Designer.cs">
+      <DependentUpon>AdminControlManageJobPositions.cs</DependentUpon>
+    </Compile>
     <Compile Include="ClockHourSelectControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -157,6 +163,12 @@
     </Compile>
     <Compile Include="LoginFormCreateAccount.Designer.cs">
       <DependentUpon>LoginFormCreateAccount.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LoginFormRecoverAccount.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="LoginFormRecoverAccount.Designer.cs">
+      <DependentUpon>LoginFormRecoverAccount.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="AdminControl.cs">
@@ -250,6 +262,9 @@
     <EmbeddedResource Include="AdminControlManageEmployeesDetails.resx">
       <DependentUpon>AdminControlManageEmployeesDetails.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="AdminControlManageJobPositions.resx">
+      <DependentUpon>AdminControlManageJobPositions.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ClockHourSelectControl.resx">
       <DependentUpon>ClockHourSelectControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -273,6 +288,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="LoginFormCreateAccount.resx">
       <DependentUpon>LoginFormCreateAccount.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="LoginFormRecoverAccount.resx">
+      <DependentUpon>LoginFormRecoverAccount.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="PayslipControl.resx">
       <DependentUpon>PayslipControl.cs</DependentUpon>
