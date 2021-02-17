@@ -223,7 +223,8 @@ namespace CSCoursework_Smiley
 
         private void ExitButton_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Application.Exit();
+            //this.Close();
         }
 
         private void btnDashboard_Click(object sender, EventArgs e)

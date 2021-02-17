@@ -74,6 +74,7 @@ namespace CSCoursework_Smiley
         }
         private void UpdateControlEmployees()
         {
+            if (staffMembersInDataGridList.Count == 0) { return; }
             List<Tuple<int, List<bool>>> staffMembersInDataGridListHolidayTuple = new List<Tuple<int, List<bool>>>();
             List<Tuple<int, List<bool>>> staffMembersInDataGridListAbsenceTuple = new List<Tuple<int, List<bool>>>();
 

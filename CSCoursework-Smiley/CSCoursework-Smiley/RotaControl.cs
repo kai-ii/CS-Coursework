@@ -32,7 +32,7 @@ namespace CSCoursework_Smiley
         string clockMinuteChoice;
         Tuple<int, int> cellLocation;
         List<string> staffMemberList;
-        List<string> fullStaffMemberList;
+        Dictionary<string, int> fullStaffMemberDict;
         int staffIDToSave;
         bool changeToRotaTableMade = false;
 
@@ -84,7 +84,7 @@ namespace CSCoursework_Smiley
         private void InitializeStaffMemberComboBox()
         {
             staffMemberList = new List<string>();
-            fullStaffMemberList = new List<string>();
+            fullStaffMemberDict = new Dictionary<string, int>();
 
             //Open database connection
             con.Open();
@@ -111,7 +111,7 @@ namespace CSCoursework_Smiley
 
             foreach (DataRow row in StaffInfoTable.Rows)
             {
-                fullStaffMemberList.Add($"{row.Field<string>("staff_firstname")},{row.Field<string>("staff_surname")}");
+                fullStaffMemberDict.Add($"{row.Field<string>("staff_firstname")}{row.Field<string>("staff_surname")[0]}", row.Field<int>("staff_id"));
                 staffMemberList.Add($"{row.Field<string>("staff_firstname")}. {row.Field<string>("staff_surname")[0]}");
             }
 
@@ -410,6 +410,32 @@ namespace CSCoursework_Smiley
             SaveRotaToDatabase();
         }
 
+        private void GenerateNewExportRow()
+        {
+            //Initialize Variables
+            DataSet ExportInfoDS;
+            OleDbDataAdapter da;
+            string sql;
+
+            //Get export_id for current week
+            sql = $"SELECT * FROM tblExport";
+            da = new OleDbDataAdapter(sql, con);
+            ExportInfoDS = new DataSet();
+            da.Fill(ExportInfoDS, "ExportInfo");
+
+            DataTable ExportInfoTable = ExportInfoDS.Tables["ExportInfo"];
+
+            DataRow newRow = ExportInfoTable.NewRow();
+            int previousRow = ExportInfoTable.Rows.Count - 1;
+            newRow["export_id"] = ExportInfoTable.Rows[previousRow].Field<int>("export_id") + 1;
+            newRow["tax_month_start_date"] = ExportInfoTable.Rows[previousRow].Field<DateTime>("tax_month_start_date").AddMonths(1);
+            newRow["tax_month_end_date"] = ExportInfoTable.Rows[previousRow].Field<DateTime>("tax_month_end_date").AddMonths(1);
+            newRow["pay_date"] = ExportInfoTable.Rows[previousRow].Field<DateTime>("pay_date").AddMonths(1);
+
+            _ = new OleDbCommandBuilder(da);
+            ExportInfoTable.Rows.Add(newRow);
+            da.Update(ExportInfoDS, "ExportInfo");
+        }
         private void SaveRotaToDatabase()
         {
             if (!changeToRotaTableMade) // if no change has been made then do not save
@@ -456,20 +482,40 @@ namespace CSCoursework_Smiley
             //Initialize variables
             DataSet DynamicRotaInfoDS;
             DataSet RotaInfoDS;
+            DataSet ExportInfoDS;
+            OleDbDataAdapter ExportDA;
             OleDbDataAdapter da;
             string sql;
+
+            //Get export_id for current week
+            CultureInfo USCulture = CultureInfo.CreateSpecificCulture("en-US");
+            sql = $"SELECT export_id, tax_month_start_date, tax_month_end_date FROM tblExport WHERE #{currentWeek.ToString("d", USCulture)}#>=tax_month_start_date AND #{currentWeek.ToString("d", USCulture)}#<=tax_month_end_date";
+            ExportDA = new OleDbDataAdapter(sql, con);
+            ExportInfoDS = new DataSet();
+            ExportDA.Fill(ExportInfoDS, "ExportInfo");
+
+            // Set up ExportInfoTable
+            DataTable ExportInfoTable = ExportInfoDS.Tables["ExportInfo"];
+
+            if (ExportInfoTable.Rows.Count == 0) // if export id for current tax month doesn't exist, create it.
+            {
+                GenerateNewExportRow();
+
+                //Get export_id for current week
+                sql = $"SELECT export_id, tax_month_start_date, tax_month_end_date FROM tblExport WHERE #{currentWeek.ToString("d", USCulture)}#>=tax_month_start_date AND #{currentWeek.ToString("d", USCulture)}#<=tax_month_end_date";
+                ExportDA = new OleDbDataAdapter(sql, con);
+                ExportInfoDS = new DataSet();
+                ExportDA.Fill(ExportInfoDS, "ExportInfo");
+
+                // Set up ExportInfoTable
+                ExportInfoTable = ExportInfoDS.Tables["ExportInfo"];
+            }
 
             //Join tblRota and tblAbsence on rota_id where staff_id is the selected user
             sql = $"SELECT tblRota.rota_id, tblRota.day_id, tblRota.rota_week, tblRota.rota_start_time, tblRota.rota_end_time, tblRota.branch_id, tblStaff.staff_firstname, tblStaff.staff_surname, tblStaff.staff_id FROM tblRota INNER JOIN tblStaff ON tblRota.staff_id=tblStaff.staff_id";
             da = new OleDbDataAdapter(sql, con);
             DynamicRotaInfoDS = new DataSet();
             da.Fill(DynamicRotaInfoDS, "DynamicRotaInfo");
-
-            //Create second dataset to update (SQL cannot form dynamic insert commands on joined datasets)
-            sql = $"SELECT * FROM tblRota ORDER BY rota_id ASC";
-            da = new OleDbDataAdapter(sql, con);
-            RotaInfoDS = new DataSet();
-            da.Fill(RotaInfoDS, "RotaInfo");
 
             //Close database connection
             con.Close();
@@ -480,6 +526,12 @@ namespace CSCoursework_Smiley
             DataColumn[] dynamicKeyColumns = new DataColumn[1];
             dynamicKeyColumns[0] = DynamicRotaInfoTable.Columns["rota_id"];
             DynamicRotaInfoTable.PrimaryKey = dynamicKeyColumns;
+
+            //Create second dataset to update (SQL cannot form dynamic insert commands on joined datasets)
+            sql = $"SELECT * FROM tblRota ORDER BY rota_id ASC";
+            da = new OleDbDataAdapter(sql, con);
+            RotaInfoDS = new DataSet();
+            da.Fill(RotaInfoDS, "RotaInfo");
 
             //Set up RotaInfoTable
             DataTable RotaInfoTable = RotaInfoDS.Tables["RotaInfo"];
@@ -497,18 +549,19 @@ namespace CSCoursework_Smiley
                 bool staffMemberHasRow = false;
 
                 //Check the staffID of the member in the rota
-                int staffID;
+                int staffIDToSave;
                 string firstNameToCheck = rotaDataGrid.Rows[staffMemberCount].Cells[0].Value.ToString().Split('.')[0];
                 char secondNameToCheck = rotaDataGrid.Rows[staffMemberCount].Cells[0].Value.ToString().Split('.')[1][1];
-                for (int i = 0; i < fullStaffMemberList.Count; i++)
-                {
-                    if (firstNameToCheck == fullStaffMemberList[i].Split(',')[0] && secondNameToCheck == fullStaffMemberList[i].Split(',')[1][0])
-                    {
-                        staffID = i + 1;
-                        staffIDToSave = staffID;
-                        //MessageBox.Show($"staffID = {staffID}, for Kai. C expect 2");
-                    }
-                }
+                staffIDToSave = fullStaffMemberDict[$"{firstNameToCheck}{secondNameToCheck}"];
+                //for (int i = 0; i < fullStaffMemberDict.Count; i++)
+                //{
+                //    if (firstNameToCheck == fullStaffMemberDict[i].Split(',')[0] && secondNameToCheck == fullStaffMemberDict[i].Split(',')[1][0])
+                //    {
+                //        staffID = i + 1;
+                //        staffIDToSave = staffID;
+                //        //MessageBox.Show($"staffID = {staffID}, for Kai. C expect 2");
+                //    }
+                //}
 
                 //Format Validation
                 List<string> staffRotaRow = new List<string>();
@@ -633,14 +686,24 @@ namespace CSCoursework_Smiley
                     //Initialise rotaID as the latest rota_id added.
                     int rotaToStart = RotaInfoTable.Rows[RotaInfoTable.Rows.Count - 1].Field<int>("rota_id");
                     int rotaID = rotaToStart;
+                    bool generatedNewExportRow = false;
 
                     DataRow newRotaRow;
-                    int exportID = 1;
+                    int exportID;
                     int branchID = 1;
                     string rotaWeek = currentWeek.ToString("d");
 
                     for (int dayID = 1; dayID <= 5; dayID++)
                     {
+                        exportID = ExportInfoTable.Rows[0].Field<int>("export_id");
+
+                        // Check if still in current tax month
+                        if (currentWeek.AddDays(dayID) > ExportInfoTable.Rows[0].Field<DateTime>("tax_month_end_date"))
+                        {
+                            if (!generatedNewExportRow) { GenerateNewExportRow(); generatedNewExportRow = true; }
+                            exportID++;
+                        }
+
                         rotaID++;
                         newRotaRow = RotaInfoTable.NewRow();
                         newRotaRow["rota_id"] = rotaID;
@@ -719,7 +782,7 @@ namespace CSCoursework_Smiley
             document.Info.Subject = "Displays weekly rota in PDF form for printing.";
             document.Info.Keywords = "PDFsharp, XGraphics";
 
-            RotaPdfPage1(document);
+            if (RotaPdfPage1(document)) { return; }
 
             //Save document
             document.Save(filename);
@@ -727,7 +790,7 @@ namespace CSCoursework_Smiley
             Process.Start(filename);
         }
 
-        private void RotaPdfPage1(PdfDocument document)
+        private bool RotaPdfPage1(PdfDocument document)
         {
 
             //reference http://www.pdfsharp.net/wiki/Invoice-sample.ashx#Source_Code_6
@@ -930,7 +993,7 @@ namespace CSCoursework_Smiley
                     if (cellValue == null)
                     {
                         MessageBox.Show($"Incomplete Rota. (Row {staffMemberCount}, Column {cell+1})");
-                        return;
+                        return true;
                     }
                     staffRowInformation.Add(cellValue);
                     staffRow.Cells[cell].AddParagraph(staffRowInformation[cell]);
@@ -943,6 +1006,8 @@ namespace CSCoursework_Smiley
 
             //Render the paragraph. You can render tables or shapes the same way
             docRenderer.RenderObject(gfx, XUnit.FromCentimeter(1), XUnit.FromCentimeter(1), "19cm", table);
+
+            return false;
         }
     }
 }
