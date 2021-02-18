@@ -21,8 +21,13 @@ namespace CSCoursework_Smiley.Properties
         private void InitializeParentChildRelationships()
         {
             adminControlAddNewStaff1.parentForm = this;
+            adminControlManageJobPositions1.setParentForm(this);
         }
 
+        public void UpdatePayslipJobPositions()
+        {
+            parentForm.UpdatePayslipJobPositions();
+        }
         public void ResetControls()
         {
             parentForm.ResetControls();

@@ -32,23 +32,40 @@
             System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.grpBoxLineGraph = new System.Windows.Forms.GroupBox();
+            this.lineChartHoursWorked = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.grpBoxPieChart = new System.Windows.Forms.GroupBox();
             this.pieChart1 = new LiveCharts.WinForms.PieChart();
-            this.lineChart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.grpBoxLineGraph.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.lineChartHoursWorked)).BeginInit();
             this.grpBoxPieChart.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.lineChart1)).BeginInit();
             this.SuspendLayout();
             // 
             // grpBoxLineGraph
             // 
-            this.grpBoxLineGraph.Controls.Add(this.lineChart1);
+            this.grpBoxLineGraph.Controls.Add(this.lineChartHoursWorked);
             this.grpBoxLineGraph.Location = new System.Drawing.Point(3, 3);
             this.grpBoxLineGraph.Name = "grpBoxLineGraph";
             this.grpBoxLineGraph.Size = new System.Drawing.Size(549, 288);
             this.grpBoxLineGraph.TabIndex = 1;
             this.grpBoxLineGraph.TabStop = false;
             this.grpBoxLineGraph.Text = "Line Graph";
+            // 
+            // lineChartHoursWorked
+            // 
+            this.lineChartHoursWorked.BackColor = System.Drawing.SystemColors.Control;
+            chartArea1.Name = "ChartArea1";
+            this.lineChartHoursWorked.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.lineChartHoursWorked.Legends.Add(legend1);
+            this.lineChartHoursWorked.Location = new System.Drawing.Point(6, 19);
+            this.lineChartHoursWorked.Name = "lineChartHoursWorked";
+            series1.ChartArea = "ChartArea1";
+            series1.Legend = "Legend1";
+            series1.Name = "Series1";
+            this.lineChartHoursWorked.Series.Add(series1);
+            this.lineChartHoursWorked.Size = new System.Drawing.Size(537, 253);
+            this.lineChartHoursWorked.TabIndex = 0;
+            this.lineChartHoursWorked.Text = "hoursWorkedChart";
             // 
             // grpBoxPieChart
             // 
@@ -68,23 +85,6 @@
             this.pieChart1.TabIndex = 0;
             this.pieChart1.Text = "pieChartHoursWorked";
             // 
-            // lineChart1
-            // 
-            this.lineChart1.BackColor = System.Drawing.SystemColors.Control;
-            chartArea1.Name = "ChartArea1";
-            this.lineChart1.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.lineChart1.Legends.Add(legend1);
-            this.lineChart1.Location = new System.Drawing.Point(6, 19);
-            this.lineChart1.Name = "lineChart1";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.lineChart1.Series.Add(series1);
-            this.lineChart1.Size = new System.Drawing.Size(537, 253);
-            this.lineChart1.TabIndex = 0;
-            this.lineChart1.Text = "chart1";
-            // 
             // StaffControlGraphs
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -95,8 +95,8 @@
             this.Size = new System.Drawing.Size(556, 585);
             this.Load += new System.EventHandler(this.StaffControlGraphs_Load);
             this.grpBoxLineGraph.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.lineChartHoursWorked)).EndInit();
             this.grpBoxPieChart.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.lineChart1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -106,6 +106,6 @@
         private System.Windows.Forms.GroupBox grpBoxLineGraph;
         private System.Windows.Forms.GroupBox grpBoxPieChart;
         private LiveCharts.WinForms.PieChart pieChart1;
-        private System.Windows.Forms.DataVisualization.Charting.Chart lineChart1;
+        private System.Windows.Forms.DataVisualization.Charting.Chart lineChartHoursWorked;
     }
 }

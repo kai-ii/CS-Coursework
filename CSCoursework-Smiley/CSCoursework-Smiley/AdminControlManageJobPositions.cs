@@ -16,11 +16,15 @@ namespace CSCoursework_Smiley
     {
         //Initialise variables
         OleDbConnection con = new OleDbConnection();
+        Properties.AdminControl parentForm;
         public AdminControlManageJobPositions()
         {
             InitializeComponent();
         }
-
+        public void setParentForm(Properties.AdminControl AdminControlParent)
+        {
+            parentForm = AdminControlParent;
+        }
         private void AdminControlManageJobPositions_Load(object sender, EventArgs e)
         {
             InitializeDatabaseConnection();
@@ -148,6 +152,7 @@ namespace CSCoursework_Smiley
                 }
             }
             MessageBox.Show("Successfully updated job position information.");
+            parentForm.UpdatePayslipJobPositions();
         }
         private void jobPositionDataGrid_UserAddedRow(object sender, DataGridViewRowEventArgs e)
         {

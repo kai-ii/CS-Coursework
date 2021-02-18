@@ -140,6 +140,7 @@ namespace CSCoursework_Smiley
         }
         private void comboBoxContractType_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (comboBoxContractType.SelectedItem == null) { return; }
             if (comboBoxContractType.SelectedItem.ToString() == "Salaried")
             {
                 lblContractedWeeklyHours.Text = "Contracted Weekly Hours";
@@ -242,7 +243,7 @@ namespace CSCoursework_Smiley
             // NINumber
             if (txtNINumber.Text.Trim() != "") 
             {
-                if (txtNINumber.Text.Substring(0, 2).IndexOfAny("DFIQUV".ToCharArray()) != -1)
+                if (!(txtNINumber.Text.Substring(0, 2).IndexOfAny("DFIQUV".ToCharArray()) != -1))
                 {
                     if (Regex.IsMatch(txtNINumber.Text.Trim(), @"^[a-zA-z][a-zA-z]\d{6}[a-zA-Z]$"))
                     {
@@ -280,8 +281,18 @@ namespace CSCoursework_Smiley
             // NI Letter + Length Check + Character Check
             if (txtNILetter.Text.ToString().Trim() != "")
             {
-                if (txtNILetter.Text.ToString().Trim().Length == 1 && char.IsLetter(txtNILetter.Text.ToString().Trim()[0])) { staffNILetter = txtNILetter.Text.ToString().Trim(); }
-                else { MessageBox.Show("NI Letter must only be a single letter."); return; }
+                char[] acceptableNILetters = { 'A', 'B', 'C', 'H', 'J', 'M', 'Z' };
+                if (!(txtNILetter.Text.ToString().Trim().Length == 1 && char.IsLetter(txtNILetter.Text.ToString().Trim()[0]))) 
+                {
+                    MessageBox.Show("NI Letter must only be a single letter."); 
+                    return;
+                }
+                else if (!acceptableNILetters.Contains<char>(char.Parse(txtNILetter.Text.ToString())))
+                {
+                    MessageBox.Show("NI Letter must be one of ['A','B','C','H','J','M','Z']");
+                    return;
+                }
+                staffNILetter = txtNILetter.Text.ToString();
             }
 
             // Tax Code format check
@@ -346,6 +357,11 @@ namespace CSCoursework_Smiley
             // Employed
             staffEmployed = true;
 
+            if(CheckIfStaffMemberExists(staffFirstname, staffSurname))
+            {
+                MessageBox.Show("Another staff member with this firstname and surname already exists. (Within the systems limitations, multiple employees with the same first name and first letter of surname cannot be added.)");
+                return;
+            }
 
             // Command Builder
             _ = new OleDbCommandBuilder(da);
@@ -389,7 +405,37 @@ namespace CSCoursework_Smiley
             parentForm.ResetControls();
             ResetForm();
         }
+        private bool CheckIfStaffMemberExists(string staffMemberFirstname, string staffMemberSurname)
+        {
+            //Initialize variables
+            DataSet StaffDS;
+            OleDbDataAdapter da;
+            DataTable StaffTable;
+            string sql;
 
+            //Check Login Details
+            con.Open();
+
+            sql = $"SELECT * FROM tblStaff WHERE staff_firstname='{staffMemberFirstname}'";
+            da = new OleDbDataAdapter(sql, con);
+            StaffDS = new DataSet();
+            da.Fill(StaffDS, "StaffInfo");
+            StaffTable = StaffDS.Tables["StaffInfo"];
+
+            con.Close();
+
+            if (StaffTable.Rows.Count > 0)
+            {
+                foreach (DataRow row in StaffTable.Rows)
+                {
+                    if (row.Field<string>("staff_surname")[0] == staffMemberSurname[0])
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
         private void ResetForm()
         {
             txtForename.Clear();

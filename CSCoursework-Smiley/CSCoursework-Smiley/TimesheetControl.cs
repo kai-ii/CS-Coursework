@@ -24,6 +24,7 @@ namespace CSCoursework_Smiley
         string clockMinuteChoice;
         Tuple<int, int> cellLocation;
         List<string> fullStaffMemberList;
+        Dictionary<string, int> staffMemberNameDictionary;
         List<string> staffMembersInDataGridList;
         int staffIDToSave;
         bool changeToRotaTableMade = false;
@@ -359,6 +360,7 @@ namespace CSCoursework_Smiley
         private void InitializeStaffMemberList()
         {
             fullStaffMemberList = new List<string>();
+            staffMemberNameDictionary = new Dictionary<string, int>();
 
             //Open database connection
             con.Open();
@@ -386,6 +388,7 @@ namespace CSCoursework_Smiley
             foreach (DataRow row in StaffInfoTable.Rows)
             {
                 fullStaffMemberList.Add($"{row.Field<string>("staff_firstname")},{row.Field<string>("staff_surname")}");
+                staffMemberNameDictionary.Add($"{row.Field<string>("staff_firstname")}{row.Field<string>("staff_surname")[0]}", row.Field<int>("staff_id"));
             }
         }
         private void UpdateWeekLabel()
@@ -702,18 +705,9 @@ namespace CSCoursework_Smiley
                 bool staffMemberHasRow = false;
 
                 //Check the staffID of the member in the timesheet
-                int staffID;
                 string firstNameToCheck = rotaDataGrid.Rows[staffMemberCount].Cells[0].Value.ToString().Split('.')[0];
                 char secondNameToCheck = rotaDataGrid.Rows[staffMemberCount].Cells[0].Value.ToString().Split('.')[1][1];
-                for (int i = 0; i < fullStaffMemberList.Count; i++)
-                {
-                    if (firstNameToCheck == fullStaffMemberList[i].Split(',')[0] && secondNameToCheck == fullStaffMemberList[i].Split(',')[1][0])
-                    {
-                        staffID = i + 1;
-                        staffIDToSave = staffID;
-                        //MessageBox.Show($"staffID = {staffID}, for Kai. C expect 2");
-                    }
-                }
+                staffIDToSave = staffMemberNameDictionary[$"{firstNameToCheck}{secondNameToCheck}"];
 
                 //Add validation here
                 List<string> staffRotaRow = new List<string>();

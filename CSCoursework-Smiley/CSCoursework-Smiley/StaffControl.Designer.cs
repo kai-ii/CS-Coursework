@@ -111,11 +111,10 @@
             // 
             // staffControlGraphs1
             // 
-            this.staffControlGraphs1.LineChartValues = new int[] {
-        0};
+            //this.staffControlGraphs1.LineChartValues = new int[] { 0 };
             this.staffControlGraphs1.Location = new System.Drawing.Point(0, 0);
             this.staffControlGraphs1.Name = "staffControlGraphs1";
-            this.staffControlGraphs1.PieChartData = null;
+            //this.staffControlGraphs1.PieChartData = null;
             this.staffControlGraphs1.Size = new System.Drawing.Size(556, 585);
             this.staffControlGraphs1.TabIndex = 1;
             // 

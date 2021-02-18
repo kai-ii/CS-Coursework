@@ -279,25 +279,120 @@ namespace CSCoursework_Smiley
             UpdateLineChartDetails(primaryKey);
             UpdatePieChartDetails(primaryKey);
         }
-
-        private void UpdateLineChartDetails(int primaryKey)
+        private double[] GetHoursWorkedByTaxMonth(int staffID)
         {
-            Random rnd = new Random();
+            //int[] hoursWorkedByTaxMonth = new int[12]; 
+            double[] hoursWorkedByTaxMonth = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 }; //index 0 = april
+            Dictionary<int, DateTime> exportIDTaxMonthDictionary = new Dictionary<int, DateTime>(); // key: exportID, value: taxMonthStartDate;
 
-            int[] hoursWorkedByMonth = new int[12];
-            for (int month = 0; month < 12; month++)
+            // Open database connection
+            con.Open();
+
+            // Initialize variables
+            DataSet ExportInfoDS;
+            DataSet PayslipInfoDS;
+            OleDbDataAdapter da;
+            string sql;
+
+            // Get export taxmonthdate combos
+            sql = $"SELECT export_id, tax_month_start_date FROM tblExport";
+            da = new OleDbDataAdapter(sql, con);
+            ExportInfoDS = new DataSet();
+            da.Fill(ExportInfoDS, "ExportInfo");
+
+            //Close database connection
+            con.Close();
+
+            DataTable ExportTable = ExportInfoDS.Tables["ExportInfo"];
+            int exportID;
+            DateTime taxMonthStartDate;
+            foreach (DataRow row in ExportTable.Rows)
             {
-                hoursWorkedByMonth[month] = rnd.Next(140, 180);
+                exportID = row.Field<int>("export_id");
+                taxMonthStartDate = row.Field<DateTime>("tax_month_start_date");
+                exportIDTaxMonthDictionary.Add(exportID, taxMonthStartDate);
             }
 
-            staffControlGraphs1.LineChartValues = hoursWorkedByMonth;
-        }
+            // Open Database connection
+            con.Open();
 
+            // Get payslip data to find hours worked
+            sql = $"SELECT export_id, standard_hours_worked FROM tblPayslip WHERE staff_id={staffID}";
+            da = new OleDbDataAdapter(sql, con);
+            PayslipInfoDS = new DataSet();
+            da.Fill(PayslipInfoDS, "PayslipInfo");
+
+            // Close Database connection
+            con.Close();
+
+            DataTable PayslipInfoTable = PayslipInfoDS.Tables["PayslipInfo"];
+
+            foreach (DataRow row in PayslipInfoTable.Rows)
+            {
+                int index = exportIDTaxMonthDictionary[row.Field<int>("export_id")].AddMonths(-4).Month; //e.g. if the export_id is 11, the month given would be 04 which is april, this is 0 in the hoursWorkedByTaxMonth array defined in StaffControlGraph so 4 is subtracted here.
+                double indexValue = hoursWorkedByTaxMonth[index];
+                indexValue += row.Field<double>("standard_hours_worked");
+                hoursWorkedByTaxMonth[index] = Math.Round(indexValue, 2);
+            }
+
+            return hoursWorkedByTaxMonth;
+        }
+        private void UpdateLineChartDetails(int primaryKey)
+        {
+            //Random rnd = new Random();
+
+            //int[] hoursWorkedByMonth = new int[12];
+            //for (int month = 0; month < 12; month++)
+            //{
+            //    hoursWorkedByMonth[month] = rnd.Next(140, 180);
+            //}
+
+            double[] hoursWorkedByTaxMonth = GetHoursWorkedByTaxMonth(primaryKey);
+
+            //staffControlGraphs1.LineChartValues = hoursWorkedByMonth;
+            staffControlGraphs1.SetLineChartValues(hoursWorkedByTaxMonth);
+        }
+        private Tuple<double, double> GetHoursWorked(int staffID) // Returns tuple of <standard hours worked, holiday hours taken>
+        {
+            // Open database connection
+            con.Open();
+
+            // Initialize variables
+            DataSet PayslipInfoDS;
+            OleDbDataAdapter da;
+            string sql;
+
+            // Get payslip data to find hours worked
+            sql = $"SELECT standard_hours_worked, holiday_hours_taken FROM tblPayslip WHERE staff_id={staffID}";
+            da = new OleDbDataAdapter(sql, con);
+            PayslipInfoDS = new DataSet();
+            da.Fill(PayslipInfoDS, "PayslipInfo");
+
+            //Close database connection
+            con.Close();
+
+            DataTable PayslipInfoTable = PayslipInfoDS.Tables["PayslipInfo"];
+            Tuple<double, double> hoursWorkedTuple;
+            double standardHoursWorked = 0;
+            double holidayHoursTaken = 0;
+
+            foreach (DataRow row in PayslipInfoTable.Rows)
+            {
+                standardHoursWorked += row.Field<double>("standard_hours_worked");
+                holidayHoursTaken += row.Field<double>("holiday_hours_taken");
+            }
+
+            hoursWorkedTuple = new Tuple<double, double>(standardHoursWorked, holidayHoursTaken);
+            return hoursWorkedTuple;
+        }
         private void UpdatePieChartDetails(int primaryKey)
         {
-            Random rnd = new Random();
-            int hoursWorked = rnd.Next(730, 810);
-            int paidTimeOff = rnd.Next(35, 70);
+            //Random rnd = new Random();
+            //int hoursWorked = rnd.Next(730, 810);
+            //int paidTimeOff = rnd.Next(35, 70);
+            Tuple<double, double> hoursWorkedTuple = GetHoursWorked(primaryKey);
+            double hoursWorked = hoursWorkedTuple.Item1;
+            double paidTimeOff = hoursWorkedTuple.Item2;
 
             Func<ChartPoint, string> labelPoint = chartPoint => string.Format("{0} ({1:P})", chartPoint.Y, chartPoint.Participation);
             SeriesCollection pieChartValues = new SeriesCollection
@@ -305,20 +400,20 @@ namespace CSCoursework_Smiley
                 new PieSeries
                 {
                     Title = "Hours Worked",
-                    Values = new ChartValues<int> {hoursWorked},
+                    Values = new ChartValues<double> {Math.Round(hoursWorked, 2)},
                     DataLabels = true,
                     LabelPoint = labelPoint
                 },
                 new PieSeries
                 {
                     Title = "Paid Time Off",
-                    Values = new ChartValues<int> {paidTimeOff},
+                    Values = new ChartValues<double> {Math.Round(paidTimeOff, 2)},
                     DataLabels = true,
                     LabelPoint = labelPoint
                 }
             };
 
-            staffControlGraphs1.PieChartData = pieChartValues;
+            staffControlGraphs1.UpdatePieChart(pieChartValues);
         }
 
         private void lstBoxEmployees_SelectedIndexChanged(object sender, EventArgs e)

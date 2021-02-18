@@ -33,7 +33,7 @@ namespace CSCoursework_Smiley
         Tuple<int, int> cellLocation;
         List<string> staffMemberList;
         Dictionary<string, int> fullStaffMemberDict;
-        int staffIDToSave;
+        //int staffIDToSave;
         bool changeToRotaTableMade = false;
 
         private System.Drawing.Color backgroundColour;
@@ -979,10 +979,10 @@ namespace CSCoursework_Smiley
             row.Cells[20].AddParagraph("Out");
             row.Cells[20].Format.Alignment = ParagraphAlignment.Left;
 
-            table.SetEdge(0, 0, 21, 2, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 0.75, MigraDoc.DocumentObjectModel.Color.Empty);
+            //table.SetEdge(0, 0, 21, 2, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 0.75, MigraDoc.DocumentObjectModel.Color.Empty);
 
             //Fill Table
-            for (int staffMemberCount = 1; staffMemberCount <= 2; staffMemberCount++)
+            for (int staffMemberCount = 1; staffMemberCount < rotaDataGrid.Rows.Count; staffMemberCount++)
             {
                 List<string> staffRowInformation = new List<string>();
                 Row staffRow = table.AddRow();
@@ -999,6 +999,8 @@ namespace CSCoursework_Smiley
                     staffRow.Cells[cell].AddParagraph(staffRowInformation[cell]);
                 }
             }
+
+            table.SetEdge(0, 0, 21, rotaDataGrid.Rows.Count+1, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 0.75, MigraDoc.DocumentObjectModel.Color.Empty);
 
             //Create a renderer and prepare (=layout) the document
             DocumentRenderer docRenderer = new DocumentRenderer(doc);

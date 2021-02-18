@@ -117,6 +117,10 @@ namespace CSCoursework_Smiley
             settingsControl1.parentForm = this;
             adminControl1.parentForm = this;
         }
+        public void UpdatePayslipJobPositions()
+        {
+            payslipControl1.UpdatePayslipInfo();
+        }
 
         public void UpdateUserPassword(string Password)
         {
