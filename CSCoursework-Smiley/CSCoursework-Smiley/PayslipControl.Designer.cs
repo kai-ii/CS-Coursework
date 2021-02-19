@@ -82,6 +82,8 @@
             this.txtTaxMonthValue = new System.Windows.Forms.TextBox();
             this.txtEmployeeIDKey = new System.Windows.Forms.TextBox();
             this.txtEmployeeIDValue = new System.Windows.Forms.TextBox();
+            this.btnGenerateSinglePayslip = new System.Windows.Forms.Button();
+            this.btnGenerateAllPayslips = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -116,6 +118,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.btnGenerateAllPayslips);
+            this.groupBox1.Controls.Add(this.btnGenerateSinglePayslip);
             this.groupBox1.Controls.Add(this.label14);
             this.groupBox1.Controls.Add(this.comboBoxSelectEmployee);
             this.groupBox1.Controls.Add(this.lblTakeHomePayValue);
@@ -625,6 +629,28 @@
             this.txtEmployeeIDValue.Size = new System.Drawing.Size(210, 37);
             this.txtEmployeeIDValue.TabIndex = 13;
             // 
+            // btnGenerateSinglePayslip
+            // 
+            this.btnGenerateSinglePayslip.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGenerateSinglePayslip.Location = new System.Drawing.Point(6, 82);
+            this.btnGenerateSinglePayslip.Name = "btnGenerateSinglePayslip";
+            this.btnGenerateSinglePayslip.Size = new System.Drawing.Size(250, 37);
+            this.btnGenerateSinglePayslip.TabIndex = 67;
+            this.btnGenerateSinglePayslip.Text = "Generate Payslip";
+            this.btnGenerateSinglePayslip.UseVisualStyleBackColor = true;
+            this.btnGenerateSinglePayslip.Click += new System.EventHandler(this.btnGenerateSinglePayslip_Click);
+            // 
+            // btnGenerateAllPayslips
+            // 
+            this.btnGenerateAllPayslips.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGenerateAllPayslips.Location = new System.Drawing.Point(6, 126);
+            this.btnGenerateAllPayslips.Name = "btnGenerateAllPayslips";
+            this.btnGenerateAllPayslips.Size = new System.Drawing.Size(250, 37);
+            this.btnGenerateAllPayslips.TabIndex = 68;
+            this.btnGenerateAllPayslips.Text = "Generate All Payslips";
+            this.btnGenerateAllPayslips.UseVisualStyleBackColor = true;
+            this.btnGenerateAllPayslips.Click += new System.EventHandler(this.btnGenerateAllPayslips_Click);
+            // 
             // PayslipControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -698,5 +724,7 @@
         private System.Windows.Forms.Label lblEmployeeIDValue;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.ComboBox comboBoxSelectEmployee;
+        private System.Windows.Forms.Button btnGenerateSinglePayslip;
+        private System.Windows.Forms.Button btnGenerateAllPayslips;
     }
 }

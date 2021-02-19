@@ -772,7 +772,6 @@ namespace CSCoursework_Smiley
 
         private void btnPrintRota_Click(object sender, EventArgs e)
         {
-
             string filename = $"{currentWeek.ToString("m")}RotaPDF.pdf";
             filename = Regex.Replace(filename, @"\s+", "");
             //filename = Guid.NewGuid().ToString("D").ToUpper() + ".pdf";
@@ -792,7 +791,6 @@ namespace CSCoursework_Smiley
 
         private bool RotaPdfPage1(PdfDocument document)
         {
-
             //reference http://www.pdfsharp.net/wiki/Invoice-sample.ashx#Source_Code_6
             PdfPage page = document.AddPage();
             page.Size = PageSize.A4;
@@ -986,6 +984,8 @@ namespace CSCoursework_Smiley
             {
                 List<string> staffRowInformation = new List<string>();
                 Row staffRow = table.AddRow();
+                staffRow.Height = "1.0cm";
+                staffRow.VerticalAlignment = VerticalAlignment.Center;
                 string cellValue;
                 for (int cell = 0; cell < rotaDataGrid.Rows[staffMemberCount - 1].Cells.Count; cell++)
                 {

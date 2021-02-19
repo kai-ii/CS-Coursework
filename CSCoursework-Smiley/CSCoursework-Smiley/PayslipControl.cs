@@ -9,6 +9,15 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Data.OleDb;
 using System.Globalization;
+using MigraDoc.DocumentObjectModel;
+using System.Text.RegularExpressions;
+using PdfSharp.Pdf;
+using PdfSharp;
+using PdfSharp.Drawing;
+using MigraDoc.DocumentObjectModel.Shapes;
+using System.Diagnostics;
+using MigraDoc.Rendering;
+using MigraDoc.DocumentObjectModel.Tables;
 
 namespace CSCoursework_Smiley.Properties
 {
@@ -40,6 +49,7 @@ namespace CSCoursework_Smiley.Properties
             GetStaffData();
             GetJobWageData();
             InitializeStaffComboBox();
+            comboBoxSelectEmployee.SelectedIndex = 0;
         }
         public void UpdatePayslipInfo() // Called after manage jobs is changed.
         {
@@ -76,7 +86,7 @@ namespace CSCoursework_Smiley.Properties
 
             if (standardHoursWorked == 0)
             {
-                MessageBox.Show("Employee has worked 0 standardHours. Either there has been an error or this employee has no timesheet data for this month.");
+                MessageBox.Show("Employee has worked 0 standard hours. Either there has been an error or this employee has no timesheet data for this month.");
                 return;
             }
 
@@ -90,26 +100,15 @@ namespace CSCoursework_Smiley.Properties
 
             UpdatePayslipLabels(standardHoursWorked, holidayHoursWorked, staffID);
         }
-        private void UpdatePayslipLabels(double standardHoursWorked, double holidayHoursWorks, int staffID)
+        private double GetIncomeTax(double totalHourlyPay)
         {
-            if (staffTaxCodeDictionary[staffID] != "1250L")
-            {
-                MessageBox.Show("Payslip creation only works for employees with a tax code of 1250L, for standard tax-free Personal Allowance.");
-                return;
-            }
-
-            int jobPositionID = staffJobDictionary[staffID];
-            float jobPositionWage = jobValueDictionary[jobPositionID];
-            double totalHoursWorked = holidayHoursWorks + standardHoursWorked;
-            double totalHourlyPay = totalHoursWorked * jobPositionWage;
-            double taxableWage = totalHourlyPay - (12500 / 12); if (taxableWage < 0) { taxableWage = 0; }
             double additionalRateTaxBand;
             double higherRateTaxBand;
             double basicRateTaxBand;
             double personalAllowance;
             double incomeTax;
 
-            if (totalHourlyPay > (150000/12))
+            if (totalHourlyPay > (150000 / 12))
             {
                 additionalRateTaxBand = totalHourlyPay - (150000 / 12);
                 higherRateTaxBand = (150000 / 12) - (50001 / 12);
@@ -139,10 +138,12 @@ namespace CSCoursework_Smiley.Properties
             }
 
             incomeTax = additionalRateTaxBand * 0.45 + higherRateTaxBand * 0.4 + basicRateTaxBand * 0.2 + personalAllowance * 0;
-
+            return incomeTax;
+        }
+        private Tuple<double, double> GetNationalInsurance(double totalHourlyPay, char NILetter)
+        {
             double nationalInsurance;
             double employerNationalInsurance;
-            char NILetter = staffNILetterDictionary[staffID];
             double UpperBandTax;
             double MiddleBandTax;
             double LowerBandTax;
@@ -202,6 +203,28 @@ namespace CSCoursework_Smiley.Properties
                     employerNationalInsurance = -1; // rogue value
                     break;
             }
+
+            return new Tuple<double, double>(nationalInsurance, employerNationalInsurance);
+        }
+        private void UpdatePayslipLabels(double standardHoursWorked, double holidayHoursWorks, int staffID)
+        {
+            if (staffTaxCodeDictionary[staffID] != "1250L")
+            {
+                MessageBox.Show("Payslip creation only works for employees with a tax code of 1250L, for standard tax-free Personal Allowance.");
+                return;
+            }
+
+            int jobPositionID = staffJobDictionary[staffID];
+            float jobPositionWage = jobValueDictionary[jobPositionID];
+            double totalHoursWorked = holidayHoursWorks + standardHoursWorked;
+            double totalHourlyPay = totalHoursWorked * jobPositionWage;
+            double taxableWage = totalHourlyPay - (12500 / 12); if (taxableWage < 0) { taxableWage = 0; }
+            double incomeTax = GetIncomeTax(totalHourlyPay);
+            char NILetter = staffNILetterDictionary[staffID];
+
+            Tuple<double, double> nationalInsuranceEmployeeEmployer = GetNationalInsurance(totalHourlyPay, NILetter);
+            double nationalInsurance = nationalInsuranceEmployeeEmployer.Item1;
+            double employerNationalInsurance = nationalInsuranceEmployeeEmployer.Item2;
 
             double takeHomePay = totalHourlyPay - nationalInsurance - incomeTax;
             
@@ -500,6 +523,510 @@ namespace CSCoursework_Smiley.Properties
             UpdateCurrentMonthLabel();
             int staffID = GetStaffID(comboBoxSelectEmployee.SelectedItem.ToString());
             CalculatePayslipInformation(staffID);
+        }
+        private void AddPage(PdfDocument document, string staffName)
+        {
+            int staffID = GetStaffID(staffName);
+
+            PdfPage page = document.AddPage();
+            page.Size = PageSize.A4;
+            page.Orientation = PageOrientation.Portrait;
+            XGraphics gfx = XGraphics.FromPdfPage(page);
+            gfx.MUH = PdfFontEncoding.Unicode;
+
+            //A MigraDoc document is required for rendering
+            Document doc = new Document();
+            Section section = doc.AddSection();
+
+            //Set document to portrait
+            section.PageSetup = doc.DefaultPageSetup.Clone();
+            section.PageSetup.Orientation = MigraDoc.DocumentObjectModel.Orientation.Portrait;
+            section.PageSetup.PageFormat = PageFormat.A4;
+
+            // Add employee/employer info text frame
+            TextFrame employeeEmployerTextFrame = section.AddTextFrame();
+            employeeEmployerTextFrame.Height = "4.0cm";
+            employeeEmployerTextFrame.Width = "10.0cm";
+            employeeEmployerTextFrame.Left = ShapePosition.Left;
+            employeeEmployerTextFrame.RelativeHorizontal = RelativeHorizontal.Margin;
+            employeeEmployerTextFrame.RelativeVertical = RelativeVertical.Page;
+            employeeEmployerTextFrame.Top = "1.0cm";
+
+            // Fill employee/employer info text frame
+            Paragraph employeeEmployerParagraph = employeeEmployerTextFrame.AddParagraph();
+            employeeEmployerParagraph.Format.Font.Size = "0.4cm";
+            employeeEmployerParagraph.AddFormattedText("Employer's Name: ", TextFormat.Bold);
+            employeeEmployerParagraph.AddText($"Vron Walters");
+            employeeEmployerParagraph.AddLineBreak();
+            employeeEmployerParagraph.AddFormattedText("Employee's name: ", TextFormat.Bold);
+            employeeEmployerParagraph.AddText($"{staffName}");
+            employeeEmployerParagraph.AddLineBreak();
+            employeeEmployerParagraph.AddFormattedText("NI Letter: ", TextFormat.Bold);
+            employeeEmployerParagraph.AddText($"{staffNILetterDictionary[staffID]}");
+            employeeEmployerParagraph.AddLineBreak();
+            employeeEmployerParagraph.AddFormattedText("Tax Code: ", TextFormat.Bold);
+            employeeEmployerParagraph.AddText($"{staffTaxCodeDictionary[staffID]}");
+
+            // Add pay period and pay date text frome
+            TextFrame payPeriodDateTextFrame = section.AddTextFrame();
+            payPeriodDateTextFrame.Height = "4.0cm";
+            payPeriodDateTextFrame.Width = "10.0cm";
+            payPeriodDateTextFrame.Left = ShapePosition.Left;
+            payPeriodDateTextFrame.RelativeHorizontal = RelativeHorizontal.Margin;
+            payPeriodDateTextFrame.RelativeVertical = RelativeVertical.Page;
+            payPeriodDateTextFrame.Top = "1.0cm";
+
+            // Fill pay period and pay date text frame
+            Paragraph payPeriodDateParagraph = payPeriodDateTextFrame.AddParagraph();
+            payPeriodDateParagraph.Format.Font.Size = "0.4cm";
+            payPeriodDateParagraph.AddFormattedText("Pay period: ", TextFormat.Bold);
+            payPeriodDateParagraph.AddText($"{currentTaxMonth:d}");
+            payPeriodDateParagraph.AddFormattedText(" to ", TextFormat.Bold);
+            payPeriodDateParagraph.AddText($"{currentTaxMonth.AddDays(-1).AddMonths(1):d}");
+            payPeriodDateParagraph.AddLineBreak();
+            payPeriodDateParagraph.AddFormattedText("Date of payment: ", TextFormat.Bold);
+            payPeriodDateParagraph.AddText($"{currentTaxMonth.AddMonths(1):d}");
+            payPeriodDateParagraph.AddLineBreak();
+
+            // Add the earnings table
+            Table earningsTable = section.AddTable();
+            earningsTable.Style = "Table";
+            earningsTable.Borders.Color = MigraDoc.DocumentObjectModel.Color.FromRgb(0, 0, 0);
+            earningsTable.Borders.Width = 0.25;
+            earningsTable.Borders.Left.Width = 0.25;
+            earningsTable.Borders.Right.Width = 0.25;
+            earningsTable.Rows.LeftIndent = 0;
+
+            // Add the table columns, 7cm/4cm/4cm/4cm
+            Column earningsColumn = earningsTable.AddColumn("7cm");
+            earningsColumn.Format.Alignment = ParagraphAlignment.Left;
+
+            earningsColumn = earningsTable.AddColumn("4cm");
+            earningsColumn.Format.Alignment = ParagraphAlignment.Right;
+
+            earningsColumn = earningsTable.AddColumn("4cm");
+            earningsColumn.Format.Alignment = ParagraphAlignment.Right;
+
+            earningsColumn = earningsTable.AddColumn("4cm");
+            earningsColumn.Format.Alignment = ParagraphAlignment.Right;
+
+            // Create the header of the table
+            Row earningsRow = earningsTable.AddRow();
+            earningsRow.HeadingFormat = true;
+            earningsRow.Format.Alignment = ParagraphAlignment.Center;
+            earningsRow.Format.Font.Bold = true;
+            earningsRow.Height = "0.7cm";
+            earningsRow.Format.Font.Size = "0.41cm";
+            earningsRow.Cells[0].AddParagraph("Earnings");
+            earningsRow.Cells[0].Format.Alignment = ParagraphAlignment.Left;
+            earningsRow.Cells[0].VerticalAlignment = VerticalAlignment.Bottom;
+            earningsRow.Cells[1].AddParagraph("Unit");
+            earningsRow.Cells[1].Format.Alignment = ParagraphAlignment.Right;
+            earningsRow.Cells[1].VerticalAlignment = VerticalAlignment.Top;
+            earningsRow.Cells[2].AddParagraph("Rate");
+            earningsRow.Cells[2].Format.Alignment = ParagraphAlignment.Right;
+            earningsRow.Cells[2].VerticalAlignment = VerticalAlignment.Top;
+            earningsRow.Cells[3].AddParagraph("Total");
+            earningsRow.Cells[3].Format.Alignment = ParagraphAlignment.Right;
+            earningsRow.Cells[3].VerticalAlignment = VerticalAlignment.Top;
+
+            // Get Earnings Table Information
+            Tuple<double, double> hoursWorkedTuple = GetHoursWorkedTuple(staffID);
+            double standardHoursWorked = hoursWorkedTuple.Item1;
+            double holidayHoursWorked = hoursWorkedTuple.Item2;
+            int jobpositionID = staffJobDictionary[staffID];
+            float jobpositionWage = jobValueDictionary[jobpositionID];
+            double standardHourlyPay = standardHoursWorked * jobpositionWage;
+            double holidayHourlyPay = holidayHoursWorked * jobpositionWage;
+            double totalHourlyPay = standardHourlyPay + holidayHourlyPay;
+
+            // Format Row 1
+            Row earningsRow1 = earningsTable.AddRow();
+            earningsRow1.Height = "0.7cm";
+            earningsRow1.Format.Font.Size = "0.4cm";
+            earningsRow1.Cells[0].Format.Alignment = ParagraphAlignment.Left;
+            earningsRow1.Cells[0].VerticalAlignment = VerticalAlignment.Bottom;
+            earningsRow1.Cells[1].Format.Alignment = ParagraphAlignment.Right;
+            earningsRow1.Cells[1].VerticalAlignment = VerticalAlignment.Bottom;
+            earningsRow1.Cells[2].Format.Alignment = ParagraphAlignment.Right;
+            earningsRow1.Cells[2].VerticalAlignment = VerticalAlignment.Bottom;
+            earningsRow1.Cells[3].Format.Alignment = ParagraphAlignment.Right;
+            earningsRow1.Cells[3].VerticalAlignment = VerticalAlignment.Bottom;
+
+            // Add Row 1 Data
+            earningsRow1.Cells[0].AddParagraph("Standard Hours");
+            earningsRow1.Cells[1].AddParagraph($"{Math.Round(standardHoursWorked, 2)} hours");
+            earningsRow1.Cells[2].AddParagraph($"£{jobpositionWage}");
+            earningsRow1.Cells[3].AddParagraph($"£{Math.Round(standardHourlyPay, 2)}");
+
+            // Format Row 2
+            Row earningsRow2 = earningsTable.AddRow();
+            earningsRow2.Height = "0.7cm";
+            earningsRow2.Format.Font.Size = "0.4cm";
+            earningsRow2.Cells[0].Format.Alignment = ParagraphAlignment.Left;
+            earningsRow2.Cells[0].VerticalAlignment = VerticalAlignment.Bottom;
+            earningsRow2.Cells[1].Format.Alignment = ParagraphAlignment.Right;
+            earningsRow2.Cells[1].VerticalAlignment = VerticalAlignment.Bottom;
+            earningsRow2.Cells[2].Format.Alignment = ParagraphAlignment.Right;
+            earningsRow2.Cells[2].VerticalAlignment = VerticalAlignment.Bottom;
+            earningsRow2.Cells[3].Format.Alignment = ParagraphAlignment.Right;
+            earningsRow2.Cells[3].VerticalAlignment = VerticalAlignment.Bottom;
+
+            // Add Row 2 Data
+            earningsRow2.Cells[0].AddParagraph("Holiday Hours");
+            earningsRow2.Cells[1].AddParagraph($"{Math.Round(holidayHoursWorked, 2)} hours");
+            earningsRow2.Cells[2].AddParagraph($"£{jobpositionWage}");
+            earningsRow2.Cells[3].AddParagraph($"£{Math.Round(holidayHoursWorked * jobpositionWage, 2)}");
+
+            // Format Row 3
+            Row earningsRow3 = earningsTable.AddRow();
+            earningsRow3.Height = "0.75cm";
+            earningsRow3.Format.Font.Size = "0.41cm";
+            earningsRow3.Cells[0].Format.Alignment = ParagraphAlignment.Right;
+            earningsRow3.Cells[0].VerticalAlignment = VerticalAlignment.Bottom;
+            earningsRow3.Cells[0].MergeRight = 2;
+            earningsRow3.Cells[3].Format.Alignment = ParagraphAlignment.Right;
+            earningsRow3.Cells[3].VerticalAlignment = VerticalAlignment.Bottom;
+
+            // Add Row 3 Data
+            Paragraph earningsRow3Paragraph = earningsRow3.Cells[0].AddParagraph();
+            earningsRow3Paragraph.AddFormattedText("Gross Payment", TextFormat.Bold);
+            earningsRow3.Cells[3].AddParagraph($"£{Math.Round(totalHourlyPay, 2)}");
+
+            // Set Table Edge
+            earningsTable.SetEdge(0, 0, 4, 4, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 0.75, MigraDoc.DocumentObjectModel.Color.Empty);
+
+            // Add the deductions table
+            Table deductionsTable = section.AddTable();
+            deductionsTable.Style = "Table";
+            deductionsTable.Borders.Color = MigraDoc.DocumentObjectModel.Color.FromRgb(0, 0, 0);
+            deductionsTable.Borders.Width = 0.25;
+            deductionsTable.Borders.Left.Width = 0.25;
+            deductionsTable.Borders.Right.Width = 0.25;
+            deductionsTable.Rows.LeftIndent = 0;
+
+            // Add the table columns, 15cm/4cm
+            Column deductionsColumn = deductionsTable.AddColumn("15cm");
+            deductionsColumn.Format.Alignment = ParagraphAlignment.Left;
+
+            deductionsColumn = deductionsTable.AddColumn("4cm");
+            deductionsColumn.Format.Alignment = ParagraphAlignment.Right;
+
+            // Create the header of the table
+            Row deductionsRow = deductionsTable.AddRow();
+            deductionsRow.HeadingFormat = true;
+            deductionsRow.Format.Alignment = ParagraphAlignment.Center;
+            deductionsRow.Format.Font.Bold = true;
+            deductionsRow.Height = "0.7cm";
+            deductionsRow.Format.Font.Size = "0.41cm";
+            deductionsRow.Cells[0].AddParagraph("Deductions");
+            deductionsRow.Cells[0].Format.Alignment = ParagraphAlignment.Left;
+            deductionsRow.Cells[0].VerticalAlignment = VerticalAlignment.Bottom;
+            deductionsRow.Cells[1].AddParagraph("Total");
+            deductionsRow.Cells[1].Format.Alignment = ParagraphAlignment.Right;
+            deductionsRow.Cells[1].VerticalAlignment = VerticalAlignment.Top;
+
+            // Get Deductions Table Information
+            Tuple<double, double> nationalInsuranceEmployeeEmployer = GetNationalInsurance(totalHourlyPay, staffNILetterDictionary[staffID]);
+            double nationalInsurance = nationalInsuranceEmployeeEmployer.Item1;
+            double incomeTax = GetIncomeTax(totalHourlyPay);
+
+            // Format Row 1
+            Row deductionsRow1 = deductionsTable.AddRow();
+            deductionsRow1.Height = "0.7cm";
+            deductionsRow1.Format.Font.Size = "0.4cm";
+            deductionsRow1.Cells[0].Format.Alignment = ParagraphAlignment.Left;
+            deductionsRow1.Cells[0].VerticalAlignment = VerticalAlignment.Bottom;
+            deductionsRow1.Cells[1].Format.Alignment = ParagraphAlignment.Right;
+            deductionsRow1.Cells[1].VerticalAlignment = VerticalAlignment.Bottom;
+
+            // Add Row 1 Data
+            deductionsRow1.Cells[0].AddParagraph("Income Tax");
+            deductionsRow1.Cells[1].AddParagraph($"£{Math.Round(incomeTax, 2)}");
+
+            // Format Row 2
+            Row deductionsRow2 = deductionsTable.AddRow();
+            deductionsRow2.Height = "0.7cm";
+            deductionsRow2.Format.Font.Size = "0.4cm";
+            deductionsRow2.Cells[0].Format.Alignment = ParagraphAlignment.Left;
+            deductionsRow2.Cells[0].VerticalAlignment = VerticalAlignment.Bottom;
+            deductionsRow2.Cells[1].Format.Alignment = ParagraphAlignment.Right;
+            deductionsRow2.Cells[1].VerticalAlignment = VerticalAlignment.Bottom;
+
+            // Add Row 2 Data
+            deductionsRow2.Cells[0].AddParagraph("National Insurance");
+            deductionsRow2.Cells[1].AddParagraph($"£{Math.Round(nationalInsurance, 2)}");
+
+            // Format Row 3
+            Row deductionsRow3 = deductionsTable.AddRow();
+            deductionsRow3.Height = "0.75cm";
+            deductionsRow3.Format.Font.Size = "0.41cm";
+            deductionsRow3.Cells[0].Format.Alignment = ParagraphAlignment.Right;
+            deductionsRow3.Cells[0].VerticalAlignment = VerticalAlignment.Bottom;
+            deductionsRow3.Cells[1].Format.Alignment = ParagraphAlignment.Right;
+            deductionsRow3.Cells[1].VerticalAlignment = VerticalAlignment.Bottom;
+
+            // Add Row 3 Data
+            Paragraph deductionsRow3Paragraph = deductionsRow3.Cells[0].AddParagraph();
+            deductionsRow3Paragraph.AddFormattedText("Total Deductions", TextFormat.Bold);
+            deductionsRow3.Cells[1].AddParagraph($"£{Math.Round(nationalInsurance + incomeTax, 2)}");
+
+            // Set Table Edge
+            deductionsTable.SetEdge(0, 0, 2, 4, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 0.75, MigraDoc.DocumentObjectModel.Color.Empty);
+
+            // Add the employer contributions table
+            Table contributionsTable = section.AddTable();
+            contributionsTable.Style = "Table";
+            contributionsTable.Borders.Color = MigraDoc.DocumentObjectModel.Color.FromRgb(0, 0, 0);
+            contributionsTable.Borders.Width = 0.25;
+            contributionsTable.Borders.Left.Width = 0.25;
+            contributionsTable.Borders.Right.Width = 0.25;
+            contributionsTable.Rows.LeftIndent = 0;
+
+            // Add the table columns, 15cm/4cm
+            Column contributionsColumn = contributionsTable.AddColumn("15cm");
+            contributionsColumn.Format.Alignment = ParagraphAlignment.Left;
+
+            contributionsColumn = contributionsTable.AddColumn("4cm");
+            contributionsColumn.Format.Alignment = ParagraphAlignment.Right;
+
+            // Create the header of the table
+            Row contributionsRow = contributionsTable.AddRow();
+            contributionsRow.HeadingFormat = true;
+            contributionsRow.Format.Alignment = ParagraphAlignment.Center;
+            contributionsRow.Format.Font.Bold = true;
+            contributionsRow.Height = "0.7cm";
+            contributionsRow.Format.Font.Size = "0.41cm";
+            contributionsRow.Cells[0].AddParagraph("Employer Contributions");
+            contributionsRow.Cells[0].Format.Alignment = ParagraphAlignment.Left;
+            contributionsRow.Cells[0].VerticalAlignment = VerticalAlignment.Bottom;
+            contributionsRow.Cells[1].AddParagraph("Total");
+            contributionsRow.Cells[1].Format.Alignment = ParagraphAlignment.Right;
+            contributionsRow.Cells[1].VerticalAlignment = VerticalAlignment.Top;
+
+            // Get Employer Contributions Information
+            double employerNationalInsurance = nationalInsuranceEmployeeEmployer.Item2;
+
+            // Format Row 1
+            Row contributionsRow1 = contributionsTable.AddRow();
+            contributionsRow1.Height = "0.7cm";
+            contributionsRow1.Format.Font.Size = "0.4cm";
+            contributionsRow1.Cells[0].Format.Alignment = ParagraphAlignment.Left;
+            contributionsRow1.Cells[0].VerticalAlignment = VerticalAlignment.Bottom;
+            contributionsRow1.Cells[1].Format.Alignment = ParagraphAlignment.Right;
+            contributionsRow1.Cells[1].VerticalAlignment = VerticalAlignment.Bottom;
+
+            // Add Row 1 Data
+            contributionsRow1.Cells[0].AddParagraph("Employer National Insurance Contributions");
+            contributionsRow1.Cells[1].AddParagraph($"£{Math.Round(employerNationalInsurance, 2)}");
+
+            // Format Row 2
+            Row contributionsRow2 = contributionsTable.AddRow();
+            contributionsRow2.Height = "0.75cm";
+            contributionsRow2.Format.Font.Size = "0.41cm";
+            contributionsRow2.Cells[0].Format.Alignment = ParagraphAlignment.Right;
+            contributionsRow2.Cells[0].VerticalAlignment = VerticalAlignment.Bottom;
+            contributionsRow2.Cells[1].Format.Alignment = ParagraphAlignment.Right;
+            contributionsRow2.Cells[1].VerticalAlignment = VerticalAlignment.Bottom;
+
+            // Add Row 2 Data
+            Paragraph contributionsRow2Paragraph = contributionsRow2.Cells[0].AddParagraph();
+            contributionsRow2Paragraph.AddFormattedText("Total Net Contribution", TextFormat.Bold);
+            contributionsRow2.Cells[1].AddParagraph($"£{Math.Round(employerNationalInsurance, 2)}");
+
+            // Set Table Edge
+            contributionsTable.SetEdge(0, 0, 2, 3, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 0.75, MigraDoc.DocumentObjectModel.Color.Empty);
+
+            // Add the totals table
+            Table totalsTable = section.AddTable();
+            totalsTable.Style = "Table";
+            totalsTable.Borders.Color = MigraDoc.DocumentObjectModel.Color.FromRgb(0, 0, 0);
+            totalsTable.Borders.Width = 0.25;
+            totalsTable.Borders.Left.Width = 0.25;
+            totalsTable.Borders.Right.Width = 0.25;
+            totalsTable.Rows.LeftIndent = 0;
+
+            // Add the table columns, 15cm/4cm
+            Column totalsColumn = totalsTable.AddColumn("15cm");
+            totalsColumn.Format.Alignment = ParagraphAlignment.Left;
+
+            totalsColumn = totalsTable.AddColumn("4cm");
+            totalsColumn.Format.Alignment = ParagraphAlignment.Right;
+
+            // Create the header of the table
+            Row totalsRow = totalsTable.AddRow();
+            totalsRow.HeadingFormat = true;
+            totalsRow.Format.Alignment = ParagraphAlignment.Center;
+            totalsRow.Format.Font.Bold = true;
+            totalsRow.Height = "0.7cm";
+            totalsRow.Format.Font.Size = "0.41cm";
+            totalsRow.Cells[0].AddParagraph("Totals");
+            totalsRow.Cells[0].Format.Alignment = ParagraphAlignment.Left;
+            totalsRow.Cells[0].VerticalAlignment = VerticalAlignment.Bottom;
+            totalsRow.Cells[1].AddParagraph("Total");
+            totalsRow.Cells[1].Format.Alignment = ParagraphAlignment.Right;
+            totalsRow.Cells[1].VerticalAlignment = VerticalAlignment.Top;
+
+            // Get totals data
+            double netPayment = totalHourlyPay - nationalInsurance - incomeTax;
+            string netPaymentString;
+            try
+            {
+                if (Math.Round(netPayment, 2).ToString().Split('.')[1].Length == 1)
+                {
+                    netPaymentString = $"{Math.Round(netPayment, 2)}0";
+                }
+                else
+                {
+                    netPaymentString = Math.Round(netPayment, 2).ToString();
+                }
+            }
+            catch
+            {
+                netPaymentString = $"{Math.Round(netPayment, 2)}.00";
+            }
+            
+
+            // Format Row 1
+            Row totalsRow1 = totalsTable.AddRow();
+            totalsRow1.Height = "0.7cm";
+            totalsRow1.Format.Font.Size = "0.4cm";
+            totalsRow1.Cells[0].Format.Alignment = ParagraphAlignment.Left;
+            totalsRow1.Cells[0].VerticalAlignment = VerticalAlignment.Bottom;
+            totalsRow1.Cells[1].Format.Alignment = ParagraphAlignment.Right;
+            totalsRow1.Cells[1].VerticalAlignment = VerticalAlignment.Bottom;
+
+            // Add Row 1 Data
+            totalsRow1.Cells[0].AddParagraph("Gross Earnings");
+            totalsRow1.Cells[1].AddParagraph($"£{Math.Round(totalHourlyPay, 2)}");
+
+            // Format Row 2
+            Row totalsRow2 = totalsTable.AddRow();
+            totalsRow2.Height = "0.7cm";
+            totalsRow2.Format.Font.Size = "0.4cm";
+            totalsRow2.Cells[0].Format.Alignment = ParagraphAlignment.Left;
+            totalsRow2.Cells[0].VerticalAlignment = VerticalAlignment.Bottom;
+            totalsRow2.Cells[1].Format.Alignment = ParagraphAlignment.Right;
+            totalsRow2.Cells[1].VerticalAlignment = VerticalAlignment.Bottom;
+
+            // Add Row 2 Data
+            totalsRow2.Cells[0].AddParagraph("Total Deductions");
+            totalsRow2.Cells[1].AddParagraph($"£{Math.Round(nationalInsurance + incomeTax, 2)}");
+
+            // Format Row 3
+            Row totalsRow3 = totalsTable.AddRow();
+            totalsRow3.Height = "0.75cm";
+            totalsRow3.Format.Font.Size = "0.41cm";
+            totalsRow3.Cells[0].Format.Alignment = ParagraphAlignment.Right;
+            totalsRow3.Cells[0].VerticalAlignment = VerticalAlignment.Bottom;
+            totalsRow3.Cells[1].Format.Alignment = ParagraphAlignment.Right;
+            totalsRow3.Cells[1].VerticalAlignment = VerticalAlignment.Bottom;
+
+            // Add Row 3 Data
+            Paragraph totalsRow3Paragraph = totalsRow3.Cells[0].AddParagraph();
+            totalsRow3Paragraph.AddFormattedText("Net Payment", TextFormat.Bold);
+            totalsRow3.Cells[1].AddParagraph($"£{netPaymentString}");
+
+            // Set Table Edge
+            totalsTable.SetEdge(0, 0, 2, 4, Edge.Box, MigraDoc.DocumentObjectModel.BorderStyle.Single, 0.75, MigraDoc.DocumentObjectModel.Color.Empty);
+
+            //Create a renderer and prepare (=layout) the document
+            DocumentRenderer docRenderer = new DocumentRenderer(doc);
+            docRenderer.PrepareDocument();
+
+            //Render the paragraph. You can render tables or shapes the same way
+            docRenderer.RenderObject(gfx, XUnit.FromCentimeter(13), XUnit.FromCentimeter(1), "10cm", payPeriodDateParagraph);
+            docRenderer.RenderObject(gfx, XUnit.FromCentimeter(1), XUnit.FromCentimeter(2), "10cm", employeeEmployerParagraph);
+            docRenderer.RenderObject(gfx, XUnit.FromCentimeter(1), XUnit.FromCentimeter(4.5), "20cm", earningsTable);
+            docRenderer.RenderObject(gfx, XUnit.FromCentimeter(1), XUnit.FromCentimeter(8.85), "20cm", deductionsTable);
+            docRenderer.RenderObject(gfx, XUnit.FromCentimeter(1), XUnit.FromCentimeter(13.2), "20cm", contributionsTable);
+            docRenderer.RenderObject(gfx, XUnit.FromCentimeter(1), XUnit.FromCentimeter(16.85), "20cm", totalsTable);
+        }
+
+        private Tuple<double, double> GetHoursWorkedTuple(int staffID)
+        {
+            // Initialize variables
+            DataSet PayslipInfoDS;
+            OleDbDataAdapter da;
+            DataTable PayslipInfoTable;
+            string sql;
+
+            // Open Database Connection
+            con.Open();
+
+            if (staffSalaryTypeDictionary[staffID] == "Salaried") { sql = $"SELECT standard_hours_worked, holiday_hours_taken FROM tblPayslip WHERE staff_id={staffID}"; }
+            else { sql = $"SELECT standard_hours_worked, holiday_hours_worked FROM tblPayslip WHERE staff_id={staffID}"; }
+
+            da = new OleDbDataAdapter(sql, con);
+            PayslipInfoDS = new DataSet();
+            da.Fill(PayslipInfoDS, "PayslipInfo");
+            PayslipInfoTable = PayslipInfoDS.Tables["PayslipInfo"];
+
+            // Close Database Connection
+            con.Close();
+
+            if (PayslipInfoTable.Rows.Count == 0) 
+            {
+                CalculatePayslipInformation(staffID);
+
+                con.Open();
+
+                if (staffSalaryTypeDictionary[staffID] == "Salaried") { sql = $"SELECT standard_hours_worked, holiday_hours_taken FROM tblPayslip WHERE staff_id={staffID}"; }
+                else { sql = $"SELECT standard_hours_worked, holiday_hours_worked FROM tblPayslip WHERE staff_id={staffID}"; }
+
+                da = new OleDbDataAdapter(sql, con);
+                PayslipInfoDS = new DataSet();
+                da.Fill(PayslipInfoDS, "PayslipInfo");
+
+                con.Close();
+
+                PayslipInfoTable = PayslipInfoDS.Tables["PayslipInfo"];
+                if (PayslipInfoTable.Rows.Count == 0)
+                {
+                    return new Tuple<double, double>(0, 0);
+                }
+            }
+            if (staffSalaryTypeDictionary[staffID] == "Salaried") { return new Tuple<double, double>(PayslipInfoTable.Rows[0].Field<double>("standard_hours_worked"), PayslipInfoTable.Rows[0].Field<double>("holiday_hours_taken")); }
+            return new Tuple<double, double>(PayslipInfoTable.Rows[0].Field<double>("standard_hours_worked"), PayslipInfoTable.Rows[0].Field<double>("holiday_hours_worked"));
+        }
+        private void btnGenerateSinglePayslip_Click(object sender, EventArgs e)
+        {
+            string filename = $"{currentTaxMonth:MMMM}{currentTaxMonth.Year}{comboBoxSelectEmployee.SelectedItem.ToString().Split(' ')[0]}{comboBoxSelectEmployee.SelectedItem.ToString().Split(' ')[1]}Payslip.pdf";
+            //filename = Regex.Replace(filename, @"\s+", "");
+
+            PdfDocument pdfdocument = new PdfDocument();
+            pdfdocument.Info.Title = $"{currentTaxMonth:MMMM}{currentTaxMonth.Year}{comboBoxSelectEmployee.SelectedItem.ToString().Split(' ')[0]}{comboBoxSelectEmployee.SelectedItem.ToString().Split(' ')[1]}Payslip";
+            pdfdocument.Info.Author = "Kai Chevannes";
+            pdfdocument.Info.Subject = $"Displays payslip for {comboBoxSelectEmployee.SelectedItem} for {currentTaxMonth:d}";
+            pdfdocument.Info.Keywords = "PDFsharp, XGraphics";
+
+            AddPage(pdfdocument, comboBoxSelectEmployee.SelectedItem.ToString());
+
+            //Save document
+            pdfdocument.Save(filename);
+            //Start a viewer
+            Process.Start(filename);
+        }
+        private void btnGenerateAllPayslips_Click(object sender, EventArgs e)
+        {
+            string filename = $"{currentTaxMonth:MMMM}{currentTaxMonth.Year}Payroll.pdf";
+            //filename = Regex.Replace(filename, @"\s+", "");
+
+            PdfDocument pdfdocument = new PdfDocument();
+            pdfdocument.Info.Title = $"{currentTaxMonth:MMMM}{currentTaxMonth.Year}Payroll";
+            pdfdocument.Info.Author = "Kai Chevannes";
+            pdfdocument.Info.Subject = $"Displays payslip for {comboBoxSelectEmployee.SelectedItem} for {currentTaxMonth:d}";
+            pdfdocument.Info.Keywords = "PDFsharp, XGraphics";
+
+            foreach (string value in staffNameDictionary.Values)
+            {
+                AddPage(pdfdocument, value);
+            }
+
+            //Save document
+            pdfdocument.Save(filename);
+            //Start a viewer
+            Process.Start(filename);
         }
     }
 }

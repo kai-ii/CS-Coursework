@@ -252,6 +252,7 @@ namespace CSCoursework_Smiley
                 bool[] staffPermissionArray = GetPermissions(permissionID);
                 bool showDateTime = LoginInfoTable.Rows[0].Field<bool>("settings_show_date_time");
                 Dashboard dashboard = new Dashboard(UsernameTextbox.Text, backgroundColourRGB, highlightColourRGB, userID, PasswordTextbox.Text, staffPermissionArray, showDateTime);
+                System.Threading.Thread.Sleep(100); // Sometimes the program crashed while resizing columns and showing the dashboard at the same time so this manual time sleep prevents it
                 dashboard.Show();
                 this.Hide();
             }
