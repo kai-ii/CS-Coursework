@@ -12,25 +12,30 @@ namespace CSCoursework_Smiley
 {
     public partial class ClockMinuteSelectControl : UserControl
     {
+        // Initialise local class variables.
         string clockMinuteSelected;
         public ClockMinuteSelectControl()
         {
+            // Standard form initialize component call.
             InitializeComponent();
         }
 
         public string GetClockMinuteSelected()
         {
+            // When requested by the rota control or the timesheet control, return the selected clock minute.
             return clockMinuteSelected;
         }
 
         private void rBtn00_CheckedChanged(object sender, EventArgs e)
         {
+            // If this minute button is clicked, check if this btn is the one checked, if it is checked, set the selected minute to the corresponding value.
             if (rBtn00.Checked)
             {
                 clockMinuteSelected = "00";
             }
         }private void rBtn05_CheckedChanged(object sender, EventArgs e)
         {
+            // If this minute button is clicked, check if this btn is the one checked, if it is checked, set the selected minute to the corresponding value.
             if (rBtn05.Checked)
             {
                 clockMinuteSelected = "05";
@@ -38,6 +43,7 @@ namespace CSCoursework_Smiley
         }
         private void rBtn10_CheckedChanged(object sender, EventArgs e)
         {
+            // If this minute button is clicked, check if this btn is the one checked, if it is checked, set the selected minute to the corresponding value.
             if (rBtn10.Checked)
             {
                 clockMinuteSelected = "10";
@@ -45,6 +51,7 @@ namespace CSCoursework_Smiley
         }
         private void rBtn15_CheckedChanged(object sender, EventArgs e)
         {
+            // If this minute button is clicked, check if this btn is the one checked, if it is checked, set the selected minute to the corresponding value.
             if (rBtn15.Checked)
             {
                 clockMinuteSelected = "15";
@@ -52,6 +59,7 @@ namespace CSCoursework_Smiley
         }
         private void rBtn20_CheckedChanged(object sender, EventArgs e)
         {
+            // If this minute button is clicked, check if this btn is the one checked, if it is checked, set the selected minute to the corresponding value.
             if (rBtn20.Checked)
             {
                 clockMinuteSelected = "20";
@@ -59,6 +67,7 @@ namespace CSCoursework_Smiley
         }
         private void rBtn25_CheckedChanged(object sender, EventArgs e)
         {
+            // If this minute button is clicked, check if this btn is the one checked, if it is checked, set the selected minute to the corresponding value.
             if (rBtn25.Checked)
             {
                 clockMinuteSelected = "25";
@@ -66,6 +75,7 @@ namespace CSCoursework_Smiley
         }
         private void rBtn30_CheckedChanged(object sender, EventArgs e)
         {
+            // If this minute button is clicked, check if this btn is the one checked, if it is checked, set the selected minute to the corresponding value.
             if (rBtn30.Checked)
             {
                 clockMinuteSelected = "30";
@@ -73,6 +83,7 @@ namespace CSCoursework_Smiley
         }
         private void rBtn35_CheckedChanged(object sender, EventArgs e)
         {
+            // If this minute button is clicked, check if this btn is the one checked, if it is checked, set the selected minute to the corresponding value.
             if (rBtn35.Checked)
             {
                 clockMinuteSelected = "35";
@@ -80,6 +91,7 @@ namespace CSCoursework_Smiley
         }
         private void rBtn40_CheckedChanged(object sender, EventArgs e)
         {
+            // If this minute button is clicked, check if this btn is the one checked, if it is checked, set the selected minute to the corresponding value.
             if (rBtn40.Checked)
             {
                 clockMinuteSelected = "40";
@@ -87,6 +99,7 @@ namespace CSCoursework_Smiley
         }
         private void rBtn45_CheckedChanged(object sender, EventArgs e)
         {
+            // If this minute button is clicked, check if this btn is the one checked, if it is checked, set the selected minute to the corresponding value.
             if (rBtn45.Checked)
             {
                 clockMinuteSelected = "45";
@@ -94,6 +107,7 @@ namespace CSCoursework_Smiley
         }
         private void rBtn50_CheckedChanged(object sender, EventArgs e)
         {
+            // If this minute button is clicked, check if this btn is the one checked, if it is checked, set the selected minute to the corresponding value.
             if (rBtn50.Checked)
             {
                 clockMinuteSelected = "50";
@@ -101,15 +115,11 @@ namespace CSCoursework_Smiley
         }
         private void rBtn55_CheckedChanged(object sender, EventArgs e)
         {
+            // If this minute button is clicked, check if this btn is the one checked, if it is checked, set the selected minute to the corresponding value.
             if (rBtn55.Checked)
             {
                 clockMinuteSelected = "55";
             }
-        }
-
-        private void rBtn05_CheckedChaged_1(object sender, EventArgs e)
-        {
-
         }
     }
 }

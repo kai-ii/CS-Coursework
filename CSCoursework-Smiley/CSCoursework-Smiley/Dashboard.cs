@@ -26,7 +26,7 @@ namespace CSCoursework_Smiley
         Color backgroundColour; // = Color.FromArgb(245, 208, 226); default
         Color highlightColour; // = Color.FromArgb(221, 165, 182); default
 
-        //Initialise variables
+        // Initialise local class variables.
         OleDbConnection con = new OleDbConnection();
         string username;
         int userID;
@@ -36,7 +36,9 @@ namespace CSCoursework_Smiley
         bool showdateTime;
         public Dashboard(string Username, Color BackgroundColour, Color HighlightColour, int UserID, string Password, bool[] PermissionArray, bool ShowDateTime)
         {
+            // Standard form initialize component call.
             InitializeComponent();
+            // Initialize form variables with the values given by the loginForm when creating the Dashboard.
             username = Username;
             backgroundColour = BackgroundColour;
             highlightColour = HighlightColour;
@@ -48,11 +50,16 @@ namespace CSCoursework_Smiley
 
         private void Dashboard_Load(object sender, EventArgs e)
         {
+            // Initialize this form.
             SmileyLogo.Image = Properties.Resources.SmileyLogo;
             btnExitDashboard.Image = Properties.Resources.Close_Button;
             ResetBackgroundColours();
-            PassBackgroundHighlightColours();
+
+            // Initialize the database connection string, to be passed to all other forms.
             InitializeDatabaseConnection();
+
+            // Initialize controls, self documenting.
+            PassBackgroundHighlightColours();
             InitializePermissions();
             SendDatabaseConnectionToControls();
             PassSettingsControlUserInfo();
@@ -63,6 +70,7 @@ namespace CSCoursework_Smiley
         }
         private void SendDatabaseConnectionToControls()
         {
+            // Send the connection string established in the dashboard load to all other forms.
             dashboardControl1.SetCon(con);
             rotaControl1.SetCon(con);
             staffControl1.SetCon(con);
@@ -73,20 +81,24 @@ namespace CSCoursework_Smiley
         }
         private void InitializeDashboardControl()
         {
-            btnDashboard.BackColor = highlightColour;
+            // Send the username to be displayed to the dashboard control as a welcome message.
+            btnDashboard.BackColor = highlightColour; // UI effect to give feedback to the user that they have clicked the dashboard control button.
             dashboardControl1.SetUsername(username);
             dashboardControl1.BringToFront();
         }
         private void InitializeChildForms()
         {
+            // Set up the settings control with the data from the login form.
             settingsControl1.UpdateShowDateTimeCheckbox(showdateTime);
         }
         public void DisplayDateTimeLabel(bool dateTimeLabelBool)
         {
+            // Display the datetime label which shows the date and the current time if the user has this option set as true in their database record.
             lblDateTime.Visible = dateTimeLabelBool;
         }
         public void SaveSettingsShowDateTimeLabel(bool updateValue)
         {
+            // A function accessed by the settings control to set the datetime settings in the current users record to save the settings for the next time they load the application.
             var updateCommand = new OleDbCommand();
             string sql = $"UPDATE [tblUsers] SET [settings_show_date_time]={updateValue} WHERE [user_id]={userID};";
             updateCommand.CommandText = sql;
@@ -97,45 +109,55 @@ namespace CSCoursework_Smiley
         }
         private void InitializePermissions()
         {
+            // Initialize the array of possible button positions as well as the buttons being placed
             int buttonPositionCounter = 0;
             Point[] buttonPositionArray = { new Point(0, 74), new Point(0, 127), new Point(0, 180), new Point(0, 233), new Point(0, 286), new Point(0, 339), new Point(0, 392), new Point(0, 445), new Point(0, 498) };
             Button[] buttonArray = { btnDashboard, btnStaff, btnRota, btnTimesheet, btnPayslip, btnExport, btnAdmin };
             for (int permission = 0; permission<permissionArray.Length; permission++)
             {
+                // For each permission that was set using the login form permissionArray
                 if (permission < 2 && permissionArray[permission])
                 {
+                    // If the permission is less than 2 then the permissions and buttonArray buttons line up so if the permission is true just set that button to the next point and increment the point for the next button
                     buttonArray[permission].Location = buttonPositionArray[permission];
                     buttonArray[permission].Visible = true;
                     buttonPositionCounter++;
                 }
                 else if (permission == 2 && permissionArray[permission])
                 {
+                    // The permission in index 2 is the allstaff permission, this means that if this is true, the admin view of the staff section should be shown and not the personal view (the default view).
                     permissionAllStaff = true;
                 }
                 else if (permission > 2 && permissionArray[permission])
                 {
+                    // If the permission is greater than 2 then the buttonArray buttons are mismatched with the permissionArray by 1 since permissionArray 2 is just an option for the staff section and not an entirely new section. The indexes are adjusted accordingly below.
                     buttonArray[permission - 1].Location = buttonPositionArray[permission - 1];
                     buttonArray[permission - 1].Visible = true;
                     buttonPositionCounter++;
                 }
             }
+            // The settings button and the logout button are always displayed.
             btnSettings.Location = buttonPositionArray[buttonPositionCounter];
             btnLogout.Location = buttonPositionArray[++buttonPositionCounter];
+            // If the admin button is visible then the user must be the admin, therefore show the admin version of the dashboard control by calling the function userIsAdmin with true rather than false. With this data the dashboard control displays slightly different data with slightly differing options.
             if (btnAdmin.Visible) { dashboardControl1.userIsAdmin(true); }
             else { dashboardControl1.userIsAdmin(false); }
         }
         private void InitializeParentChildFormRelationships()
         {
+            // Set this form to be the parent form for the settings, admin and timesheet controls to allow them to use the public functions of this form.[
             settingsControl1.SetParentForm(this);
             adminControl1.SetParentForm(this);
             timesheetControl1.SetParentForm(this);
         }
         public void UpdateDashboardControlGraph()
         {
+            // When this is called update the graph on the dashboard control, this is called when the timesheet is updated.
             dashboardControl1.UpdateGraph();
         }
         public void UpdatePayslipJobPositions()
         {
+            // When this is called update the job positions on the payslip section.
             payslipControl1.UpdatePayslipInfo();
         }
 

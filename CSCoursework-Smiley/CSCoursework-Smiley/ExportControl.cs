@@ -413,9 +413,9 @@ namespace CSCoursework_Smiley.Properties
                     lines[row + 1] = $"{exportDataGrid.Rows[row].Cells[0].Value},{exportDataGrid.Rows[row].Cells[1].Value},{exportDataGrid.Rows[row].Cells[3].Value},{exportDataGrid.Rows[row].Cells[4].Value},{exportDataGrid.Rows[row].Cells[5].Value},{exportDataGrid.Rows[row].Cells[6].Value},{exportDataGrid.Rows[row].Cells[11].Value}";
                 }
                 string CurrentProjectPath = System.AppDomain.CurrentDomain.BaseDirectory;
-                System.IO.File.WriteAllLines($@"{CurrentProjectPath}\{currentTaxMonth.ToString("MMMM")}{currentTaxMonth.Year}.txt", lines);
+                System.IO.File.WriteAllLines($@"{CurrentProjectPath}\{currentTaxMonth:MMMM}{currentTaxMonth.Year}.csv", lines);
                 MessageBox.Show($"File saved. Location: " +
-                    $@"{CurrentProjectPath}{currentTaxMonth.ToString("MMMM")}{currentTaxMonth.Year}.txt");
+                    $@"{CurrentProjectPath}{currentTaxMonth:MMMM}{currentTaxMonth.Year}.csv");
             }
             catch
             {

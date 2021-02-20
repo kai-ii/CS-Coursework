@@ -14,23 +14,28 @@ namespace CSCoursework_Smiley
 {
     public partial class AdminControlAddNewStaff : UserControl
     {
-        //Initialise variables
+        // Initialise local class variables.
         OleDbConnection con = new OleDbConnection();
         List<Tuple<int, string>> branchPairs;
         List<Tuple<int, string>> jobPositionPairs;
         public AdminControlAddNewStaff()
         {
+            // Standard form initialize component call.
             InitializeComponent();
         }
         public void SetCon(OleDbConnection Con)
         {
+            // Assign the local connection string value to the already generated one, saving on processing since otherwise the database location would have to be grabbed multiple times.
             con = Con;
+            // Initialize the form once the connection string has been assigned.
             InitializeForm();
         }
         private void InitializeForm()
         {
+            // Initialize the branch and job position pair list, this allows the combo box items to be checked with their respective IDs.
             InitializeBranchPairList();
             InitializeJobPositionPairList();
+            // Initialize these values into the comboboxes
             InitializeBranchComboBox();
             InitializeJobPositionComboBox();
         }
@@ -38,19 +43,22 @@ namespace CSCoursework_Smiley
 
         public void SetParentForm(Properties.AdminControl ParentForm)
         {
+            // Assign this forms parent form to be a parent form of the template AdminControl which is passed in from the Admin Control.
             parentForm = ParentForm;
         }
 
         private void btnBack_Click(object sender, EventArgs e)
         {
+            // When the back button is clicked hide this form.
             this.Visible = false;
         }
         private void AdminControlAddNewStaff_Load(object sender, EventArgs e)
         {
-            //InitializeDatabaseConnection();
+            // Nothing is done when the form is loaded since we must wait for the connection string to be passed to access the database.
         }
         private void InitializeJobPositionComboBox()
         {
+            // Add the name for the respective ID for each jobposition ID/Name pair to the jobposition combobox
             foreach (var pair in jobPositionPairs)
             {
                 comboBoxJobPosition.Items.Add(pair.Item2);
@@ -58,6 +66,7 @@ namespace CSCoursework_Smiley
         }
         private void InitializeBranchComboBox()
         {
+            // Add the name for the respective ID for each branch ID/Name pair to the branch combobox
             foreach (var pair in branchPairs)
             {
                 comboBoxBranch.Items.Add(pair.Item2);
@@ -65,27 +74,31 @@ namespace CSCoursework_Smiley
         }
         private void InitializeBranchPairList()
         {
-            //Initialize List
+            // Initialize the branch pairs list.
             branchPairs = new List<Tuple<int, string>>();
 
-            //Initialize variables
+            // Initialize database related variables.
             DataSet BranchDS;
             OleDbDataAdapter da;
             DataTable BranchTable;
             string sql;
 
-            //Check Login Details
+            // Open the database connection to begin database access.
             con.Open();
 
-            //sql = $"SELECT * FROM tblUsers WHERE username='{UsernameTextbox.Text}' AND password='{PasswordTextbox.Text}'";
+            // Asign the sql string used to get the data.
             sql = $"SELECT branch_id, branch_name FROM tblBranch";
+            // Use the sql string to grab the data from the local access database and fill the branch dataset with these values.
             da = new OleDbDataAdapter(sql, con);
             BranchDS = new DataSet();
             da.Fill(BranchDS, "BranchInfo");
+            // Create the branch datatable for easier access.
             BranchTable = BranchDS.Tables["BranchInfo"];
 
+            // Close the database connection.
             con.Close();
 
+            // Check each row in the datatable and add each branch id/name pair to the list.
             foreach (DataRow row in BranchTable.Rows)
             {
                 int branchID = row.Field<int>("branch_id");
@@ -95,26 +108,31 @@ namespace CSCoursework_Smiley
         }
         private void InitializeJobPositionPairList()
         {
-            //Initialize List
+            // Initialize List.
             jobPositionPairs = new List<Tuple<int, string>>();
 
-            //Initialize variables
+            // Initialize Database variables.
             DataSet JobPositionDS;
             OleDbDataAdapter da;
             DataTable JobPositionTable;
             string sql;
 
-            //Check Login Details
+            // Open the database connection.
             con.Open();
 
+            // Set the sql string.
             sql = $"SELECT jobposition_id, jobposition_name FROM tblJobPositions";
+            // Use the sql string to grab data from database and fill the jobposition dataset.
             da = new OleDbDataAdapter(sql, con);
             JobPositionDS = new DataSet();
             da.Fill(JobPositionDS, "JobPositionInfo");
+            // Create the job position datatable for easier access.
             JobPositionTable = JobPositionDS.Tables["JobPositionInfo"];
 
+            // Close the database connection.
             con.Close();
 
+            // For each job positino id/name pair add them to the job position pair list initialized above.
             foreach (DataRow row in JobPositionTable.Rows)
             {
                 int jobpositionID = row.Field<int>("jobposition_id");
@@ -122,48 +140,24 @@ namespace CSCoursework_Smiley
                 jobPositionPairs.Add(new Tuple<int, string>(jobpositionID, jobpositionName));
             }
         }
-        private void InitializeDatabaseConnection()
-        {
-            //Initialize variables
-            string dbProvider;
-            string DatabasePath;
-            string CurrentProjectPath;
-            string FullDatabasePath = "";
-            string dbSource;
-
-            try
-            {
-                //Establish Connection with Database
-                dbProvider = "PROVIDER=Microsoft.ACE.OLEDB.12.0;";
-                DatabasePath = "TestDatabase.accdb";
-                CurrentProjectPath = System.AppDomain.CurrentDomain.BaseDirectory;
-                FullDatabasePath = CurrentProjectPath + DatabasePath;
-                //MessageBox.Show(FullDatabasePath);
-                dbSource = "Data Source =" + FullDatabasePath;
-                con.ConnectionString = dbProvider + dbSource;
-                con.Open();
-                Console.WriteLine("Connection established");
-                con.Close();
-            }
-            catch
-            {
-                Console.WriteLine($"Error establishing database connection AdminControlAddNewStaff. FullDatabasePath = {FullDatabasePath}");
-            }
-        }
         private void comboBoxContractType_SelectedIndexChanged(object sender, EventArgs e)
         {
+            /*Sets the contracted weekly hours label to the correct value based on the contract type combobox value*/
             if (comboBoxContractType.SelectedItem == null) { return; }
+            // if salaried, set the label to contracted weekly hours.
             if (comboBoxContractType.SelectedItem.ToString() == "Salaried")
             {
                 lblContractedWeeklyHours.Text = "Contracted Weekly Hours";
                 txtContractedWeeklyHours.Visible = true;
             }
+            // if flexible set it to no value since there are no contracted weekly hours for flexible workers.
             else if (comboBoxContractType.SelectedItem.ToString() == "Flexible")
             {
                 lblContractedWeeklyHours.Text = "[Flexible Worker]";
                 txtContractedWeeklyHours.Text = "";
                 txtContractedWeeklyHours.Visible = false;
             }
+            // if it is neither then reset it to its default value.
             else
             {
                 lblContractedWeeklyHours.Text = "[Select Contract]";
@@ -179,7 +173,7 @@ namespace CSCoursework_Smiley
                 return;
             }
 
-            //Initialize variables
+            // Initialize database variables
             OleDbDataAdapter da;
             OleDbDataAdapter da2;
             DataSet StaffDS;
@@ -187,6 +181,8 @@ namespace CSCoursework_Smiley
             DataSet StaffBranchDS;
             DataTable StaffBranchTable;
             string sql;
+
+            // Initialize staff related variables
             int staffID;
             int branchID;
             int staffBranchID;
@@ -210,15 +206,17 @@ namespace CSCoursework_Smiley
             string staffEmailAddress = "";
             bool staffEmployed;
 
-            //Initialize StaffDS
+            // Open the database connection.
             con.Open();
 
+            // Initialize the staff dataset and datatable
             sql = $"SELECT * FROM tblStaff";
             da = new OleDbDataAdapter(sql, con);
             StaffDS = new DataSet();
             da.Fill(StaffDS, "StaffInfo");
             StaffTable = StaffDS.Tables["StaffInfo"];
 
+            // Initialize the staff branch dataset and datatable
             sql = $"SELECT * FROM tblStaffBranch";
             da2 = new OleDbDataAdapter(sql, con);
             StaffBranchDS = new DataSet();
@@ -369,6 +367,7 @@ namespace CSCoursework_Smiley
             // Employed
             staffEmployed = true;
 
+            // Check if this staff member already exists.
             if(CheckIfStaffMemberExists(staffFirstname, staffSurname))
             {
                 MessageBox.Show("Another staff member with this firstname and surname already exists. (Within the systems limitations, multiple employees with the same first name and first letter of surname cannot be added.)");
@@ -379,7 +378,7 @@ namespace CSCoursework_Smiley
             _ = new OleDbCommandBuilder(da);
             _ = new OleDbCommandBuilder(da2);
 
-            // Staff Table Row Addition
+            // Staff Table Row Addition.
             DataRow newStaffRow = StaffTable.NewRow();
             newStaffRow["staff_id"] = staffID;
             newStaffRow["jobposition_id"] = jobPositionID;
@@ -405,7 +404,7 @@ namespace CSCoursework_Smiley
             StaffTable.Rows.Add(newStaffRow);
             da.Update(StaffDS, "StaffInfo");
 
-            // StaffBranch Table Row Addition
+            // StaffBranch Table Row Addition.
             DataRow newStaffBranchRow = StaffBranchTable.NewRow();
             newStaffBranchRow["staffbranch_id"] = staffBranchID;
             newStaffBranchRow["staff_id"] = staffID;
@@ -414,42 +413,50 @@ namespace CSCoursework_Smiley
             StaffBranchTable.Rows.Add(newStaffBranchRow);
             da2.Update(StaffBranchDS, "StaffBranchInfo");
 
+            // Reset the controls affected when a new staff member is supposed to be shown, e.g. the staff control or the rota control etc.
             parentForm.ResetControls();
+            // Reset this form to a blank version allowing for more staff members to be added.
             ResetForm();
         }
         private bool CheckIfStaffMemberExists(string staffMemberFirstname, string staffMemberSurname)
         {
-            //Initialize variables
+            // Initialize database variables.
             DataSet StaffDS;
             OleDbDataAdapter da;
             DataTable StaffTable;
             string sql;
 
-            //Check Login Details
+            // Open the database connection.
             con.Open();
 
+            // Initialize the staff dataset and datatable.
             sql = $"SELECT * FROM tblStaff WHERE staff_firstname='{staffMemberFirstname}'";
             da = new OleDbDataAdapter(sql, con);
             StaffDS = new DataSet();
             da.Fill(StaffDS, "StaffInfo");
             StaffTable = StaffDS.Tables["StaffInfo"];
 
+            // Close the database connection.
             con.Close();
 
+            // if the stafftable fetch has values, match this to the surname to check if this staff member already exists in the database.
             if (StaffTable.Rows.Count > 0)
             {
                 foreach (DataRow row in StaffTable.Rows)
                 {
                     if (row.Field<string>("staff_surname")[0] == staffMemberSurname[0])
                     {
+                        // return true if there already is.
                         return true;
                     }
                 }
             }
+            // if not then return false.
             return false;
         }
         private void ResetForm()
         {
+            // Reset all of the textboxes and comboboxes in the form.
             txtForename.Clear();
             txtSurname.Clear();
             txtNINumber.Clear();
@@ -521,7 +528,7 @@ namespace CSCoursework_Smiley
                 // Format Check
                 string DateOfBirth = txtDateOfBirth.Text;
                 string formatString = "dd/MM/yyyy";
-                //MessageBox.Show(DateTime.TryParseExact(DateOfBirth, formatString, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out _).ToString());
+                //MessageBox.Show(DateTime.TryParseExact(DateOfBirth, formatString, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out _).ToString()); //debug
                 if (!DateTime.TryParseExact(DateOfBirth, formatString, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out _))
                 {
                     MessageBox.Show("Invalid Date. Check the Date Of Birth field.");
