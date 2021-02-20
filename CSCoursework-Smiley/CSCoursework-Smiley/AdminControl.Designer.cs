@@ -110,7 +110,6 @@
             // 
             this.adminControlAddNewStaff1.Location = new System.Drawing.Point(258, 3);
             this.adminControlAddNewStaff1.Name = "adminControlAddNewStaff1";
-            this.adminControlAddNewStaff1.parentForm = null;
             this.adminControlAddNewStaff1.Size = new System.Drawing.Size(814, 636);
             this.adminControlAddNewStaff1.TabIndex = 2;
             this.adminControlAddNewStaff1.Visible = false;
@@ -119,7 +118,6 @@
             // 
             this.adminControlManageEmployees1.Location = new System.Drawing.Point(258, 4);
             this.adminControlManageEmployees1.Name = "adminControlManageEmployees1";
-            this.adminControlManageEmployees1.parentForm = null;
             this.adminControlManageEmployees1.Size = new System.Drawing.Size(814, 636);
             this.adminControlManageEmployees1.TabIndex = 3;
             this.adminControlManageEmployees1.Visible = false;

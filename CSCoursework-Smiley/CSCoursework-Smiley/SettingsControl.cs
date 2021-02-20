@@ -15,9 +15,22 @@ namespace CSCoursework_Smiley.Properties
         // Initialize variables
         Color highlightColour;
         Color backgroundColour;
-        public Dashboard parentForm { get; set; }
-        public string userUsername { get; set; }
-        public string userPassword { get; set; }
+        Dashboard parentForm;
+        string userUsername;
+        string userPassword;
+
+        public void SetParentForm(Dashboard ParentForm)
+        {
+            parentForm = ParentForm;
+        }
+        public void SetUserUsername(string UserUsername)
+        {
+            userUsername = UserUsername;
+        }
+        public void SetUserPassword(string UserPassword)
+        {
+            userPassword = UserPassword;
+        }
         public SettingsControl()
         {
             InitializeComponent();

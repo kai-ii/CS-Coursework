@@ -34,7 +34,12 @@ namespace CSCoursework_Smiley
             InitializeBranchComboBox();
             InitializeJobPositionComboBox();
         }
-        public Properties.AdminControl parentForm { get; set; }
+        private Properties.AdminControl parentForm;
+
+        public void SetParentForm(Properties.AdminControl ParentForm)
+        {
+            parentForm = ParentForm;
+        }
 
         private void btnBack_Click(object sender, EventArgs e)
         {

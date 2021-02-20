@@ -20,8 +20,19 @@ namespace CSCoursework_Smiley
             InitializeComponent();
         }
 
-        public TimesheetControl parentForm { get; set; }
-        public List<Tuple<int, List<bool>>> employeeCombobox { get; set; }
+        TimesheetControl parentForm;
+
+        public void SetParentForm(TimesheetControl ParentForm)
+        {
+            parentForm = ParentForm;
+        }
+
+        List<Tuple<int, List<bool>>> employeeCombobox;
+
+        public void SetEmployeeCombobox(List<Tuple<int, List<bool>>> EmployeeCombobox)
+        {
+            employeeCombobox = EmployeeCombobox;
+        }
 
         private void TimesheetAbsenceDataControl_Load(object sender, EventArgs e)
         {

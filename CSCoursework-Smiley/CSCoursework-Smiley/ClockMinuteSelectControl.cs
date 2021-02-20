@@ -12,10 +12,15 @@ namespace CSCoursework_Smiley
 {
     public partial class ClockMinuteSelectControl : UserControl
     {
-        public string clockMinuteSelected;
+        string clockMinuteSelected;
         public ClockMinuteSelectControl()
         {
             InitializeComponent();
+        }
+
+        public string GetClockMinuteSelected()
+        {
+            return clockMinuteSelected;
         }
 
         private void rBtn00_CheckedChanged(object sender, EventArgs e)

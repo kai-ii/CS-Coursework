@@ -343,20 +343,15 @@
             // 
             this.settingsControl1.Location = new System.Drawing.Point(366, 74);
             this.settingsControl1.Name = "settingsControl1";
-            this.settingsControl1.parentForm = null;
             this.settingsControl1.Size = new System.Drawing.Size(814, 636);
             this.settingsControl1.TabIndex = 8;
-            this.settingsControl1.userPassword = null;
-            this.settingsControl1.userUsername = null;
             // 
             // adminControl1
             // 
             this.adminControl1.Location = new System.Drawing.Point(366, 74);
             this.adminControl1.Name = "adminControl1";
-            this.adminControl1.parentForm = null;
             this.adminControl1.Size = new System.Drawing.Size(814, 636);
             this.adminControl1.TabIndex = 9;
-            this.adminControl1.userID = 0;
             // 
             // staffControl1
             // 

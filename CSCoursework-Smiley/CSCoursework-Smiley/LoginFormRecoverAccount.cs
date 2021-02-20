@@ -12,12 +12,16 @@ namespace CSCoursework_Smiley
 {
     public partial class LoginFormRecoverAccount : UserControl
     {
-        public LoginForm parentForm { get; set; }
+        LoginForm parentForm;
         string[] userData;
         string currentUser;
         public LoginFormRecoverAccount()
         {
             InitializeComponent();
+        }
+        public void SetParentForm(LoginForm ParentForm)
+        {
+            parentForm = ParentForm;
         }
         private void LoginFormRecoverAccount_Load(object sender, EventArgs e)
         {

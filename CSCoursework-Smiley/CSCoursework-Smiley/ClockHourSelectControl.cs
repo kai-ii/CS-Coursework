@@ -12,13 +12,17 @@ namespace CSCoursework_Smiley
 {
     public partial class ClockHourSelectControl : UserControl
     {
-        public string clockHoursSelected;
-        public bool pm = false;
+        string clockHoursSelected;
+        bool pm = false;
         public ClockHourSelectControl()
         {
             InitializeComponent();
         }
 
+        public string GetClockHoursSelected()
+        {
+            return clockHoursSelected;
+        }
         private void ClockHourSelectControl_Load(object sender, EventArgs e)
         {
 

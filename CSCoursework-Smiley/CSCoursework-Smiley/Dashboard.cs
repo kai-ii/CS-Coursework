@@ -56,7 +56,6 @@ namespace CSCoursework_Smiley
             InitializePermissions();
             SendDatabaseConnectionToControls();
             PassSettingsControlUserInfo();
-            PassAdminControlUserInfo();
             InitializeDashboardControl();
             InitializeParentChildFormRelationships();
             DisplayDateTimeLabel(showdateTime);
@@ -125,14 +124,10 @@ namespace CSCoursework_Smiley
             if (btnAdmin.Visible) { dashboardControl1.userIsAdmin(true); }
             else { dashboardControl1.userIsAdmin(false); }
         }
-        private void PassAdminControlUserInfo()
-        {
-            adminControl1.userID = userID;
-        }
         private void InitializeParentChildFormRelationships()
         {
-            settingsControl1.parentForm = this;
-            adminControl1.parentForm = this;
+            settingsControl1.SetParentForm(this);
+            adminControl1.SetParentForm(this);
             timesheetControl1.SetParentForm(this);
         }
         public void UpdateDashboardControlGraph()
@@ -158,8 +153,8 @@ namespace CSCoursework_Smiley
         }
         private void PassSettingsControlUserInfo()
         {
-            settingsControl1.userUsername = username;
-            settingsControl1.userPassword = password;
+            settingsControl1.SetUserUsername(username);
+            settingsControl1.SetUserPassword(password);
             settingsControl1.UpdateUsernamePasswordTextboxes();
         }
         private void InitializeDatabaseConnection()

@@ -101,8 +101,8 @@ namespace CSCoursework_Smiley
         }
         private void InitializeParentChildRelationships()
         {
-            loginFormCreateAccount1.parentForm = this;
-            loginFormRecoverAccount1.parentForm = this;
+            loginFormCreateAccount1.SetParentForm(this);
+            loginFormRecoverAccount1.SetParentForm(this);
         }
         private void LoginForm_MouseDown(object sender, System.Windows.Forms.MouseEventArgs e)
         {

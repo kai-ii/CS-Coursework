@@ -12,7 +12,12 @@ namespace CSCoursework_Smiley
 {
     public partial class AdminControlManageEmployeesDetails : UserControl
     {
-        public AdminControlManageEmployees parentForm { get; set; }
+        private AdminControlManageEmployees parentForm;
+
+        public void SetParentForm(AdminControlManageEmployees ParentForm)
+        {
+            parentForm = ParentForm;
+        }
         public AdminControlManageEmployeesDetails()
         {
             InitializeComponent();

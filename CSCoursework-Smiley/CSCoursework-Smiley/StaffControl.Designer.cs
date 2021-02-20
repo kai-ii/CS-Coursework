@@ -100,11 +100,8 @@
             // 
             // staffControlNotes1
             // 
-            this.staffControlNotes1.AbsenceTupleList = null;
-            this.staffControlNotes1.GeneralNotes = "temp";
             this.staffControlNotes1.Location = new System.Drawing.Point(0, 0);
             this.staffControlNotes1.Name = "staffControlNotes1";
-            this.staffControlNotes1.parentForm = null;
             this.staffControlNotes1.Size = new System.Drawing.Size(556, 585);
             this.staffControlNotes1.TabIndex = 2;
             this.staffControlNotes1.Load += new System.EventHandler(this.staffControlNotes1_Load);

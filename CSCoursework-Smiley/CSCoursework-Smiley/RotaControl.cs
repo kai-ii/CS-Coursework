@@ -468,7 +468,6 @@ namespace CSCoursework_Smiley
             NameColumnHeaders();
             UpdateDataGridViewColumnColours();
         }
-
         private void NameColumnHeaders()
         {
             rotaDataGrid.Columns[0].HeaderText = "Staff Name";
@@ -494,8 +493,18 @@ namespace CSCoursework_Smiley
             {
                 cellLocation = new Tuple<int, int>(e.RowIndex, e.ColumnIndex);
                 Rectangle cellRectangle = rotaDataGrid.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
-                Point clockLocation = new Point(cellRectangle.Right, cellRectangle.Bottom);
-                Point btnLocation = new Point(cellRectangle.Right, cellRectangle.Bottom + 148);
+                Point clockLocation;
+                Point btnLocation;
+                if (e.ColumnIndex >= 17)
+                {
+                    clockLocation = new Point(cellRectangle.Left - 138, cellRectangle.Bottom);
+                    btnLocation = new Point(cellRectangle.Left - 138, cellRectangle.Bottom + 148);
+                }
+                else
+                {
+                    clockLocation = new Point(cellRectangle.Right, cellRectangle.Bottom);
+                    btnLocation = new Point(cellRectangle.Right, cellRectangle.Bottom + 148);
+                }
 
                 if (clockHourSelectControl1.Location == clockLocation && clockHourSelectControl1.Visible == true)
                 {
@@ -520,14 +529,14 @@ namespace CSCoursework_Smiley
             if (timeSaveSection == 0)
             {
                 clockHourSelectControl1.checkButtons();
-                clockHourChoice = clockHourSelectControl1.clockHoursSelected;
+                clockHourChoice = clockHourSelectControl1.GetClockHoursSelected();
                 clockHourSelectControl1.Visible = false;
                 clockMinuteSelectControl1.Visible = true;
                 timeSaveSection = 1;
             }
             else if (timeSaveSection == 1)
             {
-                clockMinuteChoice = clockMinuteSelectControl1.clockMinuteSelected;
+                clockMinuteChoice = clockMinuteSelectControl1.GetClockMinuteSelected();
                 clockHourSelectControl1.Visible = false;
                 clockMinuteSelectControl1.Visible = false;
                 btnSaveClockSelection.Visible = false;
@@ -821,7 +830,7 @@ namespace CSCoursework_Smiley
                             try
                             {
                                 da.Update(RotaInfoDS, "RotaInfo");
-                                //MessageBox.Show("Rota Updated.");
+                                MessageBox.Show("Rota Updated.");
                             }
                             catch
                             {

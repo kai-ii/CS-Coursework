@@ -15,35 +15,31 @@ namespace CSCoursework_Smiley
     public partial class StaffControlNotes : UserControl
     {
         // Variables
-        string generalNotes = "temp";
-
-        public StaffControl parentForm { get; set; }
+        StaffControl parentForm;
+        public void SetParentForm(StaffControl ParentForm)
+        {
+            parentForm = ParentForm;
+        }
 
         public void RefreshMonthCalendar()
         {
             monthCalendar1.SelectionStart = DateTime.Today;
             monthCalendar1.SelectionEnd = DateTime.Today;
         }
-        public string GeneralNotes 
+
+        public void SetGeneralNotes(string generalNotes)
         {
-            get { return generalNotes; }
-            set
-            {
-                rTxtGeneralNotes.Text = value;
-            }
+            rTxtGeneralNotes.Text = generalNotes;
         }
 
         List<Tuple<DateTime, string>> absenceTupleList;
-        public List<Tuple<DateTime, string>> AbsenceTupleList
+
+        public void SetAbsenceTupleList(List<Tuple<DateTime, string>> AbsenceTupleList)
         {
-            get { return absenceTupleList; }
-            set
+            if (AbsenceTupleList != null)
             {
-                if (value != null)
-                {
-                    absenceTupleList = value;
-                    UpdateMonthCalendar();
-                }
+                absenceTupleList = AbsenceTupleList;
+                UpdateMonthCalendar();
             }
         }
 

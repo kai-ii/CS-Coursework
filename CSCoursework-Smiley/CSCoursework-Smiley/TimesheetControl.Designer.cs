@@ -390,7 +390,6 @@
             // 
             this.timesheetAbsenceDataControl1.Location = new System.Drawing.Point(491, 119);
             this.timesheetAbsenceDataControl1.Name = "timesheetAbsenceDataControl1";
-            this.timesheetAbsenceDataControl1.parentForm = null;
             this.timesheetAbsenceDataControl1.Size = new System.Drawing.Size(320, 359);
             this.timesheetAbsenceDataControl1.TabIndex = 22;
             this.timesheetAbsenceDataControl1.Visible = false;
@@ -399,7 +398,6 @@
             // 
             this.timesheetHolidayDataControl1.Location = new System.Drawing.Point(491, 317);
             this.timesheetHolidayDataControl1.Name = "timesheetHolidayDataControl1";
-            this.timesheetHolidayDataControl1.parentForm = null;
             this.timesheetHolidayDataControl1.Size = new System.Drawing.Size(320, 161);
             this.timesheetHolidayDataControl1.TabIndex = 21;
             this.timesheetHolidayDataControl1.Visible = false;

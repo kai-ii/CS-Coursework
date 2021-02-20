@@ -122,8 +122,8 @@ namespace CSCoursework_Smiley
                 staffMembersInDataGridListHolidayTuple.Add(new Tuple<int, List<bool>>(rowToAdd, holidayList));
             }
 
-            timesheetHolidayDataControl1.employeeCombobox = staffMembersInDataGridListHolidayTuple;
-            timesheetAbsenceDataControl1.employeeCombobox = staffMembersInDataGridListAbsenceTuple;
+            timesheetHolidayDataControl1.SetEmployeeComboBox(staffMembersInDataGridListHolidayTuple);
+            timesheetAbsenceDataControl1.SetEmployeeCombobox(staffMembersInDataGridListAbsenceTuple);
             timesheetHolidayDataControl1.SetComboBoxMembers(staffMembersInDataGridList);
             timesheetAbsenceDataControl1.SetComboBoxMembers(staffMembersInDataGridList);
             timesheetHolidayDataControl1.UpdateDatagrid();
@@ -133,8 +133,8 @@ namespace CSCoursework_Smiley
 
         private void InitializeParentForms()
         {
-            timesheetHolidayDataControl1.parentForm = this;
-            timesheetAbsenceDataControl1.parentForm = this;
+            timesheetHolidayDataControl1.SetParentForm(this);
+            timesheetAbsenceDataControl1.SetParentForm(this);
         }
 
         public void UpdateHolidayData(int rowToChange, int dayToChange, bool checkedValue)
@@ -425,8 +425,18 @@ namespace CSCoursework_Smiley
             {
                 cellLocation = new Tuple<int, int>(e.RowIndex, e.ColumnIndex);
                 Rectangle cellRectangle = rotaDataGrid.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
-                Point clockLocation = new Point(cellRectangle.Right, cellRectangle.Bottom);
-                Point btnLocation = new Point(cellRectangle.Right, cellRectangle.Bottom + 148);
+                Point clockLocation;
+                Point btnLocation;
+                if (e.ColumnIndex >= 17)
+                {
+                    clockLocation = new Point(cellRectangle.Left - 138, cellRectangle.Bottom);
+                    btnLocation = new Point(cellRectangle.Left - 138, cellRectangle.Bottom + 148);
+                }
+                else
+                {
+                    clockLocation = new Point(cellRectangle.Right, cellRectangle.Bottom);
+                    btnLocation = new Point(cellRectangle.Right, cellRectangle.Bottom + 148);
+                }
 
                 if (clockHourSelectControl1.Location == clockLocation && clockHourSelectControl1.Visible == true)
                 {
@@ -838,7 +848,7 @@ namespace CSCoursework_Smiley
                             try
                             {
                                 da.Update(RotaInfoDS, "RotaInfo");
-                                //MessageBox.Show("Rota Updated.");
+                                MessageBox.Show("Timesheet Updated.");
                             }
                             catch
                             {
@@ -909,14 +919,14 @@ namespace CSCoursework_Smiley
             if (timeSaveSection == 0)
             {
                 clockHourSelectControl1.checkButtons();
-                clockHourChoice = clockHourSelectControl1.clockHoursSelected;
+                clockHourChoice = clockHourSelectControl1.GetClockHoursSelected();
                 clockHourSelectControl1.Visible = false;
                 clockMinuteSelectControl1.Visible = true;
                 timeSaveSection = 1;
             }
             else if (timeSaveSection == 1)
             {
-                clockMinuteChoice = clockMinuteSelectControl1.clockMinuteSelected;
+                clockMinuteChoice = clockMinuteSelectControl1.GetClockMinuteSelected();
                 clockHourSelectControl1.Visible = false;
                 clockMinuteSelectControl1.Visible = false;
                 btnSaveClockSelection.Visible = false;

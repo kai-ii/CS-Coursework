@@ -14,9 +14,12 @@ namespace CSCoursework_Smiley.Properties
     public partial class AdminControl : UserControl
     {
         OleDbConnection con;
-        public Dashboard parentForm { get; set; }
-        public int userID { get; set; }
+        private Dashboard parentForm;
 
+        public void SetParentForm(Dashboard ParentForm)
+        {
+            parentForm = ParentForm;
+        }
         public void SetCon(OleDbConnection Con)
         {
             con = Con;
@@ -48,7 +51,7 @@ namespace CSCoursework_Smiley.Properties
         }
         private void InitializeParentChildRelationships()
         {
-            adminControlAddNewStaff1.parentForm = this;
+            adminControlAddNewStaff1.SetParentForm(this);
             adminControlManageJobPositions1.setParentForm(this);
         }
 

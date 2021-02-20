@@ -12,7 +12,7 @@ namespace CSCoursework_Smiley
 {
     public partial class LoginFormCreateAccount : UserControl
     {
-        public LoginForm parentForm { get; set; }
+        LoginForm parentForm;
         string[] possibleStaffNames;
         string username;
         string password;
@@ -27,6 +27,10 @@ namespace CSCoursework_Smiley
             InitializeComponent();
         }
 
+        public void SetParentForm(LoginForm ParentForm)
+        {
+            parentForm = ParentForm;
+        }
         private void LoginFormCreateAccount_Load(object sender, EventArgs e)
         {
             grpBoxAccountSecurity.Location = new Point(4, 4);

@@ -51,7 +51,7 @@ namespace CSCoursework_Smiley
         }
         private void InitializeParentChildRelationships()
         {
-            staffControlDetails1.parentForm = this;
+            staffControlDetails1.SetParentForm(this);
         }
         public void UpdateAddressInfo(string[] addressInfo)
         {
@@ -273,12 +273,12 @@ namespace CSCoursework_Smiley
                 absenceTupleList.Add(rowTuple);
             }
 
-            staffControlNotes1.AbsenceTupleList = absenceTupleList;
+            staffControlNotes1.SetAbsenceTupleList(absenceTupleList);
         }
 
         private void UpdateGeneralNotesDetails(int primaryKey)
         {
-            staffControlNotes1.GeneralNotes = GetStaffGeneralNotes(primaryKey);
+            staffControlNotes1.SetGeneralNotes(GetStaffGeneralNotes(primaryKey));
         }
 
         private void UpdateGraphDetails(int primaryKey)
@@ -634,7 +634,7 @@ namespace CSCoursework_Smiley
         private void rBtnNotes_CheckedChanged(object sender, EventArgs e)
         {
             staffControlNotes1.BringToFront();
-            staffControlNotes1.parentForm = this;
+            staffControlNotes1.SetParentForm(this);
             UpdateNoteDetails(primaryKeySelected);
         }
 

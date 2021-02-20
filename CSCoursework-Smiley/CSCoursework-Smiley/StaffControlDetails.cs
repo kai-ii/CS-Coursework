@@ -19,7 +19,12 @@ namespace CSCoursework_Smiley
         OleDbConnection con = new OleDbConnection();
         int jobpositionID;
         string jobpositionName;
-        public StaffControl parentForm { get; set; }
+        StaffControl parentForm;
+
+        public void SetParentForm(StaffControl ParentForm)
+        {
+            parentForm = ParentForm;
+        }
 
         //Initialise dict
         Dictionary<string, string> staffInfoDict = new Dictionary<string, string>();

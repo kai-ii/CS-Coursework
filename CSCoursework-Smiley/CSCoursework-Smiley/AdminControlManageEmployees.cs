@@ -17,8 +17,6 @@ namespace CSCoursework_Smiley
         OleDbConnection con = new OleDbConnection();
         Dictionary<string, string> staffNameDictionary;
         int primaryKeySelected;
-        public Properties.AdminControl parentForm { get; set; }
-
         int userID;
         public void SetCon(OleDbConnection Con)
         {
@@ -117,7 +115,7 @@ namespace CSCoursework_Smiley
         }
         private void InitializeParentChildRelationships()
         {
-            adminControlManageEmployeesDetails1.parentForm = this;
+            adminControlManageEmployeesDetails1.SetParentForm(this);
         }
         private void InitializeStaffMembers()
         {

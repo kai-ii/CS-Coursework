@@ -229,7 +229,6 @@
             // 
             this.loginFormRecoverAccount1.Location = new System.Drawing.Point(300, 62);
             this.loginFormRecoverAccount1.Name = "loginFormRecoverAccount1";
-            this.loginFormRecoverAccount1.parentForm = null;
             this.loginFormRecoverAccount1.Size = new System.Drawing.Size(882, 636);
             this.loginFormRecoverAccount1.TabIndex = 8;
             this.loginFormRecoverAccount1.Visible = false;
@@ -238,7 +237,6 @@
             // 
             this.loginFormCreateAccount1.Location = new System.Drawing.Point(299, 62);
             this.loginFormCreateAccount1.Name = "loginFormCreateAccount1";
-            this.loginFormCreateAccount1.parentForm = null;
             this.loginFormCreateAccount1.Size = new System.Drawing.Size(882, 636);
             this.loginFormCreateAccount1.TabIndex = 4;
             this.loginFormCreateAccount1.Visible = false;
