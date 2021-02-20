@@ -14,45 +14,43 @@ namespace CSCoursework_Smiley.Properties
 {
     public partial class ExportControl : UserControl
     {
-        // Initialize variables
+        // Initialise local class variables.
         OleDbConnection con = new OleDbConnection();
         DateTime currentTaxMonth;
         public ExportControl()
         {
+            // Standard form initialize component call.
             InitializeComponent();
         }
         public void SetCon(OleDbConnection Con)
         {
+            // Assign the local connection string value to the already generated one, saving on processing since otherwise the database location would have to be grabbed multiple times.
             con = Con;
+            // Initialize the form once the connection string has been assigned.
             InitializeForm();
         }
         private void InitializeForm()
         {
-            // Initialize Form
+            // Initialize the current month and then set the current month label.
             SetCurrentMonth();
             UpdateCurrentMonthLabel();
+            // Initialize default values and fill the datagrid once default values are in place (in this case there is a neccesity for either the salaried or flexible buttons to be checked so this is set by default before the initial datagrid fill function is called.)
             rBtnSalaried.Checked = true;
             FillDatagrid();
         }
         private void ExportControl_Load(object sender, EventArgs e)
         {
-            //InitializeDatabaseConnection();
+            // Nothing is done when the form is loaded since we must wait for the connection string to be passed to access the database.
         }
         private void FillDatagrid()
         {
+            // Initialize a data grid data variable, fill that variable by settings it to the GetExportData function call (which returns the export data for the current month) and finally update the datagrid with these values.
             List<string[]> dataGridData;
             dataGridData = GetExportData();
             UpdateDataGrid(dataGridData);
         }
         private void UpdateDataGrid(List<string[]> dataGridData)
         {
-            //foreach (string[] array in dataGridData)
-            //{
-            //    foreach (string item in array)
-            //    {
-            //        MessageBox.Show(item);
-            //    }
-            //}
             exportDataGrid.Rows.Clear();
             for (int row = 0; row < dataGridData.Count; row++)
             {

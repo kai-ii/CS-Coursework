@@ -42,7 +42,7 @@
             this.LeftBottomPanel = new System.Windows.Forms.Panel();
             this.btnDashboard = new System.Windows.Forms.Button();
             this.SmileyLogo = new System.Windows.Forms.PictureBox();
-            this.panel2 = new System.Windows.Forms.Panel();
+            this.UpperPanel = new System.Windows.Forms.Panel();
             this.lblDateTime = new System.Windows.Forms.Label();
             this.ExitButton = new System.Windows.Forms.PictureBox();
             this.btnExitDashboard = new System.Windows.Forms.PictureBox();
@@ -58,7 +58,7 @@
             this.timerClock = new System.Windows.Forms.Timer(this.components);
             this.LeftPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.SmileyLogo)).BeginInit();
-            this.panel2.SuspendLayout();
+            this.UpperPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ExitButton)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnExitDashboard)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnExit)).BeginInit();
@@ -253,19 +253,18 @@
             this.SmileyLogo.TabIndex = 0;
             this.SmileyLogo.TabStop = false;
             // 
-            // panel2
+            // UpperPanel
             // 
-            this.panel2.BackColor = System.Drawing.SystemColors.ControlLight;
-            this.panel2.Controls.Add(this.lblDateTime);
-            this.panel2.Controls.Add(this.ExitButton);
-            this.panel2.Controls.Add(this.btnExitDashboard);
-            this.panel2.Controls.Add(this.btnExit);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(366, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(814, 75);
-            this.panel2.TabIndex = 1;
-            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
+            this.UpperPanel.BackColor = System.Drawing.SystemColors.ControlLight;
+            this.UpperPanel.Controls.Add(this.lblDateTime);
+            this.UpperPanel.Controls.Add(this.ExitButton);
+            this.UpperPanel.Controls.Add(this.btnExitDashboard);
+            this.UpperPanel.Controls.Add(this.btnExit);
+            this.UpperPanel.Dock = System.Windows.Forms.DockStyle.Top;
+            this.UpperPanel.Location = new System.Drawing.Point(366, 0);
+            this.UpperPanel.Name = "UpperPanel";
+            this.UpperPanel.Size = new System.Drawing.Size(814, 75);
+            this.UpperPanel.TabIndex = 1;
             // 
             // lblDateTime
             // 
@@ -379,7 +378,7 @@
             this.Controls.Add(this.timesheetControl1);
             this.Controls.Add(this.rotaControl1);
             this.Controls.Add(this.dashboardControl1);
-            this.Controls.Add(this.panel2);
+            this.Controls.Add(this.UpperPanel);
             this.Controls.Add(this.LeftPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Dashboard";
@@ -388,8 +387,8 @@
             this.Load += new System.EventHandler(this.Dashboard_Load);
             this.LeftPanel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.SmileyLogo)).EndInit();
-            this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
+            this.UpperPanel.ResumeLayout(false);
+            this.UpperPanel.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.ExitButton)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnExitDashboard)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btnExit)).EndInit();
@@ -400,7 +399,7 @@
         #endregion
 
         private System.Windows.Forms.Panel LeftPanel;
-        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Panel UpperPanel;
         private System.Windows.Forms.PictureBox btnExit;
         private System.Windows.Forms.PictureBox SmileyLogo;
         private System.Windows.Forms.PictureBox btnExitDashboard;
