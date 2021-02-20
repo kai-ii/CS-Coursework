@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             this.grpGeneralNotes = new System.Windows.Forms.GroupBox();
-            this.btnSaveToFile = new System.Windows.Forms.Button();
             this.btnSaveGeneralNotes = new System.Windows.Forms.Button();
             this.rTxtGeneralNotes = new System.Windows.Forms.RichTextBox();
             this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
@@ -41,7 +40,6 @@
             // 
             // grpGeneralNotes
             // 
-            this.grpGeneralNotes.Controls.Add(this.btnSaveToFile);
             this.grpGeneralNotes.Controls.Add(this.btnSaveGeneralNotes);
             this.grpGeneralNotes.Controls.Add(this.rTxtGeneralNotes);
             this.grpGeneralNotes.Font = new System.Drawing.Font("Century Gothic", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -52,16 +50,6 @@
             this.grpGeneralNotes.TabStop = false;
             this.grpGeneralNotes.Text = "General Notes";
             this.grpGeneralNotes.Enter += new System.EventHandler(this.grpGeneralNotes_Enter);
-            // 
-            // btnSaveToFile
-            // 
-            this.btnSaveToFile.Location = new System.Drawing.Point(7, 356);
-            this.btnSaveToFile.Name = "btnSaveToFile";
-            this.btnSaveToFile.Size = new System.Drawing.Size(93, 23);
-            this.btnSaveToFile.TabIndex = 2;
-            this.btnSaveToFile.Text = "Save To File";
-            this.btnSaveToFile.UseVisualStyleBackColor = true;
-            this.btnSaveToFile.Click += new System.EventHandler(this.btnSaveToFile_Click);
             // 
             // btnSaveGeneralNotes
             // 
@@ -132,6 +120,5 @@
         private System.Windows.Forms.RichTextBox rTxtGeneralNotes;
         private System.Windows.Forms.RichTextBox rTxtAbsentNotes;
         private System.Windows.Forms.Button btnSaveGeneralNotes;
-        private System.Windows.Forms.Button btnSaveToFile;
     }
 }

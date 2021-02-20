@@ -38,11 +38,13 @@ namespace CSCoursework_Smiley.Properties
         {
             InitializeComponent();
         }
-        private void PayslipControl_Load(object sender, EventArgs e)
+        public void SetCon(OleDbConnection Con)
         {
-            // Initialize Database
-            InitializeDatabaseConnection();
-
+            con = Con;
+            InitializeForm();
+        }
+        private void InitializeForm()
+        {
             // Initialize Form
             SetCurrentMonth();
             UpdateCurrentMonthLabel();
@@ -50,6 +52,10 @@ namespace CSCoursework_Smiley.Properties
             GetJobWageData();
             InitializeStaffComboBox();
             comboBoxSelectEmployee.SelectedIndex = 0;
+        }
+        private void PayslipControl_Load(object sender, EventArgs e)
+        {
+            //InitializeDatabaseConnection();
         }
         public void UpdatePayslipInfo() // Called after manage jobs is changed.
         {

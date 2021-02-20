@@ -18,12 +18,12 @@ namespace CSCoursework_Smiley
         OleDbConnection con = new OleDbConnection();
 
         //Form Moving
-        public const int WM_NCLBUTTONDOWN = 0xA1;
-        public const int HT_CAPTION = 0x2;
+        private const int WM_NCLBUTTONDOWN = 0xA1;
+        private const int HT_CAPTION = 0x2;
         [System.Runtime.InteropServices.DllImport("user32.dll")]
-        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        private static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
         [System.Runtime.InteropServices.DllImport("user32.dll")]
-        public static extern bool ReleaseCapture();
+        private static extern bool ReleaseCapture();
 
         public LoginForm()
         {
@@ -252,7 +252,6 @@ namespace CSCoursework_Smiley
                 bool[] staffPermissionArray = GetPermissions(permissionID);
                 bool showDateTime = LoginInfoTable.Rows[0].Field<bool>("settings_show_date_time");
                 Dashboard dashboard = new Dashboard(UsernameTextbox.Text, backgroundColourRGB, highlightColourRGB, userID, PasswordTextbox.Text, staffPermissionArray, showDateTime);
-                System.Threading.Thread.Sleep(100); // Sometimes the program crashed while resizing columns and showing the dashboard at the same time so this manual time sleep prevents it
                 dashboard.Show();
                 this.Hide();
             }

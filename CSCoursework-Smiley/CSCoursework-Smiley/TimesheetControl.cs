@@ -28,6 +28,7 @@ namespace CSCoursework_Smiley
         List<string> staffMembersInDataGridList;
         int staffIDToSave;
         bool changeToRotaTableMade = false;
+        Dashboard parentForm;
 
         private Color backgroundColour;
         private Color highlightColour;
@@ -54,9 +55,14 @@ namespace CSCoursework_Smiley
 
         }
 
-        private void TimesheetControl_Load(object sender, EventArgs e)
+        public void SetCon(OleDbConnection Con)
         {
-            InitializeDatabaseConnection();
+            con = Con;
+            InitializeForm();
+        }
+
+        private void InitializeForm()
+        {
             InitializeDataGridHeaderDate();
             rotaDataGrid.AutoGenerateColumns = false;
             GetTimesheetRotaData();
@@ -65,6 +71,10 @@ namespace CSCoursework_Smiley
             InitializeStaffMemberList();
             UpdateControlEmployees();
             InitializeParentForms();
+        }
+        private void TimesheetControl_Load(object sender, EventArgs e)
+        {
+            //InitializeDatabaseConnection();
         }
 
         public void UpdateTimesheetControl()
@@ -867,8 +877,12 @@ namespace CSCoursework_Smiley
                     }
                 }
             }
+            parentForm.UpdateDashboardControlGraph();
         }
-
+        public void SetParentForm(Dashboard dashboard)
+        {
+            parentForm = dashboard;
+        }
         private void btnSaveRota_Click(object sender, EventArgs e)
         {
             SaveRotaToDatabase();

@@ -49,6 +49,7 @@
             this.grpBoxLineGraph.TabIndex = 1;
             this.grpBoxLineGraph.TabStop = false;
             this.grpBoxLineGraph.Text = "Line Graph";
+            this.grpBoxLineGraph.Enter += new System.EventHandler(this.grpBoxLineGraph_Enter);
             // 
             // lineChartHoursWorked
             // 

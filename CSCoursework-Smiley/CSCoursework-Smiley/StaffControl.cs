@@ -28,10 +28,13 @@ namespace CSCoursework_Smiley
         {
             InitializeComponent();
         }
-
-        private void StaffControl_Load(object sender, EventArgs e)
+        public void SetCon(OleDbConnection Con)
         {
-            InitializeDatabaseConnection();
+            con = Con;
+            InitializeForm();
+        }
+        private void InitializeForm()
+        {
             InitializeSearchTextbox();
             InitializeStaffMembers();
             lstBoxEmployees.Visible = false;
@@ -41,6 +44,10 @@ namespace CSCoursework_Smiley
             SortDummyBox();
             rBtnDetails.Checked = true;
             InitializeParentChildRelationships();
+        }
+        private void StaffControl_Load(object sender, EventArgs e)
+        {
+            //InitializeDatabaseConnection();
         }
         private void InitializeParentChildRelationships()
         {

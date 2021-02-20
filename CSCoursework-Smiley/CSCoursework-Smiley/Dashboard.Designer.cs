@@ -310,7 +310,6 @@
             this.dashboardControl1.Name = "dashboardControl1";
             this.dashboardControl1.Size = new System.Drawing.Size(814, 636);
             this.dashboardControl1.TabIndex = 2;
-            this.dashboardControl1.Username = null;
             // 
             // rotaControl1
             // 

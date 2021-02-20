@@ -20,13 +20,20 @@ namespace CSCoursework_Smiley
             InitializeComponent();
         }
 
-        private void AdminControlCreateAnnouncement_Load(object sender, EventArgs e)
+        public void SetCon(OleDbConnection Con)
         {
-            // Initialize Database
-            InitializeDatabaseConnection();
-
+            con = Con;
+            InitializeForm();
+        }
+        private void InitializeForm()
+        {
             // Initialize Form
             InitializeAnnouncement();
+        }
+
+        private void AdminControlCreateAnnouncement_Load(object sender, EventArgs e)
+        {
+            //InitializeDatabaseConnection();
         }
         private void InitializeDatabaseConnection()
         {

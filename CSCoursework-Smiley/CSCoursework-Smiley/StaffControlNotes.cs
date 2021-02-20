@@ -15,7 +15,6 @@ namespace CSCoursework_Smiley
     public partial class StaffControlNotes : UserControl
     {
         // Variables
-        OleDbConnection con = new OleDbConnection();
         string generalNotes = "temp";
 
         public StaffControl parentForm { get; set; }
@@ -89,21 +88,6 @@ namespace CSCoursework_Smiley
         {
             // Use parentForm reference given by StaffControl each time this form is brought to front
             parentForm.UpdateGeneralNotes(rTxtGeneralNotes.Text);
-        }
-
-        private void btnSaveToFile_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                string text = rTxtGeneralNotes.Text;
-                string CurrentProjectPath = System.AppDomain.CurrentDomain.BaseDirectory;
-                System.IO.File.WriteAllText($@"{CurrentProjectPath}\GeneralNote.txt", text);
-                MessageBox.Show("File saved.");
-            }
-            catch
-            {
-                MessageBox.Show("Failed to save file.");
-            }
         }
 
         private void rTxtGeneralNotes_TextChanged(object sender, EventArgs e)

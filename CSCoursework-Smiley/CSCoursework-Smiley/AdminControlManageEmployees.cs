@@ -20,6 +20,23 @@ namespace CSCoursework_Smiley
         public Properties.AdminControl parentForm { get; set; }
 
         int userID;
+        public void SetCon(OleDbConnection Con)
+        {
+            con = Con;
+            InitializeForm();
+        }
+        private void InitializeForm()
+        {
+            InitializeSearchTextbox();
+            InitializeStaffMembers();
+            lstBoxEmployees.Visible = false;
+            lstBoxDummy.Visible = true;
+            comboBoxSort.SelectedIndex = 0;
+            CopyBaseListBoxToDummyBox();
+            SortDummyBox();
+            lstBoxDummy.SelectedIndex = 0;
+            InitializeParentChildRelationships();
+        }
         public AdminControlManageEmployees()
         {
             InitializeComponent();
@@ -96,16 +113,7 @@ namespace CSCoursework_Smiley
 
         private void AdminControlManageEmployees_Load(object sender, EventArgs e)
         {
-            InitializeDatabaseConnection();
-            InitializeSearchTextbox();
-            InitializeStaffMembers();
-            lstBoxEmployees.Visible = false;
-            lstBoxDummy.Visible = true;
-            comboBoxSort.SelectedIndex = 0;
-            CopyBaseListBoxToDummyBox();
-            SortDummyBox();
-            lstBoxDummy.SelectedIndex = 0;
-            InitializeParentChildRelationships();
+            //InitializeDatabaseConnection();
         }
         private void InitializeParentChildRelationships()
         {

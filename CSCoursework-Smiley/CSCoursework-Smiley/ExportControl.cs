@@ -21,17 +21,22 @@ namespace CSCoursework_Smiley.Properties
         {
             InitializeComponent();
         }
-
-        private void ExportControl_Load(object sender, EventArgs e)
+        public void SetCon(OleDbConnection Con)
         {
-            // Initialize Database
-            InitializeDatabaseConnection();
-
+            con = Con;
+            InitializeForm();
+        }
+        private void InitializeForm()
+        {
             // Initialize Form
             SetCurrentMonth();
             UpdateCurrentMonthLabel();
             rBtnSalaried.Checked = true;
             FillDatagrid();
+        }
+        private void ExportControl_Load(object sender, EventArgs e)
+        {
+            //InitializeDatabaseConnection();
         }
         private void FillDatagrid()
         {

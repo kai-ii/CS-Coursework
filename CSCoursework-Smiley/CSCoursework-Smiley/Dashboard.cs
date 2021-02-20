@@ -15,12 +15,12 @@ namespace CSCoursework_Smiley
     public partial class Dashboard : Form
     {
         //Form Moving
-        public const int WM_NCLBUTTONDOWN = 0xA1;
-        public const int HT_CAPTION = 0x2;
+        private const int WM_NCLBUTTONDOWN = 0xA1;
+        private const int HT_CAPTION = 0x2;
         [System.Runtime.InteropServices.DllImport("user32.dll")]
-        public static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        private static extern int SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
         [System.Runtime.InteropServices.DllImport("user32.dll")]
-        public static extern bool ReleaseCapture();
+        private static extern bool ReleaseCapture();
 
         //Defines background and highlight colours
         Color backgroundColour; // = Color.FromArgb(245, 208, 226); default
@@ -51,17 +51,32 @@ namespace CSCoursework_Smiley
             SmileyLogo.Image = Properties.Resources.SmileyLogo;
             btnExitDashboard.Image = Properties.Resources.Close_Button;
             ResetBackgroundColours();
-            btnDashboard.BackColor = highlightColour;
-            dashboardControl1.Username = username;
-            dashboardControl1.BringToFront();
             PassBackgroundHighlightColours();
             InitializeDatabaseConnection();
+            InitializePermissions();
+            SendDatabaseConnectionToControls();
             PassSettingsControlUserInfo();
             PassAdminControlUserInfo();
+            InitializeDashboardControl();
             InitializeParentChildFormRelationships();
-            InitializePermissions();
             DisplayDateTimeLabel(showdateTime);
             InitializeChildForms();
+        }
+        private void SendDatabaseConnectionToControls()
+        {
+            dashboardControl1.SetCon(con);
+            rotaControl1.SetCon(con);
+            staffControl1.SetCon(con);
+            timesheetControl1.SetCon(con);
+            payslipControl1.SetCon(con);
+            exportControl1.SetCon(con);
+            adminControl1.SetCon(con);
+        }
+        private void InitializeDashboardControl()
+        {
+            btnDashboard.BackColor = highlightColour;
+            dashboardControl1.SetUsername(username);
+            dashboardControl1.BringToFront();
         }
         private void InitializeChildForms()
         {
@@ -107,6 +122,8 @@ namespace CSCoursework_Smiley
             }
             btnSettings.Location = buttonPositionArray[buttonPositionCounter];
             btnLogout.Location = buttonPositionArray[++buttonPositionCounter];
+            if (btnAdmin.Visible) { dashboardControl1.userIsAdmin(true); }
+            else { dashboardControl1.userIsAdmin(false); }
         }
         private void PassAdminControlUserInfo()
         {
@@ -116,6 +133,11 @@ namespace CSCoursework_Smiley
         {
             settingsControl1.parentForm = this;
             adminControl1.parentForm = this;
+            timesheetControl1.SetParentForm(this);
+        }
+        public void UpdateDashboardControlGraph()
+        {
+            dashboardControl1.UpdateGraph();
         }
         public void UpdatePayslipJobPositions()
         {

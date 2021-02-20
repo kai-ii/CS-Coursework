@@ -17,6 +17,16 @@ namespace CSCoursework_Smiley
         //Initialise variables
         OleDbConnection con = new OleDbConnection();
         Properties.AdminControl parentForm;
+
+        public void SetCon(OleDbConnection Con)
+        {
+            con = Con;
+            InitializeForm();
+        }
+        private void InitializeForm()
+        {
+            GetJobPositionData();
+        }
         public AdminControlManageJobPositions()
         {
             InitializeComponent();
@@ -27,8 +37,7 @@ namespace CSCoursework_Smiley
         }
         private void AdminControlManageJobPositions_Load(object sender, EventArgs e)
         {
-            InitializeDatabaseConnection();
-            GetJobPositionData();
+            //InitializeDatabaseConnection();
         }
         private void InitializeDatabaseConnection()
         {

@@ -22,7 +22,18 @@ namespace CSCoursework_Smiley
         {
             InitializeComponent();
         }
-
+        public void SetCon(OleDbConnection Con)
+        {
+            con = Con;
+            InitializeForm();
+        }
+        private void InitializeForm()
+        {
+            InitializeBranchPairList();
+            InitializeJobPositionPairList();
+            InitializeBranchComboBox();
+            InitializeJobPositionComboBox();
+        }
         public Properties.AdminControl parentForm { get; set; }
 
         private void btnBack_Click(object sender, EventArgs e)
@@ -31,11 +42,7 @@ namespace CSCoursework_Smiley
         }
         private void AdminControlAddNewStaff_Load(object sender, EventArgs e)
         {
-            InitializeDatabaseConnection();
-            InitializeBranchPairList();
-            InitializeJobPositionPairList();
-            InitializeBranchComboBox();
-            InitializeJobPositionComboBox();
+            //InitializeDatabaseConnection();
         }
         private void InitializeJobPositionComboBox()
         {

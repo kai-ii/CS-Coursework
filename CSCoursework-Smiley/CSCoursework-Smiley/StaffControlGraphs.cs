@@ -74,5 +74,10 @@ namespace CSCoursework_Smiley
             pieChart1.Series = newPieChartData;
             pieChart1.LegendLocation = LegendLocation.Bottom;
         }
+
+        private void grpBoxLineGraph_Enter(object sender, EventArgs e)
+        {
+
+        }
     }
 }
