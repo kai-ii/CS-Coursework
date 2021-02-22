@@ -68,7 +68,6 @@
             this.LeftPanelAnchor.Name = "LeftPanelAnchor";
             this.LeftPanelAnchor.Size = new System.Drawing.Size(300, 710);
             this.LeftPanelAnchor.TabIndex = 0;
-            this.LeftPanelAnchor.Paint += new System.Windows.Forms.PaintEventHandler(this.LeftPanelAnchor_Paint);
             // 
             // checkBoxShowPassword
             // 

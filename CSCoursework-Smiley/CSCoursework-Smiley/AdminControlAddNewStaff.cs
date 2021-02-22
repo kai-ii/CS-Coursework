@@ -226,7 +226,16 @@ namespace CSCoursework_Smiley
             con.Close();
             
             // StaffID
-            staffID = StaffTable.Rows[StaffTable.Rows.Count - 1].Field<int>("staff_id") + 1; // staffID is set to 1 more than the last staff member in the database regardless of database size. Therefore no duplicate staff_ids since the last staff_id will alwasy be the greatest.
+            if (StaffTable.Rows.Count > 0)
+            {
+                staffID = StaffTable.Rows[StaffTable.Rows.Count - 1].Field<int>("staff_id") + 1; // staffID is set to 1 more than the last staff member in the database regardless of database size. Therefore no duplicate staff_ids since the last staff_id will alwasy be the greatest.
+            }
+            else
+            {
+                // If there are no staff members in the database, set the staffID to be 1 as the initial staff member.
+                staffID = 1;
+            }
+            
 
             // BranchID
             branchID = comboBoxBranch.SelectedIndex + 1;

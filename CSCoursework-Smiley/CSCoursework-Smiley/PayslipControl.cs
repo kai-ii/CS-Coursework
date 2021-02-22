@@ -21,10 +21,10 @@ using MigraDoc.DocumentObjectModel.Tables;
 
 namespace CSCoursework_Smiley.Properties
 {
-    // Payslip tax -> national insurance based on NI number + income tax based on tax code
+    // dev note: Payslip tax -> national insurance based on NI number + income tax based on tax code
     public partial class PayslipControl : UserControl
     {
-        // Initialize variables
+        // Initialise local class variables.
         OleDbConnection con = new OleDbConnection();
         DateTime currentTaxMonth;
         Dictionary<int, string> staffNameDictionary; // StaffID, StaffName
@@ -36,18 +36,22 @@ namespace CSCoursework_Smiley.Properties
         Dictionary<int, float> jobValueDictionary; // JobID, JobWage
         public PayslipControl()
         {
+            // Standard form initialize component call.
             InitializeComponent();
         }
         public void SetCon(OleDbConnection Con)
         {
+            // Assign the local connection string value to the already generated one, saving on processing since otherwise the database location would have to be grabbed multiple times.
             con = Con;
+            // Initialize the form once the connection string has been assigned.
             InitializeForm();
         }
         private void InitializeForm()
         {
-            // Initialize Form
+            // Initialize the current month and then update the current month label.
             SetCurrentMonth();
             UpdateCurrentMonthLabel();
+            // Get staff and job data and then initialize the staff combobox with a default value.
             GetStaffData();
             GetJobWageData();
             InitializeStaffComboBox();
@@ -55,16 +59,18 @@ namespace CSCoursework_Smiley.Properties
         }
         private void PayslipControl_Load(object sender, EventArgs e)
         {
-            //InitializeDatabaseConnection();
+            // Nothing is done when the form is loaded since we must wait for the connection string to be passed to access the database.
         }
         public void UpdatePayslipInfo() // Called after manage jobs is changed.
         {
+            // Recalculate the payslip information since a job position wage may have changed.
             GetJobWageData();
             int staffID = GetStaffID(comboBoxSelectEmployee.SelectedItem.ToString());
             CalculatePayslipInformation(staffID);
         }
         private void CalculatePayslipInformation(int staffID)
         {
+            // Initialize variables.
             Tuple<DataTable, int> TimesheetExportTuple = GetTimesheetHoursWorkedTable(staffID);
             DataTable TimesheetTable = TimesheetExportTuple.Item1;
             int exportID = TimesheetExportTuple.Item2;
@@ -72,14 +78,19 @@ namespace CSCoursework_Smiley.Properties
             double holidayHoursWorked = -1;
             double totalHolidayToAdd = 0;
 
+            // Check the contract type of the selected employee
             if (staffSalaryTypeDictionary[staffID] == "Flexible")
             {
+                // If flexible then calculate standard hours worked as normal
                 standardHoursWorked = CalculateStandardHours(TimesheetTable);
+                // Then at Smiley Happy People, holiday wage is paid as a 12.07% bonus on the standard hours worked. In practise this is represented by setting the holiday hours worked to simply 12.07% of the standard hours worked by multiplying it by 0.1207
                 holidayHoursWorked = standardHoursWorked * 0.1207;
             }
             else if (staffSalaryTypeDictionary[staffID] == "Salaried")
             {
+                // If salaried then calculate standard hours normally
                 standardHoursWorked = CalculateStandardHours(TimesheetTable);
+                // Then holiday hours are calculated based on how many holiday fields there are in the month and calculating it based on the hours they were supposed to work.
                 holidayHoursWorked = CalculateHolidayHours(TimesheetTable);
                 //MessageBox.Show($"holidayHoursWorked = {holidayHoursWorked}");
                 totalHolidayToAdd = holidayHoursWorked;
@@ -108,12 +119,14 @@ namespace CSCoursework_Smiley.Properties
         }
         private double GetIncomeTax(double totalHourlyPay)
         {
+            // Initialize variables.
             double additionalRateTaxBand;
             double higherRateTaxBand;
             double basicRateTaxBand;
             double personalAllowance;
             double incomeTax;
 
+            // Calculate income tax based on tax bands.
             if (totalHourlyPay > (150000 / 12))
             {
                 additionalRateTaxBand = totalHourlyPay - (150000 / 12);
@@ -121,6 +134,7 @@ namespace CSCoursework_Smiley.Properties
                 basicRateTaxBand = (50000 / 12) - (12501 / 12);
                 personalAllowance = (12500 / 12);
             }
+            // Calculate income tax based on tax bands.
             else if (totalHourlyPay > (50000 / 12))
             {
                 additionalRateTaxBand = 0;
@@ -128,6 +142,7 @@ namespace CSCoursework_Smiley.Properties
                 basicRateTaxBand = (50000 / 12) - (12501 / 12);
                 personalAllowance = (12500 / 12);
             }
+            // Calculate income tax based on tax bands.
             else if (totalHourlyPay > (12500 / 12))
             {
                 additionalRateTaxBand = 0;
@@ -135,6 +150,7 @@ namespace CSCoursework_Smiley.Properties
                 basicRateTaxBand = totalHourlyPay - (12501 / 12);
                 personalAllowance = (12500 / 12);
             }
+            // Calculate income tax based on tax bands.
             else
             {
                 additionalRateTaxBand = 0;
@@ -143,29 +159,34 @@ namespace CSCoursework_Smiley.Properties
                 personalAllowance = totalHourlyPay;
             }
 
+            // Calculate income tax based on tax bands.
             incomeTax = additionalRateTaxBand * 0.45 + higherRateTaxBand * 0.4 + basicRateTaxBand * 0.2 + personalAllowance * 0;
             return incomeTax;
         }
         private Tuple<double, double> GetNationalInsurance(double totalHourlyPay, char NILetter)
         {
+            // Initialize national insurance.
             double nationalInsurance;
             double employerNationalInsurance;
             double UpperBandTax;
             double MiddleBandTax;
             double LowerBandTax;
 
+            // Calculate national insurance based on tax bands.
             if (totalHourlyPay > 4167)
             {
                 UpperBandTax = totalHourlyPay - 4167;
                 MiddleBandTax = 4167 - 792.01;
                 LowerBandTax = 792;
             }
+            // Calculate national insurance based on tax bands.
             else if (totalHourlyPay > 792)
             {
                 UpperBandTax = 0;
                 MiddleBandTax = totalHourlyPay - 792.01;
                 LowerBandTax = 792;
             }
+            // Calculate national insurance based on tax bands.
             else
             {
                 UpperBandTax = 0;
@@ -177,30 +198,37 @@ namespace CSCoursework_Smiley.Properties
             switch (NILetter)
             {
                 case 'A':
+                    // Calculate the weights of each tax band based on government given values.
                     nationalInsurance = UpperBandTax * 0.02 + MiddleBandTax * 0.12 + LowerBandTax * 0;
                     employerNationalInsurance = UpperBandTax * 0.138 + MiddleBandTax * 0.138 + LowerBandTax * 0;
                     break;
                 case 'B':
+                    // Calculate the weights of each tax band based on government given values.
                     nationalInsurance = UpperBandTax * 0.02 + MiddleBandTax * 0.0585 + LowerBandTax * 0;
                     employerNationalInsurance = UpperBandTax * 0.138 + MiddleBandTax * 0.138 + LowerBandTax * 0;
                     break;
                 case 'C':
+                    // Calculate the weights of each tax band based on government given values.
                     nationalInsurance = UpperBandTax * 0 + MiddleBandTax * 0 + LowerBandTax * 0;
                     employerNationalInsurance = UpperBandTax * 0.138 + MiddleBandTax * 0.138 + LowerBandTax * 0;
                     break;
                 case 'H':
+                    // Calculate the weights of each tax band based on government given values.
                     nationalInsurance = UpperBandTax * 0.02 + MiddleBandTax * 0.12 + LowerBandTax * 0;
                     employerNationalInsurance = UpperBandTax * 0.138 + MiddleBandTax * 0 + LowerBandTax * 0;
                     break;
                 case 'J':
+                    // Calculate the weights of each tax band based on government given values.
                     nationalInsurance = UpperBandTax * 0.02 + MiddleBandTax * 0.02 + LowerBandTax * 0;
                     employerNationalInsurance = UpperBandTax * 0.138 + MiddleBandTax * 0.138 + LowerBandTax * 0;
                     break;
                 case 'M':
+                    // Calculate the weights of each tax band based on government given values.
                     nationalInsurance = UpperBandTax * 0.02 + MiddleBandTax * 0.12 + LowerBandTax * 0;
                     employerNationalInsurance = UpperBandTax * 0.138 + MiddleBandTax * 0 + LowerBandTax * 0;
                     break;
                 case 'Z':
+                    // Calculate the weights of each tax band based on government given values.
                     nationalInsurance = UpperBandTax * 0.02 + MiddleBandTax * 0.02 + LowerBandTax * 0;
                     employerNationalInsurance = UpperBandTax * 0.138 + MiddleBandTax * 0 + LowerBandTax * 0;
                     break;
@@ -210,6 +238,7 @@ namespace CSCoursework_Smiley.Properties
                     break;
             }
 
+            // return the employees and employers national insurance.
             return new Tuple<double, double>(nationalInsurance, employerNationalInsurance);
         }
         private void UpdatePayslipLabels(double standardHoursWorked, double holidayHoursWorks, int staffID)
@@ -423,7 +452,7 @@ namespace CSCoursework_Smiley.Properties
             da.Fill(JobInfoDS, "JobInfo");
             JobInfoTable = JobInfoDS.Tables["JobInfo"];
 
-            // CLose Database Connection
+            // Close Database Connection
             con.Close();
 
             foreach (DataRow row in JobInfoTable.Rows)
