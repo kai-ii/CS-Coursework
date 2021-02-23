@@ -243,27 +243,34 @@ namespace CSCoursework_Smiley.Properties
         }
         private void UpdatePayslipLabels(double standardHoursWorked, double holidayHoursWorks, int staffID)
         {
+            /*Displays the payslip information for the selected employee*/
             if (staffTaxCodeDictionary[staffID] != "1250L")
             {
+                // These income tax calculations are only applicable to a tax code of 1250L.
                 MessageBox.Show("Payslip creation only works for employees with a tax code of 1250L, for standard tax-free Personal Allowance.");
                 return;
             }
 
+            // Initialize variables.
             int jobPositionID = staffJobDictionary[staffID];
             float jobPositionWage = jobValueDictionary[jobPositionID];
             double totalHoursWorked = holidayHoursWorks + standardHoursWorked;
             double totalHourlyPay = totalHoursWorked * jobPositionWage;
             double taxableWage = totalHourlyPay - (12500 / 12); if (taxableWage < 0) { taxableWage = 0; }
-            double incomeTax = GetIncomeTax(totalHourlyPay);
-            char NILetter = staffNILetterDictionary[staffID];
 
+            // Get income tax.
+            double incomeTax = GetIncomeTax(totalHourlyPay);
+
+            // Get national insurance.
+            char NILetter = staffNILetterDictionary[staffID];
             Tuple<double, double> nationalInsuranceEmployeeEmployer = GetNationalInsurance(totalHourlyPay, NILetter);
             double nationalInsurance = nationalInsuranceEmployeeEmployer.Item1;
             double employerNationalInsurance = nationalInsuranceEmployeeEmployer.Item2;
 
+            // Calculate take home pay.
             double takeHomePay = totalHourlyPay - nationalInsurance - incomeTax;
             
-
+            // Set all labels.
             lblEmployeeIDValue.Text = staffID.ToString();
             lblTaxMonthValue.Text = currentTaxMonth.ToString("MMMM");
             lblStandardHoursWorkedValue.Text = $"{Math.Round(standardHoursWorked, 2)} hours";
@@ -279,20 +286,25 @@ namespace CSCoursework_Smiley.Properties
         }
         private void WritePayslipInfoToDatabase(double standardHoursWorked, double holidayHoursWorked, double totalHolidayToAdd, int staffID, int exportID)
         {
-            // Initialize variables
+            // Initialize database variables.
             DataSet PayslipInfoDS;
             OleDbDataAdapter da;
             DataTable PayslipInfoTable;
             string sql;
+
+            // Initialize variables.
             int payslipID;
 
-            // Open Database Connection
+            // Open Database Connection.
             con.Open();
 
+            // Initialize payslip dataset.
             sql = $"SELECT * FROM tblPayslip WHERE staff_id={staffID} AND export_id={exportID}";
             da = new OleDbDataAdapter(sql, con);
             PayslipInfoDS = new DataSet();
             da.Fill(PayslipInfoDS, "PayslipInfo");
+
+            // Initialize payslip datatable.
             PayslipInfoTable = PayslipInfoDS.Tables["PayslipInfo"];
 
             if (PayslipInfoTable.Rows.Count > 0)
@@ -321,6 +333,7 @@ namespace CSCoursework_Smiley.Properties
             if (PayslipInfoTable.Rows.Count == 0) { payslipID = 1; }
             else { payslipID = PayslipInfoTable.Rows[PayslipInfoTable.Rows.Count - 1].Field<int>("payslip_id") + 1; }
 
+            // Generate new row and add it to the database.
             DataRow newRow = PayslipInfoTable.NewRow();
             newRow["payslip_id"] = payslipID;
             newRow["export_id"] = exportID;
@@ -334,8 +347,11 @@ namespace CSCoursework_Smiley.Properties
         }
         private double CalculateStandardHours(DataTable TimesheetTable)
         {
+            // Initialize variables
             double standardHoursWorked = 0;
             TimeSpan TotalStandardHoursWorked = TimeSpan.Zero;
+
+            // For each row get the start time and end time, skip the row if its an absent or holiday row. Then calculate the hours worked for that day and add it to the TotalStandardHoursWorked variable.
             foreach (DataRow row in TimesheetTable.Rows)
             {
                 string startTimeString = row.Field<string>("timesheet_start_time");
@@ -350,14 +366,17 @@ namespace CSCoursework_Smiley.Properties
                 DateTime endTime = DateTime.ParseExact($"{endTimeString}:00", "HH:mm:ss", CultureInfo.InvariantCulture);
                 TotalStandardHoursWorked += (endTime - startTime);
             }
+            // Return standardHoursWorked.
             standardHoursWorked = TotalStandardHoursWorked.TotalHours;
             return standardHoursWorked;
         }
         private double CalculateHolidayHours(DataTable TimesheetTable)
         {
+            // Initialize variables.
             double holidayHoursWorked = 0;
             TimeSpan TotalHolidayHoursWorked = TimeSpan.Zero;
 
+            // Foreach row in the timesheet table, if the row is not a holiday row skip it, otherwise calculate the hours the worker was meant to wrote, dictated by the rota'd hours, then add it to the total hours worked variable.
             foreach (DataRow row in TimesheetTable.Rows)
             {
                 string timesheetStartTimeString = row.Field<string>("timesheet_start_time");
@@ -375,13 +394,14 @@ namespace CSCoursework_Smiley.Properties
                 DateTime endTime = DateTime.ParseExact($"{rotaEndTimeString}:00", "HH:mm:ss", CultureInfo.InvariantCulture);
                 TotalHolidayHoursWorked += (endTime - startTime);
             }
+            // Return the total holiday hours worked.
             holidayHoursWorked = TotalHolidayHoursWorked.TotalHours;
             return holidayHoursWorked;
         }
 
         private Tuple<DataTable, int> GetTimesheetHoursWorkedTable(int staffID)
         {
-            // Initialize variables
+            // Initialize database variables.
             DataSet ExportInfoDS;
             DataSet TimesheetDS;
             OleDbDataAdapter da;
@@ -389,21 +409,29 @@ namespace CSCoursework_Smiley.Properties
             DataTable TimesheetTable;
             string sql;
 
-            // Open Database Connection
+            // Open Database Connection.
             con.Open();
 
+            // Initialize export dataset.
             CultureInfo USCulture = CultureInfo.CreateSpecificCulture("en-US");
             sql = $"SELECT export_id FROM tblExport WHERE tax_month_start_date=#{currentTaxMonth.ToString("d", USCulture)}#";
             da = new OleDbDataAdapter(sql, con);
             ExportInfoDS = new DataSet();
             da.Fill(ExportInfoDS, "ExportInfo");
+
+            // Initialize export datatable.
             ExportInfoTable = ExportInfoDS.Tables["ExportInfo"];
+
+            // Initialize exportID.
             int exportID = ExportInfoTable.Rows[0].Field<int>("export_id");
 
+            // Initialize timesheet dataset.
             sql = $"SELECT rota_start_time, rota_end_time, timesheet_start_time, timesheet_end_time FROM tblRota WHERE export_id={exportID} AND staff_id={staffID}";
             da = new OleDbDataAdapter(sql, con);
             TimesheetDS = new DataSet();
             da.Fill(TimesheetDS, "TimesheetInfo");
+
+            // Initialize timesheet table.
             TimesheetTable = TimesheetDS.Tables["TimesheetInfo"];
 
             //MessageBox.Show(TimesheetTable.Rows.Count.ToString());
@@ -415,20 +443,25 @@ namespace CSCoursework_Smiley.Properties
         }
         private void UpdateCurrentMonthLabel()
         {
-            lblCurrentTaxMonth.Text = $"Tax Month - {currentTaxMonth.ToString("D")}";
+            // Update the current tax month label with the current tax month.
+            lblCurrentTaxMonth.Text = $"Tax Month - {currentTaxMonth:D}";
         }
         private void SetCurrentMonth()
         {
+            // Set up the current month variable as the sixth of the current month of the current year.
             string dd = "06";
             string MM = DateTime.Now.Month.ToString();
             string yyyy = DateTime.Now.Year.ToString();
 
+            // If the month is only a single digit, format it to have a 0 infront.
             if (MM.Length == 1) { MM = $"0{MM}"; }
 
+            // ParseExact is used to parse the current tax month since the string will always be valid.
             currentTaxMonth = DateTime.ParseExact($"{dd}/{MM}/{yyyy}", "dd/MM/yyyy", CultureInfo.InvariantCulture);
         }
         private void InitializeStaffComboBox()
         {
+            // Add the employees grabbed from the database to the combobox.
             string[] employeeArray = staffNameDictionary.Values.ToArray<string>();
             comboBoxSelectEmployee.Items.AddRange(employeeArray);
         }
@@ -465,7 +498,7 @@ namespace CSCoursework_Smiley.Properties
         }
         private void GetStaffData()
         {
-            // Initialize Dictionarys
+            // Initialize Dictionaries
             staffNameDictionary = new Dictionary<int, string>();
             staffJobDictionary = new Dictionary<int, int>();
             staffSalaryTypeDictionary = new Dictionary<int, string>();
@@ -491,6 +524,7 @@ namespace CSCoursework_Smiley.Properties
             // CLose Database Connection
             con.Close();
 
+            // Foreach row, add to the local dictionaries for use in other functions.
             foreach (DataRow row in StaffInfoTable.Rows)
             {
                 int staffID = row.Field<int>("staff_id");
@@ -508,45 +542,20 @@ namespace CSCoursework_Smiley.Properties
                 staffTaxCodeDictionary.Add(staffID, staffTaxCode);
             }
         }
-        private void InitializeDatabaseConnection()
-        {
-            // Initialize variables
-            string dbProvider;
-            string DatabasePath;
-            string CurrentProjectPath;
-            string FullDatabasePath = "";
-            string dbSource;
-
-            try
-            {
-                // Establish Connection with Database
-                dbProvider = "PROVIDER=Microsoft.ACE.OLEDB.12.0;";
-                DatabasePath = "TestDatabase.accdb";
-                CurrentProjectPath = System.AppDomain.CurrentDomain.BaseDirectory;
-                FullDatabasePath = CurrentProjectPath + DatabasePath;
-                dbSource = "Data Source =" + FullDatabasePath;
-                con.ConnectionString = dbProvider + dbSource;
-                con.Open();
-                Console.WriteLine("Connection established");
-                con.Close();
-            }
-            catch
-            {
-                Console.WriteLine($"Error establishing database connection Payslip. FullDatabasePath = {FullDatabasePath}");
-                MessageBox.Show($"Error establishing database connection Payslip. FullDatabasePath = {FullDatabasePath}");
-            }
-        }
         private void comboBoxSelectEmployee_SelectedIndexChanged(object sender, EventArgs e)
         {
+            // When the selected employee changed, get the staffID of the staff member selected and calculate the payslip information of that employee. This will then be displayed.
             int staffID = GetStaffID(comboBoxSelectEmployee.SelectedItem.ToString());
             CalculatePayslipInformation(staffID);
         }
         private int GetStaffID(string staffName)
         {
+            // Returns a backwards dictionary search which finds the key (staffID) for the given value (staffName)
             return staffNameDictionary.FirstOrDefault(keyValuePair => keyValuePair.Value == staffName).Key;
         }
         private void btnPrevMonth_Click(object sender, EventArgs e)
         {
+            // Change the selected month by -1 months (previous month) and update the displayed month
             currentTaxMonth = currentTaxMonth.AddMonths(-1);
             UpdateCurrentMonthLabel();
             int staffID = GetStaffID(comboBoxSelectEmployee.SelectedItem.ToString());
@@ -554,6 +563,7 @@ namespace CSCoursework_Smiley.Properties
         }
         private void btnNextMonth_Click(object sender, EventArgs e)
         {
+            // Change the selected month by +1 months (next month) and update the displayed month
             currentTaxMonth = currentTaxMonth.AddMonths(1);
             UpdateCurrentMonthLabel();
             int staffID = GetStaffID(comboBoxSelectEmployee.SelectedItem.ToString());
@@ -561,6 +571,7 @@ namespace CSCoursework_Smiley.Properties
         }
         private void AddPage(PdfDocument document, string staffName)
         {
+            /*Add a page to the PDF document.*/
             int staffID = GetStaffID(staffName);
 
             PdfPage page = document.AddPage();
@@ -980,44 +991,67 @@ namespace CSCoursework_Smiley.Properties
 
         private Tuple<double, double> GetHoursWorkedTuple(int staffID)
         {
-            // Initialize variables
+            // Initialize database variables.
             DataSet PayslipInfoDS;
             OleDbDataAdapter da;
             DataTable PayslipInfoTable;
             string sql;
 
-            // Open Database Connection
+            // Open Database Connection.
             con.Open();
 
-            if (staffSalaryTypeDictionary[staffID] == "Salaried") { sql = $"SELECT standard_hours_worked, holiday_hours_taken FROM tblPayslip WHERE staff_id={staffID}"; }
-            else { sql = $"SELECT standard_hours_worked, holiday_hours_worked FROM tblPayslip WHERE staff_id={staffID}"; }
+            // Initialize database variables.
+            DataSet ExportInfoDS;
+            DataTable ExportInfoTable;
+
+            // Initialize export dataset.
+            CultureInfo USCulture = CultureInfo.CreateSpecificCulture("en-US");
+            sql = $"SELECT export_id FROM tblExport WHERE tax_month_start_date=#{currentTaxMonth.ToString("d", USCulture)}#";
+            da = new OleDbDataAdapter(sql, con);
+            ExportInfoDS = new DataSet();
+            da.Fill(ExportInfoDS, "ExportInfo");
+
+            // Initialize export datatable.
+            ExportInfoTable = ExportInfoDS.Tables["ExportInfo"];
+
+            // Initialize exportID.
+            int exportID = ExportInfoTable.Rows[0].Field<int>("export_id");
+
+            if (staffSalaryTypeDictionary[staffID] == "Salaried") { sql = $"SELECT standard_hours_worked, holiday_hours_taken FROM tblPayslip WHERE staff_id={staffID} AND export_id={exportID}"; }
+            else { sql = $"SELECT standard_hours_worked, holiday_hours_worked FROM tblPayslip WHERE staff_id={staffID} AND export_id={exportID}"; }
 
             da = new OleDbDataAdapter(sql, con);
             PayslipInfoDS = new DataSet();
             da.Fill(PayslipInfoDS, "PayslipInfo");
             PayslipInfoTable = PayslipInfoDS.Tables["PayslipInfo"];
 
-            // Close Database Connection
+            // Close Database Connection.
             con.Close();
 
+            // If there isn't a row for the current staff member, generate one.
             if (PayslipInfoTable.Rows.Count == 0) 
             {
                 CalculatePayslipInformation(staffID);
 
+                // Open database connection.
                 con.Open();
 
-                if (staffSalaryTypeDictionary[staffID] == "Salaried") { sql = $"SELECT standard_hours_worked, holiday_hours_taken FROM tblPayslip WHERE staff_id={staffID}"; }
-                else { sql = $"SELECT standard_hours_worked, holiday_hours_worked FROM tblPayslip WHERE staff_id={staffID}"; }
+                // Change sql based on contract type of the staff member.
+                if (staffSalaryTypeDictionary[staffID] == "Salaried") { sql = $"SELECT standard_hours_worked, holiday_hours_taken FROM tblPayslip WHERE staff_id={staffID} AND export_id={exportID}"; }
+                else { sql = $"SELECT standard_hours_worked, holiday_hours_worked FROM tblPayslip WHERE staff_id={staffID} AND export_id={exportID}"; }
 
+                // Initialize payslip dataset.
                 da = new OleDbDataAdapter(sql, con);
                 PayslipInfoDS = new DataSet();
                 da.Fill(PayslipInfoDS, "PayslipInfo");
 
+                // Close database connection.
                 con.Close();
 
                 PayslipInfoTable = PayslipInfoDS.Tables["PayslipInfo"];
                 if (PayslipInfoTable.Rows.Count == 0)
                 {
+                    // If even after generating the new payslip information there is no row for this staff member, return 0 hours worked.
                     return new Tuple<double, double>(0, 0);
                 }
             }
@@ -1035,6 +1069,7 @@ namespace CSCoursework_Smiley.Properties
             pdfdocument.Info.Subject = $"Displays payslip for {comboBoxSelectEmployee.SelectedItem} for {currentTaxMonth:d}";
             pdfdocument.Info.Keywords = "PDFsharp, XGraphics";
 
+            // Only add a single page for the selected employee.
             AddPage(pdfdocument, comboBoxSelectEmployee.SelectedItem.ToString());
 
             //Save document
@@ -1053,6 +1088,7 @@ namespace CSCoursework_Smiley.Properties
             pdfdocument.Info.Subject = $"Displays payslip for {comboBoxSelectEmployee.SelectedItem} for {currentTaxMonth:d}";
             pdfdocument.Info.Keywords = "PDFsharp, XGraphics";
 
+            // Add a page for all staffIDs stored in the staff name/ID dictionary. key=staffID, value=staffName
             foreach (string value in staffNameDictionary.Values)
             {
                 AddPage(pdfdocument, value);
