@@ -16,7 +16,7 @@ namespace CSCoursework_Smiley
 {
     public partial class TimesheetControl : UserControl
     {
-        //Initialise variables
+        // Initialise local class variables.
         OleDbConnection con = new OleDbConnection();
         DateTime currentWeek = DateTime.Now.StartOfWeek(DayOfWeek.Monday);
         int timeSaveSection = 0;
@@ -35,34 +35,26 @@ namespace CSCoursework_Smiley
 
         public void setBackgroundHighlightColours(Color receivedBackgroundColour, Color receivedHighlightColour)
         {
+            // Initialize the background colours dictated by the user database settings.
             backgroundColour = receivedBackgroundColour;
             highlightColour = receivedHighlightColour;
             UpdateDataGridViewColumnColours();
         }
-        
         public TimesheetControl()
         {
+            // Standard form initialize component call.
             InitializeComponent();
         }
-
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void weekDayTable_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
         public void SetCon(OleDbConnection Con)
         {
+            // Assign the local connection string value to the already generated one, saving on processing since otherwise the database location would have to be grabbed multiple times.
             con = Con;
+            // Initialize the form once the connection string has been assigned.
             InitializeForm();
         }
-
         private void InitializeForm()
         {
+            // Initialize the datagrid headers as well as initialize the staff members
             InitializeDataGridHeaderDate();
             rotaDataGrid.AutoGenerateColumns = false;
             GetTimesheetRotaData();
@@ -74,21 +66,24 @@ namespace CSCoursework_Smiley
         }
         private void TimesheetControl_Load(object sender, EventArgs e)
         {
-            //InitializeDatabaseConnection();
+            // Nothing is done when the form is loaded since we must wait for the connection string to be passed to access the database.
         }
 
         public void UpdateTimesheetControl()
         {
+            // Initialize the staff members in the first column of the timesheet table.
             GetTimesheetRotaData();
             InitializeStaffMemberList();
             UpdateControlEmployees();
         }
         private void UpdateControlEmployees()
         {
+            // If there are no staff member initialized, return, this means that the timesheet is empty.
             if (staffMembersInDataGridList.Count == 0) { return; }
             List<Tuple<int, List<bool>>> staffMembersInDataGridListHolidayTuple = new List<Tuple<int, List<bool>>>();
             List<Tuple<int, List<bool>>> staffMembersInDataGridListAbsenceTuple = new List<Tuple<int, List<bool>>>();
 
+            // For each row in the datagrid, create an absence list and holiday list, get the days the staff members were absent or on holiday and update the controls correspondingly.
             for (int row = 0; row < rotaDataGrid.Rows.Count; row++)
             {
                 List<bool> absenceList = new List<bool>();
@@ -97,6 +92,7 @@ namespace CSCoursework_Smiley
                 int rowToAdd = row;
                 for (int column = 3; column<20; column+=4)
                 {
+                    // Check if the value is absent, if so add a true to the absence list, else add a false.
                     if (rotaDataGrid.Rows[row].Cells[column].Value?.ToString() == "Absent")
                     {
                         absenceList.Add(true);
@@ -106,49 +102,53 @@ namespace CSCoursework_Smiley
                         absenceList.Add(false);
                     }
 
+                    // Check if the value is holiday, if so add a true to the absence list, else add a false.
                     if (rotaDataGrid.Rows[row].Cells[column].Value?.ToString() == "Holiday")
                     {
                         holidayList.Add(true);
-                        //MessageBox.Show($"true added to holiday list, column={column}");
                     }
                     else
                     {
                         holidayList.Add(false);
-                        //MessageBox.Show($"false added to holiday list, column={column}");
                     }
                 }
 
+                // Update the absence tuple with the new rows data.
                 staffMembersInDataGridListAbsenceTuple.Add(new Tuple<int, List<bool>>(rowToAdd, absenceList));
                 staffMembersInDataGridListHolidayTuple.Add(new Tuple<int, List<bool>>(rowToAdd, holidayList));
             }
 
+            // Update the timesheet holiday and absence controls with the absence and holiday data gathered.
             timesheetHolidayDataControl1.SetEmployeeComboBox(staffMembersInDataGridListHolidayTuple);
             timesheetAbsenceDataControl1.SetEmployeeCombobox(staffMembersInDataGridListAbsenceTuple);
             timesheetHolidayDataControl1.SetComboBoxMembers(staffMembersInDataGridList);
             timesheetAbsenceDataControl1.SetComboBoxMembers(staffMembersInDataGridList);
             timesheetHolidayDataControl1.UpdateDatagrid();
             timesheetAbsenceDataControl1.UpdateDatagrid();
-            
         }
 
         private void InitializeParentForms()
         {
+            // Set this form to be the parent of both the timesheet absence and holiday controls, this allows them to use this classes public functions.
             timesheetHolidayDataControl1.SetParentForm(this);
             timesheetAbsenceDataControl1.SetParentForm(this);
         }
 
         public void UpdateHolidayData(int rowToChange, int dayToChange, bool checkedValue)
         {
+            // Switch on the day given and update the columns with the respective data.
             switch (dayToChange)
             {
                 case 1:
                     if (checkedValue)
                     {
+                        // If the column for monday is checked, set the corresponding columns to 'Holiday'
                         rotaDataGrid.Rows[rowToChange].Cells[3].Value = "Holiday";
                         rotaDataGrid.Rows[rowToChange].Cells[4].Value = "Holiday";
                     }
                     else
                     {
+                        // Else set them to be blank.
                         rotaDataGrid.Rows[rowToChange].Cells[3].Value = "";
                         rotaDataGrid.Rows[rowToChange].Cells[4].Value = "";
                     }
@@ -156,11 +156,13 @@ namespace CSCoursework_Smiley
                 case 2:
                     if (checkedValue)
                     {
+                        // If the column for tuesday is checked, set the corresponding columns to 'Holiday'
                         rotaDataGrid.Rows[rowToChange].Cells[7].Value = "Holiday";
                         rotaDataGrid.Rows[rowToChange].Cells[8].Value = "Holiday";
                     }
                     else
                     {
+                        // Else set them to be blank.
                         rotaDataGrid.Rows[rowToChange].Cells[7].Value = "";
                         rotaDataGrid.Rows[rowToChange].Cells[8].Value = "";
                     }
@@ -168,11 +170,13 @@ namespace CSCoursework_Smiley
                 case 3:
                     if (checkedValue)
                     {
+                        // If the column for wednesday is checked, set the corresponding columns to 'Holiday'
                         rotaDataGrid.Rows[rowToChange].Cells[11].Value = "Holiday";
                         rotaDataGrid.Rows[rowToChange].Cells[12].Value = "Holiday";
                     }
                     else
                     {
+                        // Else set them to be blank.
                         rotaDataGrid.Rows[rowToChange].Cells[11].Value = "";
                         rotaDataGrid.Rows[rowToChange].Cells[12].Value = "";
                     }
@@ -180,11 +184,13 @@ namespace CSCoursework_Smiley
                 case 4:
                     if (checkedValue)
                     {
+                        // If the column for thursday is checked, set the corresponding columns to 'Holiday'
                         rotaDataGrid.Rows[rowToChange].Cells[15].Value = "Holiday";
                         rotaDataGrid.Rows[rowToChange].Cells[16].Value = "Holiday";
                     }
                     else
                     {
+                        // Else set them to be blank.
                         rotaDataGrid.Rows[rowToChange].Cells[15].Value = "";
                         rotaDataGrid.Rows[rowToChange].Cells[16].Value = "";
                     }
@@ -192,31 +198,37 @@ namespace CSCoursework_Smiley
                 case 5:
                     if (checkedValue)
                     {
+                        // If the column for friday is checked, set the corresponding columns to 'Holiday'
                         rotaDataGrid.Rows[rowToChange].Cells[19].Value = "Holiday";
                         rotaDataGrid.Rows[rowToChange].Cells[20].Value = "Holiday";
                     }
                     else
                     {
+                        // Else set them to be blank.
                         rotaDataGrid.Rows[rowToChange].Cells[19].Value = "";
                         rotaDataGrid.Rows[rowToChange].Cells[20].Value = "";
                     }
                     break;
             }
 
+            // Update the control details based on the updated holiday label.
             UpdateControlEmployees();
         }
         public void UpdateAbsenceDataGrid(int rowToChange, int dayToChange, bool checkedValue)
         {
+            // Switch on the day given and update the columns with the respective data.
             switch (dayToChange)
             {
                 case 1:
                     if (checkedValue)
                     {
+                        // If the column for monday is checked, set the corresponding columns to 'Absent'
                         rotaDataGrid.Rows[rowToChange].Cells[3].Value = "Absent";
                         rotaDataGrid.Rows[rowToChange].Cells[4].Value = "Absent";
                     }
                     else
                     {
+                        // Else set them to be blank.
                         rotaDataGrid.Rows[rowToChange].Cells[3].Value = "";
                         rotaDataGrid.Rows[rowToChange].Cells[4].Value = "";
                     }
@@ -224,11 +236,13 @@ namespace CSCoursework_Smiley
                 case 2:
                     if (checkedValue)
                     {
+                        // If the column for tuesday is checked, set the corresponding columns to 'Absent'
                         rotaDataGrid.Rows[rowToChange].Cells[7].Value = "Absent";
                         rotaDataGrid.Rows[rowToChange].Cells[8].Value = "Absent";
                     }
                     else
                     {
+                        // Else set them to be blank.
                         rotaDataGrid.Rows[rowToChange].Cells[7].Value = "";
                         rotaDataGrid.Rows[rowToChange].Cells[8].Value = "";
                     }
@@ -236,11 +250,13 @@ namespace CSCoursework_Smiley
                 case 3:
                     if (checkedValue)
                     {
+                        // If the column for wednesday is checked, set the corresponding columns to 'Absent'
                         rotaDataGrid.Rows[rowToChange].Cells[11].Value = "Absent";
                         rotaDataGrid.Rows[rowToChange].Cells[12].Value = "Absent";
                     }
                     else
                     {
+                        // Else set them to be blank.
                         rotaDataGrid.Rows[rowToChange].Cells[11].Value = "";
                         rotaDataGrid.Rows[rowToChange].Cells[12].Value = "";
                     }
@@ -248,11 +264,13 @@ namespace CSCoursework_Smiley
                 case 4:
                     if (checkedValue)
                     {
+                        // If the column for thursday is checked, set the corresponding columns to 'Absent'
                         rotaDataGrid.Rows[rowToChange].Cells[15].Value = "Absent";
                         rotaDataGrid.Rows[rowToChange].Cells[16].Value = "Absent";
                     }
                     else
                     {
+                        // Else set them to be blank.
                         rotaDataGrid.Rows[rowToChange].Cells[15].Value = "";
                         rotaDataGrid.Rows[rowToChange].Cells[16].Value = "";
                     }
@@ -260,17 +278,20 @@ namespace CSCoursework_Smiley
                 case 5:
                     if (checkedValue)
                     {
+                        // If the column for friday is checked, set the corresponding columns to 'Absent'
                         rotaDataGrid.Rows[rowToChange].Cells[19].Value = "Absent";
                         rotaDataGrid.Rows[rowToChange].Cells[20].Value = "Absent";
                     }
                     else
                     {
+                        // Else set them to be blank.
                         rotaDataGrid.Rows[rowToChange].Cells[19].Value = "";
                         rotaDataGrid.Rows[rowToChange].Cells[20].Value = "";
                     }
                     break;
             }
 
+            // Update the control details based on the updated absence label.
             UpdateControlEmployees();
         }
         public void UpdateAbsenceDatabaseInformation(Day dayOfWeek, string textToSave, int employeeSelected)
@@ -278,16 +299,18 @@ namespace CSCoursework_Smiley
             // Open database connection
             con.Open();
 
-            // Initialize variables
+            // Initialize database variables
             DataSet RotaIDDS;
             DataSet AbsenceNoteInfoDS;
             OleDbDataAdapter da;
             string sql;
 
+            // Initialize variables
             string staffMemberToFind = staffMembersInDataGridList[employeeSelected];
             int staffID = 0;
             int rotaID;
 
+            // For
             for (int staffIDIterator = 0; staffIDIterator < fullStaffMemberList.Count; staffIDIterator++)
             {
                 string firstname = fullStaffMemberList[staffIDIterator].Split(',')[0];
@@ -967,6 +990,7 @@ namespace CSCoursework_Smiley
         }
     }
 
+    // Inspired by this stackoverflow post https://stackoverflow.com/questions/38039/how-can-i-get-the-datetime-for-the-start-of-the-week
     public static class DateTimeExtension
     {
         public static DateTime StartOfWeek(this DateTime dt, DayOfWeek startOfWeek)

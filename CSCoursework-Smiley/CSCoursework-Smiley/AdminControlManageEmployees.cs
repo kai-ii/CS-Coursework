@@ -125,7 +125,7 @@ namespace CSCoursework_Smiley
 
         private void AdminControlManageEmployees_Load(object sender, EventArgs e)
         {
-            //InitializeDatabaseConnection();
+            // Nothing is done when the form is loaded since we must wait for the connection string to be passed to access the database.
         }
         private void InitializeParentChildRelationships()
         {
@@ -163,7 +163,7 @@ namespace CSCoursework_Smiley
             // Close database connection.
             con.Close();
 
-            //Initialize Details View.
+            // Initialize Details View.
             lstBoxEmployees.SelectedIndex = 0;
         }
         private void InitializeSearchTextbox()
@@ -210,7 +210,7 @@ namespace CSCoursework_Smiley
             // Assign quicksort array its values
             string[] quicksortArray = lstBoxDummy.Items.OfType<string>().ToArray();
 
-            // Debug console writelines
+            // Debug console writelines.
             Console.Write("Unsorted Array: ");
             foreach (string item in quicksortArray)
             {
@@ -218,7 +218,7 @@ namespace CSCoursework_Smiley
             }
             Console.WriteLine();
 
-            // Perform the quicksort on the quicksortarray
+            // Perform the quicksort on the quicksortarray.
             Quicksort(quicksortArray, 0, quicksortArray.Length - 1);
             Console.Write("Sorted Array: ");
             foreach (string item in quicksortArray)
@@ -227,14 +227,14 @@ namespace CSCoursework_Smiley
             }
             Console.WriteLine();
 
-            // Clear the items in the dummy list box
+            // Clear the items in the dummy list box.
             lstBoxDummy.Items.Clear();
-            // Foreach sorted item in the quicksort array add it to the dummy list box
+            // Foreach sorted item in the quicksort array add it to the dummy list box.
             Array.ForEach<string>(quicksortArray, staffMember => lstBoxDummy.Items.Add(staffMember));
 
             void Quicksort(string[] arr, int start, int end)
             {
-                // Get the pivot point and set it to i, quicksort the values between the start and pivot and the pivot and the end
+                // Get the pivot point and set it to i, quicksort the values between the start and pivot and the pivot and the end.
                 int i;
                 if (start < end)
                 {
@@ -290,7 +290,7 @@ namespace CSCoursework_Smiley
                 a[i + 1] = tempHigh;
                 a[end] = tempLow;
 
-                // Debug console writes
+                // Debug console writes.
                 Console.Write($"Pivot = {pivot}. Current Array: ");
                 foreach (string item in a)
                 {
@@ -298,7 +298,7 @@ namespace CSCoursework_Smiley
                 }
                 Console.WriteLine();
 
-                // return the pivot point
+                // return the pivot point.
                 return i + 1;
             }
         }
@@ -327,18 +327,18 @@ namespace CSCoursework_Smiley
                     int midpoint = (min + max) / 2;
                     if (sortedArray[midpoint].ToLower().Contains(searchItem.ToLower()))
                     {
-                        // If the item is found then add it to the dummy list box.
+                        // If the item is found then add it to the dummy list box and break out of the loop to prevent an infinite loop.
                         lstBoxDummy.Items.Add(sortedArray[midpoint]);
                         break;
                     }
                     else if (String.Compare(searchItem, sortedArray[midpoint]) > 0)
                     {
-                        // if the item is greater then "remove" the bottom values of the array by changing the min index.
+                        // If the item is greater then "remove" the bottom values of the array by changing the min index.
                         min = midpoint + 1;
                     }
                     else if (String.Compare(searchItem, sortedArray[midpoint]) < 0)
                     {
-                        // if the item is greater then "remove" the top values of the array by changing the max index.
+                        // If the item is greater then "remove" the top values of the array by changing the max index.
                         max = midpoint - 1;
                     }
                 }

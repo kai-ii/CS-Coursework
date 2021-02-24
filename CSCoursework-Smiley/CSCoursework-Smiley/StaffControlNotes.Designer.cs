@@ -49,7 +49,6 @@
             this.grpGeneralNotes.TabIndex = 0;
             this.grpGeneralNotes.TabStop = false;
             this.grpGeneralNotes.Text = "General Notes";
-            this.grpGeneralNotes.Enter += new System.EventHandler(this.grpGeneralNotes_Enter);
             // 
             // btnSaveGeneralNotes
             // 
@@ -68,7 +67,6 @@
             this.rTxtGeneralNotes.Size = new System.Drawing.Size(541, 357);
             this.rTxtGeneralNotes.TabIndex = 0;
             this.rTxtGeneralNotes.Text = "";
-            this.rTxtGeneralNotes.TextChanged += new System.EventHandler(this.rTxtGeneralNotes_TextChanged);
             // 
             // monthCalendar1
             // 

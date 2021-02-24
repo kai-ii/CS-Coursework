@@ -105,7 +105,6 @@
             this.grpAddress.TabIndex = 0;
             this.grpAddress.TabStop = false;
             this.grpAddress.Text = "Address";
-            this.grpAddress.Enter += new System.EventHandler(this.grpAddress_Enter);
             // 
             // btnSaveAddressDetails
             // 

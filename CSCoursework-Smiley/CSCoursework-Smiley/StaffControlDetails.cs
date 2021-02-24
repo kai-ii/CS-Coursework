@@ -15,65 +15,72 @@ namespace CSCoursework_Smiley
 {
     public partial class StaffControlDetails : UserControl
     {
-        //Initialise variables
+        // Initialise local class variables.
         OleDbConnection con = new OleDbConnection();
         int jobpositionID;
         string jobpositionName;
         StaffControl parentForm;
 
+        public void SetCon(OleDbConnection Con)
+        {
+            con = Con;
+        }
         public void SetParentForm(StaffControl ParentForm)
         {
+            // Assign this forms parent form to be a parent form of the template StaffControl which is passed in from the Staff Control.
             parentForm = ParentForm;
         }
 
         //Initialise dict
         Dictionary<string, string> staffInfoDict = new Dictionary<string, string>();
-        public DataRow Staff_details 
+
+        public void SetStaffDetails(DataRow value)
         {
-            get { return null; }
-            set
+            // If the given value is not a null one, then assign the staff information dictionary the values corresponding with the fields in the database.
+            if (value != null)
             {
-                if (value != null)
-                {
-                    staffInfoDict = new Dictionary<string, string>();
-                    staffInfoDict.Add("staff_id", Convert.ToString(value.Field<int>("staff_id")));
-                    staffInfoDict.Add("jobposition_id", Convert.ToString(value.Field<int>("jobposition_id")));
-                    staffInfoDict.Add("staff_firstname", value.Field<string>("staff_firstname"));
-                    staffInfoDict.Add("staff_surname", value.Field<string>("staff_surname"));
-                    staffInfoDict.Add("staff_NI_number", value.Field<string>("staff_NI_number"));
-                    staffInfoDict.Add("staff_DoB", value.Field<string>("staff_DoB"));
-                    staffInfoDict.Add("staff_gender", value.Field<string>("staff_gender"));
-                    staffInfoDict.Add("staff_contract_type", value.Field<string>("staff_contract_type"));
-                    staffInfoDict.Add("staff_salaried_hours", Convert.ToString(value.Field<int>("staff_salaried_hours")));
-                    staffInfoDict.Add("staff_works_number", value.Field<string>("staff_works_number"));
-                    staffInfoDict.Add("staff_NI_letter", value.Field<string>("staff_NI_letter"));
-                    staffInfoDict.Add("staff_tax_code", value.Field<string>("staff_tax_code"));
-                    staffInfoDict.Add("staff_street", value.Field<string>("staff_street"));
-                    staffInfoDict.Add("staff_city", value.Field<string>("staff_city"));
-                    staffInfoDict.Add("staff_county", value.Field<string>("staff_county"));
-                    staffInfoDict.Add("staff_postcode", value.Field<string>("staff_postcode"));
-                    staffInfoDict.Add("staff_mobile_number", value.Field<string>("staff_mobile_number"));
-                    staffInfoDict.Add("staff_home_number", value.Field<string>("staff_home_number"));
-                    staffInfoDict.Add("staff_email_address", value.Field<string>("staff_email_address"));
-                    staffInfoDict.Add("staff_employed", Convert.ToString(value.Field<bool>("staff_employed")));
-                    jobpositionID = Convert.ToInt32(staffInfoDict["jobposition_id"]);
-                    jobpositionName = GetJobPositionName(jobpositionID);
-                    staffInfoDict.Add("jobposition_name", jobpositionName);
-                    UpdateUserDetails();
-                }
+                staffInfoDict = new Dictionary<string, string>();
+                staffInfoDict.Add("staff_id", Convert.ToString(value.Field<int>("staff_id")));
+                staffInfoDict.Add("jobposition_id", Convert.ToString(value.Field<int>("jobposition_id")));
+                staffInfoDict.Add("staff_firstname", value.Field<string>("staff_firstname"));
+                staffInfoDict.Add("staff_surname", value.Field<string>("staff_surname"));
+                staffInfoDict.Add("staff_NI_number", value.Field<string>("staff_NI_number"));
+                staffInfoDict.Add("staff_DoB", value.Field<string>("staff_DoB"));
+                staffInfoDict.Add("staff_gender", value.Field<string>("staff_gender"));
+                staffInfoDict.Add("staff_contract_type", value.Field<string>("staff_contract_type"));
+                staffInfoDict.Add("staff_salaried_hours", Convert.ToString(value.Field<int>("staff_salaried_hours")));
+                staffInfoDict.Add("staff_works_number", value.Field<string>("staff_works_number"));
+                staffInfoDict.Add("staff_NI_letter", value.Field<string>("staff_NI_letter"));
+                staffInfoDict.Add("staff_tax_code", value.Field<string>("staff_tax_code"));
+                staffInfoDict.Add("staff_street", value.Field<string>("staff_street"));
+                staffInfoDict.Add("staff_city", value.Field<string>("staff_city"));
+                staffInfoDict.Add("staff_county", value.Field<string>("staff_county"));
+                staffInfoDict.Add("staff_postcode", value.Field<string>("staff_postcode"));
+                staffInfoDict.Add("staff_mobile_number", value.Field<string>("staff_mobile_number"));
+                staffInfoDict.Add("staff_home_number", value.Field<string>("staff_home_number"));
+                staffInfoDict.Add("staff_email_address", value.Field<string>("staff_email_address"));
+                staffInfoDict.Add("staff_employed", Convert.ToString(value.Field<bool>("staff_employed")));
+                jobpositionID = Convert.ToInt32(staffInfoDict["jobposition_id"]);
+                jobpositionName = GetJobPositionName(jobpositionID);
+                staffInfoDict.Add("jobposition_name", jobpositionName);
+
+                // Finally update the user details with these values.
+                UpdateUserDetails();
             }
         }
         public StaffControlDetails()
         {
+            // Standard form initialize component call.
             InitializeComponent();
         }
 
         private void StaffControlDetails_Load(object sender, EventArgs e)
         {
-            InitializeDatabaseConnection();
+            // Nothing is done when the form is loaded since we must wait for the connection string to be passed to access the database. Otherwise, this form is entirely event driven.
         }
         public void PersonalView()
         {
+            // If the staff member only has personal permissions then don't allow them to edit their own details.
             btnEditAddressDetails.Visible = false;
             btnEditEmploymentDetails.Visible = false;
             btnEditContactInfoDetails.Visible = false;
@@ -82,6 +89,7 @@ namespace CSCoursework_Smiley
         }
         public void AdminView()
         {
+            // If the staff member has all permissions then allow them to edit all staff member details.
             btnEditAddressDetails.Visible = true;
             btnEditEmploymentDetails.Visible = true;
             btnEditContactInfoDetails.Visible = true;
@@ -95,14 +103,20 @@ namespace CSCoursework_Smiley
             OleDbDataAdapter da;
             string sql;
 
+            // Open the database connection
+            con.Open();
+
             //Check Login Details
             sql = $"SELECT * FROM tblJobPositions WHERE jobposition_id={jobposition_id}";
             da = new OleDbDataAdapter(sql, con);
             JobPositionDS = new DataSet();
             da.Fill(JobPositionDS, "JobPosition");
 
-            string jobposition_name = Convert.ToString(JobPositionDS.Tables["JobPosition"].Rows[0].Field<string>("jobposition_name"));
+            // Close the database connection.
             con.Close();
+
+            // Set the job position name and return it.
+            string jobposition_name = Convert.ToString(JobPositionDS.Tables["JobPosition"].Rows[0].Field<string>("jobposition_name"));
             return jobposition_name;
         }
 
@@ -127,34 +141,6 @@ namespace CSCoursework_Smiley
             //MessageBox.Show(jobposition_id.ToString());
             return jobposition_id;
         }
-
-        private void InitializeDatabaseConnection()
-        {
-            //Initialize variables
-            string dbProvider;
-            string DatabasePath;
-            string CurrentProjectPath;
-            string FullDatabasePath;
-            string dbSource;
-
-            try
-            {
-                //Establish Connection with Database
-                dbProvider = "PROVIDER=Microsoft.ACE.OLEDB.12.0;";
-                DatabasePath = "/TestDatabase.accdb";
-                CurrentProjectPath = System.AppDomain.CurrentDomain.BaseDirectory;
-                FullDatabasePath = CurrentProjectPath + DatabasePath;
-                dbSource = "Data Source =" + FullDatabasePath;
-                con.ConnectionString = dbProvider + dbSource;
-                con.Open();
-                Console.WriteLine("Connection established");
-            }
-            catch
-            {
-                //MessageBox.Show("Error establishing database connection StaffControlDetails.");
-            }
-        }
-
         private void UpdateUserDetails()
         {
             txtContactInfoMobileNumber.AutoSize = true;
@@ -182,14 +168,9 @@ namespace CSCoursework_Smiley
             txtPaymentDetailsTaxCode.Text = $"{staffInfoDict["staff_tax_code"]}";
             txtPaymentDetailsWorksNumber.Text = $"{staffInfoDict["staff_works_number"]}";
         }
-
-        private void grpAddress_Enter(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnEditAddressDetails_Click(object sender, EventArgs e)
         {
+            // Change the readonly settings of the section to be editted, and hide or show the sections save button respectively.
             txtAddressStreet.ReadOnly = !txtAddressStreet.ReadOnly;
             txtAddressCity.ReadOnly = !txtAddressCity.ReadOnly;
             txtAddressCounty.ReadOnly = !txtAddressCounty.ReadOnly;
@@ -198,7 +179,8 @@ namespace CSCoursework_Smiley
         }
         private void btnSaveAddressDetails_Click(object sender, EventArgs e)
         {
-            string[] addressDetails = new string[5]; //staffid, street, city, country, postcode
+            // Setup the address details array and then update the database using the staffdetails public UpdateAddressInfo function.
+            string[] addressDetails = new string[5]; // [staffid, street, city, country, postcode]
             addressDetails[0] = txtEmploymentStaffID.Text.Trim();
             addressDetails[1] = txtAddressStreet.Text.Trim();
             addressDetails[2] = txtAddressCity.Text.Trim();
@@ -214,6 +196,7 @@ namespace CSCoursework_Smiley
             if (jobID == -1) { return; } //rogue value to terminate function in case of failed validation.
             employmentDetails[1] = Convert.ToString(jobID);
 
+            // Set up the array based on contract type.
             if (txtEmploymentContractType.Text.ToLower().Trim() == "flexible")
             {
                 employmentDetails[2] = "Flexible";
@@ -223,6 +206,7 @@ namespace CSCoursework_Smiley
             {
                 employmentDetails[2] = "Salaried";
 
+                // Type validation check.
                 foreach (char letter in txtEmploymentSalariedHours.Text)
                 {
                     if (Char.IsLetter(letter))
@@ -231,12 +215,15 @@ namespace CSCoursework_Smiley
                         return;
                     }
                 }
+                // Range check.
                 if (Convert.ToInt32(txtEmploymentSalariedHours.Text) > 0)
                 {
                     employmentDetails[3] = txtEmploymentSalariedHours.Text;
                 }
                 else
                 {
+                    //----------Exception handling----------
+                    // Tells the user their entry is invalid.
                     MessageBox.Show("Salaried hours must be greater than 0.");
                     return;
                 }
@@ -251,6 +238,7 @@ namespace CSCoursework_Smiley
 
         private void btnEditEmploymentDetails_Click(object sender, EventArgs e)
         {
+            // Change the readonly settings of the section to be editted, and hide or show the sections save button respectively.
             txtEmploymentJobTitle.ReadOnly = !txtEmploymentJobTitle.ReadOnly;
             txtEmploymentContractType.ReadOnly = !txtEmploymentContractType.ReadOnly;
             txtEmploymentSalariedHours.ReadOnly = !txtEmploymentSalariedHours.ReadOnly;
@@ -259,6 +247,7 @@ namespace CSCoursework_Smiley
 
         private void btnEditContactInfoDetails_Click(object sender, EventArgs e)
         {
+            // Change the readonly settings of the section to be editted, and hide or show the sections save button respectively.
             txtContactInfoEmailAddress.ReadOnly = !txtContactInfoEmailAddress.ReadOnly;
             txtContactInfoMobileNumber.ReadOnly = !txtContactInfoMobileNumber.ReadOnly;
             txtContactInfoHomeNumber.ReadOnly = !txtContactInfoHomeNumber.ReadOnly;
@@ -267,30 +256,36 @@ namespace CSCoursework_Smiley
 
         private void btnSaveContactInfoDetails_Click(object sender, EventArgs e)
         {
+            // Format validation for the email address
             if (!Regex.IsMatch(txtContactInfoEmailAddress.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$", RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250)))
             {
                 MessageBox.Show("Email Address must be in the format string@string.string");
                 return;
             }
+            // Length check validation for the mobile number
             if (txtContactInfoMobileNumber.Text.Trim().Length != 11)
             {
                 MessageBox.Show("Mobile Number must be 11 digits.");
                 return;
             }
+            // Length check validation for the home number.
             if (txtContactInfoHomeNumber.Text.Trim().Length != 11)
             {
                 MessageBox.Show("Home Number must be 11 digits.");
                 return;
             }
+            
             string[] contactInfoDetails = new string[4]; // staffID, emailAddress, mobileNumber, homeNumber
             contactInfoDetails[0] = txtEmploymentStaffID.Text.Trim();
             contactInfoDetails[1] = txtContactInfoEmailAddress.Text.Trim();
             contactInfoDetails[2] = txtContactInfoMobileNumber.Text.Trim();
             contactInfoDetails[3] = txtContactInfoHomeNumber.Text.Trim();
+            parentForm.UpdateContactInfoDetails(contactInfoDetails);
         }
 
         private void btnEditEmploymentInfoDetails_Click(object sender, EventArgs e)
         {
+            // Change the readonly settings of the section to be editted, and hide or show the sections save button respectively.
             txtEmploymentInfoDoB.ReadOnly = !txtEmploymentInfoDoB.ReadOnly;
             txtEmploymentInfoGender.ReadOnly = !txtEmploymentInfoGender.ReadOnly;
             txtEmploymentInfoCurrentlyEmployed.ReadOnly = !txtEmploymentInfoCurrentlyEmployed.ReadOnly;
@@ -299,7 +294,7 @@ namespace CSCoursework_Smiley
 
         private void btnSaveEmploymentInfoDetails_Click(object sender, EventArgs e)
         {
-            // Format Check
+            // Format Check.
             string DateOfBirth = txtEmploymentInfoDoB.Text;
             string formatString = "dd/MM/yyyy";
             if (!DateTime.TryParseExact(DateOfBirth, formatString, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out _))
@@ -307,18 +302,19 @@ namespace CSCoursework_Smiley
                 MessageBox.Show("Invalid Date. Check the Date Of Birth field.");
                 return;
             }
+            // Checks for specific inputs.
             if (txtEmploymentInfoGender.Text.Trim().ToLower() != "male" && txtEmploymentInfoGender.Text.Trim().ToLower() != "female")
             {
                 MessageBox.Show("Gender must be either male or female.");
                 return;
             }
+            // Checks for specific inputs.
             if (txtEmploymentInfoCurrentlyEmployed.Text.Trim().ToLower() != "true" && txtEmploymentInfoCurrentlyEmployed.Text.Trim().ToLower() != "false")
             {
                 MessageBox.Show("Employed must be either true or false.");
                 return;
             }
             
-
             string[] employmentInfoDetails = new string[4]; //staffID, DoB, gender, employed
             employmentInfoDetails[0] = txtEmploymentStaffID.Text.Trim();
             employmentInfoDetails[1] = txtEmploymentInfoDoB.Text.Trim();
@@ -327,11 +323,13 @@ namespace CSCoursework_Smiley
             if (txtEmploymentInfoCurrentlyEmployed.Text.Trim().ToLower() == "true") { employmentInfoDetails[3] = "True"; }
             else { employmentInfoDetails[3] = "False"; } // Since if it is not true, it must be false if it passed the validation check.
 
+            // Update the employment info details using the public function in the staff details control.
             parentForm.UpdateEmploymentInfoDetails(employmentInfoDetails);
         }
 
         private void btnEditPaymentDetails_Click(object sender, EventArgs e)
         {
+            // Change the readonly settings of the section to be editted, and hide or show the sections save button respectively.
             txtPaymentDetailsNINumber.ReadOnly = !txtPaymentDetailsNINumber.ReadOnly;
             txtPaymentDetailsNILetter.ReadOnly = !txtPaymentDetailsNILetter.ReadOnly;
             txtPaymentDetailsTaxCode.ReadOnly = !txtPaymentDetailsTaxCode.ReadOnly;
@@ -341,8 +339,10 @@ namespace CSCoursework_Smiley
 
         private void btnSavePaymentDetails_Click(object sender, EventArgs e)
         {
-            string[] paymentDetails = new string[5]; //staffID, NINumber, NIletter, taxcode, worksnumber
+            string[] paymentDetails = new string[5]; // [staffID, NINumber, NIletter, taxcode, worksnumber].
             paymentDetails[0] = txtEmploymentStaffID.Text.Trim();
+
+            // National insurance number format check.
             if (txtPaymentDetailsNINumber.Text.Substring(0, 2).IndexOfAny("DFIQUV".ToCharArray()) == -1)
             {
                 if (Regex.IsMatch(txtPaymentDetailsNINumber.Text.Trim(), @"^[a-zA-z][a-zA-z]\d{6}[a-zA-Z]$"))
@@ -351,20 +351,38 @@ namespace CSCoursework_Smiley
                 }
                 else
                 {
+                    //----------Exception handling----------.
+                    // Tell the user the issue with their nation insurance number format.
                     MessageBox.Show("National insurance number must be in the format 'AB123456C'");
                     return;
                 }
             }
             else
             {
+                //----------Exception handling----------.
+                // Tell the user the issue with their national insurance number format.
                 MessageBox.Show("The first 2 characters of a national insurance number cannot be 'D', 'F', 'I', 'Q', U' or 'V'.");
                 return;
             }
             
-            if (txtPaymentDetailsNILetter.Text.ToString().Trim().Length == 1 && char.IsLetter(txtPaymentDetailsNILetter.Text.ToString().Trim()[0])) { paymentDetails[2] = txtPaymentDetailsNILetter.Text.ToString().Trim(); }
-            else { MessageBox.Show("NI Letter must only be a single letter."); return; }
+            // NI Letter + Length Check + Character Check.
+            if (txtPaymentDetailsNILetter.Text.ToString().Trim() != "")
+            {
+                char[] acceptableNILetters = { 'A', 'B', 'C', 'H', 'J', 'M', 'Z' };
+                if (!(txtPaymentDetailsNILetter.Text.ToString().Trim().Length == 1 && char.IsLetter(txtPaymentDetailsNILetter.Text.ToString().Trim()[0])))
+                {
+                    MessageBox.Show("NI Letter must only be a single letter.");
+                    return;
+                }
+                else if (!acceptableNILetters.Contains<char>(char.Parse(txtPaymentDetailsNILetter.Text.ToString())))
+                {
+                    MessageBox.Show("NI Letter must be one of ['A','B','C','H','J','M','Z']");
+                    return;
+                }
+                paymentDetails[2] = txtPaymentDetailsNILetter.Text.ToString();
+            }
 
-            //Tax code format check
+            // Tax code format check.
             for (int index = 0; index<txtPaymentDetailsTaxCode.Text.Length; index++)
             {
                 if (index == txtPaymentDetailsTaxCode.Text.Length - 1)
@@ -386,8 +404,9 @@ namespace CSCoursework_Smiley
             }
             paymentDetails[3] = txtPaymentDetailsTaxCode.Text;
 
-            // Works number has no unique format and is used by the employer for internal employee referencing
+            // Works number has no unique format and is used by the employer for internal employee referencing.
             paymentDetails[4] = txtPaymentDetailsWorksNumber.Text;
+            // Update the editted payment details using the staff controls public UpdatePaymentDetails function.
             parentForm.UpdatePaymentDetails(paymentDetails);
         }
     }

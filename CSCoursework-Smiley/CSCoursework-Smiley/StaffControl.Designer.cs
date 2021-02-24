@@ -120,7 +120,6 @@
             this.staffControlDetails1.Location = new System.Drawing.Point(0, 0);
             this.staffControlDetails1.Name = "staffControlDetails1";
             this.staffControlDetails1.Size = new System.Drawing.Size(556, 585);
-            this.staffControlDetails1.Staff_details = null;
             this.staffControlDetails1.TabIndex = 0;
             // 
             // rBtnDetails
