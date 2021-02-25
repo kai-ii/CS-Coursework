@@ -48,7 +48,7 @@ namespace CSCoursework_Smiley
 
         private void UpdateWeekLabel()
         {
-            // update the current week label with the value in the current week.
+            // Update the current week label with the value in the current week.
             lblCurrentWeek.Text = $"Current Week - {currentWeek:D}";
         }
         public RotaControl()
@@ -809,7 +809,7 @@ namespace CSCoursework_Smiley
                                     break;
                             }
 
-                            // Try catch to use
+                            // Try catch to catch a rota update failure.
                             try
                             {
                                 da.Update(RotaInfoDS, "RotaInfo");

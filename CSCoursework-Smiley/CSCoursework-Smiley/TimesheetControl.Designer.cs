@@ -249,7 +249,6 @@
             this.rotaHeaderDataGrid.ReadOnly = true;
             this.rotaHeaderDataGrid.Size = new System.Drawing.Size(808, 23);
             this.rotaHeaderDataGrid.TabIndex = 2;
-            this.rotaHeaderDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.rotaHeaderDataGrid_CellContentClick);
             // 
             // Date
             // 

@@ -310,7 +310,7 @@ namespace CSCoursework_Smiley
             int staffID = 0;
             int rotaID;
 
-            // For
+            // Foreach staff member, if their name matches the stored value, set staffID to that index+1, since staff members are stored in staffID order so index 0 = staffID 1 etc.
             for (int staffIDIterator = 0; staffIDIterator < fullStaffMemberList.Count; staffIDIterator++)
             {
                 string firstname = fullStaffMemberList[staffIDIterator].Split(',')[0];
@@ -339,8 +339,10 @@ namespace CSCoursework_Smiley
             AbsenceNoteInfoDS = new DataSet();
             da.Fill(AbsenceNoteInfoDS, "AbsenceNoteInfo");
 
+            // Check if the absence note info data table has any rows for this rota id
             if (AbsenceNoteInfoDS.Tables["AbsenceNoteInfo"].Rows.Count > 0)
             {
+                // If yes then update the current row
                 DataTable AbsenceNoteInfoTable = AbsenceNoteInfoDS.Tables["NoteInfo"];
 
                 DataColumn[] keyColumns = new DataColumn[1];
@@ -358,6 +360,7 @@ namespace CSCoursework_Smiley
             }
             else
             {
+                // If no then create a new row
                 AbsenceNoteInfoDS.Clear();
                 DataSet FullAbsenceDS;
 
@@ -392,24 +395,25 @@ namespace CSCoursework_Smiley
         
         private void InitializeStaffMemberList()
         {
+            // Initialize variables.
             fullStaffMemberList = new List<string>();
             staffMemberNameDictionary = new Dictionary<string, int>();
 
-            //Open database connection
+            // Open database connection.
             con.Open();
 
-            //Initialize variables
+            // Initialize variables.
             DataSet StaffInfoDS;
             OleDbDataAdapter da;
             string sql;
 
-            //Join tblRota and tblAbsence on rota_id where staff_id is the selected user
+            // Join tblRota and tblAbsence on rota_id where staff_id is the selected user.
             sql = "SELECT tblStaff.staff_firstname, tblStaff.staff_surname, tblStaff.staff_id FROM tblStaff ORDER BY tblStaff.staff_firstname, tblStaff.staff_surname ASC";
             da = new OleDbDataAdapter(sql, con);
             StaffInfoDS = new DataSet();
             da.Fill(StaffInfoDS, "StaffInfo");
 
-            //Close database connection
+            // Close database connection.
             con.Close();
 
             DataTable StaffInfoTable = StaffInfoDS.Tables["StaffInfo"];
@@ -418,6 +422,7 @@ namespace CSCoursework_Smiley
             keyColumns[0] = StaffInfoTable.Columns["staff_id"];
             StaffInfoTable.PrimaryKey = keyColumns;
 
+            // Foreach row add to the respective list and dictionary.
             foreach (DataRow row in StaffInfoTable.Rows)
             {
                 fullStaffMemberList.Add($"{row.Field<string>("staff_firstname")},{row.Field<string>("staff_surname")}");
@@ -426,20 +431,24 @@ namespace CSCoursework_Smiley
         }
         private void UpdateWeekLabel()
         {
+            // Update the current week label with the value in the current week.
             lblCurrentWeek.Text = $"Current Week - {currentWeek.ToString("D")}";
         }
         private void SetUpEventHandlers()
         {
+            // Setup event handlers of: cell content click and cell value changed.
             this.rotaDataGrid.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.rotaDataGrid_CellContentClick);
             this.rotaDataGrid.CellValueChanged += new DataGridViewCellEventHandler(this.rotaDataGrid_CellValueChanged);
         }
         private void rotaDataGrid_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
+            // Set the change to rota (timesheet) table made variable to true, this variable dictates whether or not the rota (timesheet) should be saved, if no change made then the save button will do nothing to increase efficiency.
             changeToRotaTableMade = true;
         }
 
         private void rotaDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            /*When a cell is clicked, if it is a button then find the location that the clock control should appear. Then display it.*/
             var senderGrid = (DataGridView)sender;
             timeSaveSection = 0;
 
@@ -450,6 +459,7 @@ namespace CSCoursework_Smiley
                 Rectangle cellRectangle = rotaDataGrid.GetCellDisplayRectangle(e.ColumnIndex, e.RowIndex, true);
                 Point clockLocation;
                 Point btnLocation;
+                // If cell >= 17 display the clock on the left of the button rather than on the right, else the clock isn't usable.
                 if (e.ColumnIndex >= 17)
                 {
                     clockLocation = new Point(cellRectangle.Left - 138, cellRectangle.Bottom);
@@ -463,12 +473,14 @@ namespace CSCoursework_Smiley
 
                 if (clockHourSelectControl1.Location == clockLocation && clockHourSelectControl1.Visible == true)
                 {
+                    // If the button is clicked again then stop showing the clock control.
                     clockHourSelectControl1.Visible = false;
                     clockMinuteSelectControl1.Visible = false;
                     btnSaveClockSelection.Visible = false;
                 }
                 else
                 {
+                    // Otherwise show the clock in the location set previously.
                     btnSaveClockSelection.Location = btnLocation;
                     clockHourSelectControl1.Location = clockLocation;
                     clockMinuteSelectControl1.Location = clockLocation;
@@ -480,6 +492,7 @@ namespace CSCoursework_Smiley
         }
         private void UpdateDataGridViewColumnColours()
         {
+            // Sets the columns to change colour and then update the colour.
             int[] backgroundColumnsToFill = { 3, 4, 7, 8, 11, 12, 15, 16, 19, 20 };
 
             foreach (int column in backgroundColumnsToFill)
@@ -488,37 +501,10 @@ namespace CSCoursework_Smiley
                 rotaDataGrid.Columns[column].HeaderCell.Style.BackColor = backgroundColour;
             }
         }
-
         private void InitializeDataGridHeaderDate()
         {
+            // Setup the date header for the timesheet table.
             rotaHeaderDataGrid.Columns[0].HeaderText = currentWeek.ToString("d");
-        }
-        private void InitializeDatabaseConnection()
-        {
-            //Initialize variables
-            string dbProvider;
-            string DatabasePath;
-            string CurrentProjectPath;
-            string FullDatabasePath;
-            string dbSource;
-
-            try
-            {
-                //Establish Connection with Database
-                dbProvider = "PROVIDER=Microsoft.ACE.OLEDB.12.0;";
-                DatabasePath = "/TestDatabase.accdb";
-                CurrentProjectPath = System.AppDomain.CurrentDomain.BaseDirectory;
-                FullDatabasePath = CurrentProjectPath + DatabasePath;
-                dbSource = "Data Source =" + FullDatabasePath;
-                con.ConnectionString = dbProvider + dbSource;
-                con.Open();
-                Console.WriteLine("Connection established");
-                con.Close();
-            }
-            catch
-            {
-                MessageBox.Show("Error establishing database connection LoginForm.");
-            }
         }
         private void GetTimesheetRotaData()
         {
@@ -602,6 +588,7 @@ namespace CSCoursework_Smiley
                             string timesheetEndTime = row.Field<string>("timesheet_end_time");
                             switch (day)
                             {
+                                // Switch on the dayID and update the respective row.
                                 case 1:
                                     staffRotaRow[1] = rotaStartTime;
                                     staffRotaRow[2] = rotaEndTime;
@@ -651,6 +638,7 @@ namespace CSCoursework_Smiley
 
         private void checkBoxClockInput_CheckedChanged(object sender, EventArgs e)
         {
+            // If the clock input button has been clicked then save the database and update the respective columns to button inputs. When these are clicked, the custom clock control opens.
             SaveRotaToDatabase();
             int[] columnsToChange = { 3, 4, 7, 8, 11, 12, 15, 16, 19, 20 };
             if (checkBoxClockInput.Checked)
@@ -673,11 +661,13 @@ namespace CSCoursework_Smiley
                 }
                 GetTimesheetRotaData();
             }
+            // Update the colours and update headers since these will reset when readding all of the columns.
             NameColumnHeaders();
             UpdateDataGridViewColumnColours();
         }
         private void NameColumnHeaders()
         {
+            // Simple algorithm to get all even columns. label even to out and odd to in except the first column which is named 'Staff Name'.
             rotaDataGrid.Columns[0].HeaderText = "Staff Name";
             for (int column = 1; column <= 20; column++)
             {
@@ -693,6 +683,7 @@ namespace CSCoursework_Smiley
         }
         private void UpdateClockCell()
         {
+            // Update the cell that the clock control is being used for with the clock value.
             rotaDataGrid.Rows[cellLocation.Item1].Cells[cellLocation.Item2].Value = $"{clockHourChoice}:{clockMinuteChoice}";
         }
         private void SaveRotaToDatabase()
@@ -775,14 +766,17 @@ namespace CSCoursework_Smiley
                     if (cell1 == "Absent") { cell1absent = true; }
                     if (cell1 != null && cell1 != "" && cell1 != "Holiday" && cell1 != "Absent")
                     {
+                        // Time format check in the format '12:34'
                         if (Regex.IsMatch(cell1, @"[0-2][0-9]\:[0-6][0-9]"))
                         {
                             textToWriteToDatabase = cell1;
                             staffRotaRow.Add(textToWriteToDatabase);
                             cell1time = DateTime.ParseExact(textToWriteToDatabase, "H:mm", null, System.Globalization.DateTimeStyles.None);
                         }
+                        // Time format check in the format '1:23'
                         else if (Regex.IsMatch(cell1, @"[0-9]\:[0-6][0-9]"))
                         {
+                            // Normalise '1:23' to '01:23'
                             textToWriteToDatabase = $"0{cell1}";
                             staffRotaRow.Add(textToWriteToDatabase);
                             rotaDataGrid.Rows[staffMemberCount].Cells[pointer].Value = $"0{cell1}";
@@ -790,13 +784,15 @@ namespace CSCoursework_Smiley
                         }
                         else
                         {
+                            //----------Exception handling----------
+                            // If the format is invalid, tell the user where the error is and tell them the correct format.
                             MessageBox.Show($"Invalid input in Row: {staffMemberCount + 1}, Cell: {pointer}. Must in the format hh:mm");
                             return;
                         }
                     }
                     else
                     {
-                        staffRotaRow.Add(cell1);
+                        staffRotaRow.Add(cell1); // Allows for incomplete rotas to be saved for convenience. (saving null/"" values)
                     }
 
                     string cell2 = rotaDataGrid.Rows[staffMemberCount].Cells[++pointer].Value?.ToString();
@@ -807,30 +803,39 @@ namespace CSCoursework_Smiley
 
                     if (cell2 != null && cell2 != "" && cell2 != "Holiday" && cell2 != "Absent")
                     {
+                        // Time format check in the format '12:34'
                         if (Regex.IsMatch(cell2, @"[0-2][0-9]\:[0-6][0-9]"))
                         {
                             textToWriteToDatabase = cell2;
                             staffRotaRow.Add(textToWriteToDatabase);
                             cell2time = DateTime.ParseExact(textToWriteToDatabase, "H:mm", null, System.Globalization.DateTimeStyles.None);
+                            //----------Exception handling----------
+                            // Validation to check if the first cell is greater than the second, this is impossible because the 'in' time should come before the 'out' time.
                             if (cell1time > cell2time) { MessageBox.Show($"Invalid input in Row: {staffMemberCount + 1}, Col: {pointer + 1}. The second item of an in-out pair cannot exceed the first item."); return; }
                         }
+                        // Time format check in the format '1:23'
                         else if (Regex.IsMatch(cell2, @"[0-9]\:[0-6][0-9]"))
                         {
+                            // Normalise '1:23' to '01:23'
                             textToWriteToDatabase = $"0{cell2}";
                             staffRotaRow.Add(textToWriteToDatabase);
                             rotaDataGrid.Rows[staffMemberCount].Cells[pointer].Value = $"0{cell2}";
                             cell2time = DateTime.ParseExact(textToWriteToDatabase, "H:mm", null, System.Globalization.DateTimeStyles.None);
+                            //----------Exception handling----------
+                            // Validation to check if the first cell is greater than the second, this is impossible because the 'in' time should come before the 'out' time.
                             if (cell1time > cell2time) { MessageBox.Show($"Invalid input in Row: {staffMemberCount + 1}, Col: {pointer + 1}. The second item of an in-out pair cannot exceed the first item."); return; }
                         }
                         else
                         {
+                            //----------Exception handling----------
+                            // If the format is invalid, tell the user where the error is and tell them the correct format.
                             MessageBox.Show($"Invalid input in Row: {staffMemberCount + 1}, Col: {pointer + 1}. Must in the format hh:mm");
                             return;
                         }
                     }
                     else
                     {
-                        staffRotaRow.Add(cell2);
+                        staffRotaRow.Add(cell2); // Allows for incomplete rotas to be saved for convenience. (saving null/"" values)
                     }
                 }
 
@@ -846,6 +851,7 @@ namespace CSCoursework_Smiley
                             DataRow row = RotaInfoTable.Rows.Find(dynamicRow.Field<int>("rota_id"));
                             switch (day)
                             {
+                                // Switch based on the day and save the rota in the correct day.
                                 case 1:
                                     row["timesheet_start_time"] = staffRotaRow[0];
                                     row["timesheet_end_time"] = staffRotaRow[1];
@@ -868,6 +874,7 @@ namespace CSCoursework_Smiley
                                     break;
                             }
 
+                            // Try catch to catch a timesheet update failure.
                             try
                             {
                                 da.Update(RotaInfoDS, "RotaInfo");
@@ -875,7 +882,7 @@ namespace CSCoursework_Smiley
                             }
                             catch
                             {
-                                MessageBox.Show("There was a problem updating the rota.");
+                                MessageBox.Show("There was a problem updating the timesheet.");
                             }
                         }
                     }
@@ -894,6 +901,7 @@ namespace CSCoursework_Smiley
 
                     for (int dayID = 1; dayID <= 5; dayID++)
                     {
+                        // Generate the new rota row for the staff member
                         rotaID++;
                         newRotaRow = RotaInfoTable.NewRow();
                         newRotaRow["rota_id"] = rotaID;
@@ -905,6 +913,7 @@ namespace CSCoursework_Smiley
                         newRotaRow["rota_start_time"] = staffRotaRow[2 * dayID - 2];
                         newRotaRow["rota_end_time"] = staffRotaRow[2 * dayID - 1];
 
+                        // Save this row to the database.
                         RotaInfoTable.Rows.Add(newRotaRow);
                         da.Update(RotaInfoDS, "RotaInfo");
                     }
@@ -914,15 +923,18 @@ namespace CSCoursework_Smiley
         }
         public void SetParentForm(Dashboard dashboard)
         {
+            // Assign this forms parent form to be a parent form of the template Dashboard which is passed in from the Dashboard Control.
             parentForm = dashboard;
         }
         private void btnSaveRota_Click(object sender, EventArgs e)
         {
+            // When the save rota button is clicked, save the rota to database.
             SaveRotaToDatabase();
         }
 
         private void btnPrevWeek_Click(object sender, EventArgs e)
         {
+            // When clicking the previous week button add -7 days to the current week, this sets it to last week, now get the new timesheet data and update the week label.
             currentWeek = currentWeek.AddDays(-7);
             GetTimesheetRotaData();
             UpdateWeekLabel();
@@ -931,6 +943,7 @@ namespace CSCoursework_Smiley
 
         private void btnNextWeek_Click_1(object sender, EventArgs e)
         {
+            // When clicking the next week button add +7 days to the current week, this sets it to next week, now get the new timesheet data and update the week label.
             currentWeek = currentWeek.AddDays(7);
             GetTimesheetRotaData();
             UpdateWeekLabel();
@@ -941,6 +954,7 @@ namespace CSCoursework_Smiley
         {
             if (timeSaveSection == 0)
             {
+                // If the clock save is on stage 0, set the hour and then set it to stage 1. (stage 0 is hour select and stage 1 is minute select)
                 clockHourSelectControl1.checkButtons();
                 clockHourChoice = clockHourSelectControl1.GetClockHoursSelected();
                 clockHourSelectControl1.Visible = false;
@@ -949,6 +963,7 @@ namespace CSCoursework_Smiley
             }
             else if (timeSaveSection == 1)
             {
+                // If the clock save is on stage `, set the minute and then reset the clock save stage back to 0. (stage 0 is hour select and stage 1 is minute select)
                 clockMinuteChoice = clockMinuteSelectControl1.GetClockMinuteSelected();
                 clockHourSelectControl1.Visible = false;
                 clockMinuteSelectControl1.Visible = false;
@@ -957,14 +972,9 @@ namespace CSCoursework_Smiley
                 UpdateClockCell();
             }
         }
-
-        private void rotaHeaderDataGrid_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
         private void btnInputHolidayData_Click(object sender, EventArgs e)
         {
+            // When the input holiday data button is clicked, if the absence input is visible then hide it and reset it, either way change the visibility of the holiday data control and reset it.
             if (timesheetAbsenceDataControl1.Visible) 
             {
                 timesheetAbsenceDataControl1.Visible = false;
@@ -978,6 +988,7 @@ namespace CSCoursework_Smiley
 
         private void btnInputAbsenceData_Click(object sender, EventArgs e)
         {
+            // When the input absence data button is clicked, if the holiday input is visible then hide it and reset it, either way change the visibility of the absence data control and reset it.
             if (timesheetHolidayDataControl1.Visible) 
             { 
                 timesheetHolidayDataControl1.Visible = false;
@@ -993,6 +1004,7 @@ namespace CSCoursework_Smiley
     // Inspired by this stackoverflow post https://stackoverflow.com/questions/38039/how-can-i-get-the-datetime-for-the-start-of-the-week
     public static class DateTimeExtension
     {
+        // Returns the start of week date for a given week and day.
         public static DateTime StartOfWeek(this DateTime dt, DayOfWeek startOfWeek)
         {
             int diff = (7 + (dt.DayOfWeek - startOfWeek)) % 7;
